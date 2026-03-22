@@ -24,7 +24,7 @@ _eventhub_mod, EventHubProducerClient = optional_import(
 _eventhub_data_mod, EventData = optional_import("azure.eventhub", "EventData")
 
 try:
-    from fast_kafka import KafkaProducer
+    from kafka import KafkaProducer
 except Exception:  # pragma: no cover - optional
     KafkaProducer = None  # type: ignore[assignment]
 

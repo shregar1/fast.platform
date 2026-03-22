@@ -2,7 +2,7 @@
 
 import pytest
 
-from fast_queues.envelope import (
+from queues.envelope import (
     DELAY_SECONDS_KEY,
     ENVELOPE_VERSION_KEY,
     PRIORITY_KEY,

@@ -1,8 +1,8 @@
-"""Tests for fast_analytics."""
+"""Tests for analytics."""
 
 
 def test_imports():
-    from fast_analytics import (
+    from analytics import (
         BufferedAnalyticsBackend,
         EventSchemaRegistry,
         RateLimitedAnalyticsBackend,

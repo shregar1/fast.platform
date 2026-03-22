@@ -7,12 +7,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from fast_analytics.buffer import BufferedAnalyticsBackend
-from fast_analytics.middleware import default_analytics_user_key
-from fast_analytics.pii import scrub_pii_properties
-from fast_analytics.rate_limit import RateLimitedAnalyticsBackend
-from fast_analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from fast_analytics.validating_backend import ValidatingAnalyticsBackend
+from analytics.buffer import BufferedAnalyticsBackend
+from analytics.middleware import default_analytics_user_key
+from analytics.pii import scrub_pii_properties
+from analytics.rate_limit import RateLimitedAnalyticsBackend
+from analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from analytics.validating_backend import ValidatingAnalyticsBackend
 
 
 def test_buffer_property_alias() -> None:
@@ -23,7 +23,7 @@ def test_buffer_property_alias() -> None:
 
 
 def test_http_sink_swallows_errors() -> None:
-    from fast_analytics.http_sink import HttpSinkAnalyticsBackend
+    from analytics.http_sink import HttpSinkAnalyticsBackend
 
     with patch("urllib.request.urlopen", side_effect=OSError("nope")):
         b = HttpSinkAnalyticsBackend("http://x")
@@ -56,7 +56,7 @@ def test_default_analytics_user_key_variants() -> None:
 
 
 def test_middleware_requires_starlette(monkeypatch: pytest.MonkeyPatch) -> None:
-    import fast_analytics.middleware as mw
+    import analytics.middleware as mw
 
     monkeypatch.setattr(mw, "_STARLETTE", False)
     with pytest.raises(RuntimeError, match="starlette"):
@@ -71,7 +71,7 @@ async def test_middleware_dispatch_skips_when_random_high() -> None:
     from starlette.routing import Route
     from starlette.testclient import TestClient
 
-    from fast_analytics.middleware import AnalyticsSamplingMiddleware
+    from analytics.middleware import AnalyticsSamplingMiddleware
 
     backend = MagicMock()
 
@@ -84,7 +84,7 @@ async def test_middleware_dispatch_skips_when_random_high() -> None:
         backend=backend,
         sample_rate=0.5,
     )
-    with patch("fast_analytics.middleware.random.random", return_value=0.99):
+    with patch("analytics.middleware.random.random", return_value=0.99):
         client = TestClient(app)
         client.get("/")
     assert backend.track.call_count == 0
@@ -124,7 +124,7 @@ def test_scrub_nested_non_dict_value() -> None:
 
 
 def test_scrubbing_backend_nested() -> None:
-    from fast_analytics.pii import ScrubbingAnalyticsBackend
+    from analytics.pii import ScrubbingAnalyticsBackend
 
     inner = MagicMock()
     b = ScrubbingAnalyticsBackend(inner)
@@ -142,7 +142,7 @@ def test_buffer_forward_identify_and_delete() -> None:
 
 
 def test_http_sink_delete_error_swallowed() -> None:
-    from fast_analytics.http_sink import HttpSinkAnalyticsBackend
+    from analytics.http_sink import HttpSinkAnalyticsBackend
 
     with patch("urllib.request.urlopen", side_effect=OSError("down")):
         HttpSinkAnalyticsBackend("http://x").delete_user("u")
@@ -181,7 +181,7 @@ async def test_middleware_sample_rate_zero_skips_track() -> None:
     from starlette.routing import Route
     from starlette.testclient import TestClient
 
-    from fast_analytics.middleware import AnalyticsSamplingMiddleware
+    from analytics.middleware import AnalyticsSamplingMiddleware
 
     backend = MagicMock()
 

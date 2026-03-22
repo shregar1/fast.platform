@@ -11,7 +11,7 @@ def _install_module(name: str, module_obj: types.ModuleType) -> None:
 
 
 def test_build_search_backend_meilisearch_and_methods(monkeypatch):
-    from fast_search import base as search_base
+    from search import base as search_base
 
     class FakeIndex:
         def __init__(self):
@@ -85,7 +85,7 @@ def test_build_search_backend_meilisearch_and_methods(monkeypatch):
 
 
 def test_build_search_backend_returns_none_when_disabled(monkeypatch):
-    from fast_search import base as search_base
+    from search import base as search_base
 
     class FakeCfg:
         def __init__(self):
@@ -100,7 +100,7 @@ def test_build_search_backend_returns_none_when_disabled(monkeypatch):
 
 
 def test_opensearch_backend_index_search_delete_and_filter(monkeypatch):
-    from fast_search.opensearch_backend import OpenSearchBackend
+    from search.opensearch_backend import OpenSearchBackend
 
     calls: dict[str, Any] = {}
 
@@ -191,7 +191,7 @@ def test_opensearch_backend_index_search_delete_and_filter(monkeypatch):
 
 
 def test_typesense_backend_index_search_delete_and_filter(monkeypatch):
-    from fast_search.typesense_backend import TypesenseBackend, _filter_str
+    from search.typesense_backend import TypesenseBackend, _filter_str
 
     calls: dict[str, Any] = {}
 
@@ -271,9 +271,9 @@ def test_typesense_backend_index_search_delete_and_filter(monkeypatch):
 
 
 def test_backend_constructors_raise_runtime_error_when_dependency_missing(monkeypatch):
-    from fast_search.meilisearch_backend import MeilisearchBackend
-    from fast_search.opensearch_backend import OpenSearchBackend
-    from fast_search.typesense_backend import TypesenseBackend
+    from search.meilisearch_backend import MeilisearchBackend
+    from search.opensearch_backend import OpenSearchBackend
+    from search.typesense_backend import TypesenseBackend
 
     real_import = builtins.__import__
 
@@ -293,7 +293,7 @@ def test_backend_constructors_raise_runtime_error_when_dependency_missing(monkey
 
 
 def test_build_search_backend_import_error_returns_none(monkeypatch):
-    from fast_search import base as search_base
+    from search import base as search_base
 
     class FakeCfg:
         def __init__(self):
@@ -317,9 +317,9 @@ def test_build_search_backend_import_error_returns_none(monkeypatch):
     monkeypatch.setattr(builtins, "__import__", _fail_specific_backend_import)
 
     # Ensure we force re-import so our simulated ImportError is exercised.
-    sys.modules.pop("fast_search.meilisearch_backend", None)
-    sys.modules.pop("fast_search.typesense_backend", None)
-    sys.modules.pop("fast_search.opensearch_backend", None)
+    sys.modules.pop("search.meilisearch_backend", None)
+    sys.modules.pop("search.typesense_backend", None)
+    sys.modules.pop("search.opensearch_backend", None)
 
     assert search_base.build_search_backend("meilisearch") is None
     assert search_base.build_search_backend("typesense") is None
@@ -327,7 +327,7 @@ def test_build_search_backend_import_error_returns_none(monkeypatch):
 
 
 def test_isearch_backend_abstract_methods_raise_not_implemented():
-    from fast_search.base import ISearchBackend
+    from search.base import ISearchBackend
 
     class DummyBackend(ISearchBackend):
         name = "dummy"

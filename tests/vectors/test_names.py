@@ -2,7 +2,7 @@
 
 import pytest
 
-from fast_vectors.names import prefixed_collection_name, sanitize_collection_segment
+from vectors.names import prefixed_collection_name, sanitize_collection_segment
 
 
 def test_sanitize_collection_segment_basic():

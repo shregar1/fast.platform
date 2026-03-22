@@ -17,6 +17,8 @@ class RqJobsDTO(BaseModel):
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     connection_url: str = ""
+    redis_url: str = ""
+    queue_name: str = "default"
 
 
 class DramatiqJobsDTO(BaseModel):
@@ -57,13 +59,46 @@ class RealtimeConfigurationDTO(BaseModel):
     webrtc: WebRtcIceConfigDTO = Field(default_factory=WebRtcIceConfigDTO)
 
 
+class FeatureFlagsSnapshotDTO(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    enabled: bool = False
+    path: str = ""
+
+
+class LaunchDarklyFeatureFlagsDTO(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    enabled: bool = False
+    sdk_key: str = ""
+    default_user_key: str = "anonymous"
+
+
+class UnleashFeatureFlagsDTO(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    enabled: bool = False
+    url: str = ""
+    app_name: str = ""
+    instance_id: str = ""
+    api_key: str = ""
+
+
+class FeatureFlagsConfigurationDTO(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    snapshot: FeatureFlagsSnapshotDTO = Field(default_factory=FeatureFlagsSnapshotDTO)
+    launchdarkly: LaunchDarklyFeatureFlagsDTO = Field(default_factory=LaunchDarklyFeatureFlagsDTO)
+    unleash: UnleashFeatureFlagsDTO = Field(default_factory=UnleashFeatureFlagsDTO)
+
+
 __all__ = [
     "CeleryJobsDTO",
     "DramatiqJobsDTO",
+    "FeatureFlagsConfigurationDTO",
+    "FeatureFlagsSnapshotDTO",
     "JobsConfigurationDTO",
+    "LaunchDarklyFeatureFlagsDTO",
     "RealtimeConfigurationDTO",
     "RqJobsDTO",
     "SchedulerJobsDTO",
+    "UnleashFeatureFlagsDTO",
     "WebRtcIceConfigDTO",
     "WebRtcIceServerDTO",
 ]

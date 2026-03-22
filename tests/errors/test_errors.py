@@ -1,10 +1,10 @@
-"""Tests for fast_errors."""
+"""Tests for errors."""
 
 from http import HTTPStatus
 
 import pytest
 
-from fast_errors import (
+from errors import (
     BadInputError,
     ConflictError,
     ForbiddenError,

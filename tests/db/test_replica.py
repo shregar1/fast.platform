@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from config.dto import DBConfigurationDTO
 
-from fast_db.replica import (
+from db.replica import (
     ReadDBDependency,
     create_and_set_read_session,
     create_read_session_factory,
@@ -50,7 +50,7 @@ def test_get_read_engine_none_without_replica():
     assert get_read_engine(DBConfigurationDTO()) is None
 
 
-@patch("fast_db.replica.create_engine")
+@patch("db.replica.create_engine")
 def test_get_read_engine_passes_connect_args(mock_ce):
     cfg = DBConfigurationDTO(
         user_name="u",
@@ -83,12 +83,12 @@ def test_read_db_dependency_raises_when_no_session():
 
 def test_read_db_dependency_returns_session():
     mock_sess = MagicMock()
-    with patch("fast_db.replica.get_read_db_session", return_value=mock_sess):
+    with patch("db.replica.get_read_db_session", return_value=mock_sess):
         assert ReadDBDependency.derive() is mock_sess
 
 
 def test_get_read_engine_instance_after_create():
-    from fast_db.replica import get_read_engine_instance, set_global_read_engine
+    from db.replica import get_read_engine_instance, set_global_read_engine
 
     mock_eng = MagicMock()
     try:
@@ -98,8 +98,8 @@ def test_get_read_engine_instance_after_create():
         set_global_read_engine(None)
 
 
-@patch("fast_db.replica.get_read_engine")
-@patch("fast_db.replica.create_session_factory")
+@patch("db.replica.get_read_engine")
+@patch("db.replica.create_session_factory")
 def test_create_and_set_read_session(mock_csf, mock_ge):
     mock_eng = MagicMock()
     mock_ge.return_value = mock_eng

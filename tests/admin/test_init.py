@@ -1,10 +1,10 @@
-"""Tests for fast_admin."""
+"""Tests for admin."""
 
 import pytest
 
 
 def test_imports():
-    from fast_admin import (
+    from admin import (
         AdminUserSummary,
         AuditLogEntry,
         IAdminUserRepository,

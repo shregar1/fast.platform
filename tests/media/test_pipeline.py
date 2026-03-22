@@ -5,7 +5,7 @@ import io
 import pytest
 from PIL import Image
 
-from fast_media import (
+from media import (
     DefaultImageVariantGenerator,
     ImageVariantPipeline,
     InMemoryMediaStore,

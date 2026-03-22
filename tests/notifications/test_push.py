@@ -4,9 +4,9 @@ import asyncio
 from unittest.mock import MagicMock, patch
 
 
-@patch("fast_notifications.push.PushConfiguration")
+@patch("notifications.push.PushConfiguration")
 def test_push_service_apns_disabled(mock_cfg_cls):
-    from fast_notifications.push import PushNotificationService
+    from notifications.push import PushNotificationService
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(
         apns=MagicMock(enabled=False),
@@ -19,9 +19,9 @@ def test_push_service_apns_disabled(mock_cfg_cls):
     asyncio.run(svc.send_to_ios(["token"], "t", "b"))  # no-op when disabled
 
 
-@patch("fast_notifications.push.PushConfiguration")
+@patch("notifications.push.PushConfiguration")
 def test_push_service_apns_enabled(mock_cfg_cls):
-    from fast_notifications.push import PushNotificationService
+    from notifications.push import PushNotificationService
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(
         apns=MagicMock(enabled=True),

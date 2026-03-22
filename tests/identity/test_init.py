@@ -1,6 +1,6 @@
 """Smoke test package import."""
 
-import fast_identity as i
+import identity as i
 
 
 def test_import():

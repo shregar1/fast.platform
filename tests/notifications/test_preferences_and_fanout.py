@@ -3,16 +3,16 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from fast_notifications.dto import EmailNotificationTarget, NotificationFanoutRequest
-from fast_notifications.fanout import NotificationFanoutService
-from fast_notifications.idempotency import InMemoryNotificationIdempotencyStore
-from fast_notifications.preferences import StaticMutedCategories
+from notifications.dto import EmailNotificationTarget, NotificationFanoutRequest
+from notifications.fanout import NotificationFanoutService
+from notifications.idempotency import InMemoryNotificationIdempotencyStore
+from notifications.preferences import StaticMutedCategories
 
 
 def test_fanout_skips_muted_category():
     prefs = StaticMutedCategories({"u1": {"marketing"}})
     email = AsyncMock()
-    with patch("fast_notifications.fanout.PushNotificationService") as mock_push_cls:
+    with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
         mock_push_cls.return_value = MagicMock()
         svc = NotificationFanoutService(email_sender=email, preference_store=prefs)
         req = NotificationFanoutRequest(
@@ -29,7 +29,7 @@ def test_fanout_skips_muted_category():
 def test_fanout_idempotency_second_send_skipped():
     store = InMemoryNotificationIdempotencyStore()
     email = AsyncMock()
-    with patch("fast_notifications.fanout.PushNotificationService") as mock_push_cls:
+    with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
         mock_push_cls.return_value = MagicMock()
         svc = NotificationFanoutService(email_sender=email, idempotency_store=store)
         req = NotificationFanoutRequest(
@@ -50,7 +50,7 @@ def test_fanout_mute_checked_before_idempotency():
     store = InMemoryNotificationIdempotencyStore()
     email = AsyncMock()
     prefs = StaticMutedCategories({"u1": {"alerts"}})
-    with patch("fast_notifications.fanout.PushNotificationService") as mock_push_cls:
+    with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
         mock_push_cls.return_value = MagicMock()
         svc = NotificationFanoutService(
             email_sender=email,
@@ -79,7 +79,7 @@ def test_fanout_mute_checked_before_idempotency():
         template_id="t",
         dedupe_key="k",
     )
-    with patch("fast_notifications.fanout.PushNotificationService") as mock_push_cls:
+    with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
         mock_push_cls.return_value = MagicMock()
         svc = NotificationFanoutService(
             email_sender=email,

@@ -6,8 +6,8 @@ import pytest
 from config.dto import DBConfigurationDTO
 from sqlalchemy.ext.asyncio import create_async_engine
 
-import fast_db.async_engine as async_engine_mod
-from fast_db.async_engine import (
+import db.async_engine as async_engine_mod
+from db.async_engine import (
     async_database_url_from_config,
     check_database_async,
     create_and_set_async_session_factory,
@@ -61,14 +61,14 @@ async def test_check_database_async_sqlite():
     await eng.dispose()
 
 
-@patch("fast_db.async_engine.create_async_engine")
+@patch("db.async_engine.create_async_engine")
 def test_get_async_engine_incomplete_raises(mock_create):
     with pytest.raises(RuntimeError, match="incomplete"):
         get_async_engine(DBConfigurationDTO())
     mock_create.assert_not_called()
 
 
-@patch("fast_db.async_engine.DBConfiguration")
+@patch("db.async_engine.DBConfiguration")
 def test_get_async_engine_uses_default_config(mock_db_cls):
     mock_conf = MagicMock()
     mock_conf.get_config.return_value = DBConfigurationDTO(
@@ -80,13 +80,13 @@ def test_get_async_engine_uses_default_config(mock_db_cls):
         connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
     )
     mock_db_cls.return_value = mock_conf
-    with patch("fast_db.async_engine.create_async_engine"):
+    with patch("db.async_engine.create_async_engine"):
         get_async_engine(None)
     mock_db_cls.assert_called()
 
 
-@patch("fast_db.async_engine.create_async_session_factory")
-@patch("fast_db.async_engine.get_async_engine")
+@patch("db.async_engine.create_async_session_factory")
+@patch("db.async_engine.get_async_engine")
 def test_create_and_set_async_session_factory_none_config_uses_singleton(
     mock_get_eng,
     mock_create_fac,
@@ -107,13 +107,13 @@ def test_create_and_set_async_session_factory_none_config_uses_singleton(
     mock_fac = MagicMock()
     mock_create_fac.return_value = mock_fac
 
-    with patch("fast_db.async_engine.DBConfiguration", return_value=mock_db):
+    with patch("db.async_engine.DBConfiguration", return_value=mock_db):
         out = create_and_set_async_session_factory(None)
     assert out is mock_fac
     mock_get_eng.assert_called_once_with(mock_conf)
 
 
-@patch("fast_db.async_engine.create_async_engine")
+@patch("db.async_engine.create_async_engine")
 def test_get_async_engine_passes_pool_async(mock_create):
     config = DBConfigurationDTO(
         user_name="u",
@@ -132,7 +132,7 @@ def test_get_async_engine_passes_pool_async(mock_create):
     assert kwargs["pool_recycle"] == 100
 
 
-@patch("fast_db.async_engine.create_async_engine")
+@patch("db.async_engine.create_async_engine")
 def test_get_async_engine_passes_server_settings(mock_create):
     config = DBConfigurationDTO(
         user_name="u",
@@ -152,7 +152,7 @@ def test_get_async_engine_passes_server_settings(mock_create):
 
 
 def test_async_read_replica_url_from_config():
-    from fast_db.async_engine import async_read_replica_url_from_config
+    from db.async_engine import async_read_replica_url_from_config
 
     cfg = DBConfigurationDTO(
         user_name="u",
@@ -169,9 +169,9 @@ def test_async_read_replica_url_from_config():
     assert url and "postgresql+asyncpg" in url
 
 
-@patch("fast_db.async_engine.create_async_engine")
+@patch("db.async_engine.create_async_engine")
 def test_get_async_read_engine(mock_create):
-    from fast_db.async_engine import get_async_read_engine
+    from db.async_engine import get_async_read_engine
 
     cfg = DBConfigurationDTO(
         user_name="u",
@@ -192,7 +192,7 @@ def test_get_async_read_engine(mock_create):
 
 
 def test_get_async_read_engine_none():
-    from fast_db.async_engine import get_async_read_engine
+    from db.async_engine import get_async_read_engine
 
     assert (
         get_async_read_engine(
@@ -212,7 +212,7 @@ def test_get_async_read_engine_none():
 
 
 def test_set_global_async_read_engine():
-    from fast_db import async_engine as m
+    from db import async_engine as m
 
     mock_eng = MagicMock()
     try:
@@ -267,8 +267,8 @@ def test_create_and_set_async_session_factory_returns_none_when_incomplete():
     assert create_and_set_async_session_factory(DBConfigurationDTO()) is None
 
 
-@patch("fast_db.async_engine.create_async_session_factory")
-@patch("fast_db.async_engine.get_async_engine")
+@patch("db.async_engine.create_async_session_factory")
+@patch("db.async_engine.get_async_engine")
 def test_create_and_set_async_session_factory_sets_globals(mock_get_eng, mock_create_fac):
     mock_eng = MagicMock()
     mock_get_eng.return_value = mock_eng
@@ -311,7 +311,7 @@ def test_create_async_session_factory_returns_callable():
 
 @pytest.mark.asyncio
 async def test_async_db_dependency_session():
-    from fast_db.async_dependency import AsyncDBDependency
+    from db.async_dependency import AsyncDBDependency
 
     mock_session = MagicMock()
     factory = MagicMock()
@@ -321,7 +321,7 @@ async def test_async_db_dependency_session():
     factory.return_value = ctx
 
     with patch(
-        "fast_db.async_dependency.get_async_session_factory",
+        "db.async_dependency.get_async_session_factory",
         return_value=factory,
     ):
         async for s in AsyncDBDependency.session():
@@ -331,10 +331,10 @@ async def test_async_db_dependency_session():
 
 @pytest.mark.asyncio
 async def test_async_db_dependency_missing_factory():
-    from fast_db.async_dependency import AsyncDBDependency
+    from db.async_dependency import AsyncDBDependency
 
     with patch(
-        "fast_db.async_dependency.get_async_session_factory",
+        "db.async_dependency.get_async_session_factory",
         return_value=None,
     ):
         gen = AsyncDBDependency.session()

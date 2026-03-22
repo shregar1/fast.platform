@@ -38,7 +38,7 @@ class MarketDataHub:
         self._queue_broker = None
         if self._fanout_backend:
             try:
-                from fast_queues import QueueBroker
+                from queues import QueueBroker
 
                 self._queue_broker = QueueBroker()
             except Exception as exc:  # pragma: no cover - defensive

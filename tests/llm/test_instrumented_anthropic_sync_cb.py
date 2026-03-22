@@ -13,8 +13,8 @@ pytest.importorskip("anthropic")
 
 @pytest.mark.asyncio
 async def test_instrumented_anthropic_emits_usage() -> None:
-    from fast_llm.instrumented import InstrumentedAnthropicLLMService
-    from fast_llm.token_usage import TokenUsage
+    from llm.instrumented import InstrumentedAnthropicLLMService
+    from llm.token_usage import TokenUsage
 
     usage_obj = types.SimpleNamespace(input_tokens=1, output_tokens=2)
     text_block = types.SimpleNamespace(type="text", text="ok")
@@ -51,8 +51,8 @@ async def test_instrumented_anthropic_emits_usage() -> None:
 
 @pytest.mark.asyncio
 async def test_instrumented_openai_async_callback() -> None:
-    from fast_llm.instrumented import InstrumentedOpenAILLMService
-    from fast_llm.token_usage import TokenUsage
+    from llm.instrumented import InstrumentedOpenAILLMService
+    from llm.token_usage import TokenUsage
 
     usage_obj = types.SimpleNamespace(prompt_tokens=1, completion_tokens=1, total_tokens=2)
     msg = types.SimpleNamespace(content="x")

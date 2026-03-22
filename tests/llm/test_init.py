@@ -1,10 +1,10 @@
-"""Tests for fast_llm."""
+"""Tests for llm."""
 
 import pytest
 
 
 def test_imports():
-    from fast_llm import (
+    from llm import (
         ILLMService,
         InstrumentedOpenAILLMService,
         StreamChunk,

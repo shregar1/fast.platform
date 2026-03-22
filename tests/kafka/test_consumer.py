@@ -29,9 +29,9 @@ class _AsyncConsumerMock:
             yield m
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_start_when_disabled(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(enabled=False, topics=[], bootstrap_servers="", group_id="", enable_auto_commit=True)
     mock_cfg_cls.return_value = mock_cfg
@@ -40,9 +40,9 @@ def test_consumer_start_when_disabled(mock_cfg_cls):
     assert c._consumer is None
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_stop_no_consumer(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(enabled=False)
     mock_cfg_cls.return_value = mock_cfg
@@ -50,9 +50,9 @@ def test_consumer_stop_no_consumer(mock_cfg_cls):
     asyncio.run(c.stop())
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_loop_when_not_running(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(enabled=False)
     mock_cfg_cls.return_value = mock_cfg
@@ -62,9 +62,9 @@ def test_consumer_loop_when_not_running(mock_cfg_cls):
     asyncio.run(c.loop(handler))
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_loop_idempotent_dedupes_and_commits(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
 
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(
@@ -93,9 +93,9 @@ def test_consumer_loop_idempotent_dedupes_and_commits(mock_cfg_cls):
     assert c._consumer.commit.await_count == 2
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_loop_idempotent_requires_manual_commit(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
 
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(
@@ -122,9 +122,9 @@ def test_consumer_loop_idempotent_requires_manual_commit(mock_cfg_cls):
         raise AssertionError("expected ValueError")
 
 
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_loop_idempotent_when_not_running(mock_cfg_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
 
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -138,10 +138,10 @@ def test_consumer_loop_idempotent_when_not_running(mock_cfg_cls):
     asyncio.run(c.loop_idempotent(handler))
 
 
-@patch("fast_kafka.consumer.AIOKafkaConsumer")
-@patch("fast_kafka.consumer.KafkaConfiguration")
+@patch("kafka.consumer.AIOKafkaConsumer")
+@patch("kafka.consumer.KafkaConfiguration")
 def test_consumer_start_stop_when_enabled(mock_cfg_cls, mock_aio_cls):
-    from fast_kafka.consumer import KafkaConsumer
+    from kafka.consumer import KafkaConsumer
 
     mock_cfg = MagicMock()
     mock_cfg.get_config.return_value = MagicMock(

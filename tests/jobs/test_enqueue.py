@@ -7,7 +7,7 @@ from unittest.mock import MagicMock, patch
 
 from config.dto_extras import JobsConfigurationDTO
 
-from fast_jobs.enqueue import enqueue
+from jobs.enqueue import enqueue
 
 
 def _cfg(**overrides: object) -> JobsConfigurationDTO:
@@ -22,7 +22,7 @@ def _cfg(**overrides: object) -> JobsConfigurationDTO:
     return JobsConfigurationDTO.model_validate(raw)
 
 
-@patch("fast_jobs.enqueue.JobsConfiguration")
+@patch("jobs.enqueue.JobsConfiguration")
 def test_enqueue_celery_apply_async(mock_jobs: MagicMock) -> None:
     cfg = _cfg(celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"})
     mock_jobs.return_value.get_config.return_value = cfg
@@ -44,7 +44,7 @@ def test_enqueue_celery_apply_async(mock_jobs: MagicMock) -> None:
     assert r.timeout_seconds == 120
 
 
-@patch("fast_jobs.enqueue.JobsConfiguration")
+@patch("jobs.enqueue.JobsConfiguration")
 @patch("rq.Queue")
 @patch("redis.Redis")
 def test_enqueue_rq_enqueue_call(_mock_redis: MagicMock, mock_queue_cls: MagicMock, mock_jobs: MagicMock) -> None:
@@ -70,7 +70,7 @@ def test_enqueue_rq_enqueue_call(_mock_redis: MagicMock, mock_queue_cls: MagicMo
     assert r.job_id == "rq-job-1"
 
 
-@patch("fast_jobs.enqueue.JobsConfiguration")
+@patch("jobs.enqueue.JobsConfiguration")
 def test_enqueue_dramatiq_send_with_options(mock_jobs: MagicMock) -> None:
     pytest.importorskip("dramatiq")
     cfg = _cfg(dramatiq={"enabled": True, "broker_url": "redis://x", "queue_name": "default"})
@@ -90,7 +90,7 @@ def test_enqueue_dramatiq_send_with_options(mock_jobs: MagicMock) -> None:
     assert r.job_id == "dmq-1"
 
 
-@patch("fast_jobs.enqueue.JobsConfiguration")
+@patch("jobs.enqueue.JobsConfiguration")
 def test_auto_infer_celery(mock_jobs: MagicMock) -> None:
     cfg = _cfg(celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"})
     mock_jobs.return_value.get_config.return_value = cfg

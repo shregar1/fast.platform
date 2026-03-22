@@ -1,5 +1,5 @@
 """
-Public API import tests for fast_identity.
+Public API import tests for identity.
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
@@ -11,7 +11,7 @@ import importlib
 
 import pytest
 
-PACKAGE = "fast_identity"
+PACKAGE = "identity"
 
 
 def test_package_imports():

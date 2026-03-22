@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
-from fast_analytics.base import IAnalyticsBackend
-from fast_analytics.rate_limit import RateLimitedAnalyticsBackend
+from analytics.base import IAnalyticsBackend
+from analytics.rate_limit import RateLimitedAnalyticsBackend
 
 
 class MemBackend(IAnalyticsBackend):

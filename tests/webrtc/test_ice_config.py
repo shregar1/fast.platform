@@ -6,8 +6,8 @@ from config.dto_extras import (
     WebRtcIceServerDTO,
 )
 
-from fast_webrtc.dto import WebRTCConfigurationDTO
-from fast_webrtc.ice_config import ice_servers_from_legacy_webrtc_dto, rtc_ice_servers_for_client
+from webrtc.dto import WebRTCConfigurationDTO
+from webrtc.ice_config import ice_servers_from_legacy_webrtc_dto, rtc_ice_servers_for_client
 
 
 def test_rtc_ice_servers_empty_when_disabled():

@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 
 def test_publish_outbox_batch():
-    from fast_kafka.outbox import OutboxMessage, publish_outbox_batch
+    from kafka.outbox import OutboxMessage, publish_outbox_batch
 
     marks: list[int] = []
     producer = MagicMock()
@@ -28,14 +28,14 @@ def test_publish_outbox_batch():
 
 
 def test_postgres_outbox_ddl_is_non_empty():
-    from fast_kafka.outbox import POSTGRES_OUTBOX_DDL
+    from kafka.outbox import POSTGRES_OUTBOX_DDL
 
     assert "kafka_outbox" in POSTGRES_OUTBOX_DDL
     assert "CREATE TABLE" in POSTGRES_OUTBOX_DDL
 
 
 def test_run_outbox_publisher_loop_stops_when_event_set():
-    from fast_kafka.outbox import run_outbox_publisher_loop
+    from kafka.outbox import run_outbox_publisher_loop
 
     stop = asyncio.Event()
     stop.set()
@@ -56,7 +56,7 @@ def test_run_outbox_publisher_loop_stops_when_event_set():
 
 
 def test_run_outbox_publisher_loop_processes_one_batch():
-    from fast_kafka.outbox import OutboxMessage, run_outbox_publisher_loop
+    from kafka.outbox import OutboxMessage, run_outbox_publisher_loop
 
     stop = asyncio.Event()
     seen: list[int] = []

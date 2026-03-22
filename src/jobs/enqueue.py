@@ -103,7 +103,7 @@ def _enqueue_celery(
     timeout_override: Optional[int],
 ) -> JobEnqueueResult:
     try:
-        from fast_jobs.celery_app import make_celery_app
+        from jobs.celery_app import make_celery_app
     except ImportError as e:  # pragma: no cover
         raise RuntimeError("celery is not installed. pip install fast_jobs[celery]") from e
 
@@ -168,7 +168,8 @@ def _enqueue_rq(
     if secs is None:
         secs = 300
 
-    conn = Redis.from_url(cfg.rq.redis_url)
+    redis_url = cfg.rq.redis_url or cfg.rq.connection_url
+    conn = Redis.from_url(redis_url)
     rq_queue = Queue(qname, connection=conn)
 
     if callable(task_or_name) and not isinstance(task_or_name, str):

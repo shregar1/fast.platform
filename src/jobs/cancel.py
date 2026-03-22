@@ -53,7 +53,7 @@ def _cancel_celery(job_id: str, celery_app: Any, *, terminate: bool) -> CancelJo
         raise RuntimeError("celery is not installed. pip install fast_jobs[celery]") from e
 
     if celery_app is None:
-        from fast_jobs.celery_app import make_celery_app
+        from jobs.celery_app import make_celery_app
 
         celery_app = make_celery_app()
 

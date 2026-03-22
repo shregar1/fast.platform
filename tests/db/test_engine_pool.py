@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from config.dto import DBConfigurationDTO
 
-from fast_db.engine import create_and_set_session, get_engine, sync_connect_args_for_url
+from db.engine import create_and_set_session, get_engine, sync_connect_args_for_url
 
 
 def test_get_engine_passes_pool_kwargs():
@@ -22,7 +22,7 @@ def test_get_engine_passes_pool_kwargs():
         pool_recycle=3600,
         pool_pre_ping=False,
     )
-    with patch("fast_db.engine.create_engine") as mock_ce:
+    with patch("db.engine.create_engine") as mock_ce:
         get_engine(config)
         mock_ce.assert_called_once()
         _, kwargs = mock_ce.call_args
@@ -43,7 +43,7 @@ def test_pool_recycle_omitted_when_none():
         connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
         pool_recycle=None,
     )
-    with patch("fast_db.engine.create_engine") as mock_ce:
+    with patch("db.engine.create_engine") as mock_ce:
         get_engine(config)
         _, kwargs = mock_ce.call_args
         assert "pool_recycle" not in kwargs
@@ -54,7 +54,7 @@ def test_get_engine_incomplete_raises():
         get_engine(DBConfigurationDTO())
 
 
-@patch("fast_db.engine.DBConfiguration")
+@patch("db.engine.DBConfiguration")
 def test_get_engine_uses_singleton_config(mock_db_cls):
     mock_conf = MagicMock()
     mock_conf.get_config.return_value = DBConfigurationDTO(
@@ -66,15 +66,15 @@ def test_get_engine_uses_singleton_config(mock_db_cls):
         connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
     )
     mock_db_cls.return_value = mock_conf
-    with patch("fast_db.engine.create_engine"):
+    with patch("db.engine.create_engine"):
         get_engine(None)
     mock_db_cls.assert_called()
 
 
-@patch("fast_db.engine.set_global_session")
-@patch("fast_db.engine.set_global_engine")
-@patch("fast_db.engine.create_session_factory")
-@patch("fast_db.engine.get_engine")
+@patch("db.engine.set_global_session")
+@patch("db.engine.set_global_engine")
+@patch("db.engine.create_session_factory")
+@patch("db.engine.get_engine")
 def test_create_and_set_session(mock_ge, mock_csf, mock_sge, mock_sgs):
     mock_eng = MagicMock()
     mock_ge.return_value = mock_eng
@@ -100,9 +100,9 @@ def test_create_and_set_session_returns_none_when_incomplete():
     assert create_and_set_session(DBConfigurationDTO()) is None
 
 
-@patch("fast_db.engine.create_engine")
+@patch("db.engine.create_engine")
 def test_get_engine_passes_postgres_connect_args(mock_ce):
-    from fast_db.engine import get_engine
+    from db.engine import get_engine
 
     config = DBConfigurationDTO(
         user_name="u",

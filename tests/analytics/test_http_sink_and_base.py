@@ -7,11 +7,11 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from fast_analytics.base import IAnalyticsBackend, build_analytics_client
+from analytics.base import IAnalyticsBackend, build_analytics_client
 
 
 def test_http_sink_track_identify_delete_success() -> None:
-    from fast_analytics.http_sink import HttpSinkAnalyticsBackend
+    from analytics.http_sink import HttpSinkAnalyticsBackend
 
     with patch("urllib.request.urlopen", return_value=MagicMock()) as m:
         b = HttpSinkAnalyticsBackend("http://example.com/collect", api_key="k")
@@ -22,7 +22,7 @@ def test_http_sink_track_identify_delete_success() -> None:
 
 
 def test_http_sink_identify_empty_endpoint_branch() -> None:
-    from fast_analytics.http_sink import HttpSinkAnalyticsBackend
+    from analytics.http_sink import HttpSinkAnalyticsBackend
 
     with patch("urllib.request.urlopen", return_value=MagicMock()):
         b = HttpSinkAnalyticsBackend("", api_key=None)
@@ -61,6 +61,6 @@ def test_build_analytics_client_with_config(monkeypatch: pytest.MonkeyPatch) -> 
         def get_config(self):
             return Cfg()
 
-    monkeypatch.setattr("fast_analytics.base.AnalyticsConfiguration", AnalyticsConfiguration)
+    monkeypatch.setattr("analytics.base.AnalyticsConfiguration", AnalyticsConfiguration)
     c = build_analytics_client()
     assert c is not None

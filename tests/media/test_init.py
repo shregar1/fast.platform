@@ -1,10 +1,10 @@
-"""Tests for fast_media."""
+"""Tests for media."""
 
 import pytest
 
 
 def test_imports():
-    from fast_media import (
+    from media import (
         IMediaStore,
         UploadResult,
         read_upload_as_bytes,

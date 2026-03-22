@@ -6,10 +6,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 from aiokafka.structs import OffsetAndMetadata, TopicPartition
 
 
-@patch("fast_kafka.lag.AIOKafkaAdminClient")
-@patch("fast_kafka.lag.AIOKafkaConsumer")
+@patch("kafka.lag.AIOKafkaAdminClient")
+@patch("kafka.lag.AIOKafkaConsumer")
 def test_poll_consumer_lag_computes_lag(mock_consumer_cls, mock_admin_cls):
-    from fast_kafka.lag import poll_consumer_lag
+    from kafka.lag import poll_consumer_lag
 
     tp = TopicPartition("orders", 0)
 
@@ -37,9 +37,9 @@ def test_poll_consumer_lag_computes_lag(mock_consumer_cls, mock_admin_cls):
     assert out[0].lag == 10
 
 
-@patch("fast_kafka.lag.AIOKafkaConsumer")
+@patch("kafka.lag.AIOKafkaConsumer")
 def test_poll_consumer_lag_no_partitions(mock_consumer_cls):
-    from fast_kafka.lag import poll_consumer_lag
+    from kafka.lag import poll_consumer_lag
 
     cons = MagicMock()
     cons.start = AsyncMock()

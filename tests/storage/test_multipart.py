@@ -10,11 +10,11 @@ from typing import Any
 
 import pytest
 
-from fast_storage.multipart import multipart_upload_large_file
+from storage.multipart import multipart_upload_large_file
 
 
 def test_multipart_upload_s3_and_rejects_local(tmp_path: Path) -> None:
-    from fast_storage.s3_backend import S3StorageBackend
+    from storage.s3_backend import S3StorageBackend
 
     class FakeS3Client:
         def __init__(self) -> None:
@@ -63,14 +63,14 @@ def test_multipart_upload_s3_and_rejects_local(tmp_path: Path) -> None:
     client = backend._client
     assert len(client.parts) >= 2  # type: ignore[attr-defined]
 
-    from fast_storage.local_backend import LocalStorageBackend
+    from storage.local_backend import LocalStorageBackend
 
     with pytest.raises(ValueError, match="S3 and GCS"):
         multipart_upload_large_file(LocalStorageBackend(base_dir=str(tmp_path / "s")), "k", p)
 
 
 def test_multipart_upload_gcs(monkeypatch) -> None:
-    from fast_storage.gcs_backend import GCSStorageBackend
+    from storage.gcs_backend import GCSStorageBackend
 
     class FakeBlob:
         def __init__(self, key: str) -> None:

@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any, List, Optional
 
-from fast_search.base import ISearchBackend
-from fast_search.rollover import swap_index_alias
-from fast_search.suggest import suggest_autocomplete
+from search.base import ISearchBackend
+from search.rollover import swap_index_alias
+from search.suggest import suggest_autocomplete
 
 
 class _StubBackend(ISearchBackend):

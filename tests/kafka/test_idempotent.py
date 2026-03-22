@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from fast_kafka.idempotent import InMemoryDedupeStore, default_dedupe_key
+from kafka.idempotent import InMemoryDedupeStore, default_dedupe_key
 
 
 def test_default_dedupe_key_stable():

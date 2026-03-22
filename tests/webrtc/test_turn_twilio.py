@@ -7,7 +7,7 @@ from urllib.error import HTTPError, URLError
 
 import pytest
 
-from fast_webrtc.turn_twilio import fetch_twilio_turn_ice_servers, twilio_tokens_url
+from webrtc.turn_twilio import fetch_twilio_turn_ice_servers, twilio_tokens_url
 
 
 def test_twilio_tokens_url_contains_account():
@@ -15,7 +15,7 @@ def test_twilio_tokens_url_contains_account():
     assert "Tokens.json" in twilio_tokens_url("ACtest")
 
 
-@patch("fast_webrtc.turn_twilio.urlrequest.urlopen")
+@patch("webrtc.turn_twilio.urlrequest.urlopen")
 def test_fetch_twilio_turn_ice_servers_parses_response(mock_urlopen):
     payload = {
         "ice_servers": [
@@ -48,7 +48,7 @@ def test_fetch_twilio_turn_ice_servers_parses_response(mock_urlopen):
     mock_urlopen.assert_called_once()
 
 
-@patch("fast_webrtc.turn_twilio.urlrequest.urlopen")
+@patch("webrtc.turn_twilio.urlrequest.urlopen")
 def test_fetch_twilio_raises_on_bad_json(mock_urlopen):
     class _Resp:
         def __enter__(self):
@@ -66,7 +66,7 @@ def test_fetch_twilio_raises_on_bad_json(mock_urlopen):
         fetch_twilio_turn_ice_servers("ACx", "t")
 
 
-@patch("fast_webrtc.turn_twilio.urlrequest.urlopen")
+@patch("webrtc.turn_twilio.urlrequest.urlopen")
 def test_normalize_rejects_missing_urls(mock_urlopen):
     class _Resp:
         def __enter__(self):
@@ -84,7 +84,7 @@ def test_normalize_rejects_missing_urls(mock_urlopen):
         fetch_twilio_turn_ice_servers("ACx", "t")
 
 
-@patch("fast_webrtc.turn_twilio.urlrequest.urlopen")
+@patch("webrtc.turn_twilio.urlrequest.urlopen")
 def test_fetch_twilio_turn_http_error(mock_urlopen):
     fp = io.BytesIO(b"auth failed")
     mock_urlopen.side_effect = HTTPError(
@@ -94,7 +94,7 @@ def test_fetch_twilio_turn_http_error(mock_urlopen):
         fetch_twilio_turn_ice_servers("ACx", "t")
 
 
-@patch("fast_webrtc.turn_twilio.urlrequest.urlopen")
+@patch("webrtc.turn_twilio.urlrequest.urlopen")
 def test_fetch_twilio_turn_url_error(mock_urlopen):
     mock_urlopen.side_effect = URLError("network down")
     with pytest.raises(RuntimeError, match="request failed"):

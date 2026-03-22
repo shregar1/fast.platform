@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 import pytest
 from starlette.requests import Request
 
-from fast_tenancy.context import InMemoryTenantStore, Tenant, TenantConfig
-from fast_tenancy.resolution import (
+from tenancy.context import InMemoryTenantStore, Tenant, TenantConfig
+from tenancy.resolution import (
     ResolutionStrategy,
     ResolverSpec,
     TenantResolverRegistry,

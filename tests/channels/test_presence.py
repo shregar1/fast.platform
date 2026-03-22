@@ -33,7 +33,7 @@ async def _collect(aiter):
 
 
 def test_inmemory_presence_mark_list_and_eviction():
-    from fast_channels.presence import InMemoryPresenceBackend
+    from channels.presence import InMemoryPresenceBackend
 
     backend = InMemoryPresenceBackend(ttl_seconds=60)
 
@@ -61,7 +61,7 @@ def test_inmemory_presence_mark_list_and_eviction():
 
 def test_inmemory_mark_absent_noop_when_room_missing_or_empty():
     """Cover early return when ``room_id`` maps to a missing or empty room dict."""
-    from fast_channels.presence import InMemoryPresenceBackend
+    from channels.presence import InMemoryPresenceBackend
 
     backend = InMemoryPresenceBackend(ttl_seconds=60)
     # Unreachable via normal API: empty dict is falsy, so ``mark_absent`` returns immediately.
@@ -73,7 +73,7 @@ def test_inmemory_mark_absent_noop_when_room_missing_or_empty():
 
 
 def test_inmemory_presence_mark_absent_and_room_cleanup():
-    from fast_channels.presence import InMemoryPresenceBackend
+    from channels.presence import InMemoryPresenceBackend
 
     backend = InMemoryPresenceBackend(ttl_seconds=60)
     asyncio.run(backend.mark_present("room1", "u1"))
@@ -91,7 +91,7 @@ def test_inmemory_presence_mark_absent_and_room_cleanup():
 
 
 def test_presence_service_delegates_to_backend():
-    from fast_channels.presence import PresenceService
+    from channels.presence import PresenceService
 
     calls: dict[str, list[Any]] = {"present": [], "absent": [], "list_present": [], "list_rooms": []}
 
@@ -124,7 +124,7 @@ def test_presence_service_delegates_to_backend():
 
 
 def test_redis_presence_backend_mark_and_list():
-    from fast_channels.presence import RedisPresenceBackend
+    from channels.presence import RedisPresenceBackend
 
     client = FakeRedisClient()
     backend = RedisPresenceBackend(client=client, ttl_seconds=60)

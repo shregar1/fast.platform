@@ -2,7 +2,7 @@
 
 import json
 from unittest.mock import mock_open, patch
-from fast_webrtc.dto import WebRTCConfigurationDTO
+from webrtc.dto import WebRTCConfigurationDTO
 
 
 def test_webrtc_dto_defaults():
@@ -14,11 +14,11 @@ def test_webrtc_dto_defaults():
 
 
 def test_webrtc_config_load():
-    from fast_webrtc.config_loader import WebRTCConfiguration
+    from webrtc.config_loader import WebRTCConfiguration
     WebRTCConfiguration._instance = None
     data = {"enabled": True, "max_peers_per_room": 4, "stun_servers": ["stun:stun.l.google.com:19302"]}
-    with patch("fast_webrtc.config_loader.open", mock_open(read_data=json.dumps(data))):
-        with patch("fast_webrtc.config_loader.os.getenv", return_value=None):
+    with patch("webrtc.config_loader.open", mock_open(read_data=json.dumps(data))):
+        with patch("webrtc.config_loader.os.getenv", return_value=None):
             cfg = WebRTCConfiguration()
     dto = cfg.get_config()
     assert dto.enabled is True
@@ -27,10 +27,10 @@ def test_webrtc_config_load():
 
 
 def test_webrtc_config_file_not_found():
-    from fast_webrtc.config_loader import WebRTCConfiguration
+    from webrtc.config_loader import WebRTCConfiguration
     WebRTCConfiguration._instance = None
-    with patch("fast_webrtc.config_loader.open", side_effect=FileNotFoundError()):
-        with patch("fast_webrtc.config_loader.os.getenv", return_value=None):
+    with patch("webrtc.config_loader.open", side_effect=FileNotFoundError()):
+        with patch("webrtc.config_loader.os.getenv", return_value=None):
             cfg = WebRTCConfiguration()
     dto = cfg.get_config()
     assert dto.enabled is False
@@ -38,9 +38,9 @@ def test_webrtc_config_file_not_found():
 
 
 def test_webrtc_config_invalid_json():
-    from fast_webrtc.config_loader import WebRTCConfiguration
+    from webrtc.config_loader import WebRTCConfiguration
     WebRTCConfiguration._instance = None
-    with patch("fast_webrtc.config_loader.open", mock_open(read_data="{not valid json")):
-        with patch("fast_webrtc.config_loader.os.getenv", return_value=None):
+    with patch("webrtc.config_loader.open", mock_open(read_data="{not valid json")):
+        with patch("webrtc.config_loader.os.getenv", return_value=None):
             cfg = WebRTCConfiguration()
     assert cfg.get_config().enabled is False

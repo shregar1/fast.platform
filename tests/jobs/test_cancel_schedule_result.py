@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from fast_jobs.cancel import CancelJobResult, cancel_job
-from fast_jobs.result import JobStatus, get_job_status
-from fast_jobs.schedule import CronScheduleDTO, celery_crontab_schedule, parse_cron_fields
+from jobs.cancel import CancelJobResult, cancel_job
+from jobs.result import JobStatus, get_job_status
+from jobs.schedule import CronScheduleDTO, celery_crontab_schedule, parse_cron_fields
 
 
 def test_cancel_dramatiq_unsupported():
@@ -19,7 +19,7 @@ def test_cancel_dramatiq_unsupported():
 
 
 @patch("celery.result.AsyncResult")
-@patch("fast_jobs.celery_app.make_celery_app")
+@patch("jobs.celery_app.make_celery_app")
 def test_cancel_celery(_mock_make: MagicMock, mock_ar_cls: MagicMock) -> None:
     mock_inst = MagicMock()
     mock_ar_cls.return_value = mock_inst
@@ -52,7 +52,7 @@ def test_celery_crontab_schedule():
 
 
 @patch("celery.result.AsyncResult")
-@patch("fast_jobs.celery_app.make_celery_app")
+@patch("jobs.celery_app.make_celery_app")
 def test_get_job_status_celery(_mock_make: MagicMock, mock_ar_cls: MagicMock) -> None:
     mock_ar = MagicMock()
     mock_ar.state = "SUCCESS"

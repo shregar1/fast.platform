@@ -15,7 +15,7 @@ async def test_openai_generate() -> None:
     mock_client = MagicMock()
     mock_client.chat.completions.create = AsyncMock(return_value=mock_resp)
     with patch("openai.AsyncOpenAI", return_value=mock_client):
-        from fast_llm.providers import OpenAILLMService
+        from llm.providers import OpenAILLMService
 
         svc = OpenAILLMService("k", None, "m")
         assert await svc.generate("p", max_tokens=10) == "hello"
@@ -29,7 +29,7 @@ async def test_anthropic_generate_text_parts() -> None:
     mock_client = MagicMock()
     mock_client.messages.create = AsyncMock(return_value=mock_resp)
     with patch("anthropic.AsyncAnthropic", return_value=mock_client):
-        from fast_llm.providers import AnthropicLLMService
+        from llm.providers import AnthropicLLMService
 
         svc = AnthropicLLMService("k", "http://localhost", "claude")
         assert await svc.generate("p") == "a"
@@ -41,7 +41,7 @@ async def test_anthropic_base_url_optional() -> None:
     mock_client = MagicMock()
     mock_client.messages.create = AsyncMock(return_value=mock_resp)
     with patch("anthropic.AsyncAnthropic", return_value=mock_client):
-        from fast_llm.providers import AnthropicLLMService
+        from llm.providers import AnthropicLLMService
 
         svc = AnthropicLLMService("k", None, "claude")
         assert await svc.generate("p") == ""
@@ -58,14 +58,14 @@ async def test_ollama_generate() -> None:
     mock_cm.post = AsyncMock(return_value=mock_response)
     mock_async_client = MagicMock(return_value=mock_cm)
     with patch("httpx.AsyncClient", mock_async_client):
-        from fast_llm.providers import OllamaLLMService
+        from llm.providers import OllamaLLMService
 
         svc = OllamaLLMService("http://127.0.0.1:11434", "llama")
         assert await svc.generate("hi") == "ollama-out"
 
 
 def test_build_llm_service_openai(monkeypatch: pytest.MonkeyPatch) -> None:
-    from fast_llm import providers as prov
+    from llm import providers as prov
 
     class O:
         enabled = True
@@ -90,7 +90,7 @@ def test_build_llm_service_openai(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_build_llm_service_anthropic(monkeypatch: pytest.MonkeyPatch) -> None:
-    from fast_llm import providers as prov
+    from llm import providers as prov
 
     class Cfg:
         openai = SimpleNamespace(enabled=False)
@@ -107,7 +107,7 @@ def test_build_llm_service_anthropic(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_build_llm_service_ollama(monkeypatch: pytest.MonkeyPatch) -> None:
-    from fast_llm import providers as prov
+    from llm import providers as prov
 
     class Cfg:
         openai = SimpleNamespace(enabled=False)
@@ -124,7 +124,7 @@ def test_build_llm_service_ollama(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_illm_service_protocol() -> None:
-    from fast_llm.providers import ILLMService, OpenAILLMService
+    from llm.providers import ILLMService, OpenAILLMService
 
     with patch("openai.AsyncOpenAI", return_value=MagicMock()):
         s = OpenAILLMService("k", None, "m")

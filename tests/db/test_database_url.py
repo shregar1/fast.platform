@@ -6,7 +6,7 @@ import pytest
 
 
 def test_get_database_url_from_formatted_connection_string():
-    from fast_db import get_database_url
+    from db import get_database_url
 
     mock_cfg = MagicMock()
     mock_cfg.connection_string = "postgresql://{user_name}:{password}@{host}:{port}/{database}"
@@ -16,7 +16,7 @@ def test_get_database_url_from_formatted_connection_string():
     mock_cfg.port = 5432
     mock_cfg.database = "db"
 
-    with patch("fast_db.url.DBConfiguration") as DC:
+    with patch("db.url.DBConfiguration") as DC:
         DC.return_value.get_config.return_value = mock_cfg
         url = get_database_url()
         assert "postgresql://" in url
@@ -25,7 +25,7 @@ def test_get_database_url_from_formatted_connection_string():
 
 
 def test_get_database_url_raw_string_fallback():
-    from fast_db import get_database_url
+    from db import get_database_url
 
     mock_cfg = MagicMock()
     mock_cfg.connection_string = "sqlite:///./test.db"
@@ -35,19 +35,19 @@ def test_get_database_url_raw_string_fallback():
     mock_cfg.port = None
     mock_cfg.database = None
 
-    with patch("fast_db.url.DBConfiguration") as DC:
+    with patch("db.url.DBConfiguration") as DC:
         DC.return_value.get_config.return_value = mock_cfg
         assert get_database_url() == "sqlite:///./test.db"
 
 
 def test_get_database_url_raises_when_incomplete():
-    from fast_db import get_database_url
+    from db import get_database_url
 
     mock_cfg = MagicMock()
     mock_cfg.connection_string = ""
     mock_cfg.user_name = None
 
-    with patch("fast_db.url.DBConfiguration") as DC:
+    with patch("db.url.DBConfiguration") as DC:
         DC.return_value.get_config.return_value = mock_cfg
         with pytest.raises(RuntimeError, match="incomplete"):
             get_database_url()

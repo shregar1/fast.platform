@@ -17,7 +17,7 @@ class FakeWebSocket:
 
 
 def test_hub_connect_broadcast_and_disconnect_cleanup():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     ws1 = FakeWebSocket()
@@ -42,7 +42,7 @@ def test_hub_connect_broadcast_and_disconnect_cleanup():
 
 
 def test_hub_broadcast_disconnects_broken_socket():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     good = FakeWebSocket()
@@ -59,7 +59,7 @@ def test_hub_broadcast_disconnects_broken_socket():
 
 
 def test_hub_subscriber_counts_and_topic_names():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     ws1 = FakeWebSocket()
@@ -75,7 +75,7 @@ def test_hub_subscriber_counts_and_topic_names():
 
 
 def test_hub_send_ping_record_pong_and_sweep():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     ws = FakeWebSocket()
@@ -98,7 +98,7 @@ def test_hub_send_ping_record_pong_and_sweep():
 
 
 def test_hub_record_pong_without_topic_and_sweep_all_stale():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     ws = FakeWebSocket()
@@ -111,7 +111,7 @@ def test_hub_record_pong_without_topic_and_sweep_all_stale():
 
 
 def test_hub_send_ping_with_queue():
-    from fast_channels.hub import ChannelsHub
+    from channels.hub import ChannelsHub
 
     async def run():
         hub = ChannelsHub(max_queue_depth_per_subscriber=4)

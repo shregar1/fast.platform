@@ -1,10 +1,10 @@
-"""Tests for fast_search."""
+"""Tests for search."""
 
 import pytest
 
 
 def test_imports():
-    from fast_search import (
+    from search import (
         BulkIndexResult,
         FacetedSearchResult,
         ISearchBackend,

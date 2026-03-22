@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 
 def test_describe_cluster_health_ok():
-    from fast_kafka.health import describe_cluster_health
+    from kafka.health import describe_cluster_health
 
     fake = {
         "cluster_id": "cid-1",
@@ -14,7 +14,7 @@ def test_describe_cluster_health_ok():
     }
 
     async def run():
-        with patch("fast_kafka.health.AIOKafkaAdminClient") as mock_cls:
+        with patch("kafka.health.AIOKafkaAdminClient") as mock_cls:
             admin = MagicMock()
             admin.start = AsyncMock()
             admin.close = AsyncMock()
@@ -33,10 +33,10 @@ def test_describe_cluster_health_ok():
 
 
 def test_describe_cluster_health_error():
-    from fast_kafka.health import describe_cluster_health
+    from kafka.health import describe_cluster_health
 
     async def run():
-        with patch("fast_kafka.health.AIOKafkaAdminClient") as mock_cls:
+        with patch("kafka.health.AIOKafkaAdminClient") as mock_cls:
             admin = MagicMock()
             admin.start = AsyncMock(side_effect=RuntimeError("no broker"))
             admin.close = AsyncMock()
@@ -51,12 +51,12 @@ def test_describe_cluster_health_error():
 
 
 def test_describe_cluster_health_close_errors_swallowed():
-    from fast_kafka.health import describe_cluster_health
+    from kafka.health import describe_cluster_health
 
     fake = {"cluster_id": "x", "brokers": [], "controller_id": 0}
 
     async def run():
-        with patch("fast_kafka.health.AIOKafkaAdminClient") as mock_cls:
+        with patch("kafka.health.AIOKafkaAdminClient") as mock_cls:
             admin = MagicMock()
             admin.start = AsyncMock()
             admin.describe_cluster = AsyncMock(return_value=fake)

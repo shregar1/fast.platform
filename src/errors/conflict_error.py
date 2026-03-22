@@ -1,6 +1,6 @@
 """Resource / state conflict (HTTP 409)."""
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class ConflictError(IError):

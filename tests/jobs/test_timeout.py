@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 from config.dto_extras import JobsConfigurationDTO
 
-from fast_jobs.timeout import get_queue_timeouts, resolve_job_timeout_seconds
+from jobs.timeout import get_queue_timeouts, resolve_job_timeout_seconds
 
 
 def test_resolve_explicit_wins():
@@ -23,7 +23,7 @@ def test_resolve_none():
     assert resolve_job_timeout_seconds("x", queue_timeouts={}) is None
 
 
-@patch("fast_jobs.timeout.JobsConfiguration")
+@patch("jobs.timeout.JobsConfiguration")
 def test_get_queue_timeouts(mock_jobs: MagicMock) -> None:
     cfg = JobsConfigurationDTO.model_validate(
         {

@@ -4,8 +4,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from fast_media import ImageVariantPipeline, InMemoryMediaStore, VirusDetectedError, clamscan_bytes, noop_virus_scan
-from fast_media.virus_scan import ClamdScanner
+from media import ImageVariantPipeline, InMemoryMediaStore, VirusDetectedError, clamscan_bytes, noop_virus_scan
+from media.virus_scan import ClamdScanner
 
 
 def test_noop():
@@ -28,7 +28,7 @@ def test_clamscan_clean(monkeypatch):
     proc.returncode = 0
     proc.stdout = b""
     proc.stderr = b""
-    monkeypatch.setattr("fast_media.virus_scan.subprocess.run", lambda *a, **k: proc)
+    monkeypatch.setattr("media.virus_scan.subprocess.run", lambda *a, **k: proc)
     clamscan_bytes(b"ok")
 
 
@@ -37,7 +37,7 @@ def test_clamscan_infected(monkeypatch):
     proc.returncode = 1
     proc.stdout = b"stdin: Eicar-Test-Signature FOUND"
     proc.stderr = b""
-    monkeypatch.setattr("fast_media.virus_scan.subprocess.run", lambda *a, **k: proc)
+    monkeypatch.setattr("media.virus_scan.subprocess.run", lambda *a, **k: proc)
     with pytest.raises(VirusDetectedError):
         clamscan_bytes(b"infected")
 
@@ -56,7 +56,7 @@ def test_clamd_found(monkeypatch):
             pass
 
     monkeypatch.setattr(
-        "fast_media.virus_scan.socket.create_connection",
+        "media.virus_scan.socket.create_connection",
         lambda *a, **k: FakeSock(),
     )
     with pytest.raises(VirusDetectedError):
@@ -77,7 +77,7 @@ def test_clamd_ok(monkeypatch):
             pass
 
     monkeypatch.setattr(
-        "fast_media.virus_scan.socket.create_connection",
+        "media.virus_scan.socket.create_connection",
         lambda *a, **k: FakeSock(),
     )
     scanner(b"clean")

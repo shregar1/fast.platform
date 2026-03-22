@@ -13,8 +13,8 @@ from starlette.responses import PlainTextResponse
 from starlette.routing import Route
 from starlette.testclient import TestClient
 
-from fast_analytics.base import IAnalyticsBackend
-from fast_analytics.middleware import AnalyticsSamplingMiddleware
+from analytics.base import IAnalyticsBackend
+from analytics.middleware import AnalyticsSamplingMiddleware
 
 
 class MemBackend(IAnalyticsBackend):

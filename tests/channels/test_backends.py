@@ -38,7 +38,7 @@ class FakeRedisChannelClient:
 
 
 def test_redis_channel_backend_publish_calls_client_publish():
-    from fast_channels.redis_backend import RedisChannelBackend
+    from channels.redis_backend import RedisChannelBackend
 
     pubsub = FakePubSub([])
     client = FakeRedisChannelClient(pubsub)
@@ -49,7 +49,7 @@ def test_redis_channel_backend_publish_calls_client_publish():
 
 
 def test_redis_channel_backend_subscribe_filters_and_decodes_messages():
-    from fast_channels.redis_backend import RedisChannelBackend
+    from channels.redis_backend import RedisChannelBackend
 
     pubsub = FakePubSub(
         [
@@ -75,7 +75,7 @@ def test_redis_channel_backend_subscribe_filters_and_decodes_messages():
 
 
 def test_kafka_channel_backend_is_not_implemented():
-    from fast_channels.kafka_backend import KafkaChannelBackend
+    from channels.kafka_backend import KafkaChannelBackend
 
     backend = KafkaChannelBackend()
     with pytest.raises(NotImplementedError):

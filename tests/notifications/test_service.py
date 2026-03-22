@@ -1,7 +1,7 @@
 """Tests for notifications service."""
 
 import asyncio
-from fast_notifications.service import NotificationsService, Notification
+from notifications.service import NotificationsService, Notification
 
 
 async def _publish_and_list_since():

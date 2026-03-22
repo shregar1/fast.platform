@@ -8,7 +8,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from fast_search.base import ISearchBackend, build_search_backend
+from search.base import ISearchBackend, build_search_backend
 
 
 def _install_fake_typesense() -> None:
@@ -115,7 +115,7 @@ def test_build_search_backend_typesense_and_opensearch(monkeypatch: pytest.Monke
             def get_config(self):
                 return Cfg()
 
-        monkeypatch.setattr("fast_search.base.SearchConfiguration", SearchConfiguration)
+        monkeypatch.setattr("search.base.SearchConfiguration", SearchConfiguration)
         ts = build_search_backend("typesense")
         assert ts is not None
         osb = build_search_backend("opensearch")
@@ -136,7 +136,7 @@ def test_build_search_backend_meilisearch_when_enabled(monkeypatch: pytest.Monke
             def get_config(self):
                 return Cfg()
 
-        monkeypatch.setattr("fast_search.base.SearchConfiguration", SearchConfiguration)
+        monkeypatch.setattr("search.base.SearchConfiguration", SearchConfiguration)
         m = build_search_backend("meilisearch")
         assert m is not None
     finally:

@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from fast_db.migration_lock import (
+from db.migration_lock import (
     advisory_migration_lock,
     try_advisory_migration_lock,
 )

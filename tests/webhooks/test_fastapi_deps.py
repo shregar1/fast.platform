@@ -6,7 +6,7 @@ import pytest
 from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 
-from fast_webhooks import require_webhook_signature, signature_header_value
+from webhooks import require_webhook_signature, signature_header_value
 
 
 @pytest.fixture

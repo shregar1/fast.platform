@@ -5,7 +5,7 @@ from unittest.mock import mock_open, patch
 
 
 def test_kafka_config_dto_defaults():
-    from fast_kafka.dto import KafkaConfigurationDTO
+    from kafka.dto import KafkaConfigurationDTO
     d = KafkaConfigurationDTO()
     assert d.enabled is False
     assert d.bootstrap_servers == "localhost:9092"
@@ -15,12 +15,12 @@ def test_kafka_config_dto_defaults():
 
 
 def test_kafka_config_load_from_file():
-    from fast_kafka.config_loader import KafkaConfiguration
+    from kafka.config_loader import KafkaConfiguration
     KafkaConfiguration._instance = None
     data = {"enabled": True, "bootstrap_servers": "kafka:9092", "topics": ["events"]}
     m = mock_open(read_data=json.dumps(data))
-    with patch("fast_kafka.config_loader.open", m):
-        with patch("fast_kafka.config_loader.os.getenv", return_value=None):
+    with patch("kafka.config_loader.open", m):
+        with patch("kafka.config_loader.os.getenv", return_value=None):
             cfg = KafkaConfiguration()
     dto = cfg.get_config()
     assert dto.enabled is True
@@ -29,10 +29,10 @@ def test_kafka_config_load_from_file():
 
 
 def test_kafka_config_file_not_found():
-    from fast_kafka.config_loader import KafkaConfiguration
+    from kafka.config_loader import KafkaConfiguration
     KafkaConfiguration._instance = None
-    with patch("fast_kafka.config_loader.open", side_effect=FileNotFoundError()):
-        with patch("fast_kafka.config_loader.os.getenv", return_value=None):
+    with patch("kafka.config_loader.open", side_effect=FileNotFoundError()):
+        with patch("kafka.config_loader.os.getenv", return_value=None):
             cfg = KafkaConfiguration()
     dto = cfg.get_config()
     assert dto.enabled is False
@@ -40,22 +40,22 @@ def test_kafka_config_file_not_found():
 
 
 def test_kafka_config_singleton():
-    from fast_kafka.config_loader import KafkaConfiguration
+    from kafka.config_loader import KafkaConfiguration
     KafkaConfiguration._instance = None
-    with patch("fast_kafka.config_loader.open", side_effect=FileNotFoundError()):
-        with patch("fast_kafka.config_loader.os.getenv", return_value=None):
+    with patch("kafka.config_loader.open", side_effect=FileNotFoundError()):
+        with patch("kafka.config_loader.os.getenv", return_value=None):
             a = KafkaConfiguration()
             b = KafkaConfiguration()
     assert a is b
 
 
 def test_kafka_config_json_decode_error():
-    from fast_kafka.config_loader import KafkaConfiguration
+    from kafka.config_loader import KafkaConfiguration
 
     KafkaConfiguration._instance = None
-    with patch("fast_kafka.config_loader.open", mock_open(read_data="not-json")):
-        with patch("fast_kafka.config_loader.json.load", side_effect=json.JSONDecodeError("bad", "doc", 0)):
-            with patch("fast_kafka.config_loader.os.getenv", return_value=None):
+    with patch("kafka.config_loader.open", mock_open(read_data="not-json")):
+        with patch("kafka.config_loader.json.load", side_effect=json.JSONDecodeError("bad", "doc", 0)):
+            with patch("kafka.config_loader.os.getenv", return_value=None):
                 cfg = KafkaConfiguration()
     dto = cfg.get_config()
     assert dto.enabled is False

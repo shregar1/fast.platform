@@ -1,6 +1,6 @@
 """Tests for consent helpers."""
 
-from fast_webrtc.consent import AllowAllMediaConsent, StaticDeniedPeers
+from webrtc.consent import AllowAllMediaConsent, StaticDeniedPeers
 
 
 def test_allow_all_media_consent():

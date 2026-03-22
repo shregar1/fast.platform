@@ -1,6 +1,6 @@
-"""Unit tests for :class:`NotificationRetryPolicy` (no fast_webhooks required)."""
+"""Unit tests for :class:`NotificationRetryPolicy` (no webhooks required)."""
 
-from fast_notifications.retry_policy import NotificationRetryPolicy
+from notifications.retry_policy import NotificationRetryPolicy
 
 
 def test_notification_retry_policy_defaults():

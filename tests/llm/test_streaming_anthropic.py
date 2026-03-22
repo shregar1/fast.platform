@@ -6,7 +6,7 @@ import types
 
 import pytest
 
-from fast_llm.streaming import iter_anthropic_message_stream
+from llm.streaming import iter_anthropic_message_stream
 
 
 @pytest.mark.asyncio

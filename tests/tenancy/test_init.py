@@ -1,10 +1,10 @@
-"""Tests for fast_tenancy."""
+"""Tests for tenancy."""
 
 import pytest
 
 
 def test_imports():
-    from fast_tenancy import (
+    from tenancy import (
         Tenant,
         TenantConfig,
         get_current_tenant,

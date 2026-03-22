@@ -1,6 +1,6 @@
 """Authenticated but not allowed (HTTP 403)."""
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class ForbiddenError(IError):

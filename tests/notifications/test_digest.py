@@ -2,8 +2,8 @@
 
 import pytest
 
-from fast_notifications.digest import DigestBuffer, DigestItem, build_digest_fanout_request
-from fast_notifications.dto import EmailNotificationTarget, PushNotificationTarget
+from notifications.digest import DigestBuffer, DigestItem, build_digest_fanout_request
+from notifications.dto import EmailNotificationTarget, PushNotificationTarget
 
 
 def test_digest_buffer_add_take_and_clear():

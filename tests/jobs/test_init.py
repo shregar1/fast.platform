@@ -1,10 +1,10 @@
-"""Tests for fast_jobs."""
+"""Tests for jobs."""
 
 import pytest
 
 
 def test_imports():
-    from fast_jobs import (
+    from jobs import (
         JobEnqueueResult,
         JobsConfiguration,
         JobsConfigurationDTO,
@@ -20,6 +20,6 @@ def test_imports():
     assert enqueue is not None
     assert resolve_job_timeout_seconds("q", explicit=1) == 1
 
-    import fast_jobs as fj
+    import jobs as fj
 
     assert fj.__version__ == "0.3.0"

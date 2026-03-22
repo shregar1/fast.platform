@@ -4,14 +4,14 @@ import pytest
 
 
 def test_allow_all_acl():
-    from fast_channels.acl import AllowAllChannelACL
+    from channels.acl import AllowAllChannelACL
 
     acl = AllowAllChannelACL()
     assert asyncio.run(acl.may_subscribe("u", "c")) is True
 
 
 def test_static_acl():
-    from fast_channels.acl import StaticChannelACL
+    from channels.acl import StaticChannelACL
 
     acl = StaticChannelACL({"u1": {"a", "b"}})
     assert asyncio.run(acl.may_subscribe("u1", "a")) is True
@@ -20,7 +20,7 @@ def test_static_acl():
 
 
 def test_make_subscribe_acl_checker_raises():
-    from fast_channels.acl import StaticChannelACL, make_subscribe_acl_checker
+    from channels.acl import StaticChannelACL, make_subscribe_acl_checker
     from starlette.exceptions import WebSocketException
 
     acl = StaticChannelACL({"u1": {"ok"}})

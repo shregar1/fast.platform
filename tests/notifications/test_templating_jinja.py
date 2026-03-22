@@ -9,7 +9,7 @@ import pytest
 
 def test_render_jinja_string_ok() -> None:
     pytest.importorskip("jinja2")
-    from fast_notifications.templating import render_jinja_string
+    from notifications.templating import render_jinja_string
 
     assert render_jinja_string("Hello {{ name }}", context={"name": "x"}) == "Hello x"
 
@@ -17,7 +17,7 @@ def test_render_jinja_string_ok() -> None:
 def test_render_jinja_import_error() -> None:
     import builtins
 
-    import fast_notifications.templating as t
+    import notifications.templating as t
 
     real_import = builtins.__import__
 

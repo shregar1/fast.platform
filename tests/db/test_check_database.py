@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from sqlalchemy import create_engine
 
-from fast_db import check_database
+from db import check_database
 
 
 def test_check_database_ok_sqlite():

@@ -94,7 +94,7 @@ def _status_celery(job_id: str, celery_app: Any) -> JobStatusSnapshot:
         raise RuntimeError("celery is not installed. pip install fast_jobs[celery]") from e
 
     if celery_app is None:
-        from fast_jobs.celery_app import make_celery_app
+        from jobs.celery_app import make_celery_app
 
         celery_app = make_celery_app()
 

@@ -1,10 +1,10 @@
-"""Tests for fast_storage."""
+"""Tests for storage."""
 
 import pytest
 
 
 def test_imports():
-    from fast_storage import (
+    from storage import (
         IStorageBackend,
         LocalStorageBackend,
         StorageConfiguration,

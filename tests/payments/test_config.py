@@ -2,7 +2,7 @@
 
 from unittest.mock import patch
 
-from fast_payments.config import PaymentsConfiguration
+from payments.config import PaymentsConfiguration
 
 
 def test_payments_configuration_loads_provider_blocks():
@@ -11,7 +11,7 @@ def test_payments_configuration_loads_provider_blocks():
         "stripe": {"enabled": True, "api_key": "sk_test"},
         "razorpay": {"enabled": True, "key_id": "rzp_x"},
     }
-    with patch("fast_payments.config.load_config_json", return_value=raw):
+    with patch("payments.config.load_config_json", return_value=raw):
         cfg = PaymentsConfiguration()
     dto = cfg.get_config()
     assert dto.stripe.enabled is True
@@ -21,7 +21,7 @@ def test_payments_configuration_loads_provider_blocks():
 
 def test_payments_configuration_defaults_when_config_missing():
     PaymentsConfiguration._instance = None
-    with patch("fast_payments.config.load_config_json", return_value=None):
+    with patch("payments.config.load_config_json", return_value=None):
         cfg = PaymentsConfiguration()
     dto = cfg.get_config()
     assert dto.stripe.enabled is False

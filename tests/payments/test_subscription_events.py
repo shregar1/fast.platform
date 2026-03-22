@@ -1,6 +1,6 @@
 """Tests for subscription lifecycle event enum."""
 
-from fast_payments.subscription_events import (
+from payments.subscription_events import (
     SubscriptionLifecycleEvent,
     parse_subscription_lifecycle_event,
 )

@@ -1,6 +1,6 @@
 """Temporary dependency / service unavailability (HTTP 503)."""
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class ServiceUnavailableError(IError):

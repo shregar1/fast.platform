@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import pytest
 
-from fast_llm.budget import estimate_tokens_from_text
-from fast_llm.caching import anthropic_cached_text, anthropic_text_block, openai_system_message_cached
-from fast_llm.token_usage import TokenUsage
-from fast_llm.tools import normalize_tools_to_anthropic, normalize_tools_to_openai, tool_definition_from_openai
+from llm.budget import estimate_tokens_from_text
+from llm.caching import anthropic_cached_text, anthropic_text_block, openai_system_message_cached
+from llm.token_usage import TokenUsage
+from llm.tools import normalize_tools_to_anthropic, normalize_tools_to_openai, tool_definition_from_openai
 
 
 def test_estimate_tokens_empty() -> None:
@@ -54,7 +54,7 @@ def test_token_usage_anthropic_no_usage() -> None:
 
 
 def test_tool_definition_from_anthropic_non_dict_schema() -> None:
-    from fast_llm.tools import tool_definition_from_anthropic
+    from llm.tools import tool_definition_from_anthropic
 
     t = tool_definition_from_anthropic(
         {"name": "n", "description": "d", "input_schema": "not-a-dict"}

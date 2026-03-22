@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from fast_llm.streaming import iter_anthropic_message_stream, iter_llm_stream
+from llm.streaming import iter_anthropic_message_stream, iter_llm_stream
 
 
 @pytest.mark.asyncio

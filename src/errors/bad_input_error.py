@@ -2,7 +2,7 @@
 Bad input / validation errors (:class:`BadInputError`).
 """
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class BadInputError(IError):

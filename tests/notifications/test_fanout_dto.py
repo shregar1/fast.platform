@@ -2,13 +2,13 @@
 
 import pytest
 
-from fast_notifications.dto import (
+from notifications.dto import (
     EmailNotificationTarget,
     NotificationFanoutRequest,
     NotificationRetryPolicyDTO,
     PushNotificationTarget,
 )
-from fast_notifications.retry_policy import NotificationRetryPolicy
+from notifications.retry_policy import NotificationRetryPolicy
 
 
 def test_fanout_request_email_only():

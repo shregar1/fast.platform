@@ -4,10 +4,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from fast_db.url import get_database_url
+from db.url import get_database_url
 
 
-@patch("fast_db.url.DBConfiguration")
+@patch("db.url.DBConfiguration")
 def test_get_database_url_formatted(mock_cls):
     cfg = MagicMock()
     cfg.connection_string = "postgresql://{user_name}@{host}:{port}/{database}"
@@ -24,7 +24,7 @@ def test_get_database_url_formatted(mock_cls):
     assert "u" in url
 
 
-@patch("fast_db.url.DBConfiguration")
+@patch("db.url.DBConfiguration")
 def test_get_database_url_fallback_when_format_fails(mock_cls):
     cfg = MagicMock()
     cfg.connection_string = "postgresql://{bad_placeholder"
@@ -39,7 +39,7 @@ def test_get_database_url_fallback_when_format_fails(mock_cls):
     assert get_database_url() == cfg.connection_string
 
 
-@patch("fast_db.url.DBConfiguration")
+@patch("db.url.DBConfiguration")
 def test_get_database_url_raises_when_empty(mock_cls):
     cfg = MagicMock()
     cfg.connection_string = ""

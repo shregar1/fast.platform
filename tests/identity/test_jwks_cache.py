@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from fast_identity.jwks_cache import JWKSCache
+from identity.jwks_cache import JWKSCache
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def test_jwks_cache_fetch_and_ttl(monkeypatch, sample_jwks):
         mock_cm.__aenter__.return_value.get = AsyncMock(return_value=mock_resp)
         mock_cm.__aexit__.return_value = None
 
-        with patch("fast_identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
+        with patch("identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
             j1 = await cache.get_jwks()
             j2 = await cache.get_jwks()
         assert j1 == sample_jwks
@@ -43,7 +43,7 @@ def test_jwks_refresh_forces_fetch(sample_jwks):
         mock_cm.__aenter__.return_value.get = AsyncMock(return_value=mock_resp)
         mock_cm.__aexit__.return_value = None
 
-        with patch("fast_identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
+        with patch("identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
             await cache.get_jwks()
             await cache.refresh()
         assert mock_cm.__aenter__.return_value.get.await_count == 2
@@ -61,7 +61,7 @@ def test_jwks_non_object_json_raises():
         mock_cm.__aenter__.return_value.get = AsyncMock(return_value=mock_resp)
         mock_cm.__aexit__.return_value = None
 
-        with patch("fast_identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
+        with patch("identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
             with pytest.raises(ValueError, match="JSON object"):
                 await cache.get_jwks()
 

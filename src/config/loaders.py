@@ -24,7 +24,11 @@ from config.dto import (
     TelemetryConfigurationDTO,
     VectorsConfigurationDTO,
 )
-from config.dto_extras import JobsConfigurationDTO, RealtimeConfigurationDTO
+from config.dto_extras import (
+    FeatureFlagsConfigurationDTO,
+    JobsConfigurationDTO,
+    RealtimeConfigurationDTO,
+)
 
 
 def load_config_json(section: str, env_key: str) -> Optional[Dict[str, Any]]:
@@ -278,12 +282,29 @@ class RealtimeConfiguration:
         return self._dto
 
 
+class FeatureFlagsConfiguration:
+    _instance: Optional["FeatureFlagsConfiguration"] = None
+
+    def __new__(cls) -> "FeatureFlagsConfiguration":
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._dto = _validate(
+                FeatureFlagsConfigurationDTO,
+                load_config_json("feature_flags", "FEATURE_FLAGS"),
+            )
+        return cls._instance
+
+    def get_config(self) -> FeatureFlagsConfigurationDTO:
+        return self._dto
+
+
 __all__ = [
     "AnalyticsConfiguration",
     "CacheConfiguration",
     "DBConfiguration",
     "DatadogConfiguration",
     "EventsConfiguration",
+    "FeatureFlagsConfiguration",
     "IdentityProvidersConfiguration",
     "JobsConfiguration",
     "LLMConfiguration",

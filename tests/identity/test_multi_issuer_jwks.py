@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from fast_identity.multi_issuer_jwks import MultiIssuerJWKSCache
+from identity.multi_issuer_jwks import MultiIssuerJWKSCache
 
 
 def test_multi_issuer_routes():
@@ -42,7 +42,7 @@ def test_multi_issuer_routes():
         mock_cm.__aenter__.return_value.get = AsyncMock(side_effect=mock_get)
         mock_cm.__aexit__.return_value = None
 
-        with patch("fast_identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
+        with patch("identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
             assert await reg.get_jwks("https://old-idp/") == jwks_a
             assert await reg.get_jwks("https://new-idp/") == jwks_b
         assert "https://old-idp/jwks.json" in calls

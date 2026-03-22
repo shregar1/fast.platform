@@ -6,7 +6,7 @@ import pytest
 
 
 def test_serialize_protobuf_duck_typing():
-    from fast_kafka.serde import serialize_protobuf
+    from kafka.serde import serialize_protobuf
 
     class Msg:
         def SerializeToString(self):
@@ -16,14 +16,14 @@ def test_serialize_protobuf_duck_typing():
 
 
 def test_serialize_protobuf_rejects_plain_object():
-    from fast_kafka.serde import serialize_protobuf
+    from kafka.serde import serialize_protobuf
 
     with pytest.raises(TypeError):
         serialize_protobuf(object())
 
 
 def test_serialize_avro_when_fastavro_installed():
-    from fast_kafka.serde import serialize_avro_record
+    from kafka.serde import serialize_avro_record
 
     try:
         import fastavro  # noqa: F401
@@ -45,7 +45,7 @@ def test_serialize_avro_import_error_message():
     if importlib.util.find_spec("fastavro") is not None:
         pytest.skip("fastavro is installed")
 
-    from fast_kafka.serde import serialize_avro_record
+    from kafka.serde import serialize_avro_record
 
     with pytest.raises(RuntimeError, match="fastavro"):
         serialize_avro_record({"x": 1}, {"type": "record", "name": "E", "fields": []})

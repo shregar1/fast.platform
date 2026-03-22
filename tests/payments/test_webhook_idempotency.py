@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from fast_payments.webhook_idempotency import InMemoryWebhookIdempotencyStore
+from payments.webhook_idempotency import InMemoryWebhookIdempotencyStore
 
 
 async def _run():

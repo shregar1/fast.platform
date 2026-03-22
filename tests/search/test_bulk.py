@@ -6,8 +6,8 @@ from typing import Any, List, Optional
 
 import pytest
 
-from fast_search.base import ISearchBackend
-from fast_search.bulk import bulk_index_documents
+from search.base import ISearchBackend
+from search.bulk import bulk_index_documents
 
 
 class FlakyBackend(ISearchBackend):

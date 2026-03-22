@@ -8,7 +8,7 @@ import pytest
 
 
 def test_is_vector_store_abstract_methods_raise_not_implemented():
-    from fast_vectors.base import IVectorStore
+    from vectors.base import IVectorStore
 
     class DummyStore(IVectorStore):
         name = "dummy"
@@ -39,7 +39,7 @@ def test_is_vector_store_abstract_methods_raise_not_implemented():
 
 
 def test_build_vector_store_selection_and_import_error(monkeypatch):
-    from fast_vectors import base as vector_base
+    from vectors import base as vector_base
 
     class FakeCfg:
         def __init__(self):
@@ -192,9 +192,9 @@ def test_build_vector_store_selection_and_import_error(monkeypatch):
         return real_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-    sys.modules.pop("fast_vectors.qdrant_backend", None)
-    sys.modules.pop("fast_vectors.weaviate_backend", None)
-    sys.modules.pop("fast_vectors.pinecone_backend", None)
+    sys.modules.pop("vectors.qdrant_backend", None)
+    sys.modules.pop("vectors.weaviate_backend", None)
+    sys.modules.pop("vectors.pinecone_backend", None)
 
     assert vector_base.build_vector_store("qdrant") is None
     assert vector_base.build_vector_store("weaviate") is None
@@ -202,7 +202,7 @@ def test_build_vector_store_selection_and_import_error(monkeypatch):
 
 
 def test_qdrant_backend_upsert_query_and_delete_with_filter(monkeypatch):
-    from fast_vectors.qdrant_backend import QdrantVectorStore
+    from vectors.qdrant_backend import QdrantVectorStore
 
     if "qdrant_client" not in sys.modules:
         fake_qdrant = types.ModuleType("qdrant_client")
@@ -264,7 +264,7 @@ def test_qdrant_backend_upsert_query_and_delete_with_filter(monkeypatch):
 
 
 def test_weaviate_backend_upsert_query_and_delete(monkeypatch):
-    from fast_vectors.weaviate_backend import WeaviateVectorStore
+    from vectors.weaviate_backend import WeaviateVectorStore
 
     if "weaviate" not in sys.modules:
         fake_weaviate = types.ModuleType("weaviate")
@@ -335,7 +335,7 @@ def test_weaviate_backend_upsert_query_and_delete(monkeypatch):
 
 
 def test_pinecone_backend_upsert_query_and_delete(monkeypatch):
-    from fast_vectors.pinecone_backend import PineconeVectorStore
+    from vectors.pinecone_backend import PineconeVectorStore
 
     if "pinecone" not in sys.modules:
         fake_pinecone = types.ModuleType("pinecone")
@@ -357,7 +357,7 @@ def test_pinecone_backend_upsert_query_and_delete(monkeypatch):
 
 
 def test_build_vector_store_unknown_backend_returns_none(monkeypatch):
-    from fast_vectors import base as vector_base
+    from vectors import base as vector_base
 
     class FakeCfg:
         def __init__(self):
@@ -370,9 +370,9 @@ def test_build_vector_store_unknown_backend_returns_none(monkeypatch):
 
 
 def test_vector_backend_constructors_raise_runtime_error_when_dependency_missing(monkeypatch):
-    from fast_vectors.pinecone_backend import PineconeVectorStore
-    from fast_vectors.qdrant_backend import QdrantVectorStore
-    from fast_vectors.weaviate_backend import WeaviateVectorStore
+    from vectors.pinecone_backend import PineconeVectorStore
+    from vectors.qdrant_backend import QdrantVectorStore
+    from vectors.weaviate_backend import WeaviateVectorStore
 
     real_import = builtins.__import__
 
@@ -392,7 +392,7 @@ def test_vector_backend_constructors_raise_runtime_error_when_dependency_missing
 
 
 def test_weaviate_backend_api_key_uses_cloud_connection():
-    from fast_vectors.weaviate_backend import WeaviateVectorStore
+    from vectors.weaviate_backend import WeaviateVectorStore
 
     calls: dict[str, Any] = {}
 

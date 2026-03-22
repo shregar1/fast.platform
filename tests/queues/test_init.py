@@ -1,8 +1,8 @@
-"""Tests for fast_queues."""
+"""Tests for queues."""
 
 from queues.broker import QueueMessage
 
-from fast_queues import (
+from queues import (
     DEFAULT_DLQ_SUFFIX,
     ENVELOPE_VERSION_KEY,
     IQueueBackend,
@@ -15,12 +15,12 @@ from fast_queues import (
     prepare_dlq_message,
     primary_queue_from_dlq,
 )
-from fast_queues.dlq import (
+from queues.dlq import (
     primary_queue_from_quarantine,
     prepare_quarantine_message,
     quarantine_name,
 )
-from fast_queues.envelope import should_quarantine as should_quarantine_fn
+from queues.envelope import should_quarantine as should_quarantine_fn
 
 
 def test_imports():
@@ -62,6 +62,6 @@ def test_imports():
     assert not QueueMessageEnvelope(failure_count=0).should_quarantine(0)
     assert not should_quarantine_fn(5, 0)
 
-    import fast_queues as fq
+    import queues as fq
 
     assert fq.__version__ == "0.3.0"

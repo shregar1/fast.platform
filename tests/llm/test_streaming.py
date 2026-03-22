@@ -7,7 +7,7 @@ from typing import Any, AsyncIterator
 
 import pytest
 
-from fast_llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
+from llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
 
 
 async def _mock_openai_stream() -> AsyncIterator[Any]:

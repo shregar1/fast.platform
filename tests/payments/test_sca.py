@@ -3,7 +3,7 @@
 import asyncio
 from typing import Any, Dict, Optional
 
-from fast_payments.sca import IStrongCustomerAuthenticationGateway, SCAChallengeResult
+from payments.sca import IStrongCustomerAuthenticationGateway, SCAChallengeResult
 
 
 class StubSCAGateway:

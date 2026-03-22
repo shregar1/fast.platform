@@ -2,7 +2,7 @@
 
 import pytest
 
-from fast_webrtc.rooms import InMemoryRoomRegistry
+from webrtc.rooms import InMemoryRoomRegistry
 
 
 def test_registry_join_leave_and_capacity():

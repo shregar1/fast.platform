@@ -1,14 +1,14 @@
-"""Alignment tests with :mod:`fast_webhooks` (optional dependency in dev/CI)."""
+"""Alignment tests with :mod:`webhooks` (optional dependency in dev/CI)."""
 
 import pytest
 
-pytest.importorskip("fast_webhooks")
+pytest.importorskip("webhooks")
 
-from fast_notifications import NotificationRetryPolicy, as_webhook_retry_policy
+from notifications import NotificationRetryPolicy, as_webhook_retry_policy
 
 
 def test_notification_retry_policy_defaults_match_webhooks():
-    from fast_webhooks.delivery import RetryPolicy as W
+    from webhooks.delivery import RetryPolicy as W
 
     n = NotificationRetryPolicy()
     w = W()
@@ -20,7 +20,7 @@ def test_notification_retry_policy_defaults_match_webhooks():
 
 
 def test_from_webhook_retry_policy():
-    from fast_webhooks.delivery import RetryPolicy as W
+    from webhooks.delivery import RetryPolicy as W
 
     w = W(max_attempts=5, jitter_ratio=0.1)
     n = NotificationRetryPolicy.from_webhook_retry_policy(w)

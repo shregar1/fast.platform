@@ -9,7 +9,7 @@ import pytest
 
 @pytest.mark.asyncio
 async def test_redis_counters_increment_decrement_negative_fix() -> None:
-    from fast_channels.subscriber_counters import RedisSubscriberCounters
+    from channels.subscriber_counters import RedisSubscriberCounters
 
     client = MagicMock()
     client.incr = AsyncMock(return_value=1)
@@ -27,7 +27,7 @@ async def test_redis_counters_increment_decrement_negative_fix() -> None:
 
 @pytest.mark.asyncio
 async def test_redis_counters_count_and_all_counts() -> None:
-    from fast_channels.subscriber_counters import RedisSubscriberCounters
+    from channels.subscriber_counters import RedisSubscriberCounters
 
     client = MagicMock()
     client.incr = AsyncMock(return_value=1)
@@ -43,10 +43,10 @@ async def test_redis_counters_count_and_all_counts() -> None:
 
 
 def test_redis_unavailable_raises() -> None:
-    import fast_channels.subscriber_counters as sc
+    import channels.subscriber_counters as sc
 
     with patch.object(sc, "aioredis", None):
-        from fast_channels.subscriber_counters import RedisSubscriberCounters
+        from channels.subscriber_counters import RedisSubscriberCounters
 
         with pytest.raises(RuntimeError, match="redis"):
             RedisSubscriberCounters(MagicMock())

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from fast_analytics.base import IAnalyticsBackend
-from fast_analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
+from analytics.base import IAnalyticsBackend
+from analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
 
 
 class MemBackend(IAnalyticsBackend):

@@ -2,7 +2,7 @@
 Resource not found errors (:class:`NotFoundError`).
 """
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class NotFoundError(IError):

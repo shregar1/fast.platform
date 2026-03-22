@@ -2,7 +2,7 @@
 
 import time
 
-from fast_webrtc.signaling import WebRTCSignalingService
+from webrtc.signaling import WebRTCSignalingService
 
 
 def test_no_ttl_backward_compatible():

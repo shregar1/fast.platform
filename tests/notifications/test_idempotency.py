@@ -2,7 +2,7 @@
 
 import asyncio
 
-from fast_notifications.idempotency import (
+from notifications.idempotency import (
     InMemoryNotificationIdempotencyStore,
     RedisNotificationIdempotencyStore,
     make_idempotency_key,

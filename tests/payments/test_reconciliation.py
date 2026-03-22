@@ -2,7 +2,7 @@
 
 from datetime import date
 
-from fast_payments.reconciliation import (
+from payments.reconciliation import (
     ReconciliationLineItem,
     ReconciliationMismatchKind,
     ReconciliationReport,

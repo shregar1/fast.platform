@@ -1,10 +1,10 @@
-"""Tests for fast_vectors."""
+"""Tests for vectors."""
 
 import pytest
 
 
 def test_imports():
-    from fast_vectors import (
+    from vectors import (
         IVectorStore,
         VectorsConfiguration,
         VectorsConfigurationDTO,

@@ -2,7 +2,7 @@
 
 from queues.broker import QueueMessage
 
-from fast_queues.dlq import (
+from queues.dlq import (
     DEFAULT_QUARANTINE_SUFFIX,
     dlq_name,
     is_dlq_name,

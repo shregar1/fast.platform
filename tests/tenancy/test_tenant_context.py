@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from fast_tenancy import (
+from tenancy import (
     Tenant,
     TenantConfig,
     TenantContext,

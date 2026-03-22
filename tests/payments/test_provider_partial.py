@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, Optional
 
-from fast_payments.base import IPaymentGateway, IProvider
+from payments.base import IPaymentGateway, IProvider
 
 
 class StubGateway(IPaymentGateway):

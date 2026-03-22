@@ -9,7 +9,7 @@ import pytest
 
 
 def test_is_storage_backend_abstract_methods_and_presigned_url():
-    from fast_storage.base import IStorageBackend
+    from storage.base import IStorageBackend
 
     class DummyBackend(IStorageBackend):
         name = "dummy"
@@ -51,7 +51,7 @@ def test_is_storage_backend_abstract_methods_and_presigned_url():
 
 
 def test_local_storage_backend_upload_download_delete(tmp_path):
-    from fast_storage.local_backend import LocalStorageBackend
+    from storage.local_backend import LocalStorageBackend
 
     backend = LocalStorageBackend(base_dir=str(tmp_path / "storage"), base_url="https://example.com/files")
     url = backend.upload("a/b.txt", b"hello", content_type="text/plain")
@@ -65,7 +65,7 @@ def test_local_storage_backend_upload_download_delete(tmp_path):
 
 
 def test_local_storage_exists_head(tmp_path):
-    from fast_storage.local_backend import LocalStorageBackend
+    from storage.local_backend import LocalStorageBackend
 
     backend = LocalStorageBackend(base_dir=str(tmp_path / "storage"))
     assert backend.exists("missing") is False
@@ -80,7 +80,7 @@ def test_local_storage_exists_head(tmp_path):
 
 
 def test_storage_factory_selects_local_backend(monkeypatch, tmp_path):
-    from fast_storage import base as storage_base
+    from storage import base as storage_base
 
     class FakeCfg:
         def __init__(self):
@@ -96,7 +96,7 @@ def test_storage_factory_selects_local_backend(monkeypatch, tmp_path):
 
 
 def test_build_storage_backend_import_error_returns_none(monkeypatch):
-    from fast_storage import base as storage_base
+    from storage import base as storage_base
 
     class FakeCfg:
         def __init__(self):
@@ -115,9 +115,9 @@ def test_build_storage_backend_import_error_returns_none(monkeypatch):
         return real_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-    sys.modules.pop("fast_storage.s3_backend", None)
-    sys.modules.pop("fast_storage.gcs_backend", None)
-    sys.modules.pop("fast_storage.azure_backend", None)
+    sys.modules.pop("storage.s3_backend", None)
+    sys.modules.pop("storage.gcs_backend", None)
+    sys.modules.pop("storage.azure_backend", None)
 
     assert storage_base.build_storage_backend("s3") is None
     assert storage_base.build_storage_backend("gcs") is None
@@ -125,10 +125,10 @@ def test_build_storage_backend_import_error_returns_none(monkeypatch):
 
 
 def test_storage_factory_success_builds_s3_gcs_and_azure(monkeypatch, tmp_path):
-    from fast_storage import base as storage_base
-    from fast_storage.s3_backend import S3StorageBackend
-    from fast_storage.gcs_backend import GCSStorageBackend
-    from fast_storage.azure_backend import AzureBlobStorageBackend
+    from storage import base as storage_base
+    from storage.s3_backend import S3StorageBackend
+    from storage.gcs_backend import GCSStorageBackend
+    from storage.azure_backend import AzureBlobStorageBackend
 
     # Inject minimal fakes for backend constructors.
     fake_botocore_config = types.ModuleType("botocore.config")
@@ -193,7 +193,7 @@ def test_storage_factory_success_builds_s3_gcs_and_azure(monkeypatch, tmp_path):
 
 
 def test_s3_backend_upload_download_delete_and_presigned_url(monkeypatch):
-    from fast_storage.s3_backend import S3StorageBackend
+    from storage.s3_backend import S3StorageBackend
 
     class FakeBody:
         def __init__(self, data: bytes):
@@ -304,7 +304,7 @@ def test_s3_backend_upload_download_delete_and_presigned_url(monkeypatch):
 
 
 def test_s3_backend_dependency_missing_raises_runtime_error(monkeypatch):
-    from fast_storage.s3_backend import S3StorageBackend
+    from storage.s3_backend import S3StorageBackend
 
     real_import = builtins.__import__
 
@@ -319,7 +319,7 @@ def test_s3_backend_dependency_missing_raises_runtime_error(monkeypatch):
 
 
 def test_gcs_backend_upload_download_delete_and_presigned_url(monkeypatch):
-    from fast_storage.gcs_backend import GCSStorageBackend
+    from storage.gcs_backend import GCSStorageBackend
 
     class FakeBlob:
         def __init__(self, key: str):
@@ -410,7 +410,7 @@ def test_gcs_backend_upload_download_delete_and_presigned_url(monkeypatch):
 
 
 def test_gcs_backend_dependency_missing_raises_runtime_error(monkeypatch):
-    from fast_storage.gcs_backend import GCSStorageBackend
+    from storage.gcs_backend import GCSStorageBackend
 
     real_import = builtins.__import__
 
@@ -425,7 +425,7 @@ def test_gcs_backend_dependency_missing_raises_runtime_error(monkeypatch):
 
 
 def test_azure_blob_backend_upload_download_delete(monkeypatch, tmp_path):
-    from fast_storage.azure_backend import AzureBlobStorageBackend
+    from storage.azure_backend import AzureBlobStorageBackend
 
     class FakeBlobClient:
         def __init__(self, key: str):
@@ -508,7 +508,7 @@ def test_azure_blob_backend_upload_download_delete(monkeypatch, tmp_path):
 
 
 def test_azure_blob_backend_account_url_branch_and_missing_args(monkeypatch):
-    from fast_storage.azure_backend import AzureBlobStorageBackend
+    from storage.azure_backend import AzureBlobStorageBackend
 
     class FakeBlobServiceClient:
         def __init__(self, *args, **kwargs):
@@ -546,7 +546,7 @@ def test_azure_blob_backend_account_url_branch_and_missing_args(monkeypatch):
 
 
 def test_azure_blob_backend_dependency_missing_raises_runtime_error(monkeypatch):
-    from fast_storage.azure_backend import AzureBlobStorageBackend
+    from storage.azure_backend import AzureBlobStorageBackend
 
     real_import = builtins.__import__
 

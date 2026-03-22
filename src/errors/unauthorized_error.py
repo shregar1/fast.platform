@@ -1,6 +1,6 @@
 """Authentication failures (HTTP 401)."""
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class UnauthorizedError(IError):

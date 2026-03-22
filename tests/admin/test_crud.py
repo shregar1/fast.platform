@@ -13,9 +13,9 @@ from sqlalchemy import String, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from fast_admin.abstractions import AuditLogEntry, IAuditLogRepository
-from fast_admin.audit_hooks import audit_repository_hook
-from fast_admin.crud import crud_router_from_model
+from admin.abstractions import AuditLogEntry, IAuditLogRepository
+from admin.audit_hooks import audit_repository_hook
+from admin.crud import crud_router_from_model
 
 
 class Base(DeclarativeBase):

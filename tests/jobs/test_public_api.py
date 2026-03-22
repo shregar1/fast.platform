@@ -6,7 +6,7 @@ import importlib
 
 import pytest
 
-PACKAGE = "fast_jobs"
+PACKAGE = "jobs"
 
 
 def test_public_exports_resolve():

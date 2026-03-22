@@ -14,8 +14,8 @@ class FakeWebSocket:
 
 
 def test_run_heartbeat_loop_stops_via_event():
-    from fast_channels.heartbeat import run_heartbeat_loop
-    from fast_channels.hub import ChannelsHub
+    from channels.heartbeat import run_heartbeat_loop
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     stop = asyncio.Event()
@@ -38,8 +38,8 @@ def test_run_heartbeat_loop_stops_via_event():
 
 
 def test_run_heartbeat_loop_sends_ping_and_can_sweep():
-    from fast_channels.heartbeat import run_heartbeat_loop
-    from fast_channels.hub import ChannelsHub
+    from channels.heartbeat import run_heartbeat_loop
+    from channels.hub import ChannelsHub
 
     hub = ChannelsHub()
     ws = FakeWebSocket()

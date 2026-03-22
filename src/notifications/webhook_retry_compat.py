@@ -19,7 +19,7 @@ def as_webhook_retry_policy(policy: "NotificationRetryPolicy") -> Any:
     Requires the ``fastmvc-webhooks`` package.
     """
     try:
-        from fast_webhooks.delivery import RetryPolicy as WebhookRetryPolicy
+        from webhooks.delivery import RetryPolicy as WebhookRetryPolicy
     except ImportError as exc:  # pragma: no cover - exercised when webhooks missing
         raise ImportError(
             "fastmvc-webhooks is required for as_webhook_retry_policy(); "

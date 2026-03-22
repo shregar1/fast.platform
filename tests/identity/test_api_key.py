@@ -1,6 +1,6 @@
 """Tests for API key hashing and store."""
 
-from fast_identity.api_key import (
+from identity.api_key import (
     InMemoryHashedApiKeyStore,
     hash_api_key_sha256_hex,
     verify_api_key_sha256_hex,

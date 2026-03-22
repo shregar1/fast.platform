@@ -8,12 +8,12 @@ from unittest.mock import MagicMock, patch
 import pytest
 import jsonschema
 
-from fast_analytics.buffer import BufferedAnalyticsBackend
-from fast_analytics.http_sink import HttpSinkAnalyticsBackend
-from fast_analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
-from fast_analytics.rate_limit import RateLimitedAnalyticsBackend
-from fast_analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from fast_analytics.validating_backend import ValidatingAnalyticsBackend
+from analytics.buffer import BufferedAnalyticsBackend
+from analytics.http_sink import HttpSinkAnalyticsBackend
+from analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
+from analytics.rate_limit import RateLimitedAnalyticsBackend
+from analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from analytics.validating_backend import ValidatingAnalyticsBackend
 
 
 def test_parse_versioned_event_name_ok() -> None:

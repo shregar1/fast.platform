@@ -1,7 +1,7 @@
 """Tests for WebRTC signaling service."""
 
-from fast_webrtc.consent import StaticDeniedPeers
-from fast_webrtc.signaling import WebRTCSignalingService
+from webrtc.consent import StaticDeniedPeers
+from webrtc.signaling import WebRTCSignalingService
 
 
 def test_join_room():

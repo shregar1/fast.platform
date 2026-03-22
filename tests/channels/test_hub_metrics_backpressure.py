@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 
-from fast_channels.hub import ChannelsHub
-from fast_channels.metrics import InMemoryChannelMetrics
+from channels.hub import ChannelsHub
+from channels.metrics import InMemoryChannelMetrics
 
 
 class FakeWebSocket:

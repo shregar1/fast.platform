@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 
-from fast_llm.token_usage import TokenUsage
+from llm.token_usage import TokenUsage
 
 
 def test_from_openai_completion() -> None:

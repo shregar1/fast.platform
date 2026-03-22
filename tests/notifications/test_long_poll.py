@@ -3,7 +3,7 @@
 import asyncio
 from unittest.mock import patch
 
-from fast_notifications.service import NotificationsService
+from notifications.service import NotificationsService
 
 
 async def _long_poll_returns_quickly_when_items_exist():

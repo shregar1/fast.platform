@@ -1,6 +1,6 @@
 """Tests for JSON envelope DTO and schema helper."""
 
-from fast_kafka.dto import KafkaJsonEnvelope, kafka_json_envelope_json_schema
+from kafka.dto import KafkaJsonEnvelope, kafka_json_envelope_json_schema
 
 
 def test_kafka_json_envelope_roundtrip():

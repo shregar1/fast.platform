@@ -1,6 +1,6 @@
 """Tests for DLQ header helpers."""
 
-from fast_kafka.dlq import (
+from kafka.dlq import (
     DLQ_HEADER_ERROR,
     DLQ_HEADER_OFFSET,
     DLQ_HEADER_ORIGINAL_TOPIC,

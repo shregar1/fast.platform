@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 
-from fast_webhooks import RetryPolicy, deliver_webhook
+from webhooks import RetryPolicy, deliver_webhook
 
 
 @pytest.mark.asyncio
@@ -19,7 +19,7 @@ async def test_deliver_webhook_success(monkeypatch):
     cm.__aenter__ = AsyncMock(return_value=inner)
     cm.__aexit__ = AsyncMock(return_value=None)
     monkeypatch.setattr(
-        "fast_webhooks.delivery.httpx.AsyncClient",
+        "webhooks.delivery.httpx.AsyncClient",
         lambda *a, **k: cm,
     )
     code, err = await deliver_webhook(
@@ -43,7 +43,7 @@ async def test_deliver_webhook_nonretryable_400(monkeypatch):
     cm.__aenter__ = AsyncMock(return_value=inner)
     cm.__aexit__ = AsyncMock(return_value=None)
     monkeypatch.setattr(
-        "fast_webhooks.delivery.httpx.AsyncClient",
+        "webhooks.delivery.httpx.AsyncClient",
         lambda *a, **k: cm,
     )
     code, err = await deliver_webhook(

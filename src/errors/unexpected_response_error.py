@@ -2,7 +2,7 @@
 Unexpected failures (:class:`UnexpectedResponseError`).
 """
 
-from fast_errors.error import IError
+from .error import IError
 
 
 class UnexpectedResponseError(IError):

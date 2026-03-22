@@ -13,8 +13,8 @@ pytest.importorskip("openai")
 
 @pytest.mark.asyncio
 async def test_instrumented_openai_emits_usage() -> None:
-    from fast_llm.instrumented import InstrumentedOpenAILLMService
-    from fast_llm.token_usage import TokenUsage
+    from llm.instrumented import InstrumentedOpenAILLMService
+    from llm.token_usage import TokenUsage
 
     usage_obj = types.SimpleNamespace(prompt_tokens=1, completion_tokens=2, total_tokens=3)
     msg = types.SimpleNamespace(content="ok")
