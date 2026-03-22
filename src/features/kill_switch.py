@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 from typing import Any, Optional
 
-from .base import IFeatureFlagsClient
+from .abstraction import IFeatureFlagsClient
 from .evaluation import FlagEvaluation, FlagEvaluationReason
 
 

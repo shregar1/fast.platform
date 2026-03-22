@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from .base import IFeatureFlagsClient
+from .abstraction import IFeatureFlagsClient
 from .evaluation import FlagEvaluation, FlagEvaluationReason
 
 

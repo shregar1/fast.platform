@@ -1,6 +1,7 @@
-"""API keys, webhook verification, and field encryption."""
+"""API keys, webhook verification, field encryption, and LLM provider key Fernet helpers."""
 
-from fast_security.api_keys import (
+from .abstraction import ISecurity
+from .api_keys import (
     APIKey,
     APIKeyManager,
     APIKeyStore,
@@ -8,13 +9,19 @@ from fast_security.api_keys import (
     InMemoryAPIKeyStore,
     require_api_key,
 )
-from fast_security.encryption import (
+from .encryption import (
     EncryptedValue,
     FieldEncryption,
     HashingUtility,
     KeyRotation,
 )
-from fast_security.webhooks import (
+from .llm_provider_keys import (
+    decrypt_api_key,
+    encrypt_api_key,
+    last_four,
+    safe_decrypt,
+)
+from .webhooks import (
     GITHUB_WEBHOOK_CONFIG,
     SLACK_WEBHOOK_CONFIG,
     STRIPE_WEBHOOK_CONFIG,
@@ -25,6 +32,7 @@ from fast_security.webhooks import (
 )
 
 __all__ = [
+    "ISecurity",
     "APIKey",
     "APIKeyManager",
     "APIKeyStore",
@@ -41,5 +49,9 @@ __all__ = [
     "WebhookConfig",
     "WebhookVerificationError",
     "WebhookVerifier",
+    "decrypt_api_key",
+    "encrypt_api_key",
+    "last_four",
     "require_api_key",
+    "safe_decrypt",
 ]

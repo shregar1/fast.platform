@@ -8,6 +8,8 @@ from typing import Any, Optional
 
 from pydantic import BaseModel
 
+from .abstraction import IAdmin
+
 
 # ----- Schemas (optional DTOs for admin API) -----
 
@@ -48,7 +50,7 @@ class AuditLogEntry(BaseModel):
 # ----- Repository interfaces -----
 
 
-class IAdminUserRepository(ABC):
+class IAdminUserRepository(IAdmin, ABC):
     """Admin view over users (list, toggle active, assign roles)."""
 
     @abstractmethod
@@ -75,7 +77,7 @@ class IAdminUserRepository(ABC):
         raise NotImplementedError
 
 
-class IAdminRoleRepository(ABC):
+class IAdminRoleRepository(IAdmin, ABC):
     """Admin CRUD for roles."""
 
     @abstractmethod
@@ -99,7 +101,7 @@ class IAdminRoleRepository(ABC):
         raise NotImplementedError
 
 
-class IAuditLogRepository(ABC):
+class IAuditLogRepository(IAdmin, ABC):
     """Append-only audit log for admin review."""
 
     @abstractmethod

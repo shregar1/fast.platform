@@ -1,6 +1,12 @@
 """
-fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama) for FastMVC.
+fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama, Groq, Mistral, Gemini) for FastMVC.
 """
+
+from errors import (
+    LLMDependencyError,
+    LLMFeatureNotAvailableError,
+    UnsupportedLLMProviderError,
+)
 
 from fast_platform import LLMConfiguration, LLMConfigurationDTO
 
@@ -17,15 +23,31 @@ from .caching import (
     openai_content_part_text,
     openai_system_message_cached,
 )
-from .instrumented import InstrumentedAnthropicLLMService, InstrumentedOpenAILLMService
+from .constants import GROQ_DEFAULT_BASE_URL, MISTRAL_DEFAULT_BASE_URL
+from .instrumented import (
+    InstrumentedAnthropicLLMService,
+    InstrumentedGeminiLLMService,
+    InstrumentedGroqLLMService,
+    InstrumentedMistralLLMService,
+    InstrumentedOpenAILLMService,
+)
 from .providers import (
-    ILLMService,
     AnthropicLLMService,
+    GeminiLLMService,
+    GroqLLMService,
+    ILLMService,
+    MistralLLMService,
     OllamaLLMService,
     OpenAILLMService,
     build_llm_service,
 )
-from .streaming import StreamChunk, iter_anthropic_message_stream, iter_llm_stream, iter_openai_chat_stream
+from .streaming import (
+    OpenAICompatibleStreamProvider,
+    StreamChunk,
+    iter_anthropic_message_stream,
+    iter_llm_stream,
+    iter_openai_chat_stream,
+)
 from .token_usage import TokenUsage, TokenUsageCallback
 from .tools import (
     ToolDefinition,
@@ -38,15 +60,27 @@ from .tools import (
 )
 
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
+    "GROQ_DEFAULT_BASE_URL",
     "ILLMService",
+    "LLMDependencyError",
+    "LLMFeatureNotAvailableError",
+    "MISTRAL_DEFAULT_BASE_URL",
+    "UnsupportedLLMProviderError",
     "InstrumentedAnthropicLLMService",
+    "InstrumentedGeminiLLMService",
+    "InstrumentedGroqLLMService",
+    "InstrumentedMistralLLMService",
     "InstrumentedOpenAILLMService",
     "OpenAILLMService",
     "AnthropicLLMService",
+    "GeminiLLMService",
+    "GroqLLMService",
+    "MistralLLMService",
     "OllamaLLMService",
+    "OpenAICompatibleStreamProvider",
     "StreamChunk",
     "TokenUsage",
     "TokenUsageCallback",

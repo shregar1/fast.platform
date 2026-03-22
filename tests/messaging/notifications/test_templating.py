@@ -1,0 +1,12 @@
+"""Tests for Jinja2 templating hook."""
+from tests.messaging.notifications.abstraction import INotificationTests
+
+import pytest
+pytest.importorskip('jinja2')
+
+class TestTemplating(INotificationTests):
+
+    def test_render_jinja_string(self):
+        from notifications.templating import render_jinja_string
+        out = render_jinja_string('Hello {{ name }}', context={'name': 'World'})
+        assert out == 'Hello World'

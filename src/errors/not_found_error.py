@@ -2,7 +2,7 @@
 Resource not found errors (:class:`NotFoundError`).
 """
 
-from .error import IError
+from .abstraction import IError
 
 
 class NotFoundError(IError):

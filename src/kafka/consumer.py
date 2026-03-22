@@ -11,7 +11,7 @@ from aiokafka.structs import TopicPartition
 from loguru import logger
 
 from .config_loader import KafkaConfiguration
-from .idempotent import DedupeStore, InMemoryDedupeStore, default_dedupe_key
+from .idempotent import DedupeStore, InMemoryDedupeStore, KafkaDedupeKeys
 
 
 class KafkaConsumer:
@@ -70,7 +70,7 @@ class KafkaConsumer:
                 "loop_idempotent requires enable_auto_commit=False in Kafka configuration"
             )
         store = dedupe_store or InMemoryDedupeStore()
-        key_fn = dedupe_key or default_dedupe_key
+        key_fn = dedupe_key or KafkaDedupeKeys.default_dedupe_key
 
         async for msg in self._consumer:
             dkey = key_fn(msg.value)

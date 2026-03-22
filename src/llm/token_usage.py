@@ -19,14 +19,20 @@ class TokenUsage:
     provider: str = ""
 
     @classmethod
-    def from_openai_completion(cls, resp: Any, *, model: str = "") -> "TokenUsage":
+    def from_openai_completion(
+        cls,
+        resp: Any,
+        *,
+        model: str = "",
+        provider: str = "openai",
+    ) -> "TokenUsage":
         u = getattr(resp, "usage", None)
         if u is None:
-            return cls(0, 0, 0, model=model, provider="openai")
+            return cls(0, 0, 0, model=model, provider=provider)
         pt = int(getattr(u, "prompt_tokens", 0) or 0)
         ct = int(getattr(u, "completion_tokens", 0) or 0)
         tt = int(getattr(u, "total_tokens", 0) or (pt + ct))
-        return cls(pt, ct, tt, model=model, provider="openai")
+        return cls(pt, ct, tt, model=model, provider=provider)
 
     @classmethod
     def from_anthropic_message(cls, resp: Any, *, model: str = "") -> "TokenUsage":
@@ -36,3 +42,13 @@ class TokenUsage:
         it = int(getattr(u, "input_tokens", 0) or 0)
         ot = int(getattr(u, "output_tokens", 0) or 0)
         return cls(it, ot, it + ot, model=model, provider="anthropic")
+
+    @classmethod
+    def from_gemini_response(cls, resp: Any, *, model: str = "") -> "TokenUsage":
+        u = getattr(resp, "usage_metadata", None)
+        if u is None:
+            return cls(0, 0, 0, model=model, provider="gemini")
+        pt = int(getattr(u, "prompt_token_count", 0) or 0)
+        ct = int(getattr(u, "candidates_token_count", 0) or 0)
+        tt = int(getattr(u, "total_token_count", 0) or (pt + ct))
+        return cls(pt, ct, tt, model=model, provider="gemini")

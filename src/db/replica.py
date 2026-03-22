@@ -2,7 +2,7 @@
 Read-replica URL and engine helpers (optional second connection for read-only work).
 
 Configure ``read_replica_connection_string`` (and optional ``read_replica_host`` /
-``read_replica_port``) on :class:`fast_platform.config.dto.DBConfigurationDTO`.
+``read_replica_port``) on :class:`fast_platform.dtos.DBConfigurationDTO`.
 """
 
 from __future__ import annotations

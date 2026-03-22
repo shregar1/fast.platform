@@ -5,11 +5,12 @@ Provides a very thin wrapper around `boto3.resource("dynamodb")` that
 implements the `IKeyValueStore` interface for single-table style access.
 """
 
+from time import time
 from typing import Any, Dict, Optional
 
 from loguru import logger
 
-from fast_datastores.interfaces import IKeyValueStore
+from .interfaces import IKeyValueStore
 
 try:  # Optional dependency
     import boto3  # type: ignore
@@ -111,9 +112,7 @@ class DynamoKeyValueStore(IKeyValueStore):
             raise RuntimeError("DynamoKeyValueStore is not connected.")
         # Default TTL attribute name commonly used in DynamoDB examples.
         # Callers are free to override this class if they use a different name.
-        from time import time as _time  # Local import to avoid polluting globals
-
-        expires_at = int(_time()) + ttl_seconds
+        expires_at = int(time()) + ttl_seconds
         self._table.update_item(
             Key={"pk": key},
             UpdateExpression="SET #ttl = :ttl",

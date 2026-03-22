@@ -8,8 +8,10 @@ Concrete implementations live in this package (Redis, Mongo, Cassandra, …).
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional
 
+from .abstraction import IDatastores
 
-class IDataStore(ABC):
+
+class IDataStore(IDatastores, ABC):
     """
     Base interface for any data store.
 

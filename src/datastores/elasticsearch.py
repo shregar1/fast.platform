@@ -9,7 +9,7 @@ from typing import Any, Dict, Iterable, Optional
 
 from loguru import logger
 
-from fast_datastores.interfaces import ISearchStore
+from .interfaces import ISearchStore
 
 try:  # Optional dependency
     from elasticsearch import Elasticsearch  # type: ignore

@@ -1,56 +1,65 @@
-"""Shared utilities for fast-platform modules."""
+"""
+Public re-exports for :mod:`utils` — shared helpers used across fast-platform.
 
-from .optional_imports import optional_import
+This package aggregates small, stateless **utility** types (hashing, media sniffing,
+archives, time, metrics, etc.). Prefer importing concrete classes from their
+submodules when you only need one area; import from :mod:`utils` when you want a
+stable barrel of names for application code or tests.
 
-from .clock import Clock, FrozenClock, SystemClock, get_clock, set_clock
-from .currency_utils import currency_exponent, major_to_minor, minor_to_major
-from .decimal_utils import quantize_decimal, round_money, to_decimal
-from .idempotency import make_idempotency_key, sha256_hex, stable_json_dumps
-from .nutrition import kcal_from_macros
-from .retry import retry_async
+**Optional dependencies:** several utilities (e.g. :class:`~utils.media.pdf.PdfUtility`,
+:class:`~utils.media.image.ImageUtility` dimensions) require extras—see
+``pyproject.toml`` optional dependency groups such as ``utils-pdf`` and ``pillow``.
+"""
+
+from .abstraction import IUtility
+from .archive import ArchiveUtility
+from .media.audio import AudioUtility
+from .clock import Clock, ClockRegistry, FrozenClock, SystemClock
+from .currency import CurrencyUtility
+from .decimal import DecimalUtility
+from .digests import Digests
+from .hashing import HashingUtility
+from .html import HtmlUtility
+from .idempotency import Idempotency
+from .media.image import ImageUtility
 from .metrics import Counter, Histogram, MetricsRegistry
-from .time_utils import format_iso8601, parse_datetime, to_utc
-from .request_id_context import get_request_id, reset_request_id, set_request_id
-from .structured_log import (
-    StructuredLogFields,
-    StructuredLogSink,
-    build_structured_record,
-    format_json_log_line,
-    merge_log_fields,
-    utc_timestamp_iso,
-)
+from .nutrition import NutritionUtility
+from .optional_imports import OptionalImports
+from .media.pdf import PdfUtility
+from .request_id_context import RequestIdContext
+from .retry import AsyncRetry
+from .structured_log import StructuredLog, StructuredLogFields, StructuredLogSink
+from .media.text import TextUtility
+from .time import TimeUtility
+from .media.video import VideoUtility
 
 __all__ = [
+    "IUtility",
+    "ArchiveUtility",
+    "AudioUtility",
+    "Digests",
+    "HashingUtility",
+    "HtmlUtility",
+    "Idempotency",
+    "ImageUtility",
+    "OptionalImports",
+    "PdfUtility",
+    "RequestIdContext",
     "Clock",
+    "ClockRegistry",
     "FrozenClock",
     "SystemClock",
-    "get_clock",
-    "set_clock",
     "Counter",
     "Histogram",
     "MetricsRegistry",
-    "optional_import",
-    "to_decimal",
-    "quantize_decimal",
-    "round_money",
-    "currency_exponent",
-    "major_to_minor",
-    "minor_to_major",
-    "stable_json_dumps",
-    "sha256_hex",
-    "make_idempotency_key",
-    "retry_async",
-    "parse_datetime",
-    "to_utc",
-    "format_iso8601",
-    "kcal_from_macros",
-    "get_request_id",
-    "set_request_id",
-    "reset_request_id",
+    "DecimalUtility",
+    "CurrencyUtility",
+    "NutritionUtility",
+    "AsyncRetry",
+    "TextUtility",
+    "TimeUtility",
+    "VideoUtility",
+    "StructuredLog",
     "StructuredLogFields",
     "StructuredLogSink",
-    "build_structured_record",
-    "format_json_log_line",
-    "merge_log_fields",
-    "utc_timestamp_iso",
 ]

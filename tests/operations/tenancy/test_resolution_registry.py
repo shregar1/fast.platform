@@ -1,0 +1,34 @@
+from __future__ import annotations
+"""Tests for :class:`tenancy.resolution.TenantResolverRegistry`."""
+from tests.operations.tenancy.abstraction import ITenancyTests
+
+
+
+import pytest
+
+from tenancy.context import InMemoryTenantStore
+from tenancy.resolution import ResolutionStrategy, TenantResolverRegistry
+
+from tests.operations.tenancy.helpers import make_request
+
+
+class TestResolutionRegistry(ITenancyTests):
+    @pytest.mark.asyncio
+    async def test_registry_build_header(self, store_with_acme: InMemoryTenantStore) -> None:
+        reg = TenantResolverRegistry()
+        r = reg.build(store_with_acme, "header", header_name="X-Tenant-ID")
+        req = make_request("example.com", extra_headers={"X-Tenant-ID": "tid-acme"})
+        out = await r.resolve(req)
+        assert out is not None and out.slug == "acme"
+
+    @pytest.mark.asyncio
+    async def test_registry_unknown_strategy(self) -> None:
+        reg = TenantResolverRegistry()
+        with pytest.raises(KeyError, match="Unknown"):
+            reg.build(InMemoryTenantStore(), "not-a-real-strategy")
+
+    @pytest.mark.asyncio
+    async def test_list_strategies_includes_defaults(self) -> None:
+        reg = TenantResolverRegistry()
+        names = reg.list_strategies()
+        assert "header" in names and "subdomain" in names

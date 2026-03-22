@@ -2,9 +2,8 @@
 fast_payments – Payments config and base abstractions for FastMVC.
 """
 
-from .base import CheckoutSession, IPaymentGateway, IProvider
-from .config import PaymentsConfiguration
-from .dto import (
+from configuration.payments import PaymentsConfiguration
+from dtos.payments import (
     LinkConfigDTO,
     PayUConfigDTO,
     PaypalConfigDTO,
@@ -12,6 +11,8 @@ from .dto import (
     RazorpayConfigDTO,
     StripeConfigDTO,
 )
+
+from .abstraction import CheckoutSession, IPaymentGateway, IProvider
 from .reconciliation import (
     ReconciliationLineItem,
     ReconciliationMismatchKind,

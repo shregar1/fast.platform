@@ -10,7 +10,7 @@ from .acl import (
     StaticChannelACL,
     make_subscribe_acl_checker,
 )
-from .base import ChannelBackend
+from .base import IChannelBackend
 from .config_loader import ChannelsConfiguration
 from .dto import ChannelsConfigurationDTO
 from .heartbeat import run_heartbeat_loop
@@ -29,7 +29,7 @@ from .subscriber_counters import InMemorySubscriberCounters, RedisSubscriberCoun
 __all__ = [
     "AllowAllChannelACL",
     "ChannelACLPolicy",
-    "ChannelBackend",
+    "IChannelBackend",
     "ChannelMetrics",
     "ChannelsConfiguration",
     "ChannelsConfigurationDTO",

@@ -2,7 +2,7 @@
 fast_media – File upload, image variants, presigned URLs for FastMVC.
 """
 
-from .abstractions import IMediaStore, IImageVariantGenerator, UploadResult
+from .abstraction import IMedia, IMediaStore, IImageVariantGenerator, UploadResult
 from .generator import DefaultImageVariantGenerator
 from .memory_store import InMemoryMediaStore
 from .pipeline import (
@@ -24,6 +24,7 @@ from .virus_scan import (
 __version__ = "0.1.1"
 
 __all__ = [
+    "IMedia",
     "IMediaStore",
     "IImageVariantGenerator",
     "UploadResult",

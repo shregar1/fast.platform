@@ -9,8 +9,10 @@ from typing import Any, List, Optional
 
 from fast_platform import VectorsConfiguration
 
+from .abstraction import IVector
 
-class IVectorStore(ABC):
+
+class IVectorStore(IVector, ABC):
     """Interface for vector stores (Pinecone, Qdrant, Weaviate)."""
 
     name: str

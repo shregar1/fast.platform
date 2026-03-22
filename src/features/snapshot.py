@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from .base import IFeatureFlagsClient
+from .abstraction import IFeatureFlagsClient
 from .evaluation import FlagEvaluation, FlagEvaluationReason
 
 

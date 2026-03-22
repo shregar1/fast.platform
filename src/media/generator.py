@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Callable, Optional
 
-from .abstractions import IImageVariantGenerator, IMediaStore
+from .abstraction import IImageVariantGenerator, IMediaStore
 from .pipeline import VariantSpec, variant_storage_key
 from .variants import generate_image_variant
 

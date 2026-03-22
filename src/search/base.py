@@ -9,10 +9,11 @@ from typing import Any, List, Optional
 
 from fast_platform import SearchConfiguration
 
+from .abstraction import ISearch
 from .dto import FacetedSearchResult, SearchHit
 
 
-class ISearchBackend(ABC):
+class ISearchBackend(ISearch, ABC):
     """Interface for search backends (Meilisearch, Typesense, OpenSearch)."""
 
     name: str

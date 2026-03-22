@@ -1,6 +1,6 @@
 """Authenticated but not allowed (HTTP 403)."""
 
-from .error import IError
+from .abstraction import IError
 
 
 class ForbiddenError(IError):

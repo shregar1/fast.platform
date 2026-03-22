@@ -2,11 +2,15 @@
 Base interface for channels (pub-sub) backends.
 """
 
+from __future__ import annotations
+
 import abc
 from typing import Any
 
+from .abstraction import IChannel
 
-class ChannelBackend(abc.ABC):
+
+class IChannelBackend(IChannel, abc.ABC):
     """Abstract base class for pub-sub channels."""
 
     @abc.abstractmethod

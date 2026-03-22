@@ -12,22 +12,28 @@ from typing import Optional
 
 _request_id_ctx: ContextVar[Optional[str]] = ContextVar("fast_request_id", default=None)
 
-
-def get_request_id() -> Optional[str]:
-    """Return the current request id, if any."""
-    return _request_id_ctx.get()
+__all__ = ["RequestIdContext"]
 
 
-def set_request_id(request_id: Optional[str]) -> Token[Optional[str]]:
-    """
-    Bind *request_id* for the current async task.
+class RequestIdContext:
+    """Access and update the current request id for the running async task."""
 
-    Returns:
-        A token for use with :func:`reset_request_id`.
-    """
-    return _request_id_ctx.set(request_id)
+    @staticmethod
+    def get() -> Optional[str]:
+        """Return the current request id, if any."""
+        return _request_id_ctx.get()
 
+    @staticmethod
+    def set(request_id: Optional[str]) -> Token[Optional[str]]:
+        """
+        Bind *request_id* for the current async task.
 
-def reset_request_id(token: Token[Optional[str]]) -> None:
-    """Restore the previous value (call in ``finally`` after ``set_request_id``)."""
-    _request_id_ctx.reset(token)
+        Returns:
+            A token for use with :meth:`reset`.
+        """
+        return _request_id_ctx.set(request_id)
+
+    @staticmethod
+    def reset(token: Token[Optional[str]]) -> None:
+        """Restore the previous value (call in ``finally`` after :meth:`set`)."""
+        _request_id_ctx.reset(token)

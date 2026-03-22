@@ -1,0 +1,16 @@
+"""Single WebRTC ICE server entry."""
+
+from __future__ import annotations
+
+from .abstraction import IDTO
+
+from typing import List, Union
+
+from pydantic import ConfigDict
+
+
+class WebRtcIceServerDTO(IDTO):
+    model_config = ConfigDict(extra="ignore")
+    urls: Union[str, List[str]] = ""
+    username: str = ""
+    credential: str = ""

@@ -9,8 +9,10 @@ from typing import Any, Optional
 
 from fast_platform import AnalyticsConfiguration
 
+from .abstraction import IAnalytics
 
-class IAnalyticsBackend(ABC):
+
+class IAnalyticsBackend(IAnalytics, ABC):
     """Interface for analytics/event tracking backends."""
 
     @abstractmethod

@@ -9,21 +9,24 @@ not installed, calls will log warnings instead of crashing.
 from __future__ import annotations
 
 import asyncio
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 from fast_platform import QueuesConfiguration
-from utils.optional_imports import optional_import
+
+from .abstraction import IQueue
+from utils.optional_imports import OptionalImports
 
 try:
     from loguru import logger
 except Exception:  # pragma: no cover - optional
     logger = None  # type: ignore[assignment]
 
-boto3, _ = optional_import("boto3")
-pika, _ = optional_import("pika")
-nats, _ = optional_import("nats")
-_sb_mod, ServiceBusClient = optional_import("azure.servicebus", "ServiceBusClient")
+boto3, _ = OptionalImports.optional_import("boto3")
+pika, _ = OptionalImports.optional_import("pika")
+nats, _ = OptionalImports.optional_import("nats")
+_sb_mod, ServiceBusClient = OptionalImports.optional_import("azure.servicebus", "ServiceBusClient")
 
 
 @dataclass
@@ -32,13 +35,14 @@ class QueueMessage:
     attributes: Dict[str, Any] | None = None
 
 
-class IQueueBackend:
+class IQueueBackend(IQueue, ABC):
     """
     Minimal interface for queue backends.
     """
 
     name: str
 
+    @abstractmethod
     async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 

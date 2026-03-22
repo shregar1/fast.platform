@@ -8,6 +8,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, AsyncGenerator, Dict, List
 
+from .abstraction import IStreams
+
 
 @dataclass
 class Tick:
@@ -29,7 +31,7 @@ class OrderEvent:
     data: Dict[str, Any]
 
 
-class IMarketDataFeed(ABC):
+class IMarketDataFeed(IStreams, ABC):
     """
     Interface for external market data providers (Kafka, Redis streams, FIX, etc.).
     """
@@ -41,7 +43,7 @@ class IMarketDataFeed(ABC):
         """
 
 
-class IEventStream(ABC):
+class IEventStream(IStreams, ABC):
     """
     Generic high-frequency event stream abstraction.
     """

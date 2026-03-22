@@ -8,18 +8,10 @@ from __future__ import annotations
 
 from typing import AsyncIterator
 
+from errors.token_budget_exceeded_error import TokenBudgetExceeded
+
 from .streaming import StreamChunk
 from .token_usage import TokenUsage
-
-
-class TokenBudgetExceeded(Exception):
-    """Raised when cumulative token usage exceeds a configured limit."""
-
-    def __init__(self, limit: int, cumulative: int, message: str = "") -> None:
-        self.limit = limit
-        self.cumulative = cumulative
-        m = message or f"token budget exceeded: cumulative={cumulative} > limit={limit}"
-        super().__init__(m)
 
 
 def check_usage_against_budget(usage: TokenUsage, max_total_tokens: int) -> None:

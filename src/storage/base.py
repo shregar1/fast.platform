@@ -11,6 +11,8 @@ from typing import Any, BinaryIO, Optional
 
 from fast_platform import StorageConfiguration
 
+from .abstraction import IStorage
+
 
 @dataclass(slots=True)
 class StorageObjectHead:
@@ -22,7 +24,7 @@ class StorageObjectHead:
     last_modified: Optional[datetime] = None
 
 
-class IStorageBackend(ABC):
+class IStorageBackend(IStorage, ABC):
     """Interface for object storage backends (S3, GCS, Azure Blob, local)."""
 
     name: str
@@ -72,45 +74,51 @@ def build_storage_backend(backend: str = "s3") -> Optional[IStorageBackend]:
     """
     cfg = StorageConfiguration().get_config()
 
+    # Imports are inside the factory to avoid circular imports (backends import this module).
     if backend == "s3" and getattr(cfg.s3, "enabled", False) and cfg.s3.bucket:
         try:
             from .s3_backend import S3StorageBackend
-            return S3StorageBackend(
-                bucket=cfg.s3.bucket,
-                region=cfg.s3.region,
-                endpoint_url=cfg.s3.endpoint_url,
-                access_key_id=cfg.s3.access_key_id,
-                secret_access_key=cfg.s3.secret_access_key,
-                base_path=cfg.s3.base_path or "",
-            )
-        except ImportError:
+        except ImportError:  # pragma: no cover - optional boto
             return None
+        return S3StorageBackend(
+            bucket=cfg.s3.bucket,
+            region=cfg.s3.region,
+            endpoint_url=cfg.s3.endpoint_url,
+            access_key_id=cfg.s3.access_key_id,
+            secret_access_key=cfg.s3.secret_access_key,
+            base_path=cfg.s3.base_path or "",
+        )
 
     if backend == "gcs" and getattr(cfg.gcs, "enabled", False) and cfg.gcs.bucket:
         try:
             from .gcs_backend import GCSStorageBackend
-            return GCSStorageBackend(
-                bucket=cfg.gcs.bucket,
-                credentials_path=cfg.gcs.credentials_json_path,
-                base_path=cfg.gcs.base_path or "",
-            )
-        except ImportError:
+        except ImportError:  # pragma: no cover
             return None
+        return GCSStorageBackend(
+            bucket=cfg.gcs.bucket,
+            credentials_path=cfg.gcs.credentials_json_path,
+            base_path=cfg.gcs.base_path or "",
+        )
 
-    if backend == "azure_blob" and getattr(cfg.azure_blob, "enabled", False) and cfg.azure_blob.container:
+    if (
+        backend == "azure_blob"
+        and getattr(cfg.azure_blob, "enabled", False)
+        and cfg.azure_blob.container
+    ):
         try:
             from .azure_backend import AzureBlobStorageBackend
-            return AzureBlobStorageBackend(
-                container=cfg.azure_blob.container,
-                connection_string=cfg.azure_blob.connection_string,
-                account_url=cfg.azure_blob.account_url,
-                base_path=cfg.azure_blob.base_path or "",
-            )
-        except ImportError:
+        except ImportError:  # pragma: no cover
             return None
+        return AzureBlobStorageBackend(
+            container=cfg.azure_blob.container,
+            connection_string=cfg.azure_blob.connection_string,
+            account_url=cfg.azure_blob.account_url,
+            base_path=cfg.azure_blob.base_path or "",
+        )
 
     if backend == "local" and getattr(cfg.local, "enabled", False):
         from .local_backend import LocalStorageBackend
+
         return LocalStorageBackend(
             base_dir=cfg.local.base_dir,
             base_url=cfg.local.base_url,

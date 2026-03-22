@@ -6,8 +6,8 @@ Provides encryption for sensitive data fields in your models.
 
 import base64
 import hashlib
+import hmac
 import os
-import secrets
 from dataclasses import dataclass
 from typing import Any, Optional, Union
 
@@ -195,4 +195,4 @@ class HashingUtility:
     def verify(self, data: Union[str, bytes], hash_value: str) -> bool:
         """Verify data against hash."""
         computed = self.hash(data)
-        return secrets.compare_digest(computed, hash_value)
+        return hmac.compare_digest(computed, hash_value)

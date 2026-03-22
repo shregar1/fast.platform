@@ -7,10 +7,14 @@ fast_identity[oauth] for httpx-based token/userinfo requests.
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
+from urllib.parse import urlencode
 
 from fast_platform import IdentityProvidersConfiguration
+
+from .abstraction import IIdentity
 
 try:
     import httpx
@@ -34,17 +38,20 @@ class IdentityUserProfile:
     raw: Dict[str, Any] | None = None
 
 
-class IIdentityProvider:
+class IIdentityProvider(IIdentity, ABC):
     """Minimal interface all concrete identity providers must implement."""
 
     name: str
 
+    @abstractmethod
     async def build_authorization_url(self, state: str) -> str:  # pragma: no cover
         raise NotImplementedError
 
+    @abstractmethod
     async def exchange_code_for_token(self, code: str) -> Dict[str, Any]:  # pragma: no cover
         raise NotImplementedError
 
+    @abstractmethod
     async def fetch_user_profile(self, access_token: str) -> IdentityUserProfile:  # pragma: no cover
         raise NotImplementedError
 
@@ -73,8 +80,6 @@ class _OAuth2Provider(IIdentityProvider):
         self._scopes = scopes
 
     async def build_authorization_url(self, state: str) -> str:
-        from urllib.parse import urlencode
-
         query = urlencode(
             {
                 "client_id": self._client_id,

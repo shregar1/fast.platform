@@ -1,6 +1,6 @@
 """Rate limit exceeded (HTTP 429)."""
 
-from .error import IError
+from .abstraction import IError
 
 
 class RateLimitError(IError):

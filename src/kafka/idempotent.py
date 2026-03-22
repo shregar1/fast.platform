@@ -6,9 +6,10 @@ Use with ``KafkaConsumer.loop_idempotent`` and ``enable_auto_commit=False`` in c
 
 from __future__ import annotations
 
-import hashlib
 from collections import OrderedDict
 from typing import Protocol, runtime_checkable
+
+from utils.digests import Digests
 
 
 @runtime_checkable
@@ -46,6 +47,10 @@ class InMemoryDedupeStore:
             self._keys.popitem(last=False)
 
 
-def default_dedupe_key(value: bytes) -> str:
-    """Stable id from raw payload (SHA-256 hex) when no business key exists."""
-    return hashlib.sha256(value).hexdigest()
+class KafkaDedupeKeys:
+    """Default dedupe key derivation for Kafka payloads."""
+
+    @staticmethod
+    def default_dedupe_key(value: bytes) -> str:
+        """Stable id from raw payload (SHA-256 hex) when no business key exists."""
+        return Digests.sha256_hex_bytes(value)

@@ -14,6 +14,8 @@ from typing import Any, Callable, Optional, Union
 
 from fastapi import HTTPException, Request
 
+from .abstraction import ISecurity
+
 
 @dataclass
 class WebhookConfig:
@@ -41,7 +43,7 @@ class WebhookVerificationError(Exception):
     pass
 
 
-class WebhookVerifier:
+class WebhookVerifier(ISecurity):
     """
     Webhook signature verifier.
 
@@ -213,7 +215,7 @@ class WebhookVerifier:
         return wrapper
 
 
-class MultiSecretWebhookVerifier:
+class MultiSecretWebhookVerifier(ISecurity):
     """
     Webhook verifier that supports multiple secrets.
 

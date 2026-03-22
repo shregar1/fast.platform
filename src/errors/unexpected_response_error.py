@@ -2,7 +2,7 @@
 Unexpected failures (:class:`UnexpectedResponseError`).
 """
 
-from .error import IError
+from .abstraction import IError
 
 
 class UnexpectedResponseError(IError):

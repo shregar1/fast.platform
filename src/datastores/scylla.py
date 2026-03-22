@@ -10,7 +10,7 @@ from typing import Any, Iterable, Optional
 
 from loguru import logger
 
-from fast_datastores.interfaces import IWideColumnStore
+from .interfaces import IWideColumnStore
 
 try:  # Optional dependency
     from cassandra.cluster import Cluster  # type: ignore

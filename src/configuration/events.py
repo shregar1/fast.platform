@@ -1,0 +1,15 @@
+"""Singleton accessor for events configuration."""
+
+from __future__ import annotations
+
+from typing import Optional, Type
+
+from dtos import EventsConfigurationDTO
+from .abstraction import IConfiguration
+
+
+class EventsConfiguration(IConfiguration[EventsConfigurationDTO]):
+    _instance: Optional["EventsConfiguration"] = None
+    _section: str = "events"
+    _env_key: str = "EVENTS"
+    _dto: Type[EventsConfigurationDTO] = EventsConfigurationDTO

@@ -9,7 +9,7 @@ from typing import Any, Dict, Optional
 
 from loguru import logger
 
-from fast_datastores.interfaces import IDocumentStore
+from .interfaces import IDocumentStore
 
 try:  # Optional dependency
     from azure.cosmos import CosmosClient  # type: ignore

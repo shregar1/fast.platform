@@ -10,18 +10,19 @@ from __future__ import annotations
 
 import json
 from abc import ABC, abstractmethod
+from asyncio import to_thread
 from typing import Any, Dict, Optional
 
 from loguru import logger
 
 from fast_platform import EventsConfiguration
-from utils.optional_imports import optional_import
+from utils.optional_imports import OptionalImports
 
-_boto3, _ = optional_import("boto3")
-_eventhub_mod, EventHubProducerClient = optional_import(
+_boto3, _ = OptionalImports.optional_import("boto3")
+_eventhub_mod, EventHubProducerClient = OptionalImports.optional_import(
     "azure.eventhub", "EventHubProducerClient"
 )
-_eventhub_data_mod, EventData = optional_import("azure.eventhub", "EventData")
+_eventhub_data_mod, EventData = OptionalImports.optional_import("azure.eventhub", "EventData")
 
 try:
     from kafka import KafkaProducer
@@ -29,13 +30,13 @@ except Exception:  # pragma: no cover - optional
     KafkaProducer = None  # type: ignore[assignment]
 
 
-class INotificationBus(ABC):
+class INotificationBus(IEvents, ABC):
     @abstractmethod
     async def publish(self, subject: str, payload: Dict[str, Any]) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 
 
-class IEventBus(ABC):
+class IEventBus(IEvents, ABC):
     @abstractmethod
     async def publish(self, channel: str, payload: Dict[str, Any]) -> None:  # pragma: no cover - interface
         raise NotImplementedError
@@ -71,8 +72,6 @@ class SnsNotificationBus(INotificationBus):
                 Subject=subject,
                 Message=json.dumps(payload),
             )
-
-        from asyncio import to_thread
 
         await to_thread(_send_sync)
 
@@ -115,8 +114,6 @@ class EventBridgeEventBus(IEventBus):
         def _send_sync() -> None:
             self._client.put_events(Entries=[entry])
 
-        from asyncio import to_thread
-
         await to_thread(_send_sync)
 
 
@@ -141,8 +138,6 @@ class EventHubsEventBus(IEventBus):
                 event_data_batch = self._client.create_batch()
                 event_data_batch.add(EventData(body))  # type: ignore[call-arg]
                 self._client.send_batch(event_data_batch)
-
-        from asyncio import to_thread
 
         await to_thread(_send_sync)
 

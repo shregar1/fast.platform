@@ -1,6 +1,6 @@
 """Temporary dependency / service unavailability (HTTP 503)."""
 
-from .error import IError
+from .abstraction import IError
 
 
 class ServiceUnavailableError(IError):
@@ -20,3 +20,4 @@ class ServiceUnavailableError(IError):
         self.responseMessage = responseMessage
         self.responseKey = responseKey
         self.httpStatusCode = httpStatusCode
+        Exception.__init__(self, responseMessage)

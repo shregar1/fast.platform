@@ -4,7 +4,7 @@ fast_feature_flags – Feature flags (LaunchDarkly, Unleash) for FastMVC.
 
 from fast_platform import FeatureFlagsConfiguration, FeatureFlagsConfigurationDTO
 
-from .base import IFeatureFlagsClient, build_feature_flags_client
+from .abstraction import IFeatureFlagsClient, build_feature_flags_client
 from .evaluation import FlagEvaluation, FlagEvaluationReason
 from .kill_switch import EmptyFeatureFlagsClient, KillSwitchFeatureFlagsClient, is_kill_switch_active
 from .request_context import feature_flags_context_from_request

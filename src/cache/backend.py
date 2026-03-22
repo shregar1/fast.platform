@@ -7,17 +7,19 @@ from functools import wraps
 from typing import Any, Awaitable, Callable, Dict, Hashable, Optional, Tuple, TypeVar, Union, cast
 
 from fast_platform import CacheConfiguration
-from utils.optional_imports import optional_import
+from utils.optional_imports import OptionalImports
+
+from .abstraction import ICaching
 
 try:
     from loguru import logger
 except Exception:  # pragma: no cover - optional
     logger = None  # type: ignore[assignment]
 
-_redis_mod, _redis_cls = optional_import("redis.asyncio", "Redis")
+_redis_mod, _redis_cls = OptionalImports.optional_import("redis.asyncio", "Redis")
 
 
-class ICache(ABC):
+class ICache(ICaching, ABC):
     @abstractmethod
     async def get(self, key: str) -> Any:  # pragma: no cover - interface
         raise NotImplementedError

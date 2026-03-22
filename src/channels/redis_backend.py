@@ -6,10 +6,10 @@ from typing import Any, AsyncGenerator
 
 import redis.asyncio as aioredis
 
-from .base import ChannelBackend
+from .base import IChannelBackend
 
 
-class RedisChannelBackend(ChannelBackend):
+class RedisChannelBackend(IChannelBackend):
     def __init__(self, client: aioredis.Redis) -> None:
         self._client = client
 

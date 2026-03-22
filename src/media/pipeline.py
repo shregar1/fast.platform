@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-from .abstractions import IMediaStore, UploadResult
+from .abstraction import IMediaStore, UploadResult
 from .variants import generate_image_variant
 
 

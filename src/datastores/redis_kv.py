@@ -10,7 +10,7 @@ from typing import Any, Optional
 import redis
 from loguru import logger
 
-from fast_datastores.interfaces import IKeyValueStore
+from .interfaces import IKeyValueStore
 
 
 class RedisKeyValueStore(IKeyValueStore):

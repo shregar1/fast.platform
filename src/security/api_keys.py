@@ -4,15 +4,26 @@ API Key Management.
 Provides API key generation, validation, and management.
 """
 
-import hashlib
-import secrets
+import base64
+import os
 import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
 from fastapi import Depends, HTTPException, Request, Security
 from fastapi.security import APIKeyHeader, APIKeyQuery
+
+from utils.digests import Digests
+
+from .abstraction import ISecurity
+
+
+def _token_urlsafe(nbytes: int) -> str:
+    """Cryptographically strong URL-safe token (stdlib :mod:`secrets` compatible)."""
+
+    return base64.urlsafe_b64encode(os.urandom(nbytes)).rstrip(b"=").decode("ascii")
 
 
 @dataclass
@@ -75,7 +86,7 @@ class APIKey:
         }
 
 
-class APIKeyStore:
+class APIKeyStore(ISecurity):
     """Base class for API key storage."""
 
     async def store(self, api_key: APIKey) -> None:
@@ -136,7 +147,7 @@ class InMemoryAPIKeyStore(APIKeyStore):
         return list(self._keys.values())
 
 
-class APIKeyManager:
+class APIKeyManager(ISecurity):
     """
     API Key manager for creating and validating API keys.
 
@@ -177,11 +188,11 @@ class APIKeyManager:
 
     def _generate_key(self) -> str:
         """Generate a new API key."""
-        return f"{self._prefix}{secrets.token_urlsafe(self.KEY_LENGTH)}"
+        return f"{self._prefix}{_token_urlsafe(self.KEY_LENGTH)}"
 
     def _hash_key(self, key: str) -> str:
         """Hash an API key for storage."""
-        return hashlib.sha256(key.encode()).hexdigest()
+        return Digests.sha256_hex_utf8(key)
 
     async def create(
         self,
@@ -205,8 +216,6 @@ class APIKeyManager:
             Tuple of (APIKey object, plain text key).
             The plain text key should be given to the user once and not stored.
         """
-        import uuid
-
         plain_key = self._generate_key()
         key_hash = self._hash_key(plain_key)
 
@@ -304,7 +313,7 @@ class APIKeyManager:
         return await self._store.list_all()
 
 
-class APIKeyValidator:
+class APIKeyValidator(ISecurity):
     """
     FastAPI dependency for API key validation.
 

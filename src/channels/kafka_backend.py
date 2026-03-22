@@ -4,10 +4,10 @@ Kafka-based channels backend (stub).
 
 from typing import Any, AsyncGenerator
 
-from .base import ChannelBackend
+from .base import IChannelBackend
 
 
-class KafkaChannelBackend(ChannelBackend):
+class KafkaChannelBackend(IChannelBackend):
     def __init__(self) -> None:
         pass
 

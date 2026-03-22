@@ -6,23 +6,28 @@ Not JWT — use alongside bearer tokens for machine clients.
 
 from __future__ import annotations
 
-import hashlib
 import hmac
 from typing import Dict, Optional
 
-
-def hash_api_key_sha256_hex(api_key: str) -> str:
-    """Return lowercase hex SHA-256 of the raw secret string."""
-    return hashlib.sha256(api_key.encode("utf-8")).hexdigest()
+from utils.digests import Digests
 
 
-def verify_api_key_sha256_hex(api_key: str, expected_hex_hash: str) -> bool:
-    """Constant-time compare of SHA-256 hex digest (case-insensitive hex)."""
-    got = hash_api_key_sha256_hex(api_key)
-    exp = expected_hex_hash.strip().lower()
-    if len(exp) != len(got):
-        return False
-    return hmac.compare_digest(got, exp)
+class ApiKeyHashes:
+    """SHA-256 hex digest and verification for raw API key strings."""
+
+    @staticmethod
+    def hash_api_key_sha256_hex(api_key: str) -> str:
+        """Return lowercase hex SHA-256 of the raw secret string."""
+        return Digests.sha256_hex_utf8(api_key)
+
+    @staticmethod
+    def verify_api_key_sha256_hex(api_key: str, expected_hex_hash: str) -> bool:
+        """Constant-time compare of SHA-256 hex digest (case-insensitive hex)."""
+        got = ApiKeyHashes.hash_api_key_sha256_hex(api_key)
+        exp = expected_hex_hash.strip().lower()
+        if len(exp) != len(got):
+            return False
+        return hmac.compare_digest(got, exp)
 
 
 class InMemoryHashedApiKeyStore:
@@ -49,7 +54,7 @@ class InMemoryHashedApiKeyStore:
         """
         if not self._by_id:
             return None
-        digest = hash_api_key_sha256_hex(api_key)
+        digest = ApiKeyHashes.hash_api_key_sha256_hex(api_key)
         for kid, hx in self._by_id.items():
             if len(hx) != len(digest):
                 continue

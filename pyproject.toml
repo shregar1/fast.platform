@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fast-platform"
-version = "0.12.1"
-description = "Umbrella package: fast_platform.config, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — merged fast_* modules under one install."
+version = "0.12.2"
+description = "Umbrella package: fast_platform.configuration, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — merged fast_* modules under one install."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -29,6 +29,11 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "aiosqlite>=0.19.0",
     "jinja2>=3.0.0",
+    # Static typing (strict)
+    "mypy>=1.11.0",
+    "basedpyright>=1.19.0",
+    "ruff>=0.8.0",
+    "types-redis",
 ]
 # fast_db
 async = ["asyncpg>=0.29.0,<1.0.0"]
@@ -59,6 +64,9 @@ fastapi = ["fastapi>=0.100.0"]
 openai = ["openai>=1.0.0"]
 anthropic = ["anthropic>=0.18.0"]
 ollama = ["httpx>=0.24.0"]
+groq = ["openai>=1.0.0"]
+mistral = ["openai>=1.0.0"]
+gemini = ["google-generativeai>=0.8.0"]
 # fast_kafka
 protobuf = ["protobuf>=5.0"]
 avro = ["fastavro>=1.9"]
@@ -66,6 +74,8 @@ avro = ["fastavro>=1.9"]
 oauth = ["httpx>=0.24.0"]
 # fast_media
 pillow = ["Pillow>=10.0.0"]
+# utils (PDF helpers)
+utils-pdf = ["pypdf>=4.0.0"]
 # fast_search
 meilisearch = ["meilisearch>=0.31.0"]
 typesense = ["typesense>=0.18.0"]
@@ -94,15 +104,22 @@ otel = [
 [project.urls]
 Homepage = "https://github.com/shregar1/fastMVC"
 
+# Type checking (strict):
+#   uv sync --extra dev
+#   uv run mypy src
+#   uv run basedpyright src
+#   uv run ruff check src tests
+# Optional modernization: ``uv run ruff check --select UP src``
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-fast_platform = ["config/**/*.json"]
+fast_platform = ["configuration/**/*.json", "py.typed"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", "."]
 asyncio_mode = "auto"
 # Many packages use the same test module basenames (e.g. test_public_api.py); importlib mode avoids collisions.
 addopts = "--import-mode=importlib"
@@ -123,3 +140,124 @@ exclude_lines = [
     "\\.\\.\\.",
     "if TYPE_CHECKING:",
 ]
+
+# ---------------------------------------------------------------------------
+# Ruff — fast linter + import sorting; strict typing-related rules on ``src/``.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# Strict typing + imports. Optional: ``uv run ruff check --select UP src`` (PEP 585/604 modernization).
+# Broader style: ``--extend-select E,W,B,RUF``
+select = [
+    "E9",     # runtime errors (syntax / import)
+    "F",      # pyflakes (incl. unused imports / undefined names)
+    "I",      # isort
+    "ANN",    # flake8-annotations
+    "PYI",    # flake8-pyi
+    "TC",     # flake8-type-checking (incl. TYPE_CHECKING imports)
+    "TID",    # tidy imports
+]
+ignore = [
+    "ANN401",  # typing.Any parameters — allowed when intentional
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests: enforce correctness but allow looser annotations than production code.
+"tests/**" = [
+    "ANN001", "ANN002", "ANN003", "ANN201", "ANN202", "ANN204", "ANN205",
+    "TC001", "TC002", "TC003", "TC006",
+    "TID252",
+]
+"**/conftest.py" = ["ANN"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ---------------------------------------------------------------------------
+# mypy — strict mode for ``src/`` (application code).
+# ---------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src"
+explicit_package_bases = true
+namespace_packages = true
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+exclude = [
+    "^build/",
+    "^dist/",
+]
+
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+strict = false
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+warn_return_any = false
+check_untyped_defs = true
+
+# Third-party libraries without usable stubs: silence import-not-found noise.
+[[tool.mypy.overrides]]
+module = [
+    "aiokafka.*",
+    "boto3.*",
+    "botocore.*",
+    "cassandra.*",
+    "dramatiq.*",
+    "google.*",
+    "hvac.*",
+    "loguru",
+    "nats.*",
+    "opensearchpy.*",
+    "pinecone.*",
+    "posthog.*",
+    "pymongo.*",
+    "pypdf.*",
+    "qdrant_client.*",
+    "redis.*",
+    "rq.*",
+    "segment.*",
+    "weaviate.*",
+]
+ignore_missing_imports = true
+
+# ---------------------------------------------------------------------------
+# Based Pyright — duplicate strict signal (editor + CI); aligns with mypy on ``src/``.
+# ---------------------------------------------------------------------------
+[tool.basedpyright]
+pythonVersion = "3.10"
+typeCheckingMode = "strict"
+include = ["src"]
+exclude = ["**/node_modules", "**/__pycache__", "build", "dist"]
+executionEnvironments = [{ root = ".", extraPaths = ["src"] }]
+reportMissingImports = true
+reportMissingTypeStubs = true
+# ``Unknown``-shaped values from untyped deps overlap mypy; keep structural strictness here.
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
+reportUnknownLambdaType = false
+reportUntypedFunctionDecorator = true
+reportUntypedClassDecorator = true
+reportUntypedBaseClass = true
+reportMissingTypeArgument = true
+reportInvalidTypeForm = true
+reportPrivateUsage = true
+reportIncompatibleMethodOverride = true
+reportIncompatibleVariableOverride = true
+reportOverlappingOverload = true
+useLibraryCodeForTypes = true

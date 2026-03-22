@@ -4,11 +4,17 @@ Unified async iterators for OpenAI and Anthropic streaming chat/message APIs.
 
 from __future__ import annotations
 
-import inspect
 from dataclasses import dataclass
 from typing import Any, AsyncIterator, Literal, Optional
+import inspect
+
+from errors.llm_feature_not_available_error import LLMFeatureNotAvailableError
+from errors.unsupported_llm_provider_error import UnsupportedLLMProviderError
 
 from .token_usage import TokenUsage
+
+
+OpenAICompatibleStreamProvider = Literal["openai", "groq", "mistral"]
 
 
 @dataclass(slots=True)
@@ -16,12 +22,16 @@ class StreamChunk:
     """One piece of streamed text (and optional final usage on the last chunk)."""
 
     text: str
-    provider: Literal["openai", "anthropic"]
+    provider: Literal["openai", "anthropic", "groq", "mistral", "gemini"]
     finish_reason: Optional[str] = None
     usage: Optional[TokenUsage] = None
 
 
-async def iter_openai_chat_stream(stream: Any) -> AsyncIterator[StreamChunk]:
+async def iter_openai_chat_stream(
+    stream: Any,
+    *,
+    stream_provider: OpenAICompatibleStreamProvider = "openai",
+) -> AsyncIterator[StreamChunk]:
     """
     Iterate an OpenAI ``AsyncStream`` from ``chat.completions.create(..., stream=True)``.
 
@@ -34,13 +44,17 @@ async def iter_openai_chat_stream(stream: Any) -> AsyncIterator[StreamChunk]:
         piece = getattr(delta, "content", None) if delta else None
         if piece:
             fr = getattr(ch0, "finish_reason", None) if ch0 else None
-            yield StreamChunk(text=piece, provider="openai", finish_reason=fr)
+            yield StreamChunk(text=piece, provider=stream_provider, finish_reason=fr)
         u = getattr(chunk, "usage", None)
         if u is not None:
             yield StreamChunk(
                 text="",
-                provider="openai",
-                usage=TokenUsage.from_openai_completion(chunk, model=""),
+                provider=stream_provider,
+                usage=TokenUsage.from_openai_completion(
+                    chunk,
+                    model="",
+                    provider=stream_provider,
+                ),
             )
 
 
@@ -69,15 +83,21 @@ async def iter_anthropic_message_stream(stream: Any) -> AsyncIterator[StreamChun
 
 
 async def iter_llm_stream(
-    provider: Literal["openai", "anthropic"],
+    provider: Literal["openai", "anthropic", "groq", "mistral", "gemini"],
     stream: Any,
 ) -> AsyncIterator[StreamChunk]:
-    """Dispatch to :func:`iter_openai_chat_stream` or :func:`iter_anthropic_message_stream`."""
-    if provider == "openai":
-        async for c in iter_openai_chat_stream(stream):
+    """Dispatch to OpenAI-compatible, Anthropic, or (future) Gemini stream helpers."""
+    if provider in ("openai", "groq", "mistral"):
+        async for c in iter_openai_chat_stream(stream, stream_provider=provider):
             yield c
     elif provider == "anthropic":
         async for c in iter_anthropic_message_stream(stream):
             yield c
+    elif provider == "gemini":
+        raise LLMFeatureNotAvailableError(
+            "Gemini streaming is not wired here yet; use the google-generativeai "
+            "async stream API directly.",
+            responseKey="llm.gemini_streaming_not_wired",
+        )
     else:
-        raise ValueError(f"unsupported provider: {provider!r}")
+        raise UnsupportedLLMProviderError(provider)

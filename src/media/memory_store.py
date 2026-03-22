@@ -7,7 +7,7 @@ from __future__ import annotations
 from io import BytesIO
 from typing import BinaryIO, Optional
 
-from .abstractions import IMediaStore, UploadResult
+from .abstraction import IMediaStore, UploadResult
 
 
 class InMemoryMediaStore(IMediaStore):
