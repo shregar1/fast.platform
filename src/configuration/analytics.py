@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import AnalyticsConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class AnalyticsConfiguration(IConfiguration[AnalyticsConfigurationDTO]):
+class AnalyticsConfiguration(ConfigurationSingletonBase[AnalyticsConfigurationDTO]):
     _instance: Optional["AnalyticsConfiguration"] = None
     _section: str = "analytics"
     _env_key: str = "ANALYTICS"

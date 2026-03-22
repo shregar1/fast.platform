@@ -82,12 +82,12 @@ def as_audit_hook(
         return None
     if isinstance(target, IAuditLogRepository):
         return audit_repository_hook(
-            cast(IAuditLogRepository, target),
+            cast("IAuditLogRepository", target),
             get_actor_id=get_actor_id,
             get_ip_address=get_ip_address,
             get_user_agent=get_user_agent,
         )
-    return cast(AuditLogHook, target)
+    return cast("AuditLogHook", target)
 
 
 __all__ = [

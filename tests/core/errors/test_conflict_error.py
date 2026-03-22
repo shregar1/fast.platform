@@ -1,10 +1,9 @@
 """Tests for :class:`errors.ConflictError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import ConflictError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestConflictError(IErrorsTests):

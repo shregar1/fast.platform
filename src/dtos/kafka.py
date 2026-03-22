@@ -2,11 +2,11 @@
 DTOs for Kafka configuration settings.
 """
 
-from .abstraction import IDTO
-
 from typing import Any, List, Optional
 
 from pydantic import Field
+
+from .abstraction import IDTO
 
 
 class KafkaConfigurationDTO(IDTO):

@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from tests.messaging.abstraction import IMessagingSuite
+
 """Test-suite markers for ``kafka`` (mirrors ``src/kafka/``)."""
 
 
 from abc import ABC
-
 
 
 class IKafkaTests(IMessagingSuite, ABC):

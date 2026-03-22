@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for :mod:`jobs.schedule` (cron DTO and Celery crontab)."""
-from tests.messaging.jobs.abstraction import IJobTests
-
-
-
 import pytest
 
 from jobs.schedule import CronScheduleDTO, celery_crontab_schedule, parse_cron_fields
+from tests.messaging.jobs.abstraction import IJobTests
 
 
 class TestCronSchedule(IJobTests):

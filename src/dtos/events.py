@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .event_bridge import EventBridgeDTO
 from .event_hubs import EventHubsDTO
 from .kafka_event import KafkaEventDTO

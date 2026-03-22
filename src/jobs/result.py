@@ -83,7 +83,9 @@ def get_job_status(
     if backend == "rq":
         return _status_rq(job_id, rq_connection)
     if backend == "dramatiq":
-        return _status_dramatiq(job_id, dramatiq_queue_name=dramatiq_queue_name, dramatiq_actor_name=dramatiq_actor_name)
+        return _status_dramatiq(
+            job_id, dramatiq_queue_name=dramatiq_queue_name, dramatiq_actor_name=dramatiq_actor_name
+        )
     raise ValueError(f"unknown backend: {backend}")
 
 
@@ -118,7 +120,8 @@ def _status_celery(job_id: str, celery_app: Any) -> JobStatusSnapshot:
 
 def _status_rq(job_id: str, rq_connection: Any) -> JobStatusSnapshot:
     try:
-        from rq.job import Job, JobStatus as RQJobStatus
+        from rq.job import Job
+        from rq.job import JobStatus as RQJobStatus
     except ImportError as e:  # pragma: no cover
         raise RuntimeError("rq is not installed. pip install fast_jobs[rq]") from e
 
@@ -160,7 +163,7 @@ def _status_dramatiq(
     dramatiq_actor_name: Optional[str],
 ) -> JobStatusSnapshot:
     try:
-        import dramatiq
+        import dramatiq  # noqa: F401
         from dramatiq.broker import get_broker
         from dramatiq.message import Message
         from dramatiq.results import ResultMissing, Results

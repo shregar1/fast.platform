@@ -10,9 +10,9 @@ from loguru import logger
 
 from dtos.payments import (
     LinkConfigDTO,
-    PayUConfigDTO,
-    PaypalConfigDTO,
     PaymentsConfigurationDTO,
+    PaypalConfigDTO,
+    PayUConfigDTO,
     RazorpayConfigDTO,
     StripeConfigDTO,
 )
@@ -23,7 +23,9 @@ def _load_config_json(section: str, env_key: str) -> Optional[dict]:
     path = os.getenv(f"FASTMVC_{env_key}_CONFIG_PATH")
     if not path:
         base = os.getenv("FASTMVC_CONFIG_BASE")
-        path = os.path.join(base, section, "config.json") if base else f"config/{section}/config.json"
+        path = (
+            os.path.join(base, section, "config.json") if base else f"config/{section}/config.json"
+        )
     try:
         with open(path, encoding="utf-8") as f:
             return json.load(f)

@@ -5,7 +5,6 @@ Secret lease with background refresh before TTL expiry (long-lived workers).
 from __future__ import annotations
 
 import threading
-import time
 from typing import Any, Dict, Optional
 
 from .base import ISecretsBackend

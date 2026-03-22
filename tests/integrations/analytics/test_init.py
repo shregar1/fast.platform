@@ -1,6 +1,6 @@
 """Tests for analytics."""
-from tests.integrations.analytics.abstraction import IAnalyticsTests
 
+from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
 class TestInit(IAnalyticsTests):

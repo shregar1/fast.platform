@@ -1,8 +1,7 @@
 """Tests for :class:`identity.api_key.InMemoryHashedApiKeyStore`."""
-from tests.sec.identity.abstraction import IIdentityTests
-
 
 from identity.api_key import ApiKeyHashes, InMemoryHashedApiKeyStore
+from tests.sec.identity.abstraction import IIdentityTests
 
 
 class TestInMemoryHashedApiKeyStore(IIdentityTests):

@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for reconciliation DTOs and CSV export."""
-from tests.integrations.payments.abstraction import IPaymentsTests
-
-
-
 from datetime import date
 
 from payments.reconciliation import (
@@ -12,6 +9,7 @@ from payments.reconciliation import (
     ReconciliationReport,
     reconciliation_report_to_csv,
 )
+from tests.integrations.payments.abstraction import IPaymentsTests
 
 
 class TestReconciliation(IPaymentsTests):

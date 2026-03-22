@@ -5,12 +5,14 @@ Consumer group lag via Admin API + end offsets (``aiokafka``).
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import TYPE_CHECKING, Optional, Sequence
 
 from aiokafka import AIOKafkaConsumer
 from aiokafka.admin import AIOKafkaAdminClient
-from aiokafka.structs import OffsetAndMetadata, TopicPartition
 from loguru import logger
+
+if TYPE_CHECKING:
+    from aiokafka.structs import OffsetAndMetadata, TopicPartition
 
 
 @dataclass
@@ -68,7 +70,9 @@ async def poll_consumer_lag(
         )
         await admin.start()
         try:
-            committed_map: dict[TopicPartition, OffsetAndMetadata] = await admin.list_consumer_group_offsets(
+            committed_map: dict[
+                TopicPartition, OffsetAndMetadata
+            ] = await admin.list_consumer_group_offsets(
                 group_id,
                 partitions=tps,
             )

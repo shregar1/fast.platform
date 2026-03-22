@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for ``observability.datadog``."""
-from tests.operations.observability.abstraction import IObservabilityTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from observability.datadog import configure_datadog
+from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestConfigureDatadog(IObservabilityTests):

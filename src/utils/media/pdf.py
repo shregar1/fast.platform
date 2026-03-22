@@ -12,10 +12,11 @@ from __future__ import annotations
 
 from io import BytesIO
 from pathlib import Path
-from typing import Union
+from typing import Any, Optional, Type, Union
+
+from utils.optional_imports import OptionalImports
 
 from .abstraction import IMedia
-from ..optional_imports import OptionalImports
 
 __all__ = ["PdfUtility"]
 
@@ -34,7 +35,7 @@ class PdfUtility(IMedia):
     """
 
     @staticmethod
-    def _reader_cls():
+    def _reader_cls() -> Optional[Type[Any]]:
         """
         Resolve ``pypdf.PdfReader`` or return ``None`` if the package is missing.
 

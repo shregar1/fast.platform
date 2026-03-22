@@ -1,11 +1,9 @@
 from __future__ import annotations
+
 """Tests for :class:`utils.encryption.AesGcmEncryption`."""
-from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
-
-
-
 import pytest
 
+from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
 from utils.encryption import AesGcmEncryption
 
 

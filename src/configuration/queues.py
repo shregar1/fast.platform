@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import QueuesConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class QueuesConfiguration(IConfiguration[QueuesConfigurationDTO]):
+class QueuesConfiguration(ConfigurationSingletonBase[QueuesConfigurationDTO]):
     _instance: Optional["QueuesConfiguration"] = None
     _section: str = "queues"
     _env_key: str = "QUEUES"

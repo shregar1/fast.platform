@@ -1,10 +1,10 @@
-from tests.realtime.channels.abstraction import IChannelTests
 import asyncio
 
 import pytest
 
 from channels.hub import ChannelsHub
 from channels.metrics import InMemoryChannelMetrics
+from tests.realtime.channels.abstraction import IChannelTests
 
 
 class FakeWebSocket:

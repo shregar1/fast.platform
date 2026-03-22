@@ -87,10 +87,14 @@ class SnapshotFeatureFlagsClient(IFeatureFlagsClient):
             return ent["value"]
         return ent["enabled"]
 
-    def evaluate_with_reason(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> FlagEvaluation:
+    def evaluate_with_reason(
+        self, flag_key: str, context: Optional[dict[str, Any]] = None
+    ) -> FlagEvaluation:
         ent = self._flags.get(flag_key)
         if ent is None:
-            return FlagEvaluation(False, None, FlagEvaluationReason.DEFAULT, detail="flag_missing_in_snapshot")
+            return FlagEvaluation(
+                False, None, FlagEvaluationReason.DEFAULT, detail="flag_missing_in_snapshot"
+            )
 
         raw_reason = ent.get("reason")
         reason = FlagEvaluationReason.SNAPSHOT

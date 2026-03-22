@@ -1,16 +1,17 @@
 """
-ICE server lists from :class:`fast_platform.dtos.RealtimeConfigurationDTO`.
+ICE server lists from :class:`dtos.realtime.RealtimeConfigurationDTO`.
 
-Also provides helpers to map legacy flat STUN/TURN URL lists from :class:`~fast_webrtc.dto.WebRTCConfigurationDTO`.
+Also provides helpers to map legacy flat STUN/TURN URL lists from :class:`~webrtc.dto.WebRTCConfigurationDTO`.
 """
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from fast_platform.dtos import RealtimeConfigurationDTO
+if TYPE_CHECKING:
+    from dtos import RealtimeConfigurationDTO
 
-from .dto import WebRTCConfigurationDTO
+    from .dto import WebRTCConfigurationDTO
 
 
 def rtc_ice_servers_for_client(cfg: RealtimeConfigurationDTO) -> list[dict[str, Any]]:
@@ -23,8 +24,7 @@ def rtc_ice_servers_for_client(cfg: RealtimeConfigurationDTO) -> list[dict[str, 
     if not w.enabled:
         return []
     return [
-        {k: v for k, v in s.model_dump(exclude_none=True).items() if v != ""}
-        for s in w.ice_servers
+        {k: v for k, v in s.model_dump(exclude_none=True).items() if v != ""} for s in w.ice_servers
     ]
 
 

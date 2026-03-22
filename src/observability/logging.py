@@ -17,18 +17,12 @@ from loguru import logger
 _request_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
     "request_id", default=None
 )
-_user_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
-    "user_id", default=None
-)
+_user_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("user_id", default=None)
 _tenant_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
     "tenant_id", default=None
 )
-_trace_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
-    "trace_id", default=None
-)
-_extra_context: contextvars.ContextVar[dict] = contextvars.ContextVar(
-    "extra_context", default={}
-)
+_trace_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("trace_id", default=None)
+_extra_context: contextvars.ContextVar[dict] = contextvars.ContextVar("extra_context", default={})
 
 
 def set_log_context(
@@ -143,7 +137,7 @@ class StructuredLogger:
         level: str = "INFO",
         json_output: bool = True,
         include_caller: bool = True,
-    ):
+    ) -> None:
         """
         Initialize structured logger.
 

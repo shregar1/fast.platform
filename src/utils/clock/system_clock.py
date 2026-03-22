@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from ..abstraction import IUtility
+from utils.abstraction import IUtility
 
 __all__ = ["SystemClock"]
 

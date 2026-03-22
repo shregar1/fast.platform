@@ -10,7 +10,7 @@ from typing import Optional
 
 from loguru import logger
 
-from .dto import KafkaConfigurationDTO
+from dtos.kafka import KafkaConfigurationDTO
 
 
 class KafkaConfiguration:
@@ -29,7 +29,9 @@ class KafkaConfiguration:
         path = os.getenv("FASTMVC_KAFKA_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
-            path = os.path.join(base, "kafka", "config.json") if base else "config/kafka/config.json"
+            path = (
+                os.path.join(base, "kafka", "config.json") if base else "config/kafka/config.json"
+            )
         try:
             with open(path) as f:
                 self.config = json.load(f)

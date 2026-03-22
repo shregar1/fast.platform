@@ -13,7 +13,6 @@ stable barrel of names for application code or tests.
 
 from .abstraction import IUtility
 from .archive import ArchiveUtility
-from .media.audio import AudioUtility
 from .clock import Clock, ClockRegistry, FrozenClock, SystemClock
 from .currency import CurrencyUtility
 from .decimal import DecimalUtility
@@ -21,17 +20,18 @@ from .digests import Digests
 from .hashing import HashingUtility
 from .html import HtmlUtility
 from .idempotency import Idempotency
+from .media.audio import AudioUtility
 from .media.image import ImageUtility
+from .media.pdf import PdfUtility
+from .media.text import TextUtility
+from .media.video import VideoUtility
 from .metrics import Counter, Histogram, MetricsRegistry
 from .nutrition import NutritionUtility
 from .optional_imports import OptionalImports
-from .media.pdf import PdfUtility
 from .request_id_context import RequestIdContext
 from .retry import AsyncRetry
 from .structured_log import StructuredLog, StructuredLogFields, StructuredLogSink
-from .media.text import TextUtility
 from .time import TimeUtility
-from .media.video import VideoUtility
 
 __all__ = [
     "IUtility",

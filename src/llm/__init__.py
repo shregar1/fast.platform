@@ -7,7 +7,6 @@ from errors import (
     LLMFeatureNotAvailableError,
     UnsupportedLLMProviderError,
 )
-
 from fast_platform import LLMConfiguration, LLMConfigurationDTO
 
 from .budget import (
@@ -58,7 +57,6 @@ from .tools import (
     tool_definitions_to_anthropic_tools,
     tool_definitions_to_openai_tools,
 )
-
 
 __version__ = "0.4.0"
 

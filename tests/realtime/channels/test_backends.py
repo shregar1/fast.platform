@@ -1,10 +1,12 @@
-from tests.realtime.channels.abstraction import IChannelTests
 import asyncio
-from typing import Any, AsyncGenerator, Dict, List
+from typing import Any, AsyncGenerator, List
+
 import pytest
 
-class FakePubSub:
+from tests.realtime.channels.abstraction import IChannelTests
 
+
+class FakePubSub:
     def __init__(self, messages: List[dict[str, Any]]):
         self._messages = messages
         self.subscribed_topics: list[str] = []
@@ -24,8 +26,8 @@ class FakePubSub:
     async def close(self):
         self.closed = True
 
-class FakeRedisChannelClient:
 
+class FakeRedisChannelClient:
     def __init__(self, pubsub: FakePubSub):
         self._pubsub = pubsub
         self.published: list[tuple[str, str]] = []
@@ -36,37 +38,47 @@ class FakeRedisChannelClient:
     async def publish(self, topic: str, message: str):
         self.published.append((topic, message))
 
-class TestBackends(IChannelTests):
 
+class TestBackends(IChannelTests):
     def test_redis_channel_backend_publish_calls_client_publish(self):
         from channels.redis_backend import RedisChannelBackend
+
         pubsub = FakePubSub([])
         client = FakeRedisChannelClient(pubsub)
         backend = RedisChannelBackend(client=client)
-        asyncio.run(backend.publish('alerts', {'a': 1}))
-        assert client.published == [('alerts', "{'a': 1}")]
+        asyncio.run(backend.publish("alerts", {"a": 1}))
+        assert client.published == [("alerts", "{'a': 1}")]
 
     def test_redis_channel_backend_subscribe_filters_and_decodes_messages(self):
         from channels.redis_backend import RedisChannelBackend
-        pubsub = FakePubSub([{'type': 'other', 'data': b'ignore'}, {'type': 'message', 'data': b'hello'}, {'type': 'message', 'data': 'world'}])
+
+        pubsub = FakePubSub(
+            [
+                {"type": "other", "data": b"ignore"},
+                {"type": "message", "data": b"hello"},
+                {"type": "message", "data": "world"},
+            ]
+        )
         client = FakeRedisChannelClient(pubsub)
         backend = RedisChannelBackend(client=client)
 
         async def run():
             out = []
-            async for msg in backend.subscribe('alerts'):
+            async for msg in backend.subscribe("alerts"):
                 out.append(msg)
             return out
+
         msgs = asyncio.run(run())
-        assert msgs == ['hello', 'world']
-        assert pubsub.subscribed_topics == ['alerts']
-        assert pubsub.unsubscribed_topics == ['alerts']
+        assert msgs == ["hello", "world"]
+        assert pubsub.subscribed_topics == ["alerts"]
+        assert pubsub.unsubscribed_topics == ["alerts"]
         assert pubsub.closed is True
 
     def test_kafka_channel_backend_is_not_implemented(self):
         from channels.kafka_backend import KafkaChannelBackend
+
         backend = KafkaChannelBackend()
         with pytest.raises(NotImplementedError):
-            asyncio.run(backend.publish('t', 'm'))
+            asyncio.run(backend.publish("t", "m"))
         with pytest.raises(NotImplementedError):
-            asyncio.run(backend.subscribe('t'))
+            asyncio.run(backend.subscribe("t"))

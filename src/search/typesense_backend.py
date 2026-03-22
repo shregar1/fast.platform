@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
-from .dto import FacetedSearchResult, FacetBucket, SearchHit
+from .dto import FacetBucket, FacetedSearchResult, SearchHit
 
 
 class TypesenseBackend(ISearchBackend):
@@ -19,16 +19,20 @@ class TypesenseBackend(ISearchBackend):
         port: int = 8108,
         protocol: str = "http",
         api_key: Optional[str] = None,
-    ):
+    ) -> None:
         try:
             from typesense import Client
         except ImportError as e:
-            raise RuntimeError("typesense required. Install: pip install fast_search[typesense]") from e
-        self._client = Client({
-            "nodes": [{"host": host, "port": str(port), "protocol": protocol}],
-            "api_key": api_key or "xyz",
-            "connection_timeout_seconds": 2,
-        })
+            raise RuntimeError(
+                "typesense required. Install: pip install fast_search[typesense]"
+            ) from e
+        self._client = Client(
+            {
+                "nodes": [{"host": host, "port": str(port), "protocol": protocol}],
+                "api_key": api_key or "xyz",
+                "connection_timeout_seconds": 2,
+            }
+        )
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
         for d in documents:
@@ -45,12 +49,14 @@ class TypesenseBackend(ISearchBackend):
         highlight_fields: Optional[List[str]] = None,
     ) -> List[dict[str, Any]]:
         _ = highlight_fields
-        r = self._client.collections[index_name].documents.search({
-            "q": query,
-            "per_page": limit,
-            "page": (offset // limit) + 1 if limit else 1,
-            "filter_by": _filter_str(filter) if filter else None,
-        })
+        r = self._client.collections[index_name].documents.search(
+            {
+                "q": query,
+                "per_page": limit,
+                "page": (offset // limit) + 1 if limit else 1,
+                "filter_by": _filter_str(filter) if filter else None,
+            }
+        )
         return [h["document"] for h in r.get("hits", [])]
 
     def search_faceted(
@@ -96,7 +102,9 @@ class TypesenseBackend(ISearchBackend):
             if highlight_fields and "highlight" in h:
                 raw_hl = h["highlight"]
                 if isinstance(raw_hl, dict):
-                    hl = {k: list(v) if isinstance(v, list) else [str(v)] for k, v in raw_hl.items()}
+                    hl = {
+                        k: list(v) if isinstance(v, list) else [str(v)] for k, v in raw_hl.items()
+                    }
             hits_out.append(SearchHit(document=doc, highlights=hl))
 
         return FacetedSearchResult(

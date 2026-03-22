@@ -29,7 +29,7 @@ class Counter:
     A counter is a cumulative metric that can only increase.
     """
 
-    def __init__(self, name: str, description: str, labels: list[str] | None = None):
+    def __init__(self, name: str, description: str, labels: list[str] | None = None) -> None:
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -72,7 +72,7 @@ class Gauge:
     A gauge is a metric that can increase and decrease.
     """
 
-    def __init__(self, name: str, description: str, labels: list[str] | None = None):
+    def __init__(self, name: str, description: str, labels: list[str] | None = None) -> None:
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -135,7 +135,7 @@ class Histogram:
         description: str,
         labels: list[str] | None = None,
         buckets: tuple[float, ...] | None = None,
-    ):
+    ) -> None:
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -182,7 +182,9 @@ class Histogram:
                 inf_label = f'{label_str},le="+Inf"' if label_str else 'le="+Inf"'
                 lines.append(f"{self._name}_bucket{{{inf_label}}} {self._totals[label_key]}")
                 sum_name = f"{self._name}_sum{{{label_str}}}" if label_str else f"{self._name}_sum"
-                count_name = f"{self._name}_count{{{label_str}}}" if label_str else f"{self._name}_count"
+                count_name = (
+                    f"{self._name}_count{{{label_str}}}" if label_str else f"{self._name}_count"
+                )
                 lines.append(f"{sum_name} {self._sums[label_key]}")
                 lines.append(f"{count_name} {self._totals[label_key]}")
         return "\n".join(lines)
@@ -191,7 +193,7 @@ class Histogram:
 class HistogramTimer:
     """Context manager for timing histogram observations."""
 
-    def __init__(self, histogram: Histogram, labels: dict[str, str]):
+    def __init__(self, histogram: Histogram, labels: dict[str, str]) -> None:
         self._histogram = histogram
         self._labels = labels
         self._start: float = 0
@@ -200,7 +202,7 @@ class HistogramTimer:
         self._start = time.perf_counter()
         return self
 
-    def __exit__(self, *args: Any) -> None:
+    def __exit__(self, *args: object) -> None:
         duration = time.perf_counter() - self._start
         self._histogram.observe(duration, **self._labels)
 
@@ -228,24 +230,20 @@ class Metrics:
         print(metrics.export())
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._counters: dict[str, Counter] = {}
         self._gauges: dict[str, Gauge] = {}
         self._histograms: dict[str, Histogram] = {}
         self._lock = Lock()
 
-    def counter(
-        self, name: str, description: str = "", labels: list[str] | None = None
-    ) -> Counter:
+    def counter(self, name: str, description: str = "", labels: list[str] | None = None) -> Counter:
         """Get or create a counter."""
         with self._lock:
             if name not in self._counters:
                 self._counters[name] = Counter(name, description, labels)
             return self._counters[name]
 
-    def gauge(
-        self, name: str, description: str = "", labels: list[str] | None = None
-    ) -> Gauge:
+    def gauge(self, name: str, description: str = "", labels: list[str] | None = None) -> Gauge:
         """Get or create a gauge."""
         with self._lock:
             if name not in self._gauges:
@@ -301,7 +299,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
         app: Any,
         metrics: Optional[Metrics] = None,
         exclude_paths: set[str] | None = None,
-    ):
+    ) -> None:
         super().__init__(app)
         self._metrics = metrics or get_metrics()
         self._exclude_paths = exclude_paths or {"/metrics", "/health"}

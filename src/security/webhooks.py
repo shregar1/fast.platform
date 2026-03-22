@@ -70,7 +70,7 @@ class WebhookVerifier(ISecurity):
         timestamp_header: str = "X-Timestamp",
         tolerance_seconds: int = 300,
         algorithm: str = "sha256",
-    ):
+    ) -> None:
         """
         Initialize webhook verifier.
 
@@ -229,7 +229,7 @@ class MultiSecretWebhookVerifier(ISecurity):
         signature_header: str = "X-Signature",
         timestamp_header: str = "X-Timestamp",
         tolerance_seconds: int = 300,
-    ):
+    ) -> None:
         """
         Initialize with multiple secrets.
 

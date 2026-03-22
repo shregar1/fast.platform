@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for ``observability.logging``."""
-from tests.operations.observability.abstraction import IObservabilityTests
-
-
-
 import json
 from types import SimpleNamespace
 
@@ -14,6 +11,7 @@ from observability.logging import (
     json_formatter,
     set_log_context,
 )
+from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestLoggingModule(IObservabilityTests):
@@ -21,7 +19,9 @@ class TestLoggingModule(IObservabilityTests):
         clear_log_context()
 
     def test_set_get_clear_context(self) -> None:
-        set_log_context(request_id="req-1", user_id="u-2", tenant_id="t-3", trace_id="tr-4", extra="x")
+        set_log_context(
+            request_id="req-1", user_id="u-2", tenant_id="t-3", trace_id="tr-4", extra="x"
+        )
         ctx = get_log_context()
         assert ctx["request_id"] == "req-1"
         assert ctx["user_id"] == "u-2"

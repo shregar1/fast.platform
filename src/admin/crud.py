@@ -77,7 +77,9 @@ def crud_router_from_model(
             try:
                 return int(raw)
             except ValueError as err:
-                raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Invalid id") from err
+                raise HTTPException(
+                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Invalid id"
+                ) from err
         return raw
 
     hook: Optional[AuditLogHook] = as_audit_hook(
@@ -112,7 +114,7 @@ def crud_router_from_model(
         skip: int = Query(0, ge=0),
         limit: int = Query(50, ge=1, le=500),
         db: Any = Depends(session_dep),
-    ):
+    ) -> list[BaseModel]:
         rows = db.scalars(select(model).offset(skip).limit(limit)).all()
         return [read_schema.model_validate(r) for r in rows]
 
@@ -121,7 +123,7 @@ def crud_router_from_model(
         body: create_schema,
         request: Request,
         db: Any = Depends(session_dep),
-    ):
+    ) -> BaseModel:
         data = body.model_dump(exclude_unset=True)
         if pk_name in data:
             del data[pk_name]
@@ -142,7 +144,7 @@ def crud_router_from_model(
     async def get_item(
         item_id: str,
         db: Any = Depends(session_dep),
-    ):
+    ) -> BaseModel:
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:
@@ -155,7 +157,7 @@ def crud_router_from_model(
         body: update_schema,
         request: Request,
         db: Any = Depends(session_dep),
-    ):
+    ) -> BaseModel:
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:
@@ -179,7 +181,7 @@ def crud_router_from_model(
         item_id: str,
         request: Request,
         db: Any = Depends(session_dep),
-    ):
+    ) -> None:
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:

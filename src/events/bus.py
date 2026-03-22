@@ -18,6 +18,8 @@ from loguru import logger
 from fast_platform import EventsConfiguration
 from utils.optional_imports import OptionalImports
 
+from .abstraction import IEvents
+
 _boto3, _ = OptionalImports.optional_import("boto3")
 _eventhub_mod, EventHubProducerClient = OptionalImports.optional_import(
     "azure.eventhub", "EventHubProducerClient"
@@ -32,13 +34,17 @@ except Exception:  # pragma: no cover - optional
 
 class INotificationBus(IEvents, ABC):
     @abstractmethod
-    async def publish(self, subject: str, payload: Dict[str, Any]) -> None:  # pragma: no cover - interface
+    async def publish(
+        self, subject: str, payload: Dict[str, Any]
+    ) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 
 
 class IEventBus(IEvents, ABC):
     @abstractmethod
-    async def publish(self, channel: str, payload: Dict[str, Any]) -> None:  # pragma: no cover - interface
+    async def publish(
+        self, channel: str, payload: Dict[str, Any]
+    ) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 
 
@@ -184,7 +190,11 @@ def build_event_bus() -> Optional[IEventBus]:
     """
     cfg = EventsConfiguration.instance().get_config()
 
-    if cfg.event_hubs.enabled and cfg.event_hubs.connection_string and cfg.event_hubs.event_hub_name:
+    if (
+        cfg.event_hubs.enabled
+        and cfg.event_hubs.connection_string
+        and cfg.event_hubs.event_hub_name
+    ):
         try:
             return EventHubsEventBus(
                 connection_string=cfg.event_hubs.connection_string,

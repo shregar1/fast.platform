@@ -1,18 +1,19 @@
 from __future__ import annotations
+
 """Tests for Vault-backed :func:`secrets.base.build_secrets_backend` and :class:`secrets.vault_backend.VaultSecretsBackend`."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import sys
 import types
 from typing import Any, Optional
 
 import pytest
 
+from tests.sec.secrets.abstraction import ISecretsTests
+
 
 class TestBackendsVault(ISecretsTests):
-    def test_build_secrets_backend_selects_vault_and_calls_methods(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_build_secrets_backend_selects_vault_and_calls_methods(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         from secrets import base as secrets_base
         from secrets.vault_backend import VaultSecretsBackend
 
@@ -26,7 +27,9 @@ class TestBackendsVault(ISecretsTests):
                     return {"data": {"data": {"value": "abc"}}}
                 return {"data": {"data": {}}}
 
-            def create_or_update_secret(self, *, path: str, secret: dict[str, Any], mount_point: str):
+            def create_or_update_secret(
+                self, *, path: str, secret: dict[str, Any], mount_point: str
+            ):
                 self.created.append({"path": path, "secret": secret, "mount_point": mount_point})
 
         class FakeSecrets:
@@ -45,7 +48,9 @@ class TestBackendsVault(ISecretsTests):
 
         class FakeCfg:
             def __init__(self) -> None:
-                self.vault = types.SimpleNamespace(enabled=True, url="http://vault", token="t", mount_point=None)
+                self.vault = types.SimpleNamespace(
+                    enabled=True, url="http://vault", token="t", mount_point=None
+                )
                 self.aws = types.SimpleNamespace(enabled=False)
                 self.gcp = types.SimpleNamespace(enabled=False)
 
@@ -64,14 +69,18 @@ class TestBackendsVault(ISecretsTests):
         assert kv.created[-1]["path"] == "foo/baz"
         assert kv.created[-1]["secret"]["value"] == "val"
 
-    def test_vault_backend_get_secret_exception_returns_none(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_vault_backend_get_secret_exception_returns_none(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         from secrets.vault_backend import VaultSecretsBackend
 
         class FakeKVv2:
             def read_secret_version(self, *, path: str, mount_point: str):
                 raise RuntimeError("boom")
 
-            def create_or_update_secret(self, *, path: str, secret: dict[str, Any], mount_point: str):
+            def create_or_update_secret(
+                self, *, path: str, secret: dict[str, Any], mount_point: str
+            ):
                 pass
 
         class FakeSecrets:

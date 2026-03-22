@@ -1,8 +1,7 @@
 from __future__ import annotations
+
 """Smoke tests for ``storage`` package exports."""
 from tests.data_platform.storage.abstraction import IStorageTests
-
-
 
 
 class TestInit(IStorageTests):

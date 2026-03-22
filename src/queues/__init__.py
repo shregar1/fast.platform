@@ -9,7 +9,6 @@ from .broker import (
     QueueBroker,
     QueueMessage,
 )
-
 from .dlq import (
     DEFAULT_DLQ_SUFFIX,
     DEFAULT_QUARANTINE_SUFFIX,

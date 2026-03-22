@@ -12,6 +12,10 @@ Request validation and sanitization (inbound) are handled by EnhancedBaseModel
 and SecurityValidators; see docs/SECURITY.md for the full picture.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 
 def sanitize_for_api(data: dict) -> dict:
     """
@@ -21,25 +25,18 @@ def sanitize_for_api(data: dict) -> dict:
     """
 
     if not isinstance(data, dict):
-
         return data
 
-    return {
-        k: _sanitize_value(v)
-        for k, v in data.items()
-        if k != "id" and not k.endswith("_id")
-    }
+    return {k: _sanitize_value(v) for k, v in data.items() if k != "id" and not k.endswith("_id")}
 
 
-def _sanitize_value(value):
+def _sanitize_value(value: Any) -> Any:
     """Recursively sanitize nested dicts and lists of dicts."""
 
     if isinstance(value, dict):
-
         return sanitize_for_api(value)
 
     if isinstance(value, list):
-
         return [_sanitize_value(item) for item in value]
 
     return value

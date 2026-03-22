@@ -21,6 +21,7 @@ class EmptyFeatureFlagsClient(IFeatureFlagsClient):
     def get_value(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> Any:
         return None
 
+
 # Any truthy value enables kill switch (1, true, yes, on).
 _ENV_KEYS = (
     "FASTMVC_FEATURE_FLAGS_KILL_SWITCH",
@@ -68,7 +69,9 @@ class KillSwitchFeatureFlagsClient(IFeatureFlagsClient):
     def get_value(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> Any:
         return None
 
-    def evaluate_with_reason(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> FlagEvaluation:
+    def evaluate_with_reason(
+        self, flag_key: str, context: Optional[dict[str, Any]] = None
+    ) -> FlagEvaluation:
         return FlagEvaluation(
             enabled=False,
             value=None,

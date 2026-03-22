@@ -66,7 +66,9 @@ def fetch_twilio_turn_ice_servers(
         with urlrequest.urlopen(req, timeout=timeout_seconds) as resp:  # noqa: S310
             payload = json.loads(resp.read().decode())
     except urlerror.HTTPError as exc:
-        raise RuntimeError(f"Twilio Tokens HTTP {exc.code}: {exc.read().decode(errors='replace')}") from exc
+        raise RuntimeError(
+            f"Twilio Tokens HTTP {exc.code}: {exc.read().decode(errors='replace')}"
+        ) from exc
     except urlerror.URLError as exc:
         raise RuntimeError(f"Twilio Tokens request failed: {exc}") from exc
 

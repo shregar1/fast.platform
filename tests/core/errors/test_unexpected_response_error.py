@@ -1,12 +1,11 @@
 """Tests for :class:`errors.UnexpectedResponseError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 import pytest
 
 from errors import UnexpectedResponseError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestUnexpectedResponseError(IErrorsTests):

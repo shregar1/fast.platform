@@ -1,10 +1,9 @@
 """Tests for :class:`errors.ServiceUnavailableError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import ServiceUnavailableError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestServiceUnavailableError(IErrorsTests):

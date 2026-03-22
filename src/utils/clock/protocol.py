@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 __all__ = ["Clock"]
 

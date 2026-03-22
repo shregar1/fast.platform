@@ -28,9 +28,9 @@ from .preferences import (
 )
 from .push import PushNotificationService
 from .retry_policy import NotificationRetryPolicy
-from .webhook_retry_compat import as_webhook_retry_policy
 from .service import Notification, NotificationsService
 from .templating import render_jinja_string
+from .webhook_retry_compat import as_webhook_retry_policy
 
 __version__ = "0.3.0"
 

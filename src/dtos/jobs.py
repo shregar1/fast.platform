@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import Dict
 
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .celery_jobs import CeleryJobsDTO
 from .dramatiq_jobs import DramatiqJobsDTO
 from .rq_jobs import RqJobsDTO

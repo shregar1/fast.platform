@@ -1,17 +1,16 @@
 from __future__ import annotations
+
 """
 Public API import tests for payments.
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
 """
-from tests.integrations.payments.abstraction import IPaymentsTests
-
-
-
 import importlib
 
 import pytest
+
+from tests.integrations.payments.abstraction import IPaymentsTests
 
 PACKAGE = "payments"
 

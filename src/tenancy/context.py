@@ -93,7 +93,7 @@ def clear_current_tenant() -> None:
 class TenantContext:
     """Context manager for tenant operations."""
 
-    def __init__(self, tenant: Optional[Tenant]):
+    def __init__(self, tenant: Optional[Tenant]) -> None:
         self._tenant = tenant
         self._token: Optional[contextvars.Token] = None
 
@@ -101,14 +101,14 @@ class TenantContext:
         self._token = set_current_tenant(self._tenant)
         return self
 
-    def __exit__(self, *args: Any) -> None:
+    def __exit__(self, *args: object) -> None:
         if self._token is not None:
             _current_tenant.reset(self._token)
 
     async def __aenter__(self) -> "TenantContext":
         return self.__enter__()
 
-    async def __aexit__(self, *args: Any) -> None:
+    async def __aexit__(self, *args: object) -> None:
         self.__exit__(*args)
 
 

@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
-from .protocol import Clock
+from typing import TYPE_CHECKING
+
 from .system_clock import SystemClock
+
+if TYPE_CHECKING:
+    from .protocol import Clock
 
 __all__ = ["ClockRegistry"]
 

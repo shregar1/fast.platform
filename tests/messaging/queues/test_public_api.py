@@ -1,17 +1,16 @@
 from __future__ import annotations
+
 """
 Public API import tests for queues.
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
 """
-from tests.messaging.queues.abstraction import IQueueTests
-
-
-
 import importlib
 
 import pytest
+
+from tests.messaging.queues.abstraction import IQueueTests
 
 PACKAGE = "queues"
 

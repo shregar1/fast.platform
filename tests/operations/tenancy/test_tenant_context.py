@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for tenant context and :class:`tenancy.Tenant`."""
-from tests.operations.tenancy.abstraction import ITenancyTests
-
-
-
 import pytest
 
 from tenancy import (
@@ -15,6 +12,7 @@ from tenancy import (
     get_current_tenant_id,
     set_current_tenant,
 )
+from tests.operations.tenancy.abstraction import ITenancyTests
 
 
 @pytest.fixture(autouse=True)

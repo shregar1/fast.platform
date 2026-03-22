@@ -61,7 +61,9 @@ def format_sse_event(data: Any, *, event: str = "snapshot", event_id: Optional[s
     return "\n".join(lines)
 
 
-async def snapshot_sse_generator(path: str | Path, *, interval_seconds: float = 5.0) -> AsyncIterator[bytes]:
+async def snapshot_sse_generator(
+    path: str | Path, *, interval_seconds: float = 5.0
+) -> AsyncIterator[bytes]:
     """Async generator of UTF-8 SSE chunks for ``StreamingResponse`` (polls ``poll_snapshot_changes``)."""
     async for doc in poll_snapshot_changes(path, interval_seconds=interval_seconds):
         yield format_sse_event(doc).encode("utf-8")

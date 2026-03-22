@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 from .base import IAnalyticsBackend
-from .schema_registry import EventSchemaRegistry
+
+if TYPE_CHECKING:
+    from .schema_registry import EventSchemaRegistry
 
 
 class ValidatingAnalyticsBackend(IAnalyticsBackend):

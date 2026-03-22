@@ -1,14 +1,11 @@
 from __future__ import annotations
+
 """Schema registry, buffer/replay, GDPR hook, PII, rate limit."""
-from tests.integrations.analytics.abstraction import IAnalyticsTests
-
-
-
 from typing import Any, List, Optional
 from unittest.mock import MagicMock, patch
 
-import pytest
 import jsonschema
+import pytest
 
 from analytics.buffer import BufferedAnalyticsBackend
 from analytics.http_sink import HttpSinkAnalyticsBackend
@@ -16,6 +13,7 @@ from analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
 from analytics.rate_limit import RateLimitedAnalyticsBackend
 from analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
 from analytics.validating_backend import ValidatingAnalyticsBackend
+from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
 class _MemBackend:
@@ -26,7 +24,9 @@ class _MemBackend:
         self.identifies: List[tuple[str, Optional[dict[str, Any]]]] = []
         self.deletes: List[str] = []
 
-    def track(self, distinct_id: str, event_name: str, properties: Optional[dict[str, Any]] = None) -> None:
+    def track(
+        self, distinct_id: str, event_name: str, properties: Optional[dict[str, Any]] = None
+    ) -> None:
         self.tracks.append((distinct_id, event_name, properties))
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
@@ -51,11 +51,15 @@ class TestSchemaBufferGdpr(IAnalyticsTests):
 
     def test_registry_validate_properties(self) -> None:
         reg = EventSchemaRegistry()
-        reg.register("purchase", 1, {
-            "type": "object",
-            "properties": {"amount": {"type": "number"}},
-            "required": ["amount"],
-        })
+        reg.register(
+            "purchase",
+            1,
+            {
+                "type": "object",
+                "properties": {"amount": {"type": "number"}},
+                "required": ["amount"],
+            },
+        )
         reg.validate_properties("purchase@1", {"amount": 1.0})
         with pytest.raises(jsonschema.ValidationError):
             reg.validate_properties("purchase@1", {})
@@ -67,7 +71,9 @@ class TestSchemaBufferGdpr(IAnalyticsTests):
 
     def test_validating_backend_versioned(self) -> None:
         reg = EventSchemaRegistry()
-        reg.register("x", 1, {"type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"]})
+        reg.register(
+            "x", 1, {"type": "object", "properties": {"a": {"type": "string"}}, "required": ["a"]}
+        )
         mem = _MemBackend()
         v = ValidatingAnalyticsBackend(mem, reg)
         v.track("u", "x@1", {"a": "ok"})

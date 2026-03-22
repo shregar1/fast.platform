@@ -1,8 +1,7 @@
 from __future__ import annotations
+
 """Smoke tests for ``tenancy`` package exports."""
 from tests.operations.tenancy.abstraction import ITenancyTests
-
-
 
 
 class TestInit(ITenancyTests):

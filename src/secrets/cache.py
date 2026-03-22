@@ -11,8 +11,7 @@ from .base import ISecretsBackend
 
 
 class RotationCallback(Protocol):
-    def __call__(self, key: str, old_value: Optional[str], new_value: str) -> None:
-        ...
+    def __call__(self, key: str, old_value: Optional[str], new_value: str) -> None: ...
 
 
 class CachedSecretsBackend(ISecretsBackend):

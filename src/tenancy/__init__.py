@@ -3,24 +3,24 @@ fast_tenancy – Multi-tenancy (tenant context, JWT, middleware) for FastMVC.
 """
 
 from .context import (
+    InMemoryTenantStore,
     Tenant,
     TenantConfig,
     TenantContext,
     TenantStore,
-    InMemoryTenantStore,
+    clear_current_tenant,
     get_current_tenant,
     get_current_tenant_id,
     set_current_tenant,
-    clear_current_tenant,
 )
 from .middleware import (
-    TenantResolver,
-    HeaderTenantResolver,
-    SubdomainTenantResolver,
-    PathTenantResolver,
-    JWTTenantResolver,
     ChainedTenantResolver,
+    HeaderTenantResolver,
+    JWTTenantResolver,
+    PathTenantResolver,
+    SubdomainTenantResolver,
     TenantMiddleware,
+    TenantResolver,
 )
 from .resolution import (
     ResolutionStrategy,

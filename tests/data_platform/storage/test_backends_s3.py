@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for :class:`storage.s3_backend.S3StorageBackend`."""
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import builtins
 import io
 import sys
@@ -13,10 +10,13 @@ from typing import Any, BinaryIO, Optional
 import pytest
 
 from storage.s3_backend import S3StorageBackend
+from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsS3(IStorageTests):
-    def test_s3_backend_upload_download_delete_and_presigned_url(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_s3_backend_upload_download_delete_and_presigned_url(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         class FakeBody:
             def __init__(self, data: bytes) -> None:
                 self._data = data
@@ -35,7 +35,9 @@ class TestBackendsS3(IStorageTests):
                 self.put_calls.append({"Bucket": Bucket, "Key": Key, "Body": Body, "extra": extra})
 
             def upload_fileobj(self, fileobj: BinaryIO, Bucket: str, Key: str, ExtraArgs=None):
-                self.upload_fileobj_calls.append({"Bucket": Bucket, "Key": Key, "ExtraArgs": ExtraArgs})
+                self.upload_fileobj_calls.append(
+                    {"Bucket": Bucket, "Key": Key, "ExtraArgs": ExtraArgs}
+                )
 
             def get_object(self, *, Bucket: str, Key: str):
                 self.last_get_key = Key
@@ -45,21 +47,37 @@ class TestBackendsS3(IStorageTests):
                 self.deleted.append({"Bucket": Bucket, "Key": Key})
 
             def head_object(self, *, Bucket: str, Key: str):
-                return {"ContentLength": 42, "ContentType": "text/plain", "ETag": '"abc"', "LastModified": None}
+                return {
+                    "ContentLength": 42,
+                    "ContentType": "text/plain",
+                    "ETag": '"abc"',
+                    "LastModified": None,
+                }
 
             def create_multipart_upload(self, *, Bucket: str, Key: str, **extra):
                 return {"UploadId": "up-1"}
 
-            def upload_part(self, *, Bucket: str, Key: str, PartNumber: int, UploadId: str, Body: bytes):
+            def upload_part(
+                self, *, Bucket: str, Key: str, PartNumber: int, UploadId: str, Body: bytes
+            ):
                 return {"ETag": f"etag-{PartNumber}"}
 
-            def complete_multipart_upload(self, *, Bucket: str, Key: str, UploadId: str, MultipartUpload: dict):
-                self.completed = {"Bucket": Bucket, "Key": Key, "UploadId": UploadId, "Parts": MultipartUpload["Parts"]}
+            def complete_multipart_upload(
+                self, *, Bucket: str, Key: str, UploadId: str, MultipartUpload: dict
+            ):
+                self.completed = {
+                    "Bucket": Bucket,
+                    "Key": Key,
+                    "UploadId": UploadId,
+                    "Parts": MultipartUpload["Parts"],
+                }
 
             def abort_multipart_upload(self, *, Bucket: str, Key: str, UploadId: str):
                 self.aborted = True
 
-            def generate_presigned_url(self, method: str, *, Params: dict[str, Any], ExpiresIn: int):
+            def generate_presigned_url(
+                self, method: str, *, Params: dict[str, Any], ExpiresIn: int
+            ):
                 return f"presigned://{Params['Key']}?exp={ExpiresIn}"
 
         class FakeConfig:
@@ -113,7 +131,9 @@ class TestBackendsS3(IStorageTests):
         assert h.size == 42
         assert h.content_type == "text/plain"
 
-    def test_s3_backend_dependency_missing_raises_runtime_error(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_s3_backend_dependency_missing_raises_runtime_error(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         real_import = builtins.__import__
 
         def _deny_import(name: str, *args: object, **kwargs: object):

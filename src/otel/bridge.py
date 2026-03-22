@@ -6,7 +6,7 @@ Requires ``pip install 'fast-platform[otel]'`` (``opentelemetry-api``).
 
 from __future__ import annotations
 
-from typing import Any, Mapping, MutableMapping
+from typing import Any, Mapping, MutableMapping, Optional
 
 from utils.optional_imports import OptionalImports
 from utils.request_id_context import RequestIdContext
@@ -18,7 +18,7 @@ class OpenTelemetryBridge:
     """OpenTelemetry trace context + request id wiring (optional dependency)."""
 
     @staticmethod
-    def _trace_api():
+    def _trace_api() -> Optional[Any]:
         mod, _ = OptionalImports.optional_import("opentelemetry.trace")
         return mod
 
@@ -48,7 +48,9 @@ class OpenTelemetryBridge:
 
         Returns False if OpenTelemetry is not installed.
         """
-        prop_mod, _ = OptionalImports.optional_import("opentelemetry.trace.propagation.tracecontext")
+        prop_mod, _ = OptionalImports.optional_import(
+            "opentelemetry.trace.propagation.tracecontext"
+        )
         ctx_mod, _ = OptionalImports.optional_import("opentelemetry.context")
         if prop_mod is None or ctx_mod is None:
             return False
@@ -67,7 +69,9 @@ class OpenTelemetryBridge:
 
         Returns an OpenTelemetry ``Context`` or None if OTEL is missing / invalid.
         """
-        prop_mod, _ = OptionalImports.optional_import("opentelemetry.trace.propagation.tracecontext")
+        prop_mod, _ = OptionalImports.optional_import(
+            "opentelemetry.trace.propagation.tracecontext"
+        )
         if prop_mod is None:
             return None
         TraceContextTextMapPropagator = getattr(prop_mod, "TraceContextTextMapPropagator", None)

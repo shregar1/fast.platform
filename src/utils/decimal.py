@@ -7,8 +7,8 @@ workflows.
 
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Any
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Union
 
 __all__ = ["DecimalUtility"]
 
@@ -43,7 +43,7 @@ class DecimalUtility:
         value: Any,
         *,
         decimal_places: int,
-        rounding=ROUND_HALF_UP,
+        rounding: Union[str, Decimal] = ROUND_HALF_UP,
         allow_float: bool = False,
     ) -> Decimal:
         """Quantize to a fixed number of decimal places."""
@@ -60,7 +60,7 @@ class DecimalUtility:
         amount: Any,
         *,
         minor_units: int = 2,
-        rounding=ROUND_HALF_UP,
+        rounding: Union[str, Decimal] = ROUND_HALF_UP,
         allow_float: bool = False,
     ) -> Decimal:
         """Round an amount to currency minor units (e.g. cents for USD)."""

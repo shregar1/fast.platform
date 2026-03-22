@@ -1,13 +1,15 @@
 """Tests for Kafka worker."""
+
+from unittest.mock import AsyncMock, MagicMock, patch
+
 from tests.messaging.kafka.abstraction import IKafkaTests
 
-from unittest.mock import AsyncMock, patch, MagicMock
 
 class TestWorker(IKafkaTests):
-
-    @patch('kafka.worker.KafkaConsumer')
+    @patch("kafka.worker.KafkaConsumer")
     def test_worker_run(self, mock_consumer_cls):
         from kafka.worker import run
+
         mock_consumer = MagicMock()
         mock_consumer.start = AsyncMock(return_value=None)
         mock_consumer.stop = AsyncMock(return_value=None)

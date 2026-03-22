@@ -1,10 +1,9 @@
 """Tests for :class:`errors.LLMFeatureNotAvailableError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import LLMFeatureNotAvailableError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestLLMFeatureNotAvailableError(IErrorsTests):

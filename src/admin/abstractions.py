@@ -10,7 +10,6 @@ from pydantic import BaseModel
 
 from .abstraction import IAdmin
 
-
 # ----- Schemas (optional DTOs for admin API) -----
 
 
@@ -93,7 +92,9 @@ class IAdminRoleRepository(IAdmin, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update_role(self, role_id: str, name: Optional[str] = None, permissions: Optional[list[str]] = None) -> Optional[AdminRoleSummary]:
+    async def update_role(
+        self, role_id: str, name: Optional[str] = None, permissions: Optional[list[str]] = None
+    ) -> Optional[AdminRoleSummary]:
         raise NotImplementedError
 
     @abstractmethod

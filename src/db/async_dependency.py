@@ -6,11 +6,14 @@ Requires :func:`fast_db.async_engine.create_and_set_async_session_factory` at st
 
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator
-
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import TYPE_CHECKING
 
 from .async_engine import get_async_session_factory
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
+
+    from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class AsyncDBDependency:

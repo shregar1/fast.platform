@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import CacheConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class CacheConfiguration(IConfiguration[CacheConfigurationDTO]):
+class CacheConfiguration(ConfigurationSingletonBase[CacheConfigurationDTO]):
     _instance: Optional["CacheConfiguration"] = None
     _section: str = "cache"
     _env_key: str = "CACHE"

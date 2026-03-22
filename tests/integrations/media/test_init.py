@@ -1,13 +1,13 @@
 """Tests for media."""
-from tests.integrations.media.abstraction import IFastMediaTests
 
+from tests.integrations.media.abstraction import IFastMediaTests
 
 
 class TestInit(IFastMediaTests):
     def test_imports(self) -> None:
         from media import (
-            IMediaStore,
             ImageVariantPipeline,
+            IMediaStore,
             UploadResult,
             generate_image_variant,
             noop_virus_scan,

@@ -12,11 +12,13 @@ class VaultSecretsBackend(ISecretsBackend):
 
     name = "vault"
 
-    def __init__(self, url: str, token: Optional[str] = None, mount_point: str = "secret"):
+    def __init__(self, url: str, token: Optional[str] = None, mount_point: str = "secret") -> None:
         try:
             import hvac
         except ImportError as e:
-            raise RuntimeError("hvac is required for Vault. Install: pip install fast_secrets[vault]") from e
+            raise RuntimeError(
+                "hvac is required for Vault. Install: pip install fast_secrets[vault]"
+            ) from e
         self._client = hvac.Client(url=url, token=token)
         self._mount = mount_point
 
@@ -26,7 +28,9 @@ class VaultSecretsBackend(ISecretsBackend):
             data = r.get("data", {}).get("data") or {}
             if not data:
                 return None
-            return data.get("value") or data.get(key.split("/")[-1]) or next(iter(data.values()), None)
+            return (
+                data.get("value") or data.get(key.split("/")[-1]) or next(iter(data.values()), None)
+            )
         except Exception:
             return None
 

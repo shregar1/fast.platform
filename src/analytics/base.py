@@ -48,6 +48,7 @@ def build_analytics_client() -> Optional[IAnalyticsBackend]:
 
     if getattr(cfg.http_sink, "enabled", False) and cfg.http_sink.endpoint:
         from .http_sink import HttpSinkAnalyticsBackend
+
         return HttpSinkAnalyticsBackend(
             endpoint=cfg.http_sink.endpoint,
             api_key=cfg.http_sink.api_key,

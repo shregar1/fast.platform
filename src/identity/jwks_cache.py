@@ -40,7 +40,9 @@ class JWKSCache:
         if httpx is None:
             raise RuntimeError("httpx is required for JWKS. Install fast_identity[oauth].")
         async with httpx.AsyncClient() as client:
-            resp = await client.get(self._jwks_uri, headers={"Accept": "application/json"}, timeout=15.0)
+            resp = await client.get(
+                self._jwks_uri, headers={"Accept": "application/json"}, timeout=15.0
+            )
             resp.raise_for_status()
             data = resp.json()
         if not isinstance(data, dict):

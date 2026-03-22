@@ -4,15 +4,14 @@ Unified async iterators for OpenAI and Anthropic streaming chat/message APIs.
 
 from __future__ import annotations
 
+import inspect
 from dataclasses import dataclass
 from typing import Any, AsyncIterator, Literal, Optional
-import inspect
 
 from errors.llm_feature_not_available_error import LLMFeatureNotAvailableError
 from errors.unsupported_llm_provider_error import UnsupportedLLMProviderError
 
 from .token_usage import TokenUsage
-
 
 OpenAICompatibleStreamProvider = Literal["openai", "groq", "mistral"]
 

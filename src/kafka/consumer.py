@@ -4,14 +4,19 @@ Kafka consumer integration using aiokafka.
 
 from __future__ import annotations
 
-from typing import Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable, Optional
 
-from aiokafka import AIOKafkaConsumer
-from aiokafka.structs import TopicPartition
+from aiokafka import AIOKafkaConsumer  # pyright: ignore[reportMissingTypeStubs]
+from aiokafka.structs import TopicPartition  # pyright: ignore[reportMissingTypeStubs]
 from loguru import logger
 
-from .config_loader import KafkaConfiguration
+from configuration.kafka import KafkaConfiguration
+
 from .idempotent import DedupeStore, InMemoryDedupeStore, KafkaDedupeKeys
+
+
+def _message_bytes(value: bytes | None) -> bytes:
+    return b"" if value is None else value
 
 
 class KafkaConsumer:
@@ -45,7 +50,7 @@ class KafkaConsumer:
             logger.warning("Kafka consumer is not running; loop exited.")
             return
         async for msg in self._consumer:
-            await handler(msg.topic, msg.value)
+            await handler(msg.topic, _message_bytes(msg.value))
 
     async def loop_idempotent(
         self,
@@ -73,15 +78,16 @@ class KafkaConsumer:
         key_fn = dedupe_key or KafkaDedupeKeys.default_dedupe_key
 
         async for msg in self._consumer:
-            dkey = key_fn(msg.value)
+            payload = _message_bytes(msg.value)
+            dkey = key_fn(payload)
             if await store.should_skip(dkey):
                 await self._commit_offset(msg)
                 continue
-            await handler(msg.topic, msg.value)
+            await handler(msg.topic, payload)
             await self._commit_offset(msg)
             await store.record_success(dkey)
 
-    async def _commit_offset(self, msg) -> None:
+    async def _commit_offset(self, msg: Any) -> None:
         assert self._consumer is not None
         tp = TopicPartition(msg.topic, msg.partition)
         await self._consumer.commit({tp: msg.offset + 1})

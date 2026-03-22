@@ -45,7 +45,7 @@ class FieldEncryption:
         key: Optional[str] = None,
         key_bytes: Optional[bytes] = None,
         salt: Optional[bytes] = None,
-    ):
+    ) -> None:
         if key_bytes:
             self._fernet = Fernet(base64.urlsafe_b64encode(key_bytes))
         elif key:
@@ -124,11 +124,9 @@ class KeyRotation:
         self,
         current_key: str,
         previous_keys: Optional[list[str]] = None,
-    ):
+    ) -> None:
         self._current = FieldEncryption(key=current_key)
-        self._previous = [
-            FieldEncryption(key=k) for k in (previous_keys or [])
-        ]
+        self._previous = [FieldEncryption(key=k) for k in (previous_keys or [])]
 
     def encrypt(self, plaintext: Union[str, bytes]) -> str:
         """Encrypt with current key."""

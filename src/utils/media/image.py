@@ -10,10 +10,11 @@ valid magic bytes; for strict validation, decode with Pillow or another library.
 from __future__ import annotations
 
 from io import BytesIO
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
+
+from utils.optional_imports import OptionalImports
 
 from .abstraction import IMedia
-from ..optional_imports import OptionalImports
 
 __all__ = ["ImageUtility"]
 
@@ -134,7 +135,7 @@ class ImageUtility(IMedia):
             return None
 
     @staticmethod
-    def open_image(data: bytes):
+    def open_image(data: bytes) -> Any:
         """
         Open *data* as a Pillow :class:`~PIL.Image.Image` and return it.
 

@@ -1,10 +1,9 @@
 """Tests for :class:`errors.CryptoConfigurationError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import CryptoConfigurationError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestCryptoConfigurationError(IErrorsTests):

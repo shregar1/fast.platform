@@ -14,7 +14,8 @@ from __future__ import annotations
 import html
 import re
 
-from ..abstraction import IUtility
+from utils.abstraction import IUtility
+
 from .html_strip_tags_parser import HtmlStripTagsParser
 
 __all__ = ["HtmlUtility"]

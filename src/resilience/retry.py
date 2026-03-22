@@ -67,10 +67,10 @@ class RetryPolicy:
             delay = self.base_delay * (attempt + 1)
 
         elif self.backoff_strategy == BackoffStrategy.EXPONENTIAL:
-            delay = self.base_delay * (self.backoff_multiplier ** attempt)
+            delay = self.base_delay * (self.backoff_multiplier**attempt)
 
         elif self.backoff_strategy == BackoffStrategy.EXPONENTIAL_JITTER:
-            delay = self.base_delay * (self.backoff_multiplier ** attempt)
+            delay = self.base_delay * (self.backoff_multiplier**attempt)
             if self.jitter:
                 delay = delay * (0.5 + random.random())
 
@@ -102,7 +102,7 @@ class RetryExhausted(Exception):
         message: str,
         last_exception: Exception,
         attempts: int,
-    ):
+    ) -> None:
         self.last_exception = last_exception
         self.attempts = attempts
         super().__init__(f"{message} after {attempts} attempts: {last_exception}")

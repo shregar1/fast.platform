@@ -1,9 +1,7 @@
 from __future__ import annotations
+
 """Tests for :mod:`utils.html`."""
 from tests.core.utils.html.abstraction import IHtmlUtilsTests
-
-
-
 from utils.html import HtmlUtility
 
 

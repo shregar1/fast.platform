@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .pinecone_config import PineconeConfigDTO
 from .qdrant_config import QdrantConfigDTO
 from .weaviate_config import WeaviateConfigDTO

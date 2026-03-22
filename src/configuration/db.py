@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import DBConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class DBConfiguration(IConfiguration[DBConfigurationDTO]):
+class DBConfiguration(ConfigurationSingletonBase[DBConfigurationDTO]):
     _instance: Optional["DBConfiguration"] = None
     _section: str = "db"
     _env_key: str = "DB"

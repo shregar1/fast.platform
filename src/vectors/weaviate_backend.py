@@ -12,12 +12,15 @@ class WeaviateVectorStore(IVectorStore):
 
     name = "weaviate"
 
-    def __init__(self, url: str = "http://localhost:8080", api_key: Optional[str] = None):
+    def __init__(self, url: str = "http://localhost:8080", api_key: Optional[str] = None) -> None:
         try:
             import weaviate
         except ImportError as e:
-            raise RuntimeError("weaviate-client required. Install: pip install fast_vectors[weaviate]") from e
+            raise RuntimeError(
+                "weaviate-client required. Install: pip install fast_vectors[weaviate]"
+            ) from e
         from urllib.parse import urlparse
+
         parsed = urlparse(url)
         host = parsed.hostname or "localhost"
         port = parsed.port or (443 if parsed.scheme == "https" else 8080)
@@ -29,7 +32,9 @@ class WeaviateVectorStore(IVectorStore):
         else:
             self._client = weaviate.connect_to_local(host=host, port=port, grpc_port=50051)
 
-    def upsert(self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]) -> None:
+    def upsert(
+        self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]
+    ) -> None:
         with self._client.collections.get(index_name).batch.dynamic() as batch:
             for vid, vec, meta in vectors:
                 batch.add_object(properties=meta or {}, vector=vec)

@@ -29,7 +29,6 @@ from fast_platform import DBConfiguration, DBConfigurationDTO
 
 from .engine import _pool_kwargs
 
-
 _global_async_engine: Optional[AsyncEngine] = None
 _global_async_read_engine: Optional[AsyncEngine] = None
 
@@ -60,6 +59,8 @@ def async_connect_args_for_url(url: str, config: DBConfigurationDTO) -> dict:
     if not settings:
         return {}
     return {"server_settings": settings}
+
+
 _global_async_session_factory: Optional[async_sessionmaker[AsyncSession]] = None
 
 

@@ -2,17 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import TYPE_CHECKING, Literal, Optional
 
 from fast_platform import LLMConfiguration
 
 from .anthropic_llm_service import AnthropicLLMService
 from .gemini_llm_service import GeminiLLMService
 from .groq_llm_service import GroqLLMService
-from .illm_service import ILLMService
 from .mistral_llm_service import MistralLLMService
 from .ollama_llm_service import OllamaLLMService
 from .openai_llm_service import OpenAILLMService
+
+if TYPE_CHECKING:
+    from .illm_service import ILLMService
 
 
 def build_llm_service(

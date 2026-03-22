@@ -4,7 +4,7 @@ Multiple OIDC issuers during migrations: one JWKS URI per issuer string.
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Any, Dict
 
 from .jwks_cache import JWKSCache
 
@@ -34,12 +34,12 @@ class MultiIssuerJWKSCache:
     def has_issuer(self, issuer: str) -> bool:
         return issuer in self._caches
 
-    async def get_jwks(self, issuer: str):
+    async def get_jwks(self, issuer: str) -> Dict[str, Any]:
         if issuer not in self._caches:
             raise KeyError(issuer)
         return await self._caches[issuer].get_jwks()
 
-    async def refresh_issuer(self, issuer: str):
+    async def refresh_issuer(self, issuer: str) -> Dict[str, Any]:
         if issuer not in self._caches:
             raise KeyError(issuer)
         return await self._caches[issuer].refresh()

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import pytest
 
-from tests.core.services.abstraction import IServicesTests
-
 from errors import CryptoConfigurationError, ServiceUnavailableError
 from services.crypto import (
     AesGcmCryptoService,
@@ -13,6 +11,7 @@ from services.crypto import (
     HashingService,
     KeyRotationService,
 )
+from tests.core.services.abstraction import IServicesTests
 
 
 class TestCryptoService(IServicesTests):

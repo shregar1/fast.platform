@@ -93,7 +93,9 @@ class IDocumentStore(IDataStore):
         """Insert a single document into the given collection."""
 
     @abstractmethod
-    def find_one(self, collection: str, filter: Dict[str, Any]) -> Optional[Dict[str, Any]]:  # pragma: no cover
+    def find_one(
+        self, collection: str, filter: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:  # pragma: no cover
         """Find a single document matching the filter."""
 
     @abstractmethod
@@ -101,7 +103,9 @@ class IDocumentStore(IDataStore):
         """Delete a single document matching the filter."""
 
     @abstractmethod
-    def find_many(self, collection: str, filter: Dict[str, Any]) -> list[Dict[str, Any]]:  # pragma: no cover
+    def find_many(
+        self, collection: str, filter: Dict[str, Any]
+    ) -> list[Dict[str, Any]]:  # pragma: no cover
         """Find all documents matching the filter."""
 
     @abstractmethod

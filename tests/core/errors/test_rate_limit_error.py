@@ -1,10 +1,9 @@
 """Tests for :class:`errors.RateLimitError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import RateLimitError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestRateLimitError(IErrorsTests):

@@ -1,11 +1,10 @@
 """Tests for long_poll."""
-from tests.messaging.notifications.abstraction import INotificationTests
-
 
 import asyncio
 from unittest.mock import patch
 
 from notifications.service import NotificationsService
+from tests.messaging.notifications.abstraction import INotificationTests
 
 
 async def _long_poll_returns_quickly_when_items_exist():

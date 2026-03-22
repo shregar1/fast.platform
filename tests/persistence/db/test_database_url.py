@@ -1,46 +1,51 @@
 """Tests for get_database_url with mocked configuration."""
-from tests.persistence.db.abstraction import IDatabaseTests
 
 from unittest.mock import MagicMock, patch
+
 import pytest
 
-class TestDatabaseUrl(IDatabaseTests):
+from tests.persistence.db.abstraction import IDatabaseTests
 
+
+class TestDatabaseUrl(IDatabaseTests):
     def test_get_database_url_from_formatted_connection_string(self):
         from db import get_database_url
+
         mock_cfg = MagicMock()
-        mock_cfg.connection_string = 'postgresql://{user_name}:{password}@{host}:{port}/{database}'
-        mock_cfg.user_name = 'u'
-        mock_cfg.password = 'p'
-        mock_cfg.host = 'localhost'
+        mock_cfg.connection_string = "postgresql://{user_name}:{password}@{host}:{port}/{database}"
+        mock_cfg.user_name = "u"
+        mock_cfg.password = "p"
+        mock_cfg.host = "localhost"
         mock_cfg.port = 5432
-        mock_cfg.database = 'db'
-        with patch('db.url.DBConfiguration') as DC:
+        mock_cfg.database = "db"
+        with patch("db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             url = get_database_url()
-            assert 'postgresql://' in url
-            assert 'u' in url
-            assert 'localhost' in url
+            assert "postgresql://" in url
+            assert "u" in url
+            assert "localhost" in url
 
     def test_get_database_url_raw_string_fallback(self):
         from db import get_database_url
+
         mock_cfg = MagicMock()
-        mock_cfg.connection_string = 'sqlite:///./test.db'
+        mock_cfg.connection_string = "sqlite:///./test.db"
         mock_cfg.user_name = None
         mock_cfg.password = None
         mock_cfg.host = None
         mock_cfg.port = None
         mock_cfg.database = None
-        with patch('db.url.DBConfiguration') as DC:
+        with patch("db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
-            assert get_database_url() == 'sqlite:///./test.db'
+            assert get_database_url() == "sqlite:///./test.db"
 
     def test_get_database_url_raises_when_incomplete(self):
         from db import get_database_url
+
         mock_cfg = MagicMock()
-        mock_cfg.connection_string = ''
+        mock_cfg.connection_string = ""
         mock_cfg.user_name = None
-        with patch('db.url.DBConfiguration') as DC:
+        with patch("db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
-            with pytest.raises(RuntimeError, match='incomplete'):
+            with pytest.raises(RuntimeError, match="incomplete"):
                 get_database_url()

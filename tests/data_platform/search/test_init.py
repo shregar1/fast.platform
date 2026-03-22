@@ -1,8 +1,7 @@
 from __future__ import annotations
+
 """Smoke tests for ``search`` package exports."""
 from tests.data_platform.search.abstraction import ISearchTests
-
-
 
 
 class TestInit(ISearchTests):
@@ -13,8 +12,8 @@ class TestInit(ISearchTests):
             ISearchBackend,
             SearchConfiguration,
             SearchConfigurationDTO,
-            bulk_index_documents,
             build_search_backend,
+            bulk_index_documents,
             suggest_autocomplete,
             swap_index_alias,
         )

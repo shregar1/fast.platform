@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
-from .dto import FacetedSearchResult, FacetBucket, SearchHit
+from .dto import FacetBucket, FacetedSearchResult, SearchHit
 
 
 def _strip_meili_meta(hit: dict[str, Any]) -> dict[str, Any]:
@@ -28,11 +28,13 @@ class MeilisearchBackend(ISearchBackend):
 
     name = "meilisearch"
 
-    def __init__(self, url: str, api_key: Optional[str] = None):
+    def __init__(self, url: str, api_key: Optional[str] = None) -> None:
         try:
             from meilisearch import Client
         except ImportError as e:
-            raise RuntimeError("meilisearch required. Install: pip install fast_search[meilisearch]") from e
+            raise RuntimeError(
+                "meilisearch required. Install: pip install fast_search[meilisearch]"
+            ) from e
         self._client = Client(url, api_key)
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
@@ -87,9 +89,7 @@ class MeilisearchBackend(ISearchBackend):
             total = len(hits_raw)
         facets: dict[str, list[FacetBucket]] = {}
         for field, dist in (r.get("facetDistribution") or {}).items():
-            facets[field] = [
-                FacetBucket(value=str(k), count=int(v)) for k, v in dist.items()
-            ]
+            facets[field] = [FacetBucket(value=str(k), count=int(v)) for k, v in dist.items()]
         hits_out: list[SearchHit] = []
         for h in hits_raw:
             doc = _strip_meili_meta(h)

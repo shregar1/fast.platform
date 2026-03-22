@@ -1,10 +1,9 @@
 """Tests for :class:`errors.ForbiddenError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import ForbiddenError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestForbiddenError(IErrorsTests):

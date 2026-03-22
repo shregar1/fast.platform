@@ -1,17 +1,16 @@
 from __future__ import annotations
+
 """
 Public API import tests for storage.
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
 """
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import importlib
 
 import pytest
+
+from tests.data_platform.storage.abstraction import IStorageTests
 
 PACKAGE = "storage"
 

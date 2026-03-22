@@ -1,12 +1,10 @@
 """Unit tests for :class:`NotificationRetryPolicy` (no webhooks required)."""
+
+from notifications.retry_policy import NotificationRetryPolicy
 from tests.messaging.notifications.abstraction import INotificationTests
 
 
-from notifications.retry_policy import NotificationRetryPolicy
-
-
 class TestRetryPolicyCore(INotificationTests):
-
     def test_notification_retry_policy_defaults(self):
         n = NotificationRetryPolicy()
         assert n.max_attempts == 3

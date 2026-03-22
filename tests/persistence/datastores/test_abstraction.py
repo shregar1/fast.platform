@@ -1,8 +1,7 @@
 """Tests for :mod:`datastores.abstraction`."""
-from tests.persistence.datastores.abstraction import IDatastoresTests
-
 
 from datastores.abstraction import IDatastores
+from tests.persistence.datastores.abstraction import IDatastoresTests
 
 
 class TestIDatastores(IDatastoresTests):

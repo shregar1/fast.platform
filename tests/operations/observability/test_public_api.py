@@ -1,10 +1,8 @@
 from __future__ import annotations
+
 """Tests for ``observability`` public re-exports."""
-from tests.operations.observability.abstraction import IObservabilityTests
-
-
-
 import observability
+from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestObservabilityPublicApi(IObservabilityTests):

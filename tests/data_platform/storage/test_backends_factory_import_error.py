@@ -1,18 +1,19 @@
 from __future__ import annotations
+
 """Tests for :func:`storage.base.build_storage_backend` when backend modules fail to import."""
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import builtins
 import sys
 import types
 
 import pytest
 
+from tests.data_platform.storage.abstraction import IStorageTests
+
 
 class TestBackendsFactoryImportError(IStorageTests):
-    def test_build_storage_backend_import_error_returns_none(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_build_storage_backend_import_error_returns_none(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         from storage import base as storage_base
 
         class FakeCfg:
@@ -26,9 +27,15 @@ class TestBackendsFactoryImportError(IStorageTests):
                     secret_access_key=None,
                     base_path="",
                 )
-                self.gcs = types.SimpleNamespace(enabled=True, bucket="g", credentials_json_path=None, base_path="")
+                self.gcs = types.SimpleNamespace(
+                    enabled=True, bucket="g", credentials_json_path=None, base_path=""
+                )
                 self.azure_blob = types.SimpleNamespace(
-                    enabled=True, container="c", connection_string=None, account_url="http://acc", base_path=""
+                    enabled=True,
+                    container="c",
+                    connection_string=None,
+                    account_url="http://acc",
+                    base_path="",
                 )
                 self.local = types.SimpleNamespace(enabled=False, base_dir="x", base_url=None)
 

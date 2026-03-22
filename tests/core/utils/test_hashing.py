@@ -1,13 +1,11 @@
 from __future__ import annotations
+
 """Tests for :mod:`utils.hashing`."""
-from tests.core.utils.abstraction import IUtilsTests
-
-
-
 import hashlib
 import tempfile
 from pathlib import Path
 
+from tests.core.utils.abstraction import IUtilsTests
 from utils.hashing import HashingUtility
 
 
@@ -26,7 +24,10 @@ class TestHashingUtility(IUtilsTests):
 
     def test_hmac_sha256_hex(self) -> None:
         k, d = b"key", b"data"
-        assert HashingUtility.hmac_sha256_hex(k, d) == __import__("hmac").new(k, d, hashlib.sha256).hexdigest()
+        assert (
+            HashingUtility.hmac_sha256_hex(k, d)
+            == __import__("hmac").new(k, d, hashlib.sha256).hexdigest()
+        )
 
     def test_hash_file_streams(self) -> None:
         with tempfile.NamedTemporaryFile(delete=False) as f:

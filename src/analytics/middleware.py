@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import random
-from typing import Any, Callable, cast
+from typing import TYPE_CHECKING, Any, Callable, cast
 
-from .base import IAnalyticsBackend
+if TYPE_CHECKING:
+    from .base import IAnalyticsBackend
 
 try:
     from starlette.middleware.base import BaseHTTPMiddleware as _BaseHTTPMiddleware
@@ -38,7 +39,7 @@ def default_analytics_user_key(request: Request) -> str:
     return "anonymous"
 
 
-BaseHTTPMiddleware = cast(Any, _BaseHTTPMiddleware)
+BaseHTTPMiddleware = cast("Any", _BaseHTTPMiddleware)
 
 
 class AnalyticsSamplingMiddleware(BaseHTTPMiddleware):
@@ -54,7 +55,7 @@ class AnalyticsSamplingMiddleware(BaseHTTPMiddleware):
         sample_rate: float = 0.01,
         user_key: Callable[[Request], str] = default_analytics_user_key,
         max_events_per_user_per_minute: int = 0,
-    ):
+    ) -> None:
         if not _STARLETTE:  # pragma: no cover
             raise RuntimeError("starlette required: pip install fast_analytics[web]")
         super().__init__(app)

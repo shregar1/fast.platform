@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import TYPE_CHECKING, List
 
-from .base import ISearchBackend
+if TYPE_CHECKING:
+    from .base import ISearchBackend
 
 
 def suggest_autocomplete(

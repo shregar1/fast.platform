@@ -1,12 +1,11 @@
 from __future__ import annotations
+
 """Tests for :class:`secrets.gcp_backend.GcpSecretsBackend`."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import sys
 import types
 from typing import Any
+
+from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsGcp(ISecretsTests):

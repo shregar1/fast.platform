@@ -12,7 +12,7 @@ import socket
 import struct
 import subprocess
 import tempfile
-from typing import Optional, Protocol
+from typing import Protocol
 
 
 class VirusDetectedError(Exception):

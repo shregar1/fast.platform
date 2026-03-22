@@ -53,7 +53,9 @@ class RedisSubscriberCounters:
     Requires ``redis.asyncio`` (optional dependency is satisfied via the package's ``redis`` dep).
     """
 
-    def __init__(self, client: "aioredis.Redis", *, key_prefix: str = "channels:subscribers:") -> None:
+    def __init__(
+        self, client: "aioredis.Redis", *, key_prefix: str = "channels:subscribers:"
+    ) -> None:
         if aioredis is None:
             raise RuntimeError("redis.asyncio is not available")
         self._client = client
@@ -88,5 +90,7 @@ class RedisSubscriberCounters:
 
     async def all_counts(self) -> Dict[str, int]:
         """Not implemented efficiently; returns ``{}`` (use SCAN in your app if needed)."""
-        logger.debug("RedisSubscriberCounters.all_counts is not implemented; use per-channel count()")
+        logger.debug(
+            "RedisSubscriberCounters.all_counts is not implemented; use per-channel count()"
+        )
         return {}

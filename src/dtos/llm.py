@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import Any
 
-from pydantic import ConfigDict, Field, model_validator
+from pydantic import Field, model_validator
+
+from .abstraction import IDTO
 
 
 class LLMProviderBlock(IDTO):

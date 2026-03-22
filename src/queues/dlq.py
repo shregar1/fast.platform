@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import base64
 import json
-from typing import Any, Dict, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, Optional, Tuple
 
-from .broker import QueueMessage
+if TYPE_CHECKING:
+    from .broker import QueueMessage
 
 DEFAULT_DLQ_SUFFIX = ".dlq"
 DEFAULT_QUARANTINE_SUFFIX = ".quarantine"

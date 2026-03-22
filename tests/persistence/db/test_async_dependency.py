@@ -1,10 +1,10 @@
 """Tests for :mod:`db.async_dependency`."""
-from tests.persistence.db.abstraction import IDatabaseTests
-
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
+from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestAsyncDependency(IDatabaseTests):

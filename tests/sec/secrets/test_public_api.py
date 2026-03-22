@@ -1,17 +1,16 @@
 from __future__ import annotations
+
 """
 Public API import tests for the ``secrets`` package (fast_secrets API).
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
 """
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import importlib
 
 import pytest
+
+from tests.sec.secrets.abstraction import ISecretsTests
 
 PACKAGE = "secrets"
 

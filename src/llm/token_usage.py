@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Union
 
 TokenUsageCallback = Callable[["TokenUsage"], Union[None, Any]]
 

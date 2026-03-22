@@ -15,8 +15,8 @@ from .config_loader import ChannelsConfiguration
 from .dto import ChannelsConfigurationDTO
 from .heartbeat import run_heartbeat_loop
 from .hub import ChannelsHub
-from .metrics import ChannelMetrics, InMemoryChannelMetrics
 from .kafka_backend import KafkaChannelBackend
+from .metrics import ChannelMetrics, InMemoryChannelMetrics
 from .presence import (
     InMemoryPresenceBackend,
     PresenceEntry,

@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for ``safe_decrypt`` (``security.llm_provider_keys``)."""
-from tests.sec.security.abstraction import ISecurityTests
-
-
-
 import pytest
 
 from tests.sec.security._llm_provider_keys_load import safe_decrypt
+from tests.sec.security.abstraction import ISecurityTests
 
 
 class TestLlmProviderKeysSafeDecrypt(ISecurityTests):

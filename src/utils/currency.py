@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Any
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Any, Union
 
 from .decimal import DecimalUtility
 
@@ -34,7 +34,7 @@ class CurrencyUtility:
         amount_major: Any,
         currency_code: str,
         *,
-        rounding=ROUND_HALF_UP,
+        rounding: Union[str, Decimal] = ROUND_HALF_UP,
     ) -> int:
         """Convert major units to minor units (e.g. ``12.34`` USD -> ``1234``)."""
 

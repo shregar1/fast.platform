@@ -1,12 +1,11 @@
 """Tests for :class:`errors.NotFoundError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 import pytest
 
 from errors import NotFoundError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestNotFoundError(IErrorsTests):

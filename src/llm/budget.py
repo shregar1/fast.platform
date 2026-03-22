@@ -6,12 +6,13 @@ Use with :class:`~fast_llm.token_usage.TokenUsage` and :class:`~fast_llm.streami
 
 from __future__ import annotations
 
-from typing import AsyncIterator
+from typing import TYPE_CHECKING, AsyncIterator
 
 from errors.token_budget_exceeded_error import TokenBudgetExceeded
 
-from .streaming import StreamChunk
-from .token_usage import TokenUsage
+if TYPE_CHECKING:
+    from .streaming import StreamChunk
+    from .token_usage import TokenUsage
 
 
 def check_usage_against_budget(usage: TokenUsage, max_total_tokens: int) -> None:

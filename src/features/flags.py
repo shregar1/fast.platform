@@ -15,7 +15,7 @@ import os
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional
 
 
 class RolloutStrategy(str, Enum):
@@ -96,7 +96,7 @@ class FeatureFlagStore:
 class InMemoryFeatureFlagStore(FeatureFlagStore):
     """In-memory feature flag store."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._flags: dict[str, FeatureFlagConfig] = {}
 
     async def get(self, name: str) -> Optional[FeatureFlagConfig]:
@@ -120,7 +120,7 @@ class EnvironmentFeatureFlagStore(FeatureFlagStore):
     Example: FEATURE_NEW_CHECKOUT=true
     """
 
-    def __init__(self, prefix: str = "FEATURE_"):
+    def __init__(self, prefix: str = "FEATURE_") -> None:
         self._prefix = prefix
 
     async def get(self, name: str) -> Optional[FeatureFlagConfig]:
@@ -160,7 +160,7 @@ class EnvironmentFeatureFlagStore(FeatureFlagStore):
         flags = []
         for key, value in os.environ.items():
             if key.startswith(self._prefix):
-                name = key[len(self._prefix):].lower()
+                name = key[len(self._prefix) :].lower()
                 flag = await self.get(name)
                 if flag:
                     flags.append(flag)
@@ -189,7 +189,7 @@ class FeatureFlags:
         self,
         store: Optional[FeatureFlagStore] = None,
         environment: Optional[str] = None,
-    ):
+    ) -> None:
         """
         Initialize feature flags.
 
@@ -405,6 +405,7 @@ def feature_flag(
                 return await func(*args, **kwargs)
             elif fallback:
                 import asyncio
+
                 if asyncio.iscoroutinefunction(fallback):
                     return await fallback(*args, **kwargs)
                 return fallback(*args, **kwargs)
@@ -423,6 +424,7 @@ def feature_flag(
             return None
 
         import asyncio
+
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         return sync_wrapper

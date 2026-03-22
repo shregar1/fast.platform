@@ -10,7 +10,7 @@ from .base import IAnalyticsBackend
 class HttpSinkAnalyticsBackend(IAnalyticsBackend):
     """Send events to an HTTP endpoint (e.g. webhook, custom collector)."""
 
-    def __init__(self, endpoint: str, api_key: Optional[str] = None):
+    def __init__(self, endpoint: str, api_key: Optional[str] = None) -> None:
         self._endpoint = endpoint.rstrip("/")
         self._api_key = api_key
 
@@ -21,13 +21,16 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
         properties: Optional[dict[str, Any]] = None,
     ) -> None:
         try:
-            import urllib.request
             import json
-            data = json.dumps({
-                "distinct_id": distinct_id,
-                "event": event_name,
-                "properties": properties or {},
-            }).encode("utf-8")
+            import urllib.request
+
+            data = json.dumps(
+                {
+                    "distinct_id": distinct_id,
+                    "event": event_name,
+                    "properties": properties or {},
+                }
+            ).encode("utf-8")
             req = urllib.request.Request(
                 self._endpoint,
                 data=data,
@@ -43,12 +46,15 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
         try:
-            import urllib.request
             import json
-            data = json.dumps({
-                "distinct_id": distinct_id,
-                "traits": traits or {},
-            }).encode("utf-8")
+            import urllib.request
+
+            data = json.dumps(
+                {
+                    "distinct_id": distinct_id,
+                    "traits": traits or {},
+                }
+            ).encode("utf-8")
             req = urllib.request.Request(
                 self._endpoint + "/identify" if self._endpoint else self._endpoint,
                 data=data,

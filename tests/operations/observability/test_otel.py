@@ -1,14 +1,12 @@
 from __future__ import annotations
+
 """Tests for ``observability.otel``."""
-from tests.operations.observability.abstraction import IObservabilityTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from fastapi import FastAPI
 
 from observability.otel import configure_otel
+from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestConfigureOtel(IObservabilityTests):

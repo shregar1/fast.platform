@@ -19,10 +19,13 @@ def generate_image_variant(
     Requires Pillow: pip install fast_media[pillow]
     """
     try:
-        from PIL import Image
         import io
+
+        from PIL import Image
     except ImportError as e:
-        raise RuntimeError("Pillow required for image variants. Install: pip install fast_media[pillow]") from e
+        raise RuntimeError(
+            "Pillow required for image variants. Install: pip install fast_media[pillow]"
+        ) from e
 
     img = Image.open(io.BytesIO(source_data))
     if img.mode in ("RGBA", "P"):

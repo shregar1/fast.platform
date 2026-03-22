@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from tests.data_platform.abstraction import IDataPlatformSuite
+
 """Test-suite markers for ``vectors`` (mirrors ``src/vectors/``)."""
 
 
 from abc import ABC
-
 
 
 class IVectorTests(IDataPlatformSuite, ABC):

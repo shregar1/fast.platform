@@ -5,7 +5,8 @@ from __future__ import annotations
 from threading import Lock
 from typing import Dict
 
-from ..abstraction import IUtility
+from utils.abstraction import IUtility
+
 from .counter import Counter
 from .histogram import Histogram
 

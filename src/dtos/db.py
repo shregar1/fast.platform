@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import Optional
+
+from .abstraction import IDTO
 
 
 class DBConfigurationDTO(IDTO):

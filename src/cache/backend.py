@@ -25,7 +25,9 @@ class ICache(ICaching, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def set(self, key: str, value: Any, ttl_seconds: Optional[int] = None) -> None:  # pragma: no cover - interface
+    async def set(
+        self, key: str, value: Any, ttl_seconds: Optional[int] = None
+    ) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 
     @abstractmethod
@@ -139,7 +141,9 @@ def get_cache() -> Optional[ICache]:
             return _CACHE_SINGLETON
         except Exception as exc:  # pragma: no cover - defensive
             if logger:
-                logger.warning("Failed to initialize Redis cache; falling back to in-memory: %s", exc)
+                logger.warning(
+                    "Failed to initialize Redis cache; falling back to in-memory: %s", exc
+                )
 
     _CACHE_SINGLETON = InMemoryCache(default_ttl_seconds=cfg.default_ttl_seconds)
     if logger:
@@ -150,7 +154,9 @@ def get_cache() -> Optional[ICache]:
 F = TypeVar("F", bound=Callable[..., Awaitable[Any]])
 
 
-def _default_cache_key(func: Callable[..., Any], args: Tuple[Any, ...], kwargs: Dict[str, Any]) -> str:
+def _default_cache_key(
+    func: Callable[..., Any], args: Tuple[Any, ...], kwargs: Dict[str, Any]
+) -> str:
     parts: list[Hashable] = [func.__module__, func.__qualname__]
     parts.extend(args)
     for k in sorted(kwargs.keys()):
@@ -160,7 +166,9 @@ def _default_cache_key(func: Callable[..., Any], args: Tuple[Any, ...], kwargs: 
 
 def cache_result(
     *,
-    key_builder: Optional[Callable[[Callable[..., Any], Tuple[Any, ...], Dict[str, Any]], str]] = None,
+    key_builder: Optional[
+        Callable[[Callable[..., Any], Tuple[Any, ...], Dict[str, Any]], str]
+    ] = None,
     ttl_seconds: Optional[int] = None,
 ) -> Callable[[F], F]:
     """
@@ -200,7 +208,7 @@ def cache_result(
                     _log.warning("Cache set failed for %s: %s", key, exc)
             return result
 
-        return cast(F, wrapper)
+        return cast("F", wrapper)
 
     return decorator
 

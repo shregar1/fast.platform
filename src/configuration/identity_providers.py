@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import IdentityProvidersConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class IdentityProvidersConfiguration(IConfiguration[IdentityProvidersConfigurationDTO]):
+class IdentityProvidersConfiguration(ConfigurationSingletonBase[IdentityProvidersConfigurationDTO]):
     _instance: Optional["IdentityProvidersConfiguration"] = None
     _section: str = "identity"
     _env_key: str = "IDENTITY"

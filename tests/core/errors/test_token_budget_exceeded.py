@@ -1,10 +1,9 @@
 """Tests for :class:`errors.TokenBudgetExceeded`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import TokenBudgetExceeded
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestTokenBudgetExceeded(IErrorsTests):

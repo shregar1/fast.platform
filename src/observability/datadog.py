@@ -11,8 +11,9 @@ from __future__ import annotations
 
 import os
 
-from fast_platform import DatadogConfiguration
 from loguru import logger
+
+from fast_platform import DatadogConfiguration
 
 
 def configure_datadog() -> None:
@@ -48,4 +49,3 @@ def configure_datadog() -> None:
             "ddtrace is not installed; Datadog tracing will not be active. "
             "Install with `pip install ddtrace` to enable."
         )
-

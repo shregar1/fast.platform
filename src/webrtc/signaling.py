@@ -10,16 +10,16 @@ from __future__ import annotations
 
 import time
 from collections import defaultdict
-from typing import Callable, Dict, List, Optional, Protocol
+from typing import TYPE_CHECKING, Dict, List, Optional, Protocol
 
 from loguru import logger
 
-from .consent import BeforeMediaConsentCallback
+if TYPE_CHECKING:
+    from .consent import BeforeMediaConsentCallback
 
 
 class SessionExpiredCallback(Protocol):
-    def __call__(self, room_id: str, peer_id: str) -> None:
-        ...
+    def __call__(self, room_id: str, peer_id: str) -> None: ...
 
 
 class WebRTCSignalingService:

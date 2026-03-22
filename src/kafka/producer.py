@@ -6,12 +6,13 @@ from __future__ import annotations
 
 from typing import Any, Optional, Union
 
-from aiokafka import AIOKafkaProducer
+from aiokafka import AIOKafkaProducer  # pyright: ignore[reportMissingTypeStubs]
 from loguru import logger
 
-from .config_loader import KafkaConfiguration
+from configuration.kafka import KafkaConfiguration
+from dtos.kafka import KafkaJsonEnvelope
+
 from .dlq import make_dlq_headers
-from .dto import KafkaJsonEnvelope
 
 
 class KafkaProducer:
@@ -55,7 +56,9 @@ class KafkaProducer:
             return
         await self._producer.send_and_wait(topic, value, key=key, headers=headers)
 
-    async def send_json_envelope(self, topic: str, envelope: Union[KafkaJsonEnvelope, dict[str, Any]]) -> None:
+    async def send_json_envelope(
+        self, topic: str, envelope: Union[KafkaJsonEnvelope, dict[str, Any]]
+    ) -> None:
         """
         Publish a :class:`~fast_kafka.dto.KafkaJsonEnvelope` (or dict) as UTF-8 JSON bytes.
         """

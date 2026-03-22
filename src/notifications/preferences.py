@@ -11,8 +11,7 @@ from typing import Mapping, Protocol, Set, runtime_checkable
 class INotificationPreferenceStore(Protocol):
     """Return whether *category* is muted for *user_id* (no fan-out to that user)."""
 
-    async def is_category_muted(self, user_id: str, category: str) -> bool:
-        ...
+    async def is_category_muted(self, user_id: str, category: str) -> bool: ...
 
 
 class AllowAllNotificationPreferences:

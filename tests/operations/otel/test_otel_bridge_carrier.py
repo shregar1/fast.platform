@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """OpenTelemetry bridge: trace context carrier inject/extract."""
-from tests.operations.otel.abstraction import IOtelTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from otel.bridge import OpenTelemetryBridge
+from tests.operations.otel.abstraction import IOtelTests
 
 
 class TestOpenTelemetryBridgeCarrier(IOtelTests):
@@ -58,7 +56,10 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
         with patch(
             "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
-            assert OpenTelemetryBridge.extract_trace_context_from_carrier({"traceparent": "x"}) is not None
+            assert (
+                OpenTelemetryBridge.extract_trace_context_from_carrier({"traceparent": "x"})
+                is not None
+            )
 
     def test_extract_exception_returns_none(self) -> None:
         prop_mod = MagicMock()

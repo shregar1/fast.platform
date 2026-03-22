@@ -2,8 +2,6 @@ from __future__ import annotations
 
 """Ensure :mod:`fast_platform.taxonomy` matches the ``src/`` package tree."""
 
-from tests.core.fast_platform.abstraction import IFastPlatformTests
-
 from fast_platform.taxonomy import (
     PACKAGE_TO_SECTION,
     SECTION_TEST_FOLDER,
@@ -11,6 +9,7 @@ from fast_platform.taxonomy import (
     all_taxonomy_packages,
     discover_src_packages,
 )
+from tests.core.fast_platform.abstraction import IFastPlatformTests
 
 
 class TestTaxonomySync(IFastPlatformTests):

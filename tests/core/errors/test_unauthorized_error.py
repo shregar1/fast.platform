@@ -1,10 +1,9 @@
 """Tests for :class:`errors.UnauthorizedError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import UnauthorizedError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestUnauthorizedError(IErrorsTests):

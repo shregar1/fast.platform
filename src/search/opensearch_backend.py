@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
-from .dto import FacetedSearchResult, FacetBucket, SearchHit
+from .dto import FacetBucket, FacetedSearchResult, SearchHit
 
 
 class OpenSearchBackend(ISearchBackend):
@@ -18,11 +18,13 @@ class OpenSearchBackend(ISearchBackend):
         hosts: List[str],
         username: Optional[str] = None,
         password: Optional[str] = None,
-    ):
+    ) -> None:
         try:
             from opensearchpy import OpenSearch
         except ImportError as e:
-            raise RuntimeError("opensearch-py required. Install: pip install fast_search[opensearch]") from e
+            raise RuntimeError(
+                "opensearch-py required. Install: pip install fast_search[opensearch]"
+            ) from e
         self._client = OpenSearch(
             hosts=hosts,
             http_auth=(username, password) if username and password else None,
@@ -100,7 +102,10 @@ class OpenSearchBackend(ISearchBackend):
             src = h.get("_source", {})
             hl: Optional[dict[str, List[str]]] = None
             if highlight_fields and "highlight" in h:
-                hl = {k: list(v) if isinstance(v, list) else [str(v)] for k, v in h["highlight"].items()}
+                hl = {
+                    k: list(v) if isinstance(v, list) else [str(v)]
+                    for k, v in h["highlight"].items()
+                }
             hits_out.append(SearchHit(document=src, highlights=hl))
 
         facets: dict[str, list[FacetBucket]] = {}

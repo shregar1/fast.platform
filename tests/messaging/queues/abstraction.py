@@ -1,10 +1,11 @@
 from __future__ import annotations
+
 from tests.messaging.abstraction import IMessagingSuite
+
 """Test-suite markers for ``queues`` (mirrors ``src/queues/``)."""
 
 
 from abc import ABC
-
 
 
 class IQueueTests(IMessagingSuite, ABC):

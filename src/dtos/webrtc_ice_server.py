@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import List, Union
 
 from pydantic import ConfigDict
+
+from .abstraction import IDTO
 
 
 class WebRtcIceServerDTO(IDTO):

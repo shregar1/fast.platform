@@ -1,10 +1,9 @@
 """Tests for :class:`errors.LLMDependencyError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import LLMDependencyError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestLLMDependencyError(IErrorsTests):

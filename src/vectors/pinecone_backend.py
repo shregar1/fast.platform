@@ -17,16 +17,20 @@ class PineconeVectorStore(IVectorStore):
         api_key: str,
         environment: Optional[str] = None,
         index_name: str = "fastmvc-index",
-    ):
+    ) -> None:
         try:
             from pinecone import Pinecone
         except ImportError as e:
-            raise RuntimeError("pinecone-client required. Install: pip install fast_vectors[pinecone]") from e
+            raise RuntimeError(
+                "pinecone-client required. Install: pip install fast_vectors[pinecone]"
+            ) from e
         self._pc = Pinecone(api_key=api_key)
         self._index_name = index_name
         self._index = self._pc.Index(index_name)  # assumes index exists
 
-    def upsert(self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]) -> None:
+    def upsert(
+        self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]
+    ) -> None:
         idx = self._pc.Index(index_name) if index_name != self._index_name else self._index
         ids = [v[0] for v in vectors]
         values = [v[1] for v in vectors]

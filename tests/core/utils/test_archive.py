@@ -1,13 +1,11 @@
 from __future__ import annotations
+
 """Tests for :mod:`utils.archive`."""
-from tests.core.utils.abstraction import IUtilsTests
-
-
-
 import io
 import tarfile
 import zipfile
 
+from tests.core.utils.abstraction import IUtilsTests
 from utils.archive import ArchiveUtility
 
 

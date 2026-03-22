@@ -83,5 +83,3 @@ class RedisKeyValueStore(IKeyValueStore):
 
     def expire(self, key: str, ttl_seconds: int) -> None:
         self.client.expire(key, ttl_seconds)
-
-

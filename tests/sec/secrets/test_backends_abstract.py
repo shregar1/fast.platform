@@ -1,12 +1,11 @@
 from __future__ import annotations
+
 """Tests for :class:`secrets.base.ISecretsBackend` default abstract behavior."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 from typing import Any, Optional
 
 import pytest
+
+from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsAbstract(ISecretsTests):

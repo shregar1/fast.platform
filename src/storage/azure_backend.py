@@ -18,16 +18,21 @@ class AzureBlobStorageBackend(IStorageBackend):
         connection_string: Optional[str] = None,
         account_url: Optional[str] = None,
         base_path: str = "",
-    ):
+    ) -> None:
         try:
             from azure.storage.blob import BlobServiceClient
         except ImportError as e:
-            raise RuntimeError("azure-storage-blob is required for Azure. Install: pip install fast_storage[azure]") from e
+            raise RuntimeError(
+                "azure-storage-blob is required for Azure. Install: pip install fast_storage[azure]"
+            ) from e
         if connection_string:
             self._client = BlobServiceClient.from_connection_string(connection_string)
         elif account_url:
             from azure.identity import DefaultAzureCredential
-            self._client = BlobServiceClient(account_url=account_url, credential=DefaultAzureCredential())
+
+            self._client = BlobServiceClient(
+                account_url=account_url, credential=DefaultAzureCredential()
+            )
         else:
             raise ValueError("Provide connection_string or account_url")
         self._container = container
@@ -47,9 +52,13 @@ class AzureBlobStorageBackend(IStorageBackend):
         container_client = self._client.get_container_client(self._container)
         blob = container_client.get_blob_client(self._key(key))
         if isinstance(body, bytes):
-            blob.upload_blob(body, content_settings={"content_type": content_type} if content_type else None)
+            blob.upload_blob(
+                body, content_settings={"content_type": content_type} if content_type else None
+            )
         else:
-            blob.upload_blob(body, content_settings={"content_type": content_type} if content_type else None)
+            blob.upload_blob(
+                body, content_settings={"content_type": content_type} if content_type else None
+            )
         return blob.url
 
     def download(self, key: str) -> bytes:

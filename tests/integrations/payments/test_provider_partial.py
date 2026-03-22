@@ -1,13 +1,11 @@
 from __future__ import annotations
+
 """Tests for partial capture/refund on IPaymentGateway / IProvider."""
-from tests.integrations.payments.abstraction import IPaymentsTests
-
-
-
 import asyncio
 from typing import Any, Dict, Optional
 
 from payments.abstraction import IPaymentGateway, IProvider
+from tests.integrations.payments.abstraction import IPaymentsTests
 
 
 class TestProviderPartial(IPaymentsTests):

@@ -9,11 +9,12 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass
-from typing import Awaitable, Callable, Optional, Sequence
+from typing import TYPE_CHECKING, Awaitable, Callable, Optional, Sequence
 
 from loguru import logger
 
-from .producer import KafkaProducer
+if TYPE_CHECKING:
+    from .producer import KafkaProducer
 
 # PostgreSQL — copy into a migration or run once in dev.
 POSTGRES_OUTBOX_DDL = """

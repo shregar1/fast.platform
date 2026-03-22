@@ -111,17 +111,23 @@ class TenantResolverRegistry:
         """Registered strategy keys, sorted."""
         return sorted(self._factories.keys())
 
-    def build(self, store: TenantStore, name: Union[str, ResolutionStrategy], **options: Any) -> TenantResolver:
+    def build(
+        self, store: TenantStore, name: Union[str, ResolutionStrategy], **options: Any
+    ) -> TenantResolver:
         """
         Build a single resolver. ``options`` are passed to the strategy factory
         (e.g. ``base_domain=...`` for ``subdomain``).
         """
         key = _strategy_key(name)
         if key not in self._factories:
-            raise KeyError(f"Unknown resolution strategy: {name!r}; known: {self.list_strategies()}")
+            raise KeyError(
+                f"Unknown resolution strategy: {name!r}; known: {self.list_strategies()}"
+            )
         return self._factories[key](store, options)
 
-    def build_chain(self, store: TenantStore, specs: Sequence[ResolverSpec]) -> ChainedTenantResolver:
+    def build_chain(
+        self, store: TenantStore, specs: Sequence[ResolverSpec]
+    ) -> ChainedTenantResolver:
         """Build a :class:`ChainedTenantResolver` from ordered :class:`ResolverSpec` entries."""
         resolvers = [self.build(store, s.strategy, **s.options) for s in specs]
         return ChainedTenantResolver(resolvers)

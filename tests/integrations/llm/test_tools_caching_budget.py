@@ -1,10 +1,7 @@
 from __future__ import annotations
+
 """Tool DTOs, cache helpers, token budget."""
-from tests.integrations.llm.abstraction import ILLMTests
-
-
-
-from typing import Any, AsyncIterator, List
+from typing import AsyncIterator, List
 
 import pytest
 
@@ -29,6 +26,7 @@ from llm.tools import (
     tool_definitions_to_anthropic_tools,
     tool_definitions_to_openai_tools,
 )
+from tests.integrations.llm.abstraction import ILLMTests
 
 
 async def _chunks(*items: StreamChunk) -> AsyncIterator[StreamChunk]:

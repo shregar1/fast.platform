@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any, Dict, Optional, Protocol, Type, TypeVar, runtime_checkable
+from typing import Any, Dict, Generic, Optional, Protocol, Type, TypeVar, runtime_checkable
 
 from loguru import logger
 from pydantic import BaseModel
@@ -19,9 +19,30 @@ class IConfiguration(Protocol[TConfigurationDTO]):
     that expose a validated Pydantic DTO via :meth:`get_config`.
     """
 
-    def get_config(self) -> TConfigurationDTO:
-        ...
+    def get_config(self) -> TConfigurationDTO: ...
 
+
+class ConfigurationSingletonBase(Generic[TConfigurationDTO]):
+    """
+    Singleton base for JSON-backed configuration modules under ``configuration/``.
+
+    Subclasses set ``_instance``, ``_section``, ``_env_key``, and ``_dto`` (Pydantic model class).
+    """
+
+    _section: str
+    _env_key: str
+    _dto: Type[BaseModel]
+
+    def __new__(cls, *args: Any, **kwargs: Any) -> ConfigurationSingletonBase[TConfigurationDTO]:
+        if cls._instance is None:
+            inst = super().__new__(cls)
+            dto_cls = cls._dto
+            raw = cls.load_config_json(cls._section, cls._env_key)
+            inst._dto = cls.validate_config(dto_cls, raw)
+            cls._instance = inst
+        return cls._instance  # type: ignore[return-value,assignment]
+
+    @classmethod
     def load_config_json(cls, section: str, env_key: str) -> Optional[Dict[str, Any]]:
         """
         Load ``config/<section>/config.json`` (or ``FASTMVC_CONFIG_BASE/<section>/config.json``).
@@ -31,7 +52,11 @@ class IConfiguration(Protocol[TConfigurationDTO]):
         path = os.getenv(f"FASTMVC_{env_key}_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
-            path = os.path.join(base, section, "config.json") if base else f"config/{section}/config.json"
+            path = (
+                os.path.join(base, section, "config.json")
+                if base
+                else f"config/{section}/config.json"
+            )
         try:
             with open(path, encoding="utf-8") as f:
                 return json.load(f)
@@ -42,20 +67,11 @@ class IConfiguration(Protocol[TConfigurationDTO]):
             logger.warning("Invalid JSON in %s: %s", path, exc)
             return None
 
-
+    @classmethod
     def validate_config(cls, dto_cls: Type[Any], raw: Optional[Dict[str, Any]]) -> Any:
         """Parse *raw* JSON dict into *dto_cls* (empty dict becomes defaults)."""
         return dto_cls.model_validate(raw or {})
 
-    def __new__(cls, *args, **kwargs) -> IConfiguration[TConfigurationDTO]:
-        """Create a new instance of the configuration singleton."""
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            cls._instance._dto = cls.validate_config(
-                cls._dto, cls.load_config_json(cls._section, cls._env_key)
-            )
-        return cls._instance
-
     def get_config(self) -> TConfigurationDTO:
         """Get the configuration DTO."""
-        return self._dto
+        return self._dto  # type: ignore[return-value]

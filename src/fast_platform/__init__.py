@@ -1,7 +1,7 @@
 """Public ``fast_platform`` namespace (re-exports ``configuration`` + ``dtos`` for flat ``src`` layout)."""
 
-from configuration import *  # noqa: F403
-from dtos import *  # noqa: F403
+from configuration import *  # noqa: F403,F401
+from dtos import *  # noqa: F403,F401
 
 from .taxonomy import (  # noqa: F401
     PACKAGE_TO_SECTION,

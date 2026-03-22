@@ -38,8 +38,7 @@ class ScyllaWideColumnStore(IWideColumnStore):
     def connect(self) -> None:
         if Cluster is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError(
-                "cassandra-driver is not installed. "
-                "Install it with `pip install cassandra-driver`."
+                "cassandra-driver is not installed. Install it with `pip install cassandra-driver`."
             )
         self._cluster = Cluster(self._contact_points, port=self._port)
         if self._keyspace:
@@ -72,5 +71,3 @@ class ScyllaWideColumnStore(IWideColumnStore):
         if parameters is None:
             return session.execute(query)
         return session.execute(query, parameters)
-
-

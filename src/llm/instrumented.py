@@ -4,8 +4,8 @@ OpenAI / Anthropic LLM services with optional per-completion token usage callbac
 
 from __future__ import annotations
 
-from typing import Any, Optional
 import inspect
+from typing import Any, Optional
 
 from .constants import GROQ_DEFAULT_BASE_URL, MISTRAL_DEFAULT_BASE_URL
 from .providers import AnthropicLLMService, GeminiLLMService, OpenAILLMService

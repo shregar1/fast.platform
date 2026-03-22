@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for :mod:`jobs.cancel` (mocked backends)."""
-from tests.messaging.jobs.abstraction import IJobTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from jobs.cancel import CancelJobResult, cancel_job
+from tests.messaging.jobs.abstraction import IJobTests
 
 
 class TestCancelJob(IJobTests):

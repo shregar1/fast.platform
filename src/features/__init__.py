@@ -6,7 +6,11 @@ from fast_platform import FeatureFlagsConfiguration, FeatureFlagsConfigurationDT
 
 from .abstraction import IFeatureFlagsClient, build_feature_flags_client
 from .evaluation import FlagEvaluation, FlagEvaluationReason
-from .kill_switch import EmptyFeatureFlagsClient, KillSwitchFeatureFlagsClient, is_kill_switch_active
+from .kill_switch import (
+    EmptyFeatureFlagsClient,
+    KillSwitchFeatureFlagsClient,
+    is_kill_switch_active,
+)
 from .request_context import feature_flags_context_from_request
 from .snapshot import SnapshotFeatureFlagsClient, load_snapshot_from_path
 from .streaming import format_sse_event, poll_snapshot_changes, snapshot_sse_generator

@@ -4,7 +4,6 @@ In-memory :class:`~fast_media.abstractions.IMediaStore` for tests and local dev.
 
 from __future__ import annotations
 
-from io import BytesIO
 from typing import BinaryIO, Optional
 
 from .abstraction import IMediaStore, UploadResult

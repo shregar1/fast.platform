@@ -33,7 +33,9 @@ class IFeatureFlagsClient(IFeatures, ABC):
         """Return the flag value (e.g. string, number, JSON)."""
         raise NotImplementedError
 
-    def evaluate_with_reason(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> FlagEvaluation:
+    def evaluate_with_reason(
+        self, flag_key: str, context: Optional[dict[str, Any]] = None
+    ) -> FlagEvaluation:
         """
         Return enabled state, value, and a coarse ``reason`` for debugging UIs.
 
@@ -61,7 +63,11 @@ def build_feature_flags_client() -> Optional[IFeatureFlagsClient]:
     If **kill switch** is active (see :func:`fast_feature_flags.kill_switch.is_kill_switch_active`),
     the client is wrapped with :class:`fast_feature_flags.kill_switch.KillSwitchFeatureFlagsClient`.
     """
-    from .kill_switch import EmptyFeatureFlagsClient, KillSwitchFeatureFlagsClient, is_kill_switch_active
+    from .kill_switch import (
+        EmptyFeatureFlagsClient,
+        KillSwitchFeatureFlagsClient,
+        is_kill_switch_active,
+    )
 
     cfg = FeatureFlagsConfiguration().get_config()
 

@@ -32,8 +32,7 @@ class CosmosDocumentStore(IDocumentStore):
     def connect(self) -> None:
         if CosmosClient is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError(
-                "azure-cosmos is not installed. "
-                "Install it with `pip install azure-cosmos`."
+                "azure-cosmos is not installed. Install it with `pip install azure-cosmos`."
             )
         self._client = CosmosClient(self._account_uri, credential=self._account_key)
         self._database = self._client.create_database_if_not_exists(id=self._database_name)
@@ -167,5 +166,3 @@ class CosmosDocumentStore(IDocumentStore):
         for item in items:
             item.update(update)
             container.replace_item(item=item, body=item)
-
-

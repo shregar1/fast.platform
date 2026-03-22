@@ -20,7 +20,7 @@ class RateLimitedAnalyticsBackend(IAnalyticsBackend):
         max_events: Optional[int] = None,
         window_seconds: float = 60.0,
         clock: Optional[Callable[[], float]] = None,
-    ):
+    ) -> None:
         self._inner = inner
         self._max = max_events if max_events is not None else max_events_per_user_per_minute
         self._window = window_seconds

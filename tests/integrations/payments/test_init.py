@@ -1,8 +1,7 @@
 from __future__ import annotations
+
 """Smoke test package import."""
 from tests.integrations.payments.abstraction import IPaymentsTests
-
-
 
 
 class TestInit(IPaymentsTests):

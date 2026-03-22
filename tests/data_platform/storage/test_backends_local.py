@@ -1,17 +1,17 @@
 from __future__ import annotations
+
 """Tests for :class:`storage.local_backend.LocalStorageBackend`."""
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import pytest
 
 from storage.local_backend import LocalStorageBackend
+from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsLocal(IStorageTests):
     def test_local_storage_backend_upload_download_delete(self, tmp_path) -> None:
-        backend = LocalStorageBackend(base_dir=str(tmp_path / "storage"), base_url="https://example.com/files")
+        backend = LocalStorageBackend(
+            base_dir=str(tmp_path / "storage"), base_url="https://example.com/files"
+        )
         url = backend.upload("a/b.txt", b"hello", content_type="text/plain")
         assert url == "https://example.com/files/a/b.txt"
         data = backend.download("a/b.txt")

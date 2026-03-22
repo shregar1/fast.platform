@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
-from typing import List
+from typing import TYPE_CHECKING, List
 
 from pydantic import ConfigDict, Field
 
-from .webrtc_ice_server import WebRtcIceServerDTO
+from .abstraction import IDTO
+
+if TYPE_CHECKING:
+    from .webrtc_ice_server import WebRtcIceServerDTO
 
 
 class WebRtcIceConfigDTO(IDTO):

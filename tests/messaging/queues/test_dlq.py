@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for DLQ and quarantine helpers."""
-from tests.messaging.queues.abstraction import IQueueTests
-
-
-
 from queues.broker import QueueMessage
 from queues.dlq import (
     DEFAULT_QUARANTINE_SUFFIX,
@@ -16,6 +13,7 @@ from queues.dlq import (
     primary_queue_from_quarantine,
     quarantine_name,
 )
+from tests.messaging.queues.abstraction import IQueueTests
 
 
 class TestDlq(IQueueTests):

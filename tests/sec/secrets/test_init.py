@@ -1,21 +1,16 @@
 from __future__ import annotations
+
 """Smoke tests for ``secrets`` package exports."""
 from tests.sec.secrets.abstraction import ISecretsTests
-
-
 
 
 class TestInit(ISecretsTests):
     def test_imports(self) -> None:
         from secrets import (
             CachedSecretsBackend,
-            ISecretsBackend,
             LeasedSecretsBackend,
             RotationCallback,
-            SecretsConfiguration,
-            SecretsConfigurationDTO,
             build_secrets_backend,
-            redact_mapping,
             redact_text,
         )
 

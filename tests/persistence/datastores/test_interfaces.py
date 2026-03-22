@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for :mod:`datastores.interfaces` ABC contracts."""
-from tests.persistence.datastores.abstraction import IDatastoresTests
-
-
-
 import pytest
 
 from datastores.interfaces import (
@@ -14,6 +11,7 @@ from datastores.interfaces import (
     ISearchStore,
     IWideColumnStore,
 )
+from tests.persistence.datastores.abstraction import IDatastoresTests
 
 
 class TestInterfaces(IDatastoresTests):

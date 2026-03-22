@@ -18,11 +18,15 @@ if _stdlib_secrets_path.is_file():
         _spec.loader.exec_module(_stdlib_secrets)
         token_hex = _stdlib_secrets.token_hex
     else:
+
         def token_hex(nbytes: int = 32) -> str:  # pragma: no cover
             raise RuntimeError("stdlib secrets could not be loaded")
+
 else:
+
     def token_hex(nbytes: int = 32) -> str:  # pragma: no cover
         raise RuntimeError("stdlib secrets.py not found")
+
 
 from fast_platform import SecretsConfiguration, SecretsConfigurationDTO
 

@@ -18,8 +18,7 @@ class BeforeMediaConsentCallback(Protocol):
     Use for recording consent, terms acceptance, or parental gates — **before** SDP exchange.
     """
 
-    def __call__(self, room_id: str, peer_id: str) -> bool:
-        ...
+    def __call__(self, room_id: str, peer_id: str) -> bool: ...
 
 
 class AllowAllMediaConsent:

@@ -6,9 +6,12 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, AsyncGenerator, Dict, List
+from typing import TYPE_CHECKING, Any, AsyncGenerator, Dict
 
 from .abstraction import IStreams
+
+if TYPE_CHECKING:
+    from .market import MarketDataHub
 
 
 @dataclass
@@ -37,7 +40,7 @@ class IMarketDataFeed(IStreams, ABC):
     """
 
     @abstractmethod
-    async def run(self, hub: "MarketDataHub") -> None:  # pragma: no cover - interface
+    async def run(self, hub: MarketDataHub) -> None:  # pragma: no cover - interface
         """
         Connect to an external feed and push ticks into the hub.
         """

@@ -18,7 +18,9 @@ class IVectorStore(IVector, ABC):
     name: str
 
     @abstractmethod
-    def upsert(self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]) -> None:
+    def upsert(
+        self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]
+    ) -> None:
         """Upsert vectors (id, vector, metadata)."""
         raise NotImplementedError
 
@@ -50,6 +52,7 @@ def build_vector_store(backend: str = "pinecone") -> Optional[IVectorStore]:
     if backend == "pinecone" and getattr(cfg.pinecone, "enabled", False) and cfg.pinecone.api_key:
         try:
             from .pinecone_backend import PineconeVectorStore
+
             return PineconeVectorStore(
                 api_key=cfg.pinecone.api_key,
                 environment=cfg.pinecone.environment,
@@ -61,6 +64,7 @@ def build_vector_store(backend: str = "pinecone") -> Optional[IVectorStore]:
     if backend == "qdrant" and getattr(cfg.qdrant, "enabled", False) and cfg.qdrant.url:
         try:
             from .qdrant_backend import QdrantVectorStore
+
             return QdrantVectorStore(
                 url=cfg.qdrant.url,
                 api_key=cfg.qdrant.api_key,
@@ -71,6 +75,7 @@ def build_vector_store(backend: str = "pinecone") -> Optional[IVectorStore]:
     if backend == "weaviate" and getattr(cfg.weaviate, "enabled", False) and cfg.weaviate.url:
         try:
             from .weaviate_backend import WeaviateVectorStore
+
             return WeaviateVectorStore(
                 url=cfg.weaviate.url,
                 api_key=cfg.weaviate.api_key,

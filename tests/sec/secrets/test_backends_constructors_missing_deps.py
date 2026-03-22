@@ -1,12 +1,11 @@
 from __future__ import annotations
+
 """Tests for backend constructors when optional dependencies are missing."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import builtins
 
 import pytest
+
+from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsConstructorsMissingDeps(ISecretsTests):

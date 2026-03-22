@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+
 from pydantic import Field
 
+from .abstraction import IDTO
 from .meilisearch import MeilisearchDTO
 
 
 class SearchConfigurationDTO(IDTO):
     default_backend: str = "meilisearch"
     meilisearch: MeilisearchDTO = Field(default_factory=MeilisearchDTO)
+
 
 @dataclass(slots=True)
 class SearchHit:

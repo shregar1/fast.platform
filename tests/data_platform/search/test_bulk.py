@@ -1,15 +1,13 @@
 from __future__ import annotations
+
 """Bulk index API."""
-from tests.data_platform.search.abstraction import ISearchTests
-
-
-
 from typing import Any, List, Optional
 
 import pytest
 
 from search.base import ISearchBackend
 from search.bulk import bulk_index_documents
+from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestBulk(ISearchTests):

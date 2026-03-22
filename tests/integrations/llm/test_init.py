@@ -1,6 +1,6 @@
 """Tests for llm."""
-from tests.integrations.llm.abstraction import ILLMTests
 
+from tests.integrations.llm.abstraction import ILLMTests
 
 
 class TestInit(ILLMTests):

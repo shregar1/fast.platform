@@ -1,17 +1,18 @@
 from __future__ import annotations
+
 """Tests for :func:`storage.base.build_storage_backend` (S3, GCS, Azure)."""
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import sys
 import types
 
 import pytest
 
+from tests.data_platform.storage.abstraction import IStorageTests
+
 
 class TestBackendsFactorySuccess(IStorageTests):
-    def test_storage_factory_success_builds_s3_gcs_and_azure(self, monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    def test_storage_factory_success_builds_s3_gcs_and_azure(
+        self, monkeypatch: pytest.MonkeyPatch, tmp_path
+    ) -> None:
         from storage import base as storage_base
         from storage.azure_backend import AzureBlobStorageBackend
         from storage.gcs_backend import GCSStorageBackend
@@ -67,11 +68,19 @@ class TestBackendsFactorySuccess(IStorageTests):
                     secret_access_key=None,
                     base_path="base",
                 )
-                self.gcs = types.SimpleNamespace(enabled=True, bucket="g", credentials_json_path=None, base_path="base")
-                self.azure_blob = types.SimpleNamespace(
-                    enabled=True, container="c", connection_string="cs", account_url=None, base_path="base"
+                self.gcs = types.SimpleNamespace(
+                    enabled=True, bucket="g", credentials_json_path=None, base_path="base"
                 )
-                self.local = types.SimpleNamespace(enabled=False, base_dir=str(tmp_path / "x"), base_url=None)
+                self.azure_blob = types.SimpleNamespace(
+                    enabled=True,
+                    container="c",
+                    connection_string="cs",
+                    account_url=None,
+                    base_path="base",
+                )
+                self.local = types.SimpleNamespace(
+                    enabled=False, base_dir=str(tmp_path / "x"), base_url=None
+                )
 
         monkeypatch.setattr(
             storage_base,

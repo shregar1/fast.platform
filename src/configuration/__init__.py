@@ -3,8 +3,8 @@
 from dtos import (
     AnalyticsConfigurationDTO,
     CacheConfigurationDTO,
-    DBConfigurationDTO,
     DatadogConfigurationDTO,
+    DBConfigurationDTO,
     EventsConfigurationDTO,
     FeatureFlagsConfigurationDTO,
     FeatureFlagsSnapshotDTO,
@@ -30,8 +30,8 @@ from dtos import (
 
 from .analytics import AnalyticsConfiguration
 from .cache import CacheConfiguration
-from .db import DBConfiguration
 from .datadog import DatadogConfiguration
+from .db import DBConfiguration
 from .events import EventsConfiguration
 from .feature_flags import FeatureFlagsConfiguration
 from .identity_providers import IdentityProvidersConfiguration
@@ -42,7 +42,7 @@ from .realtime import RealtimeConfiguration
 from .search import SearchConfiguration
 from .secrets import SecretsConfiguration
 from .storage import StorageConfiguration
-from .streams import StreamsConfiguration       
+from .streams import StreamsConfiguration
 from .telemetry import TelemetryConfiguration
 from .vectors import VectorsConfiguration
 

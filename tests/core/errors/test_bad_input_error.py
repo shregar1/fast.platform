@@ -1,12 +1,11 @@
 """Tests for :class:`errors.BadInputError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 import pytest
 
 from errors import BadInputError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestBadInputError(IErrorsTests):

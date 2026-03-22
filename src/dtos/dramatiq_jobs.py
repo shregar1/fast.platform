@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict
+
+from .abstraction import IDTO
 
 
 class DramatiqJobsDTO(IDTO):

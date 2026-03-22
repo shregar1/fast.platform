@@ -52,7 +52,9 @@ class IIdentityProvider(IIdentity, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def fetch_user_profile(self, access_token: str) -> IdentityUserProfile:  # pragma: no cover
+    async def fetch_user_profile(
+        self, access_token: str
+    ) -> IdentityUserProfile:  # pragma: no cover
         raise NotImplementedError
 
 

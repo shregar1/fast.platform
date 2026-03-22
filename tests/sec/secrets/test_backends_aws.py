@@ -1,11 +1,10 @@
 from __future__ import annotations
+
 """Tests for :class:`secrets.aws_backend.AwsSecretsBackend`."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import sys
 import types
+
+from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsAws(ISecretsTests):
@@ -19,7 +18,9 @@ class TestBackendsAws(ISecretsTests):
             def __init__(self) -> None:
                 self.created: list[tuple[str, str]] = []
                 self.puts: list[tuple[str, str]] = []
-                self.exceptions = types.SimpleNamespace(ResourceExistsException=FakeResourceExistsException)
+                self.exceptions = types.SimpleNamespace(
+                    ResourceExistsException=FakeResourceExistsException
+                )
 
             def get_secret_value(self, *, SecretId: str):
                 assert SecretId == "p/key"
@@ -36,7 +37,9 @@ class TestBackendsAws(ISecretsTests):
         fake_boto3 = types.ModuleType("boto3")
         fake_boto3.client = lambda service_name, **kwargs: FakeSecretsManagerClient()
         sys.modules["boto3"] = fake_boto3
-        backend = AwsSecretsBackend(region="us-east-1", access_key_id=None, secret_access_key=None, prefix="p")
+        backend = AwsSecretsBackend(
+            region="us-east-1", access_key_id=None, secret_access_key=None, prefix="p"
+        )
         assert backend.get_secret("key") == "s3cr3t"
         backend.set_secret("new", "v1")
         backend.set_secret("exists", "v2")

@@ -23,7 +23,7 @@ class TenantResolver(ABC):
 class HeaderTenantResolver(TenantResolver):
     """Resolve tenant from request header (e.g. X-Tenant-ID)."""
 
-    def __init__(self, store: TenantStore, header_name: str = "X-Tenant-ID"):
+    def __init__(self, store: TenantStore, header_name: str = "X-Tenant-ID") -> None:
         self._store = store
         self._header_name = header_name
 
@@ -42,7 +42,7 @@ class SubdomainTenantResolver(TenantResolver):
         store: TenantStore,
         base_domain: str,
         excluded_subdomains: Optional[list[str]] = None,
-    ):
+    ) -> None:
         self._store = store
         self._base_domain = base_domain
         self._excluded = excluded_subdomains or ["www", "api", "admin"]
@@ -59,7 +59,7 @@ class SubdomainTenantResolver(TenantResolver):
 class PathTenantResolver(TenantResolver):
     """Resolve tenant from URL path (e.g. /t/tenant1/api/... -> tenant1)."""
 
-    def __init__(self, store: TenantStore, prefix: str = "/t/"):
+    def __init__(self, store: TenantStore, prefix: str = "/t/") -> None:
         self._store = store
         self._prefix = prefix
 
@@ -76,7 +76,7 @@ class PathTenantResolver(TenantResolver):
 class JWTTenantResolver(TenantResolver):
     """Resolve tenant from JWT/user on request.state (e.g. request.state.user.tenant_id)."""
 
-    def __init__(self, store: TenantStore, claim_name: str = "tenant_id"):
+    def __init__(self, store: TenantStore, claim_name: str = "tenant_id") -> None:
         self._store = store
         self._claim_name = claim_name
 
@@ -92,7 +92,7 @@ class JWTTenantResolver(TenantResolver):
 class ChainedTenantResolver(TenantResolver):
     """Try multiple resolvers in order until one returns a tenant."""
 
-    def __init__(self, resolvers: list[TenantResolver]):
+    def __init__(self, resolvers: list[TenantResolver]) -> None:
         self._resolvers = resolvers
 
     async def resolve(self, request: Request) -> Optional[Tenant]:
@@ -112,11 +112,17 @@ class TenantMiddleware(BaseHTTPMiddleware):
         resolver: TenantResolver,
         required: bool = False,
         exclude_paths: Optional[set[str]] = None,
-    ):
+    ) -> None:
         super().__init__(app)
         self._resolver = resolver
         self._required = required
-        self._exclude_paths = exclude_paths or {"/health", "/metrics", "/docs", "/openapi.json", "/redoc"}
+        self._exclude_paths = exclude_paths or {
+            "/health",
+            "/metrics",
+            "/docs",
+            "/openapi.json",
+            "/redoc",
+        }
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
         if request.url.path in self._exclude_paths:

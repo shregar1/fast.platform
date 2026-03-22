@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for :class:`datastores.redis_kv.RedisKeyValueStore` (mocked redis)."""
-from tests.persistence.datastores.abstraction import IDatastoresTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from datastores.redis_kv import RedisKeyValueStore
+from tests.persistence.datastores.abstraction import IDatastoresTests
 
 
 class TestRedisKeyValueStore(IDatastoresTests):

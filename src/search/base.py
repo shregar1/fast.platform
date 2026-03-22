@@ -113,9 +113,14 @@ def build_search_backend(backend: str = "meilisearch") -> Optional[ISearchBacken
     """
     cfg = SearchConfiguration().get_config()
 
-    if backend == "meilisearch" and getattr(cfg.meilisearch, "enabled", False) and cfg.meilisearch.url:
+    if (
+        backend == "meilisearch"
+        and getattr(cfg.meilisearch, "enabled", False)
+        and cfg.meilisearch.url
+    ):
         try:
             from .meilisearch_backend import MeilisearchBackend
+
             return MeilisearchBackend(
                 url=cfg.meilisearch.url,
                 api_key=cfg.meilisearch.api_key,
@@ -126,6 +131,7 @@ def build_search_backend(backend: str = "meilisearch") -> Optional[ISearchBacken
     if backend == "typesense" and getattr(cfg.typesense, "enabled", False):
         try:
             from .typesense_backend import TypesenseBackend
+
             return TypesenseBackend(
                 host=cfg.typesense.host,
                 port=cfg.typesense.port,
@@ -135,9 +141,14 @@ def build_search_backend(backend: str = "meilisearch") -> Optional[ISearchBacken
         except ImportError:
             return None
 
-    if backend == "opensearch" and getattr(cfg.opensearch, "enabled", False) and cfg.opensearch.hosts:
+    if (
+        backend == "opensearch"
+        and getattr(cfg.opensearch, "enabled", False)
+        and cfg.opensearch.hosts
+    ):
         try:
             from .opensearch_backend import OpenSearchBackend
+
             return OpenSearchBackend(
                 hosts=cfg.opensearch.hosts,
                 username=cfg.opensearch.username,

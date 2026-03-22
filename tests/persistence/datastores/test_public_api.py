@@ -1,14 +1,13 @@
 from __future__ import annotations
+
 """
 Public API import tests for datastores.
 
 Ensures every name in ``__all__`` resolves.
 """
-from tests.persistence.datastores.abstraction import IDatastoresTests
-
-
-
 import importlib
+
+from tests.persistence.datastores.abstraction import IDatastoresTests
 
 PACKAGE = "datastores"
 

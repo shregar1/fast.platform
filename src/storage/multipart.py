@@ -6,9 +6,12 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, BinaryIO, Iterator, Optional, Union
+from typing import TYPE_CHECKING, Any, BinaryIO, Iterator, Optional, Union
 
-from .base import IStorageBackend
+if TYPE_CHECKING:
+    from .base import IStorageBackend
+    from .gcs_backend import GCSStorageBackend
+    from .s3_backend import S3StorageBackend
 
 
 @contextmanager
@@ -52,13 +55,12 @@ def multipart_upload_large_file(
     if isinstance(backend, GCSStorageBackend):
         return _multipart_upload_gcs(backend, key, path_or_file, content_type=content_type)
     raise ValueError(
-        "multipart_upload_large_file supports S3 and GCS backends only; "
-        f"got {backend.name!r}"
+        f"multipart_upload_large_file supports S3 and GCS backends only; got {backend.name!r}"
     )
 
 
 def _multipart_upload_s3(
-    backend: "S3StorageBackend",
+    backend: S3StorageBackend,
     key: str,
     path_or_file: Union[str, Path, BinaryIO],
     *,
@@ -123,7 +125,7 @@ def _multipart_upload_s3(
 
 
 def _multipart_upload_gcs(
-    backend: "GCSStorageBackend",
+    backend: GCSStorageBackend,
     key: str,
     path_or_file: Union[str, Path, BinaryIO],
     *,

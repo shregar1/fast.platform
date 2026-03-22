@@ -5,10 +5,12 @@ Image variant pipeline: thumb + WebP (and custom specs) uploaded via :class:`~fa
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
-from .abstraction import IMediaStore, UploadResult
 from .variants import generate_image_variant
+
+if TYPE_CHECKING:
+    from .abstraction import IMediaStore, UploadResult
 
 
 def variant_storage_key(base_key: str, variant_name: str, ext: str) -> str:
@@ -61,7 +63,9 @@ class ImageVariantPipeline:
         variants: tuple[VariantSpec, ...] | list[VariantSpec] | None = None,
     ) -> None:
         self._store = store
-        self._variants: tuple[VariantSpec, ...] = tuple(variants) if variants else DEFAULT_THUMB_WEBP_VARIANTS
+        self._variants: tuple[VariantSpec, ...] = (
+            tuple(variants) if variants else DEFAULT_THUMB_WEBP_VARIANTS
+        )
 
     def process(
         self,

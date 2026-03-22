@@ -3,11 +3,11 @@ fast_admin – CRUD API for admin resources (users, roles, audit log) for FastMV
 """
 
 from .abstractions import (
-    AdminUserSummary,
     AdminRoleSummary,
+    AdminUserSummary,
     AuditLogEntry,
-    IAdminUserRepository,
     IAdminRoleRepository,
+    IAdminUserRepository,
     IAuditLogRepository,
 )
 from .audit_hooks import (

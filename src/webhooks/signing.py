@@ -4,10 +4,10 @@ Webhook payload signing (HMAC) for verification and outbound headers.
 
 import hashlib
 import hmac
-from typing import Optional
+from typing import Any, Callable
 
 
-def _digest_constructor(algorithm: str):
+def _digest_constructor(algorithm: str) -> Callable[..., Any]:
     """Return a hash constructor suitable for hmac.new(..., digestmod=...)."""
     ctor = getattr(hashlib, algorithm, None)
     if ctor is None:

@@ -5,14 +5,16 @@ to email (pluggable) and push (APNS/FCM via :class:`~fast_notifications.push.Pus
 
 from __future__ import annotations
 
-from typing import Optional, Protocol
+from typing import TYPE_CHECKING, Optional, Protocol
 
 from loguru import logger
 
-from .dto import NotificationFanoutRequest
 from .idempotency import NotificationIdempotencyStore, make_idempotency_key
-from .preferences import INotificationPreferenceStore, AllowAllNotificationPreferences
+from .preferences import AllowAllNotificationPreferences, INotificationPreferenceStore
 from .push import PushNotificationService
+
+if TYPE_CHECKING:
+    from .dto import NotificationFanoutRequest
 
 
 class EmailSender(Protocol):
@@ -25,8 +27,7 @@ class EmailSender(Protocol):
         subject: str,
         body_text: str,
         data: dict,
-    ) -> None:
-        ...
+    ) -> None: ...
 
 
 class LoggingEmailSender:
@@ -86,12 +87,7 @@ class NotificationFanoutService:
                 )
                 return False
 
-        if (
-            self._idempotency is not None
-            and req.user_id
-            and req.template_id
-            and req.dedupe_key
-        ):
+        if self._idempotency is not None and req.user_id and req.template_id and req.dedupe_key:
             key = make_idempotency_key(req.user_id, req.template_id, req.dedupe_key)
             if not await self._idempotency.try_acquire(key, ttl_seconds=self._idempotency_ttl):
                 logger.info(

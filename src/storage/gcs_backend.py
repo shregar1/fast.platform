@@ -17,11 +17,13 @@ class GCSStorageBackend(IStorageBackend):
         bucket: str,
         credentials_path: Optional[str] = None,
         base_path: str = "",
-    ):
+    ) -> None:
         try:
             from google.cloud import storage
         except ImportError as e:
-            raise RuntimeError("google-cloud-storage is required for GCS. Install: pip install fast_storage[gcs]") from e
+            raise RuntimeError(
+                "google-cloud-storage is required for GCS. Install: pip install fast_storage[gcs]"
+            ) from e
         if credentials_path:
             self._client = storage.Client.from_service_account_json(credentials_path)
         else:
@@ -77,6 +79,7 @@ class GCSStorageBackend(IStorageBackend):
 
     def presigned_url(self, key: str, expires_in: int = 3600) -> Optional[str]:
         from datetime import timedelta
+
         bucket = self._client.bucket(self._bucket_name)
         blob = bucket.blob(self._key(key))
         return blob.generate_signed_url(expiration=timedelta(seconds=expires_in))

@@ -1,14 +1,17 @@
 """Alignment tests with :mod:`webhooks` (optional dependency in dev/CI)."""
-from tests.messaging.notifications.abstraction import INotificationTests
 
 import pytest
-pytest.importorskip('webhooks')
+
+pytest.importorskip("webhooks")
+
 from notifications import NotificationRetryPolicy, as_webhook_retry_policy
+from tests.messaging.notifications.abstraction import INotificationTests
+
 
 class TestRetryPolicyWebhookAlign(INotificationTests):
-
     def test_notification_retry_policy_defaults_match_webhooks(self):
         from webhooks.delivery import RetryPolicy as W
+
         n = NotificationRetryPolicy()
         w = W()
         assert n.max_attempts == w.max_attempts
@@ -19,6 +22,7 @@ class TestRetryPolicyWebhookAlign(INotificationTests):
 
     def test_from_webhook_retry_policy(self):
         from webhooks.delivery import RetryPolicy as W
+
         w = W(max_attempts=5, jitter_ratio=0.1)
         n = NotificationRetryPolicy.from_webhook_retry_policy(w)
         assert n.max_attempts == 5

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from threading import Lock
 
-from ..abstraction import IUtility
+from utils.abstraction import IUtility
 
 __all__ = ["Counter"]
 

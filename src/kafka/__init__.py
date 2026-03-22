@@ -5,6 +5,8 @@ fast_kafka – Kafka integration for FastMVC.
 from __future__ import annotations
 
 from configuration.kafka import KafkaConfiguration
+from dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope, kafka_json_envelope_json_schema
+
 from .consumer import KafkaConsumer
 from .dlq import (
     DLQ_HEADER_ERROR,
@@ -13,7 +15,6 @@ from .dlq import (
     DLQ_HEADER_PARTITION,
     make_dlq_headers,
 )
-from dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope, kafka_json_envelope_json_schema
 from .health import KafkaClusterHealth, describe_cluster_health
 from .idempotent import DedupeStore, InMemoryDedupeStore, KafkaDedupeKeys
 from .lag import ConsumerLagEntry, poll_consumer_lag

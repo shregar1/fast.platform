@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Tests for :class:`queues.envelope.QueueMessageEnvelope`."""
-from tests.messaging.queues.abstraction import IQueueTests
-
-
-
 import pytest
 
 from queues.envelope import (
@@ -12,6 +9,7 @@ from queues.envelope import (
     QueueMessageEnvelope,
     should_quarantine,
 )
+from tests.messaging.queues.abstraction import IQueueTests
 
 
 class TestEnvelope(IQueueTests):

@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """OpenTelemetry bridge: apply request id to current span."""
-from tests.operations.otel.abstraction import IOtelTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from otel.bridge import OpenTelemetryBridge
+from tests.operations.otel.abstraction import IOtelTests
 
 
 class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
@@ -17,8 +15,9 @@ class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
     def test_apply_no_request_id(self) -> None:
         trace = MagicMock()
         trace.get_current_span.return_value = MagicMock(is_recording=lambda: True)
-        with patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace), patch(
-            "utils.request_id_context.RequestIdContext.get", return_value=None
+        with (
+            patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace),
+            patch("utils.request_id_context.RequestIdContext.get", return_value=None),
         ):
             assert OpenTelemetryBridge.apply_request_id_to_current_span() is False
 
@@ -27,8 +26,9 @@ class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
         span = MagicMock()
         span.is_recording.return_value = True
         trace.get_current_span.return_value = span
-        with patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace), patch(
-            "utils.request_id_context.RequestIdContext.get", return_value="req-1"
+        with (
+            patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace),
+            patch("utils.request_id_context.RequestIdContext.get", return_value="req-1"),
         ):
             assert OpenTelemetryBridge.apply_request_id_to_current_span() is True
         span.set_attribute.assert_called_once()
@@ -38,7 +38,8 @@ class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
         span = MagicMock()
         span.is_recording.return_value = False
         trace.get_current_span.return_value = span
-        with patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace), patch(
-            "utils.request_id_context.RequestIdContext.get", return_value="r"
+        with (
+            patch.object(OpenTelemetryBridge, "_trace_api", return_value=trace),
+            patch("utils.request_id_context.RequestIdContext.get", return_value="r"),
         ):
             assert OpenTelemetryBridge.apply_request_id_to_current_span() is False

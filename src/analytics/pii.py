@@ -7,15 +7,17 @@ from typing import Any, FrozenSet, Optional, Set
 
 from .base import IAnalyticsBackend
 
-_DEFAULT_DENY_KEYS: FrozenSet[str] = frozenset({
-    "password",
-    "secret",
-    "token",
-    "authorization",
-    "credit_card",
-    "ssn",
-    "api_key",
-})
+_DEFAULT_DENY_KEYS: FrozenSet[str] = frozenset(
+    {
+        "password",
+        "secret",
+        "token",
+        "authorization",
+        "credit_card",
+        "ssn",
+        "api_key",
+    }
+)
 
 _EMAIL_RE = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 _PHONE_RE = re.compile(r"\b\+?\d[\d\s().-]{8,}\d\b")
@@ -56,7 +58,7 @@ def scrub_pii_properties(
 class ScrubbingAnalyticsBackend(IAnalyticsBackend):
     """Wrap a backend and scrub ``properties`` / ``traits`` before send."""
 
-    def __init__(self, inner: IAnalyticsBackend, *, redact_keys: Optional[Set[str]] = None):
+    def __init__(self, inner: IAnalyticsBackend, *, redact_keys: Optional[Set[str]] = None) -> None:
         self._inner = inner
         self._redact_keys = redact_keys
 

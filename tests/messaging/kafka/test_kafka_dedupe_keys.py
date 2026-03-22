@@ -1,8 +1,7 @@
 """Tests for :class:`kafka.idempotent.KafkaDedupeKeys`."""
-from tests.messaging.kafka.abstraction import IKafkaTests
-
 
 from kafka.idempotent import KafkaDedupeKeys
+from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestKafkaDedupeKeys(IKafkaTests):

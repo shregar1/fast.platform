@@ -4,7 +4,7 @@ Build feature-flag evaluation context from a Starlette/FastAPI request.
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 
 def feature_flags_context_from_request(

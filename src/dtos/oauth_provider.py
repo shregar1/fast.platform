@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import List
 
 from pydantic import ConfigDict, Field
+
+from .abstraction import IDTO
 
 
 class OAuthProviderDTO(IDTO):

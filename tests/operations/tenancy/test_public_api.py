@@ -1,17 +1,16 @@
 from __future__ import annotations
+
 """
 Public API import tests for tenancy.
 
 Ensures __version__ (if present) and every name in __all__ resolve.
 Imports run inside tests (not at collection) so optional deps can fail one test.
 """
-from tests.operations.tenancy.abstraction import ITenancyTests
-
-
-
 import importlib
 
 import pytest
+
+from tests.operations.tenancy.abstraction import ITenancyTests
 
 PACKAGE = "tenancy"
 

@@ -88,4 +88,3 @@ class ElasticsearchSearchStore(ISearchStore):
         except Exception as exc:  # pragma: no cover
             logger.error(f"Elasticsearch ping failed: {exc}")
             return False
-

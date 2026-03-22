@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import SearchConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class SearchConfiguration(IConfiguration[SearchConfigurationDTO]):
+class SearchConfiguration(ConfigurationSingletonBase[SearchConfigurationDTO]):
     _instance: Optional["SearchConfiguration"] = None
     _section: str = "search"
     _env_key: str = "SEARCH"

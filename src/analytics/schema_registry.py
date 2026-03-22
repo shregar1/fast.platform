@@ -51,7 +51,9 @@ class EventSchemaRegistry:
     def schema_for(self, event_base_name: str, version: int) -> Optional[SchemaDict]:
         return self._schemas.get((event_base_name, version))
 
-    def validate_properties(self, versioned_event_name: str, properties: Optional[dict[str, Any]]) -> None:
+    def validate_properties(
+        self, versioned_event_name: str, properties: Optional[dict[str, Any]]
+    ) -> None:
         """
         Validate ``properties`` against the registered schema for ``versioned_event_name``.
 

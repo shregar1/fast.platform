@@ -32,12 +32,11 @@ class CircuitState(str, Enum):
 class CircuitBreakerOpen(Exception):
     """Raised when circuit breaker is open."""
 
-    def __init__(self, circuit_name: str, time_until_retry: float):
+    def __init__(self, circuit_name: str, time_until_retry: float) -> None:
         self.circuit_name = circuit_name
         self.time_until_retry = time_until_retry
         super().__init__(
-            f"Circuit breaker '{circuit_name}' is open. "
-            f"Retry in {time_until_retry:.1f} seconds."
+            f"Circuit breaker '{circuit_name}' is open. Retry in {time_until_retry:.1f} seconds."
         )
 
 
@@ -89,7 +88,7 @@ class CircuitBreaker:
         success_threshold: int = 2,
         half_open_max_calls: int = 3,
         excluded_exceptions: tuple[type[Exception], ...] = (),
-    ):
+    ) -> None:
         self._name = name
         self._failure_threshold = failure_threshold
         self._recovery_timeout = recovery_timeout

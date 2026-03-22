@@ -4,7 +4,7 @@ Base application error (:class:`IError`).
 Extracted from ``fast_mvc_main/abstractions/error.py``.
 """
 
-from loguru import logger
+from loguru import Logger, logger
 
 
 class IError(Exception):
@@ -66,9 +66,9 @@ class IError(Exception):
         self._user_id = value
 
     @property
-    def logger(self):
+    def logger(self) -> Logger:
         return self._logger
 
     @logger.setter
-    def logger(self, value) -> None:
+    def logger(self, value: Logger) -> None:
         self._logger = value

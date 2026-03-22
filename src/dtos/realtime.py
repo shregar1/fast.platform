@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .webrtc_ice_config import WebRtcIceConfigDTO
 
 

@@ -1,14 +1,12 @@
 from __future__ import annotations
+
 """Tests for webhook idempotency store."""
-from tests.integrations.payments.abstraction import IPaymentsTests
-
-
-
 import asyncio
 
 import pytest
 
 from payments.webhook_idempotency import InMemoryWebhookIdempotencyStore
+from tests.integrations.payments.abstraction import IPaymentsTests
 
 
 class TestWebhookIdempotency(IPaymentsTests):

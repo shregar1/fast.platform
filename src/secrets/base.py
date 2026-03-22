@@ -42,6 +42,7 @@ def build_secrets_backend(backend: str = "vault") -> Optional[ISecretsBackend]:
     if backend == "vault" and getattr(cfg.vault, "enabled", False) and cfg.vault.url:
         try:
             from .vault_backend import VaultSecretsBackend
+
             return VaultSecretsBackend(
                 url=cfg.vault.url,
                 token=cfg.vault.token,
@@ -53,6 +54,7 @@ def build_secrets_backend(backend: str = "vault") -> Optional[ISecretsBackend]:
     if backend == "aws" and getattr(cfg.aws, "enabled", False):
         try:
             from .aws_backend import AwsSecretsBackend
+
             return AwsSecretsBackend(
                 region=cfg.aws.region,
                 access_key_id=cfg.aws.access_key_id,
@@ -65,6 +67,7 @@ def build_secrets_backend(backend: str = "vault") -> Optional[ISecretsBackend]:
     if backend == "gcp" and getattr(cfg.gcp, "enabled", False) and cfg.gcp.project_id:
         try:
             from .gcp_backend import GcpSecretsBackend
+
             return GcpSecretsBackend(
                 project_id=cfg.gcp.project_id,
                 credentials_path=cfg.gcp.credentials_json_path,

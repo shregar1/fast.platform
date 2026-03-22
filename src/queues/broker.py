@@ -14,9 +14,9 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 from fast_platform import QueuesConfiguration
+from utils.optional_imports import OptionalImports
 
 from .abstraction import IQueue
-from utils.optional_imports import OptionalImports
 
 try:
     from loguru import logger
@@ -43,7 +43,9 @@ class IQueueBackend(IQueue, ABC):
     name: str
 
     @abstractmethod
-    async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:  # pragma: no cover - interface
+    async def publish(
+        self, message: QueueMessage, *, routing_key: Optional[str] = None
+    ) -> None:  # pragma: no cover - interface
         raise NotImplementedError
 
 
@@ -91,7 +93,9 @@ class SQSBackend(IQueueBackend):
         self._access_key_id = access_key_id
         self._secret_access_key = secret_access_key
 
-    async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:  # routing_key unused
+    async def publish(
+        self, message: QueueMessage, *, routing_key: Optional[str] = None
+    ) -> None:  # routing_key unused
         if boto3 is None:  # pragma: no cover - optional
             if logger:
                 logger.warning("boto3 is not installed; SQS publish skipped.")
@@ -197,7 +201,11 @@ class QueueBroker:
                 subject=cfg.nats.subject,
             )
 
-        if cfg.service_bus.enabled and cfg.service_bus.connection_string and cfg.service_bus.queue_name:
+        if (
+            cfg.service_bus.enabled
+            and cfg.service_bus.connection_string
+            and cfg.service_bus.queue_name
+        ):
             self._backends["service_bus"] = AzureServiceBusBackend(
                 connection_string=cfg.service_bus.connection_string,
                 queue_name=cfg.service_bus.queue_name,

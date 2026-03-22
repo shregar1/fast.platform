@@ -2,20 +2,22 @@
 Read-replica URL and engine helpers (optional second connection for read-only work).
 
 Configure ``read_replica_connection_string`` (and optional ``read_replica_host`` /
-``read_replica_port``) on :class:`fast_platform.dtos.DBConfigurationDTO`.
+``read_replica_port``) on :class:`dtos.db.DBConfigurationDTO`.
 """
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
-from sqlalchemy.orm import Session, sessionmaker
 
 from fast_platform import DBConfiguration, DBConfigurationDTO
 
 from .engine import _pool_kwargs, create_session_factory, sync_connect_args_for_url
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Engine
+    from sqlalchemy.orm import Session, sessionmaker
 
 
 class ReadDBDependency:
@@ -29,6 +31,7 @@ class ReadDBDependency:
                 "Read replica session not initialized. Call create_and_set_read_session at startup."
             )
         return session
+
 
 _global_read_engine: Optional[Engine] = None
 _global_read_session: Optional[Session] = None

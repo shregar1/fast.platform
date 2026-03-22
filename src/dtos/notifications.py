@@ -4,12 +4,11 @@ DTOs for push notification configuration (iOS/Android) and multi-channel fan-out
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from typing import Any, List, Optional
 
 from pydantic import Field, model_validator
 
+from .abstraction import IDTO
 from .retry_policy import NotificationRetryPolicy
 
 

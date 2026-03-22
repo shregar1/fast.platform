@@ -12,13 +12,16 @@ class GcpSecretsBackend(ISecretsBackend):
 
     name = "gcp"
 
-    def __init__(self, project_id: str, credentials_path: Optional[str] = None):
+    def __init__(self, project_id: str, credentials_path: Optional[str] = None) -> None:
         try:
             from google.cloud import secretmanager
         except ImportError as e:
-            raise RuntimeError("google-cloud-secret-manager required. Install: pip install fast_secrets[gcp]") from e
+            raise RuntimeError(
+                "google-cloud-secret-manager required. Install: pip install fast_secrets[gcp]"
+            ) from e
         if credentials_path:
             import os
+
             os.environ.setdefault("GOOGLE_APPLICATION_CREDENTIALS", credentials_path)
         self._client = secretmanager.SecretManagerServiceClient()
         self._project = project_id
@@ -36,7 +39,18 @@ class GcpSecretsBackend(ISecretsBackend):
     def set_secret(self, key: str, value: str) -> None:
         parent = f"projects/{self._project}"
         try:
-            self._client.create_secret(request={"parent": parent, "secret_id": key, "secret": {"replication": {"automatic": {}}}})
+            self._client.create_secret(
+                request={
+                    "parent": parent,
+                    "secret_id": key,
+                    "secret": {"replication": {"automatic": {}}},
+                }
+            )
         except Exception:
             pass  # may already exist
-        self._client.add_secret_version(request={"parent": f"{parent}/secrets/{key}", "payload": {"data": value.encode("utf-8")}})
+        self._client.add_secret_version(
+            request={
+                "parent": f"{parent}/secrets/{key}",
+                "payload": {"data": value.encode("utf-8")},
+            }
+        )

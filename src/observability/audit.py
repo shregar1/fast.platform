@@ -6,7 +6,6 @@ for compliance and security purposes.
 """
 
 import functools
-import hashlib
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -107,7 +106,7 @@ class AuditStore:
 class LogAuditStore(AuditStore):
     """Store audit entries using structured logging."""
 
-    def __init__(self, logger_name: str = "audit"):
+    def __init__(self, logger_name: str = "audit") -> None:
         self._logger = logger.bind(audit=True, logger_name=logger_name)
 
     async def store(self, entry: AuditEntry) -> None:
@@ -125,7 +124,7 @@ class DatabaseAuditStore(AuditStore):
     Requires a table with appropriate schema.
     """
 
-    def __init__(self, session_factory: Any, table_name: str = "audit_logs"):
+    def __init__(self, session_factory: Any, table_name: str = "audit_logs") -> None:
         self._session_factory = session_factory
         self._table_name = table_name
 
@@ -153,7 +152,7 @@ class AuditLog:
         )
     """
 
-    def __init__(self, store: Optional[AuditStore] = None):
+    def __init__(self, store: Optional[AuditStore] = None) -> None:
         """
         Initialize audit logger.
 
@@ -165,6 +164,7 @@ class AuditLog:
     def _generate_id(self) -> str:
         """Generate unique audit entry ID."""
         import uuid
+
         return str(uuid.uuid4())
 
     def _compute_diff(
@@ -334,6 +334,7 @@ def audit_log(
             return func(*args, **kwargs)
 
         import asyncio
+
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         return sync_wrapper

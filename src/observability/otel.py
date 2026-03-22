@@ -8,12 +8,14 @@ when enabled in configuration.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from fastapi import FastAPI
+from loguru import logger
 
 from fast_platform import TelemetryConfiguration
-from loguru import logger
+
+if TYPE_CHECKING:
+    from fastapi import FastAPI
 
 
 def configure_otel(app: FastAPI) -> None:
@@ -33,10 +35,10 @@ def configure_otel(app: FastAPI) -> None:
         from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
             OTLPSpanExporter as OTLPSpanExporterHttp,
         )
+        from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
         from opentelemetry.sdk.resources import Resource
         from opentelemetry.sdk.trace import TracerProvider
         from opentelemetry.sdk.trace.export import BatchSpanProcessor
-        from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
     except Exception:  # pragma: no cover - optional dependency
         logger.warning(
             "OpenTelemetry dependencies are not installed. "
@@ -81,4 +83,3 @@ def configure_otel(app: FastAPI) -> None:
         service_name=cfg.service_name,
         environment=cfg.environment,
     )
-

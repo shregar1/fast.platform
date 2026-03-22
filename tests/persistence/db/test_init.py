@@ -1,6 +1,6 @@
 """Basic tests for db."""
-from tests.persistence.db.abstraction import IDatabaseTests
 
+from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestInit(IDatabaseTests):

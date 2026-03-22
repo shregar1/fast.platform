@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import EventsConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class EventsConfiguration(IConfiguration[EventsConfigurationDTO]):
+class EventsConfiguration(ConfigurationSingletonBase[EventsConfigurationDTO]):
     _instance: Optional["EventsConfiguration"] = None
     _section: str = "events"
     _env_key: str = "EVENTS"

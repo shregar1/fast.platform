@@ -7,10 +7,12 @@ Use around Alembic ``upgrade`` so only one process runs migrations at a time.
 from __future__ import annotations
 
 from contextlib import contextmanager
-from typing import Iterator
+from typing import TYPE_CHECKING, Iterator
 
 from sqlalchemy import text
-from sqlalchemy.engine import Connection
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Connection
 
 # Default keys: 'FMVC' as int4 (customize per app if needed).
 DEFAULT_MIGRATION_LOCK_KEY1 = 0x464D5643

@@ -24,14 +24,18 @@ def _enabled_backends(cfg: Any) -> List[Literal["celery", "rq", "dramatiq"]]:
     return out
 
 
-def _resolve_backend(requested: Literal["auto", "celery", "rq", "dramatiq"]) -> Literal["celery", "rq", "dramatiq"]:
+def _resolve_backend(
+    requested: Literal["auto", "celery", "rq", "dramatiq"],
+) -> Literal["celery", "rq", "dramatiq"]:
     cfg = JobsConfiguration().get_config()
     enabled = _enabled_backends(cfg)
     if requested == "auto":
         if len(enabled) == 1:
             return enabled[0]
         if len(enabled) == 0:
-            raise RuntimeError("No job backend enabled in JobsConfiguration (celery / rq / dramatiq).")
+            raise RuntimeError(
+                "No job backend enabled in JobsConfiguration (celery / rq / dramatiq)."
+            )
         raise RuntimeError(
             f"Multiple job backends enabled {enabled}; pass backend='celery'|'rq'|'dramatiq' explicitly."
         )
@@ -50,7 +54,9 @@ def _import_callable(task_name: str) -> Tuple[Any, str, str]:
         mod_name, attr = task_name.split(":", 1)
     else:
         if "." not in task_name:
-            raise ValueError("task_name must be 'package.module:callable' or 'package.module.callable'")
+            raise ValueError(
+                "task_name must be 'package.module:callable' or 'package.module.callable'"
+            )
         mod_name, attr = task_name.rsplit(".", 1)
     mod = importlib.import_module(mod_name)
     fn = getattr(mod, attr)
@@ -233,4 +239,6 @@ def _enqueue_dramatiq(
             dramatiq_actor_name=str(aname) if aname else None,
         )
 
-    raise TypeError(f"Dramatiq enqueue requires a @dramatiq.actor or send_with_options, got {type(actor)!r}")
+    raise TypeError(
+        f"Dramatiq enqueue requires a @dramatiq.actor or send_with_options, got {type(actor)!r}"
+    )

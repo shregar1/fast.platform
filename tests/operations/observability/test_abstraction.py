@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for ``observability.abstraction``."""
-from tests.operations.observability.abstraction import IObservabilityTests
-
-
-
 from abc import ABC
 
 from observability.abstraction import IObservability
+from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestIObservability(IObservabilityTests):

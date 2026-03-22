@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .nats_config import NATSConfigDTO
 from .rabbit_mq_config import RabbitMQConfigDTO
 from .service_bus_config import ServiceBusConfigDTO

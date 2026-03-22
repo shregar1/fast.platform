@@ -1,18 +1,16 @@
 from __future__ import annotations
+
 """Tests for TTL cache, leased auto-refresh, and redaction helpers."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import time
+from secrets.cache import CachedSecretsBackend
+from secrets.lease import LeasedSecretsBackend
+from secrets.redact import redact_json_for_log, redact_mapping, redact_text
 from typing import Any, Dict, Optional
 from unittest.mock import MagicMock
 
 import pytest
 
-from secrets.cache import CachedSecretsBackend
-from secrets.lease import LeasedSecretsBackend
-from secrets.redact import redact_json_for_log, redact_mapping, redact_text
+from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestCacheLeaseRedact(ISecretsTests):
@@ -50,7 +48,9 @@ class TestCacheLeaseRedact(ISecretsTests):
         inner.get_secret = MagicMock(side_effect=["v1", "v2"])
         inner.set_secret = MagicMock()
         inner.name = "x"
-        c = CachedSecretsBackend(inner, ttl_seconds=1, on_rotation=on_rot, notify_on_first_fetch=True)
+        c = CachedSecretsBackend(
+            inner, ttl_seconds=1, on_rotation=on_rot, notify_on_first_fetch=True
+        )
         assert c.get_secret("k") == "v1"
         assert seen == [("k", None, "v1")]
         assert c.get_secret("k", force_refresh=True) == "v2"

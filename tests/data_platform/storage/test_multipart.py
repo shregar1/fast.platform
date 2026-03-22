@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Multipart upload helper tests."""
-from tests.data_platform.storage.abstraction import IStorageTests
-
-
-
 import io
 import sys
 import types
@@ -13,6 +10,7 @@ from typing import Any
 import pytest
 
 from storage.multipart import multipart_upload_large_file
+from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestMultipart(IStorageTests):
@@ -27,11 +25,15 @@ class TestMultipart(IStorageTests):
             def create_multipart_upload(self, *, Bucket: str, Key: str, **extra):
                 return {"UploadId": "u1"}
 
-            def upload_part(self, *, Bucket: str, Key: str, PartNumber: int, UploadId: str, Body: bytes):
+            def upload_part(
+                self, *, Bucket: str, Key: str, PartNumber: int, UploadId: str, Body: bytes
+            ):
                 self.parts.append({"PartNumber": PartNumber, "len": len(Body)})
                 return {"ETag": f"e{PartNumber}"}
 
-            def complete_multipart_upload(self, *, Bucket: str, Key: str, UploadId: str, MultipartUpload: dict):
+            def complete_multipart_upload(
+                self, *, Bucket: str, Key: str, UploadId: str, MultipartUpload: dict
+            ):
                 self.completed = MultipartUpload["Parts"]
 
             def abort_multipart_upload(self, *, Bucket: str, Key: str, UploadId: str) -> None:

@@ -20,12 +20,14 @@ class S3StorageBackend(IStorageBackend):
         access_key_id: Optional[str] = None,
         secret_access_key: Optional[str] = None,
         base_path: str = "",
-    ):
+    ) -> None:
         try:
             import boto3
             from botocore.config import Config
         except ImportError as e:
-            raise RuntimeError("boto3 is required for S3 backend. Install: pip install fast_storage[s3]") from e
+            raise RuntimeError(
+                "boto3 is required for S3 backend. Install: pip install fast_storage[s3]"
+            ) from e
         kwargs: dict[str, Any] = {"region_name": region}
         if endpoint_url:
             kwargs["endpoint_url"] = endpoint_url

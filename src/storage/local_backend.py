@@ -15,7 +15,7 @@ class LocalStorageBackend(IStorageBackend):
 
     name = "local"
 
-    def __init__(self, base_dir: str = "storage", base_url: Optional[str] = None):
+    def __init__(self, base_dir: str = "storage", base_url: Optional[str] = None) -> None:
         self._base = Path(base_dir)
         self._base_url = base_url or ""
 

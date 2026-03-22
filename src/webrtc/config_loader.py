@@ -31,7 +31,9 @@ class WebRTCConfiguration:
         path = os.getenv("FASTMVC_WEBRTC_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
-            path = os.path.join(base, "webrtc", "config.json") if base else "config/webrtc/config.json"
+            path = (
+                os.path.join(base, "webrtc", "config.json") if base else "config/webrtc/config.json"
+            )
         try:
             with open(path) as f:
                 self.config = json.load(f)

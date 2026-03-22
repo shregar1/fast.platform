@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from .abstraction import IDTO
-
 from pydantic import ConfigDict, Field
 
+from .abstraction import IDTO
 from .aws_secrets import AwsSecretsDTO
 from .gcp_secrets import GcpSecretsDTO
 from .vault_secrets import VaultSecretsDTO

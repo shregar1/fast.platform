@@ -41,9 +41,7 @@ class DynamoKeyValueStore(IKeyValueStore):
 
     def connect(self) -> None:
         if boto3 is None:  # pragma: no cover - guarded by optional import
-            raise RuntimeError(
-                "boto3 is not installed. Install it with `pip install boto3`."
-            )
+            raise RuntimeError("boto3 is not installed. Install it with `pip install boto3`.")
         self._resource = boto3.resource(
             "dynamodb",
             region_name=self._region_name,
@@ -119,5 +117,3 @@ class DynamoKeyValueStore(IKeyValueStore):
             ExpressionAttributeNames={"#ttl": "ttl"},
             ExpressionAttributeValues={":ttl": expires_at},
         )
-
-

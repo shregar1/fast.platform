@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import StorageConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class StorageConfiguration(IConfiguration[StorageConfigurationDTO]):
+class StorageConfiguration(ConfigurationSingletonBase[StorageConfigurationDTO]):
     _instance: Optional["StorageConfiguration"] = None
     _section: str = "storage"
     _env_key: str = "STORAGE"

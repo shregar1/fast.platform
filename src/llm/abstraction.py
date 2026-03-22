@@ -11,7 +11,6 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
 from errors.llm_dependency_error import LLMDependencyError
-
 from fast_platform import LLMConfiguration
 
 try:
@@ -47,7 +46,9 @@ class ILLMService(ILLM, ABC):
     """
 
     @abstractmethod
-    async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:  # pragma: no cover - interface
+    async def generate(
+        self, prompt: str, *, max_tokens: int = 256
+    ) -> str:  # pragma: no cover - interface
         raise NotImplementedError
 
 

@@ -6,7 +6,7 @@ Provides OpenTelemetry-compatible distributed tracing for FastAPI applications.
 
 import contextvars
 import functools
-import time
+import types
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -16,12 +16,8 @@ from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Context variables for trace propagation
-_trace_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
-    "trace_id", default=None
-)
-_span_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
-    "span_id", default=None
-)
+_trace_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("trace_id", default=None)
+_span_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("span_id", default=None)
 _parent_span_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
     "parent_span_id", default=None
 )
@@ -57,11 +53,13 @@ class Span:
 
     def add_event(self, name: str, **attributes: Any) -> None:
         """Add an event to the span."""
-        self.events.append({
-            "name": name,
-            "timestamp": datetime.utcnow().isoformat(),
-            "attributes": attributes,
-        })
+        self.events.append(
+            {
+                "name": name,
+                "timestamp": datetime.utcnow().isoformat(),
+                "attributes": attributes,
+            }
+        )
 
     def set_attribute(self, key: str, value: Any) -> None:
         """Set a span attribute."""
@@ -114,6 +112,7 @@ class ConsoleSpanExporter(SpanExporter):
     def export(self, span: Span) -> None:
         """Print span to console."""
         import json
+
         print(json.dumps(span.to_dict(), indent=2))
 
 
@@ -124,7 +123,7 @@ class CollectorSpanExporter(SpanExporter):
     This is a placeholder for actual collector integration.
     """
 
-    def __init__(self, endpoint: str, headers: Optional[dict[str, str]] = None):
+    def __init__(self, endpoint: str, headers: Optional[dict[str, str]] = None) -> None:
         self._endpoint = endpoint
         self._headers = headers or {}
 
@@ -150,7 +149,7 @@ class Tracer:
         self,
         service_name: str,
         exporter: Optional[SpanExporter] = None,
-    ):
+    ) -> None:
         """
         Initialize tracer.
 
@@ -225,7 +224,7 @@ class Tracer:
 class SpanContext:
     """Context manager for spans."""
 
-    def __init__(self, tracer: Tracer, name: str):
+    def __init__(self, tracer: Tracer, name: str) -> None:
         self._tracer = tracer
         self._name = name
         self._span: Optional[Span] = None
@@ -234,7 +233,12 @@ class SpanContext:
         self._span = self._tracer.start_span(self._name)
         return self._span
 
-    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
+    ) -> None:
         if self._span:
             if exc_type:
                 self._span.set_status("ERROR", str(exc_val))
@@ -255,6 +259,7 @@ def trace(name: Optional[str] = None) -> Callable:
         async def process_order(order_id: str):
             pass
     """
+
     def decorator(func: Callable) -> Callable:
         span_name = name or func.__name__
 
@@ -282,6 +287,7 @@ def trace(name: Optional[str] = None) -> Callable:
 def asyncio_iscoroutinefunction(func: Callable) -> bool:
     """Check if function is async."""
     import asyncio
+
     return asyncio.iscoroutinefunction(func)
 
 
@@ -305,7 +311,7 @@ class TracingMiddleware(BaseHTTPMiddleware):
         service_name: str = "fastmvc",
         exporter: Optional[SpanExporter] = None,
         exclude_paths: set[str] | None = None,
-    ):
+    ) -> None:
         super().__init__(app)
         self._tracer = Tracer(service_name, exporter)
         self._exclude_paths = exclude_paths or {"/metrics", "/health"}

@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import DatadogConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class DatadogConfiguration(IConfiguration[DatadogConfigurationDTO]):
+class DatadogConfiguration(ConfigurationSingletonBase[DatadogConfigurationDTO]):
     _instance: Optional["DatadogConfiguration"] = None
     _section: str = "datadog"
     _env_key: str = "DATADOG"

@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from threading import Lock
 from typing import List
 
-from ..abstraction import IUtility
+from utils.abstraction import IUtility
 
 __all__ = ["Histogram"]
 

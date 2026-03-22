@@ -1,6 +1,6 @@
 """Tests for admin."""
-from tests.integrations.admin.abstraction import IAdminTests
 
+from tests.integrations.admin.abstraction import IAdminTests
 
 
 class TestInit(IAdminTests):

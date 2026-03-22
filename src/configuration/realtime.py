@@ -5,10 +5,11 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import RealtimeConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class RealtimeConfiguration(IConfiguration[RealtimeConfigurationDTO]):
+class RealtimeConfiguration(ConfigurationSingletonBase[RealtimeConfigurationDTO]):
     _instance: Optional["RealtimeConfiguration"] = None
     _section: str = "realtime"
     _env_key: str = "REALTIME"

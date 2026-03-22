@@ -4,8 +4,8 @@ from .backend import (
     ICache,
     InMemoryCache,
     RedisCache,
-    get_cache,
     cache_result,
+    get_cache,
 )
 
 __all__ = [

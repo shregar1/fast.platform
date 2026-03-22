@@ -1,11 +1,9 @@
 from __future__ import annotations
+
 """Tests for Fernet password-based helpers on :class:`utils.encryption.FernetEncryption`."""
-from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
-
-
-
 import pytest
 
+from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
 from utils.encryption import FernetEncryption
 
 

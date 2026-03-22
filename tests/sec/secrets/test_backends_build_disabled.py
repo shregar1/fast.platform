@@ -1,21 +1,24 @@
 from __future__ import annotations
+
 """Tests for :func:`secrets.base.build_secrets_backend` when providers are disabled."""
-from tests.sec.secrets.abstraction import ISecretsTests
-
-
-
 import types
 
 import pytest
 
+from tests.sec.secrets.abstraction import ISecretsTests
+
 
 class TestBackendsBuildDisabled(ISecretsTests):
-    def test_build_secrets_backend_returns_none_when_disabled(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_build_secrets_backend_returns_none_when_disabled(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         from secrets import base as secrets_base
 
         class FakeCfg:
             def __init__(self) -> None:
-                self.vault = types.SimpleNamespace(enabled=False, url=None, token=None, mount_point=None)
+                self.vault = types.SimpleNamespace(
+                    enabled=False, url=None, token=None, mount_point=None
+                )
                 self.aws = types.SimpleNamespace(enabled=False)
                 self.gcp = types.SimpleNamespace(enabled=False)
 

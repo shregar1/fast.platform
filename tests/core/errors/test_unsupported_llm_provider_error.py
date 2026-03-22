@@ -1,10 +1,9 @@
 """Tests for :class:`errors.UnsupportedLLMProviderError`."""
-from tests.core.errors.abstraction import IErrorsTests
-
 
 from http import HTTPStatus
 
 from errors import UnsupportedLLMProviderError
+from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestUnsupportedLLMProviderError(IErrorsTests):

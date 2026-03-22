@@ -1,9 +1,6 @@
 from __future__ import annotations
+
 """Integration smoke tests for ``queues`` exports."""
-from tests.messaging.queues.abstraction import IQueueTests
-
-
-
 from queues import (
     DEFAULT_DLQ_SUFFIX,
     ENVELOPE_VERSION_KEY,
@@ -13,17 +10,16 @@ from queues import (
     QueuesConfiguration,
     QueuesConfigurationDTO,
     dlq_name,
-    is_dlq_name,
     prepare_dlq_message,
-    primary_queue_from_dlq,
 )
 from queues.broker import QueueMessage
 from queues.dlq import (
-    primary_queue_from_quarantine,
     prepare_quarantine_message,
+    primary_queue_from_quarantine,
     quarantine_name,
 )
 from queues.envelope import should_quarantine as should_quarantine_fn
+from tests.messaging.queues.abstraction import IQueueTests
 
 
 class TestInit(IQueueTests):
@@ -36,7 +32,10 @@ class TestInit(IQueueTests):
     def test_dlq_naming_helpers(self) -> None:
         assert dlq_name("q") == "q" + DEFAULT_DLQ_SUFFIX
         assert dlq_name("q" + DEFAULT_DLQ_SUFFIX) == "q" + DEFAULT_DLQ_SUFFIX
-        assert quarantine_name("q" + DEFAULT_DLQ_SUFFIX + ".quarantine") == "q" + DEFAULT_DLQ_SUFFIX + ".quarantine"
+        assert (
+            quarantine_name("q" + DEFAULT_DLQ_SUFFIX + ".quarantine")
+            == "q" + DEFAULT_DLQ_SUFFIX + ".quarantine"
+        )
         assert primary_queue_from_quarantine("plain") == "plain"
 
     def test_envelope_version_constant(self) -> None:

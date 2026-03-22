@@ -5,12 +5,12 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from dtos import VectorsConfigurationDTO
-from .abstraction import IConfiguration
+
+from .abstraction import ConfigurationSingletonBase
 
 
-class VectorsConfiguration(IConfiguration[VectorsConfigurationDTO]):
+class VectorsConfiguration(ConfigurationSingletonBase[VectorsConfigurationDTO]):
     _instance: Optional["VectorsConfiguration"] = None
     _section: str = "vectors"
     _env_key: str = "VECTORS"
     _dto: Type[VectorsConfigurationDTO] = VectorsConfigurationDTO
-

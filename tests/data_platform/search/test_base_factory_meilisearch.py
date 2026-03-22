@@ -1,18 +1,20 @@
 from __future__ import annotations
+
 """Tests for :func:`search.base.build_search_backend` (meilisearch)."""
-from tests.data_platform.search.abstraction import ISearchTests
-
-
-
 import pytest
 
 from search.base import build_search_backend
-
-from tests.data_platform.search._fake_search_modules import cleanup_fake_modules, install_fake_meilisearch
+from tests.data_platform.search._fake_search_modules import (
+    cleanup_fake_modules,
+    install_fake_meilisearch,
+)
+from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestSearchFactoryMeilisearch(ISearchTests):
-    def test_build_search_backend_meilisearch_when_enabled(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_build_search_backend_meilisearch_when_enabled(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         install_fake_meilisearch()
         try:
 

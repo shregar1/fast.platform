@@ -33,9 +33,7 @@ class MongoDocumentStore(IDocumentStore):
 
     def connect(self) -> None:
         if MongoClient is None:  # pragma: no cover - guarded by optional import
-            raise RuntimeError(
-                "pymongo is not installed. Install it with `pip install pymongo`."
-            )
+            raise RuntimeError("pymongo is not installed. Install it with `pip install pymongo`.")
         self._client = MongoClient(self._uri)
         logger.info("Connected MongoDocumentStore", uri=self._uri, database=self._database_name)
 
@@ -86,5 +84,3 @@ class MongoDocumentStore(IDocumentStore):
     ) -> None:
         db = self.get_database()
         db[collection].update_many(filter, update)
-
-

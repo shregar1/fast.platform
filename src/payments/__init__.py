@@ -5,9 +5,9 @@ fast_payments – Payments config and base abstractions for FastMVC.
 from configuration.payments import PaymentsConfiguration
 from dtos.payments import (
     LinkConfigDTO,
-    PayUConfigDTO,
-    PaypalConfigDTO,
     PaymentsConfigurationDTO,
+    PaypalConfigDTO,
+    PayUConfigDTO,
     RazorpayConfigDTO,
     StripeConfigDTO,
 )

@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for :mod:`jobs.result.get_job_status` (mocked Celery)."""
-from tests.messaging.jobs.abstraction import IJobTests
-
-
-
 from unittest.mock import MagicMock, patch
 
 from jobs.result import JobStatus, get_job_status
+from tests.messaging.jobs.abstraction import IJobTests
 
 
 class TestJobStatus(IJobTests):

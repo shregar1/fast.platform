@@ -1,22 +1,21 @@
 from __future__ import annotations
+
 """Tests for :func:`search.base.build_search_backend` (typesense + opensearch)."""
-from tests.data_platform.search.abstraction import ISearchTests
-
-
-
 import pytest
 
 from search.base import build_search_backend
-
 from tests.data_platform.search._fake_search_modules import (
     cleanup_fake_modules,
     install_fake_opensearch,
     install_fake_typesense,
 )
+from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestSearchFactoryTypesenseOpensearch(ISearchTests):
-    def test_build_search_backend_typesense_and_opensearch(self, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_build_search_backend_typesense_and_opensearch(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         install_fake_typesense()
         install_fake_opensearch()
         try:
@@ -28,7 +27,11 @@ class TestSearchFactoryTypesenseOpensearch(ISearchTests):
                     (),
                     {"enabled": True, "host": "h", "port": 80, "protocol": "http", "api_key": "k"},
                 )()
-                opensearch = type("O", (), {"enabled": True, "hosts": ["http://os"], "username": None, "password": None})()
+                opensearch = type(
+                    "O",
+                    (),
+                    {"enabled": True, "hosts": ["http://os"], "username": None, "password": None},
+                )()
 
             class SearchConfiguration:
                 def get_config(self):

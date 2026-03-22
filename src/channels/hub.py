@@ -8,10 +8,11 @@ import asyncio
 import time
 from typing import TYPE_CHECKING, Dict, Optional, Set
 
-from fastapi import WebSocket
 from loguru import logger
 
 if TYPE_CHECKING:
+    from fastapi import WebSocket
+
     from .metrics import ChannelMetrics
 
 

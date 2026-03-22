@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 """Tests for payments configuration singleton."""
-from tests.integrations.payments.abstraction import IPaymentsTests
-
-
-
 from unittest.mock import patch
 
 from configuration.payments import PaymentsConfiguration
+from tests.integrations.payments.abstraction import IPaymentsTests
 
 
 class TestConfig(IPaymentsTests):

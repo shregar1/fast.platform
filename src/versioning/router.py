@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi import APIRouter, HTTPException, Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Context variable for current API version
@@ -94,7 +94,7 @@ class VersionedAPIRouter(APIRouter):
         default_version: str = "v1",
         available_versions: Optional[list[str]] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         super().__init__(*args, **kwargs)
         self._default_version = default_version
         self._available_versions = available_versions or ["v1"]
@@ -211,7 +211,7 @@ class VersioningMiddleware(BaseHTTPMiddleware):
         header_name: str = "Accept-Version",
         query_param: str = "api_version",
         version_prefix: str = "v",
-    ):
+    ) -> None:
         super().__init__(app)
         self._strategy = strategy
         self._default = default_version

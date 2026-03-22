@@ -1,10 +1,8 @@
 """Payment provider configuration DTOs."""
 
-from .abstraction import IDTO
-
 from typing import Literal, Optional
 
-
+from .abstraction import IDTO
 
 
 class StripeConfigDTO(IDTO):

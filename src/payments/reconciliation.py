@@ -6,11 +6,13 @@ from __future__ import annotations
 
 import csv
 import io
-from datetime import date
 from enum import Enum
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from datetime import date
 
 
 class ReconciliationMismatchKind(str, Enum):
@@ -108,8 +110,16 @@ def reconciliation_report_to_csv(report: ReconciliationReport) -> str:
                 it.amount_smallest_unit,
                 it.ledger_ref or "",
                 it.gateway_ref or "",
-                it.ledger_amount_smallest_unit if it.ledger_amount_smallest_unit is not None else "",
-                it.gateway_amount_smallest_unit if it.gateway_amount_smallest_unit is not None else "",
+                (
+                    it.ledger_amount_smallest_unit
+                    if it.ledger_amount_smallest_unit is not None
+                    else ""
+                ),
+                (
+                    it.gateway_amount_smallest_unit
+                    if it.gateway_amount_smallest_unit is not None
+                    else ""
+                ),
                 it.mismatch_kind.value if it.mismatch_kind else "",
                 it.notes or "",
             ]

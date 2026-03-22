@@ -6,13 +6,12 @@ Provides API key generation, validation, and management.
 
 import base64
 import os
-import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
-from fastapi import Depends, HTTPException, Request, Security
+from fastapi import HTTPException, Request
 from fastapi.security import APIKeyHeader, APIKeyQuery
 
 from utils.digests import Digests
@@ -117,7 +116,7 @@ class APIKeyStore(ISecurity):
 class InMemoryAPIKeyStore(APIKeyStore):
     """In-memory API key store (for development/testing)."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._keys: dict[str, APIKey] = {}
         self._hash_to_id: dict[str, str] = {}
 
@@ -175,7 +174,7 @@ class APIKeyManager(ISecurity):
         self,
         store: Optional[APIKeyStore] = None,
         prefix: str = "sk_live_",
-    ):
+    ) -> None:
         """
         Initialize API key manager.
 
@@ -333,7 +332,7 @@ class APIKeyValidator(ISecurity):
         header_name: str = "X-API-Key",
         query_name: str = "api_key",
         required_scopes: Optional[list[str]] = None,
-    ):
+    ) -> None:
         """
         Initialize validator.
 

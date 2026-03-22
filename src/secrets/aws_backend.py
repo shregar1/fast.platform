@@ -18,11 +18,13 @@ class AwsSecretsBackend(ISecretsBackend):
         access_key_id: Optional[str] = None,
         secret_access_key: Optional[str] = None,
         prefix: str = "",
-    ):
+    ) -> None:
         try:
             import boto3
         except ImportError as e:
-            raise RuntimeError("boto3 is required for AWS Secrets. Install: pip install fast_secrets[aws]") from e
+            raise RuntimeError(
+                "boto3 is required for AWS Secrets. Install: pip install fast_secrets[aws]"
+            ) from e
         kwargs = {"region_name": region}
         if access_key_id and secret_access_key:
             kwargs["aws_access_key_id"] = access_key_id
