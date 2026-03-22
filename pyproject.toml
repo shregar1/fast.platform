@@ -1,0 +1,125 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fast-platform"
+version = "0.12.1"
+description = "Umbrella package: fast_core, fast_errors, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — same imports as former standalone fast_* packages."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "aiokafka>=0.8.0,<1.0.0",
+    "fastapi>=0.100.0",
+    "starlette>=0.27.0",
+    "httpx>=0.24.0",
+    "pydantic>=2.0.0",
+    "loguru>=0.7.0",
+    "cryptography>=41.0.0,<44.0.0",
+    "sqlalchemy>=2.0.0,<3.0.0",
+    "jsonschema>=4.0.0",
+    "redis>=4.0.0,<7.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "aiosqlite>=0.19.0",
+    "jinja2>=3.0.0",
+]
+# fast_db
+async = ["asyncpg>=0.29.0,<1.0.0"]
+# fast_queues
+rabbitmq = ["pika>=1.3.0"]
+sqs = ["boto3>=1.28.0"]
+service-bus = ["azure-servicebus>=7.0.0"]
+nats = ["nats-py>=2.0.0"]
+# fast_secrets
+vault = ["hvac>=2.0.0"]
+aws = ["boto3>=1.28.0"]
+gcp = ["google-cloud-secret-manager>=2.0.0"]
+# fast_vectors
+pinecone = ["pinecone-client>=3.0.0"]
+qdrant = ["qdrant-client>=1.0.0"]
+weaviate = ["weaviate-client>=4.0.0"]
+# fast_storage
+s3 = ["boto3>=1.28.0"]
+gcs = ["google-cloud-storage>=2.10.0"]
+azure = ["azure-storage-blob>=12.17.0"]
+# fast_jobs
+celery = ["celery[redis]>=5.3.0"]
+rq = ["rq>=1.0.0"]
+dramatiq = ["dramatiq[redis]>=1.0.0"]
+# fast_webhooks
+fastapi = ["fastapi>=0.100.0"]
+# fast_llm
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.18.0"]
+ollama = ["httpx>=0.24.0"]
+# fast_kafka
+protobuf = ["protobuf>=5.0"]
+avro = ["fastavro>=1.9"]
+# fast_identity
+oauth = ["httpx>=0.24.0"]
+# fast_media
+pillow = ["Pillow>=10.0.0"]
+# fast_search
+meilisearch = ["meilisearch>=0.31.0"]
+typesense = ["typesense>=0.18.0"]
+opensearch = ["opensearch-py>=2.0.0"]
+# fast_datastores
+mongo = ["pymongo>=4.0.0"]
+elasticsearch = ["elasticsearch>=8.0.0,<9.0.0"]
+dynamo = ["boto3>=1.28.0"]
+cassandra = ["cassandra-driver>=3.28.0"]
+cosmos = ["azure-cosmos>=4.5.0"]
+# fast_analytics
+web = ["starlette>=0.27.0"]
+segment = ["analytics-python>=1.0.0"]
+posthog = ["posthog>=3.0.0"]
+mixpanel = ["mixpanel>=4.0.0"]
+# fast_notifications (optional templating; redis is already a base dependency)
+jinja2 = ["jinja2>=3.0.0"]
+# fast_observability
+otel = [
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
+    "opentelemetry-exporter-otlp>=1.20.0",
+    "opentelemetry-instrumentation-fastapi>=0.41b0",
+]
+
+[project.urls]
+Homepage = "https://github.com/shregar1/fastMVC"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+fast_core = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+# Many packages use the same test module basenames (e.g. test_public_api.py); importlib mode avoids collisions.
+addopts = "--import-mode=importlib"
+
+[tool.coverage.run]
+source = ["src"]
+branch = false
+omit = [
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+# Aggregate across many merged packages; optional backends inflate the tree.
+fail_under = 64
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "\\.\\.\\.",
+    "if TYPE_CHECKING:",
+]

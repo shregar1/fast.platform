@@ -1,0 +1,25 @@
+"""Tests for fast_jobs."""
+
+import pytest
+
+
+def test_imports():
+    from fast_jobs import (
+        JobEnqueueResult,
+        JobsConfiguration,
+        JobsConfigurationDTO,
+        enqueue,
+        get_celery_app_if_enabled,
+        get_queue_timeouts,
+        make_celery_app,
+        resolve_job_timeout_seconds,
+    )
+    assert make_celery_app is not None
+    assert JobsConfiguration is not None
+    assert JobEnqueueResult is not None
+    assert enqueue is not None
+    assert resolve_job_timeout_seconds("q", explicit=1) == 1
+
+    import fast_jobs as fj
+
+    assert fj.__version__ == "0.3.0"

@@ -1,0 +1,12 @@
+"""Unit tests for :class:`NotificationRetryPolicy` (no fast_webhooks required)."""
+
+from fast_notifications.retry_policy import NotificationRetryPolicy
+
+
+def test_notification_retry_policy_defaults():
+    n = NotificationRetryPolicy()
+    assert n.max_attempts == 3
+    assert n.initial_delay_seconds == 1.0
+    assert n.backoff_factor == 2.0
+    assert n.jitter_ratio == 0.0
+    assert {408, 429, 500, 502, 503} == n.retry_on_status

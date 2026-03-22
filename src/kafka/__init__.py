@@ -1,0 +1,57 @@
+"""
+fast_kafka – Kafka integration for FastMVC.
+"""
+
+from __future__ import annotations
+
+from .config_loader import KafkaConfiguration
+from .consumer import KafkaConsumer
+from .dlq import (
+    DLQ_HEADER_ERROR,
+    DLQ_HEADER_OFFSET,
+    DLQ_HEADER_ORIGINAL_TOPIC,
+    DLQ_HEADER_PARTITION,
+    make_dlq_headers,
+)
+from .dto import KafkaConfigurationDTO, KafkaJsonEnvelope, kafka_json_envelope_json_schema
+from .health import KafkaClusterHealth, describe_cluster_health
+from .idempotent import DedupeStore, InMemoryDedupeStore, default_dedupe_key
+from .lag import ConsumerLagEntry, poll_consumer_lag
+from .outbox import (
+    POSTGRES_OUTBOX_DDL,
+    OutboxMessage,
+    publish_outbox_batch,
+    run_outbox_publisher_loop,
+)
+from .producer import KafkaProducer
+from .serde import serialize_avro_record, serialize_protobuf
+
+__version__ = "0.3.0"
+
+__all__ = [
+    "DLQ_HEADER_ERROR",
+    "DLQ_HEADER_OFFSET",
+    "DLQ_HEADER_ORIGINAL_TOPIC",
+    "DLQ_HEADER_PARTITION",
+    "DedupeStore",
+    "ConsumerLagEntry",
+    "InMemoryDedupeStore",
+    "KafkaClusterHealth",
+    "KafkaConfiguration",
+    "KafkaConsumer",
+    "KafkaConfigurationDTO",
+    "KafkaJsonEnvelope",
+    "KafkaProducer",
+    "OutboxMessage",
+    "POSTGRES_OUTBOX_DDL",
+    "__version__",
+    "default_dedupe_key",
+    "describe_cluster_health",
+    "kafka_json_envelope_json_schema",
+    "make_dlq_headers",
+    "poll_consumer_lag",
+    "publish_outbox_batch",
+    "run_outbox_publisher_loop",
+    "serialize_avro_record",
+    "serialize_protobuf",
+]
