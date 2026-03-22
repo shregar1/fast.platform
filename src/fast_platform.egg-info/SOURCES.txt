@@ -6,7 +6,9 @@ src/admin/abstraction.py
 src/admin/abstractions.py
 src/admin/audit_hooks.py
 src/admin/crud.py
+src/admin/repositories.py
 src/admin/router.py
+src/admin/schemas.py
 src/analytics/__init__.py
 src/analytics/abstraction.py
 src/analytics/base.py
@@ -259,6 +261,7 @@ src/search/__init__.py
 src/search/abstraction.py
 src/search/base.py
 src/search/bulk.py
+src/search/dto.py
 src/search/meilisearch_backend.py
 src/search/opensearch_backend.py
 src/search/rollover.py
@@ -280,8 +283,9 @@ src/security/encryption.py
 src/security/llm_provider_keys.py
 src/security/py.typed
 src/security/webhooks.py
-src/services/__init__.py
-src/services/abstraction.py
+src/service/__init__.py
+src/service/abstraction.py
+src/service/crypto.py
 src/storage/__init__.py
 src/storage/abstraction.py
 src/storage/azure_backend.py
@@ -317,6 +321,11 @@ src/utils/clock/frozen_clock.py
 src/utils/clock/protocol.py
 src/utils/clock/registry.py
 src/utils/clock/system_clock.py
+src/utils/datatype/__init__.py
+src/utils/datatype/abstraction.py
+src/utils/datatype/boolean.py
+src/utils/datatype/integer.py
+src/utils/datatype/string.py
 src/utils/encryption/__init__.py
 src/utils/encryption/abstraction.py
 src/utils/encryption/aes.py

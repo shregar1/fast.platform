@@ -56,7 +56,7 @@ PACKAGE_TO_SECTION: Final[dict[str, PackageSection]] = {
     "dtos": PackageSection.CORE,
     "errors": PackageSection.CORE,
     "utils": PackageSection.CORE,
-    "services": PackageSection.CORE,
+    "service": PackageSection.CORE,
     "fast_platform": PackageSection.CORE,
     # --- security ---
     "security": PackageSection.SECURITY,

@@ -45,7 +45,7 @@ def crud_router_from_model(
     **Audit**
 
     Pass ``audit`` as an :class:`~fast_admin.audit_hooks.AuditLogHook` or
-    :class:`~fast_admin.abstractions.IAuditLogRepository`. Hooks run **after**
+    :class:`~fast_admin.repositories.IAuditLogRepository`. Hooks run **after**
     a successful create, update, or delete. Use ``get_*_from_request`` when
     ``audit`` is a repository to populate actor / IP / user-agent.
 

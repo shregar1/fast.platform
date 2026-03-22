@@ -9,14 +9,8 @@ from typing import Optional
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
-from .abstractions import (
-    AdminRoleSummary,
-    AdminUserSummary,
-    AuditLogEntry,
-    IAdminRoleRepository,
-    IAdminUserRepository,
-    IAuditLogRepository,
-)
+from .repositories import IAdminRoleRepository, IAdminUserRepository, IAuditLogRepository
+from .schemas import AdminRoleSummary, AdminUserSummary, AuditLogEntry
 
 
 def get_admin_router(

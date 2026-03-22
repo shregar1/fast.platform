@@ -26,6 +26,8 @@ Requires-Dist: jinja2>=3.0.0; extra == "dev"
 Requires-Dist: mypy>=1.11.0; extra == "dev"
 Requires-Dist: basedpyright>=1.19.0; extra == "dev"
 Requires-Dist: ruff>=0.8.0; extra == "dev"
+Requires-Dist: black>=24.0; extra == "dev"
+Requires-Dist: flake8>=7.0; extra == "dev"
 Requires-Dist: types-redis; extra == "dev"
 Provides-Extra: async
 Requires-Dist: asyncpg<1.0.0,>=0.29.0; extra == "async"
@@ -120,10 +122,59 @@ Dynamic: license-file
 
 # fast-platform
 
-Single installable distribution (**`pip install fast-platform`**) that bundles many former standalone `*` packages **unchanged at import time**, including **`notifications`**, **`admin`**, **`resilience`**, **`versioning`**, and **`features`**, alongside DB, queues, observability, and the rest of the table below.
+Single installable distribution (**`pip install fast-platform`**) that bundles many former standalone `fast_*` modules **unchanged at import time** (flat top-level imports such as `from notifications import …`, `from db import …`).
+
+Logical organization is defined by the **package taxonomy** in [`src/fast_platform/taxonomy.py`](src/fast_platform/taxonomy.py). Imports stay flat under `src/`; the taxonomy is used for docs, tests layout, and navigation.
+
+## Package taxonomy
+
+Each top-level name under `src/` belongs to exactly one **section** (`PackageSection`). The canonical mapping is `PACKAGE_TO_SECTION` in `fast_platform.taxonomy`.
+
+| Section | Meaning |
+|--------|---------|
+| **core** | Config, DTOs, errors, helpers, orchestration services |
+| **security** | Crypto, API keys, identity, secret backends |
+| **persistence** | SQLAlchemy + multi-backend datastores |
+| **data_platform** | Search, vectors, object storage, cache |
+| **messaging** | Queues, Kafka, jobs, events, notifications, webhooks |
+| **realtime** | Channels, streams, WebRTC |
+| **integrations** | LLM, payments, media, analytics, admin |
+| **operations** | Observability, OpenTelemetry, flags, tenancy, resilience, API versioning |
+
+### Packages by section
+
+| Section | Packages |
+|--------|----------|
+| **core** | `configuration`, `dtos`, `errors`, `utils`, `service`, `fast_platform` |
+| **security** | `security`, `secrets`, `identity` |
+| **persistence** | `db`, `datastores` |
+| **data_platform** | `search`, `vectors`, `storage`, `cache` |
+| **messaging** | `kafka`, `queues`, `events`, `jobs`, `notifications`, `webhooks` |
+| **realtime** | `channels`, `streams`, `webrtc` |
+| **integrations** | `llm`, `payments`, `media`, `analytics`, `admin` |
+| **operations** | `observability`, `otel`, `resilience`, `tenancy`, `versioning`, `features` |
+
+Use in code:
+
+```python
+from fast_platform.taxonomy import section_of, PackageSection
+
+section_of("notifications")  # PackageSection.MESSAGING
+```
+
+## Layout: `src/` vs `tests/`
+
+- **`src/`** — **flat** top-level packages (`configuration/`, `notifications/`, …) so existing imports remain stable.
+- **`tests/`** — mirrors the taxonomy: **`tests/<section_folder>/<package>/`**. Section folder names come from `SECTION_TEST_FOLDER` in `taxonomy.py` (e.g. `core`, `persistence`, `data_platform`). The security section uses **`sec`** (not `security`) so the `security` package can live at `tests/sec/security/` without a path collision.
+
+Example: tests for `utils` live under `tests/core/utils/`; tests for `notifications` under `tests/messaging/notifications/`.
+
+## Highlights (by import name)
 
 | Import | Role |
 |--------|------|
+| `configuration` | JSON config loaders + Pydantic DTOs per subsystem |
+| `dtos` | Shared Pydantic DTOs (`IDTO` base) |
 | `errors` | Structured HTTP-oriented exceptions (`BadInputError`, `NotFoundError`, …) |
 | `notifications` | Email/SMS/push templates, fan-out, idempotency, preferences (`pip install fast-platform[jinja2]` for templating extras) |
 | `resilience` | Circuit breakers, retries, bulkheads |
@@ -133,12 +184,11 @@ Single installable distribution (**`pip install fast-platform`**) that bundles m
 | `db` | SQLAlchemy engine, sessions, `DBDependency` |
 | `datastores` | `IDataStore` adapters (Redis, Mongo, ES, …) |
 | `observability` | Logging, metrics, tracing, audit, OTLP |
-| `analytics` | HTTP sink, sampling, PII scrub, schema registry |
-| `fast_admin` | Admin API router (users, roles, audit log), generic SQLAlchemy CRUD routers |
+| `admin` | Admin API router (users, roles, audit log), generic SQLAlchemy CRUD routers |
 | `queues` | Queues (DLQ, envelope, backends) |
 | `jobs` | Background jobs |
 | `storage` | Object storage (S3, GCS, Azure) |
-| `fast_secrets` | Secrets + cache (Vault, AWS, GCP backends; not the stdlib `secrets` module) |
+| `secrets` | Secret backends + cache (Vault, AWS, GCP; not the stdlib `secrets` module) |
 | `vectors` | Vector stores |
 | `tenancy` | Multi-tenant context |
 | `webhooks` | Webhook signing / delivery |

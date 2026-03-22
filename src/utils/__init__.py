@@ -15,6 +15,7 @@ from .abstraction import IUtility
 from .archive import ArchiveUtility
 from .clock import Clock, ClockRegistry, FrozenClock, SystemClock
 from .currency import CurrencyUtility
+from .datatype import BooleanUtility, IDatatype, IntegerUtility, StringUtility
 from .decimal import DecimalUtility
 from .digests import Digests
 from .hashing import HashingUtility
@@ -35,6 +36,11 @@ from .time import TimeUtility
 
 __all__ = [
     "IUtility",
+    "BooleanUtility",
+    "CurrencyUtility",
+    "IDatatype",
+    "IntegerUtility",
+    "StringUtility",
     "ArchiveUtility",
     "AudioUtility",
     "Digests",
@@ -53,7 +59,6 @@ __all__ = [
     "Histogram",
     "MetricsRegistry",
     "DecimalUtility",
-    "CurrencyUtility",
     "NutritionUtility",
     "AsyncRetry",
     "TextUtility",

@@ -1,7 +1,7 @@
 """
 Shared cryptographic digests and Fernet key material (no I/O).
 
-Centralizes patterns that were duplicated across ``security``, ``services``,
+Centralizes patterns that were duplicated across ``security``, ``service``,
 ``identity``, ``kafka``, and :mod:`utils.idempotency`.
 """
 
@@ -34,7 +34,7 @@ class Digests:
         Derive a 32-byte URL-safe key suitable for :class:`cryptography.fernet.Fernet`.
 
         Uses SHA-256 over UTF-8 *secret*, then base64-url encoding — same scheme as
-        :mod:`security.llm_provider_keys` and :class:`services.crypto.CryptoService`
+        :mod:`security.llm_provider_keys` and :class:`service.crypto.CryptoService`
         (secret-based mode).
         """
 

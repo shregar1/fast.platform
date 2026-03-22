@@ -24,7 +24,7 @@ resilience
 search
 secrets
 security
-services
+service
 storage
 streams
 tenancy

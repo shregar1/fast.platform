@@ -23,7 +23,7 @@ Each top-level name under `src/` belongs to exactly one **section** (`PackageSec
 
 | Section | Packages |
 |--------|----------|
-| **core** | `configuration`, `dtos`, `errors`, `utils`, `services`, `fast_platform` |
+| **core** | `configuration`, `dtos`, `errors`, `utils`, `service`, `fast_platform` |
 | **security** | `security`, `secrets`, `identity` |
 | **persistence** | `db`, `datastores` |
 | **data_platform** | `search`, `vectors`, `storage`, `cache` |

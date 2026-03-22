@@ -6,7 +6,7 @@ from .abstraction import IError
 
 
 class CryptoConfigurationError(IError):
-    """Raised when :class:`~services.crypto.CryptoService` parameters are invalid."""
+    """Raised when :class:`~service.crypto.CryptoService` parameters are invalid."""
 
     def __init__(
         self,

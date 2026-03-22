@@ -186,7 +186,8 @@ indent-style = "space"
 [tool.black]
 line-length = 100
 target-version = ["py310"]
-extend-exclude = "/(build|dist|\\.venv|\\.eggs|kafka/lag\\.py)/"
+# Ruff’s formatter wraps ``kafka/lag.py`` differently than Black; omit from Black checks.
+extend-exclude = "/(build|dist|\\.venv|\\.eggs)/|src/kafka/lag\\.py"
 
 # ---------------------------------------------------------------------------
 # mypy — strict mode for ``src/`` (application code).
