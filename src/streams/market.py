@@ -15,7 +15,7 @@ from typing import Any, AsyncGenerator, Deque, Dict, List, Tuple
 
 from loguru import logger
 
-from fast_core import StreamsConfiguration
+from from fast_platform import StreamsConfiguration
 
 from .abstractions import OrderEvent, Tick
 
@@ -48,7 +48,7 @@ class MarketDataHub:
         # Optional event bus fan-out (SNS/EventBridge/Event Hubs/Kafka)
         self._event_bus = None
         try:
-            from fast_core.services.events.bus import build_event_bus
+            from from fast_platform.services.events.bus import build_event_bus
 
             self._event_bus = build_event_bus()
         except Exception as exc:  # pragma: no cover - defensive

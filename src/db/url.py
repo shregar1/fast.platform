@@ -1,11 +1,11 @@
 """
 Database URL helper for Alembic and other tools.
 
-Uses fast_core DBConfiguration; ensure FASTMVC_CONFIG_BASE is set
+Uses from fast_platform DBConfiguration; ensure FASTMVC_CONFIG_BASE is set
 so config/db/config.json is found.
 """
 
-from fast_core import DBConfiguration
+from from fast_platform import DBConfiguration
 
 
 def get_database_url() -> str:

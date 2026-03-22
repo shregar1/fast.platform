@@ -1,4 +1,4 @@
-"""Cloud event bus helpers (SNS, EventBridge, Event Hubs, Kafka); configuration via ``fast_core``."""
+"""Cloud event bus helpers (SNS, EventBridge, Event Hubs, Kafka); configuration via ``from fast_platform``."""
 
 from .bus import (
     IEventBus,

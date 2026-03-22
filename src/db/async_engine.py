@@ -25,7 +25,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from fast_core import DBConfiguration, DBConfigurationDTO
+from from fast_platform import DBConfiguration, DBConfigurationDTO
 
 from .engine import _pool_kwargs
 

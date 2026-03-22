@@ -1,7 +1,7 @@
 """
 Database engine and session factory.
 
-Creates SQLAlchemy engine and session from fast_core DBConfiguration.
+Creates SQLAlchemy engine and session from from fast_platform DBConfiguration.
 The application should call create_and_set_session() at startup (or create_engine +
 create_session + set_global_session), then use get_db_session() or DBDependency.
 """
@@ -12,7 +12,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from fast_core import DBConfiguration, DBConfigurationDTO
+from from fast_platform import DBConfiguration, DBConfigurationDTO
 
 
 def sync_connect_args_for_url(url: str, config: DBConfigurationDTO) -> dict:

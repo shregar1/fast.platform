@@ -1,5 +1,5 @@
 """
-Trace context propagation aligned with :func:`fast_core.utils.request_id_context.get_request_id`.
+Trace context propagation aligned with :func:`from fast_platform.utils.request_id_context.get_request_id`.
 
 Requires ``pip install 'fast-platform[otel]'`` (``opentelemetry-api``).
 """
@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from typing import Any, Mapping, MutableMapping
 
-from fast_core.utils.optional_imports import optional_import
-from fast_core.utils.request_id_context import get_request_id
+from from fast_platform.utils.optional_imports import optional_import
+from from fast_platform.utils.request_id_context import get_request_id
 
 _REQUEST_ID_ATTR = "fastmvc.request_id"
 

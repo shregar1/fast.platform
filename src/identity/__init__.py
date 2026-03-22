@@ -2,7 +2,7 @@
 fast_identity – Identity provider abstractions and builders for FastMVC.
 """
 
-from fast_core import IdentityProvidersConfiguration, IdentityProvidersConfigurationDTO
+from from fast_platform import IdentityProvidersConfiguration, IdentityProvidersConfigurationDTO
 
 from .api_key import (
     InMemoryHashedApiKeyStore,

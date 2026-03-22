@@ -2,7 +2,7 @@
 fast_search – Search backends (Meilisearch, Typesense, OpenSearch) for FastMVC.
 """
 
-from fast_core import SearchConfiguration, SearchConfigurationDTO
+from from fast_platform import SearchConfiguration, SearchConfigurationDTO
 
 from .base import ISearchBackend, build_search_backend
 from .bulk import BulkIndexError, BulkIndexResult, bulk_index_documents

@@ -1,6 +1,6 @@
 """Tests for fast_queues."""
 
-from fast_core.services.queues import QueueMessage
+from from fast_platform.services.queues import QueueMessage
 
 from fast_queues import (
     DEFAULT_DLQ_SUFFIX,

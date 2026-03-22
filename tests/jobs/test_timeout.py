@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-from fast_core.config.dto_extras import JobsConfigurationDTO
+from from fast_platform.config.dto_extras import JobsConfigurationDTO
 
 from fast_jobs.timeout import get_queue_timeouts, resolve_job_timeout_seconds
 

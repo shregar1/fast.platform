@@ -1,12 +1,12 @@
 """
-Celery application factory using JobsConfiguration from fast_core.
+Celery application factory using JobsConfiguration from from fast_platform.
 """
 
 from __future__ import annotations
 
 from typing import Any, Optional
 
-from fast_core import JobsConfiguration
+from from fast_platform import JobsConfiguration
 
 
 def make_celery_app(

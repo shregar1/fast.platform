@@ -2,7 +2,7 @@
 fast_jobs – Background jobs (Celery, RQ, Dramatiq) for FastMVC.
 """
 
-from fast_core import JobsConfiguration, JobsConfigurationDTO
+from from fast_platform import JobsConfiguration, JobsConfigurationDTO
 
 from .cancel import CancelJobResult, cancel_job
 from .celery_app import get_celery_app_if_enabled, make_celery_app

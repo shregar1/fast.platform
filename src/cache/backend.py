@@ -6,8 +6,8 @@ from abc import ABC, abstractmethod
 from functools import wraps
 from typing import Any, Awaitable, Callable, Dict, Hashable, Optional, Tuple, TypeVar, Union, cast
 
-from fast_core import CacheConfiguration
-from fast_core.utils import optional_import
+from from fast_platform import CacheConfiguration
+from from fast_platform.utils import optional_import
 
 try:
     from loguru import logger

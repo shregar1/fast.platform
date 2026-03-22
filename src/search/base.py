@@ -7,7 +7,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, List, Optional
 
-from fast_core import SearchConfiguration
+from from fast_platform import SearchConfiguration
 
 from .dto import FacetedSearchResult, SearchHit
 

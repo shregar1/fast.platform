@@ -7,7 +7,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
-from fast_core import SecretsConfiguration
+from from fast_platform import SecretsConfiguration
 
 
 class ISecretsBackend(ABC):

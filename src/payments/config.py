@@ -1,8 +1,8 @@
-"""Payments configuration loader (uses fast_core resolver)."""
+"""Payments configuration loader (uses from fast_platform resolver)."""
 
 from typing import Optional
 
-from fast_core import load_config_json
+from from fast_platform import load_config_json
 
 from .dto import (
     LinkConfigDTO,

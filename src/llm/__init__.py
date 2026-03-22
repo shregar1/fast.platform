@@ -2,7 +2,7 @@
 fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama) for FastMVC.
 """
 
-from fast_core import LLMConfiguration, LLMConfigurationDTO
+from from fast_platform import LLMConfiguration, LLMConfigurationDTO
 
 from .budget import (
     TokenBudgetExceeded,

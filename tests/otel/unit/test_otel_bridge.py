@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock, patch
 
-from fast_core.otel.bridge import (
+from from fast_platform.otel.bridge import (
     apply_request_id_to_current_span,
     extract_trace_context_from_carrier,
     inject_trace_context_into_carrier,
@@ -12,14 +12,14 @@ from fast_core.otel.bridge import (
 
 
 def test_apply_no_trace_module():
-    with patch("fast_core.otel.bridge._trace_api", return_value=None):
+    with patch("from fast_platform.otel.bridge._trace_api", return_value=None):
         assert apply_request_id_to_current_span() is False
 
 
 def test_apply_no_request_id():
     trace = MagicMock()
     trace.get_current_span.return_value = MagicMock(is_recording=lambda: True)
-    with patch("fast_core.otel.bridge._trace_api", return_value=trace), patch(
+    with patch("from fast_platform.otel.bridge._trace_api", return_value=trace), patch(
         "fast_platform.otel.bridge.get_request_id", return_value=None
     ):
         assert apply_request_id_to_current_span() is False
@@ -30,7 +30,7 @@ def test_apply_sets_attribute():
     span = MagicMock()
     span.is_recording.return_value = True
     trace.get_current_span.return_value = span
-    with patch("fast_core.otel.bridge._trace_api", return_value=trace), patch(
+    with patch("from fast_platform.otel.bridge._trace_api", return_value=trace), patch(
         "fast_platform.otel.bridge.get_request_id", return_value="req-1"
     ):
         assert apply_request_id_to_current_span() is True
@@ -39,12 +39,12 @@ def test_apply_sets_attribute():
 
 def test_inject_without_otel():
     carrier: dict[str, str] = {}
-    with patch("fast_core.otel.bridge.optional_import", return_value=(None, None)):
+    with patch("from fast_platform.otel.bridge.optional_import", return_value=(None, None)):
         assert inject_trace_context_into_carrier(carrier) is False
 
 
 def test_extract_without_otel():
-    with patch("fast_core.otel.bridge.optional_import", return_value=(None, None)):
+    with patch("from fast_platform.otel.bridge.optional_import", return_value=(None, None)):
         assert extract_trace_context_from_carrier({}) is None
 
 
@@ -53,8 +53,8 @@ def test_apply_span_not_recording():
     span = MagicMock()
     span.is_recording.return_value = False
     trace.get_current_span.return_value = span
-    with patch("fast_core.otel.bridge._trace_api", return_value=trace), patch(
-        "fast_core.otel.bridge.get_request_id", return_value="r"
+    with patch("from fast_platform.otel.bridge._trace_api", return_value=trace), patch(
+        "from fast_platform.otel.bridge.get_request_id", return_value="r"
     ):
         assert apply_request_id_to_current_span() is False
 
@@ -74,7 +74,7 @@ def test_inject_success():
             return (ctx_mod, None)
         return (None, None)
 
-    with patch("fast_core.otel.bridge.optional_import", side_effect=oi_side_effect):
+    with patch("from fast_platform.otel.bridge.optional_import", side_effect=oi_side_effect):
         assert inject_trace_context_into_carrier(carrier) is True
     inst.inject.assert_called_once()
 
@@ -90,7 +90,7 @@ def test_extract_success():
             return (prop_mod, None)
         return (None, None)
 
-    with patch("fast_core.otel.bridge.optional_import", side_effect=oi_side_effect):
+    with patch("from fast_platform.otel.bridge.optional_import", side_effect=oi_side_effect):
         assert extract_trace_context_from_carrier({"traceparent": "x"}) is not None
 
 
@@ -105,7 +105,7 @@ def test_extract_exception_returns_none():
             return (prop_mod, None)
         return (None, None)
 
-    with patch("fast_core.otel.bridge.optional_import", side_effect=oi_side_effect):
+    with patch("from fast_platform.otel.bridge.optional_import", side_effect=oi_side_effect):
         assert extract_trace_context_from_carrier({}) is None
 
 
@@ -122,7 +122,7 @@ def test_inject_missing_propagator_class():
             return (ctx_mod, None)
         return (None, None)
 
-    with patch("fast_core.otel.bridge.optional_import", side_effect=oi_side_effect):
+    with patch("from fast_platform.otel.bridge.optional_import", side_effect=oi_side_effect):
         assert inject_trace_context_into_carrier({}) is False
 
 
@@ -140,5 +140,5 @@ def test_inject_missing_get_current():
             return (ctx_mod, None)
         return (None, None)
 
-    with patch("fast_core.otel.bridge.optional_import", side_effect=oi_side_effect):
+    with patch("from fast_platform.otel.bridge.optional_import", side_effect=oi_side_effect):
         assert inject_trace_context_into_carrier({}) is False

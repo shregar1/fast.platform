@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, Optional
 
-from fast_core import JobsConfiguration
+from from fast_platform import JobsConfiguration
 
 
 def get_queue_timeouts() -> Dict[str, int]:

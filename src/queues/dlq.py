@@ -8,7 +8,7 @@ import base64
 import json
 from typing import Any, Dict, Optional, Tuple
 
-from fast_core.services.queues import QueueMessage
+from from fast_platform.services.queues import QueueMessage
 
 DEFAULT_DLQ_SUFFIX = ".dlq"
 DEFAULT_QUARANTINE_SUFFIX = ".quarantine"

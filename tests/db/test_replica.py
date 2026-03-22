@@ -5,7 +5,7 @@ from __future__ import annotations
 from unittest.mock import MagicMock, patch
 
 import pytest
-from fast_core.config.dto import DBConfigurationDTO
+from from fast_platform.config.dto import DBConfigurationDTO
 
 from fast_db.replica import (
     ReadDBDependency,

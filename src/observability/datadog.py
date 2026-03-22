@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import os
 
-from fast_core import DatadogConfiguration
+from from fast_platform import DatadogConfiguration
 from loguru import logger
 
 

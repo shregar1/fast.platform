@@ -7,7 +7,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, List, Optional
 
-from fast_core import VectorsConfiguration
+from from fast_platform import VectorsConfiguration
 
 
 class IVectorStore(ABC):

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 from unittest.mock import MagicMock, patch
 
-from fast_core.config.dto_extras import JobsConfigurationDTO
+from from fast_platform.config.dto_extras import JobsConfigurationDTO
 
 from fast_jobs.enqueue import enqueue
 

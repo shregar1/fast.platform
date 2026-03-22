@@ -2,7 +2,7 @@
 fast_analytics – Analytics and event tracking for FastMVC.
 """
 
-from fast_core import AnalyticsConfiguration, AnalyticsConfigurationDTO
+from from fast_platform import AnalyticsConfiguration, AnalyticsConfigurationDTO
 
 from .base import IAnalyticsBackend, build_analytics_client
 from .buffer import BufferedAnalyticsBackend

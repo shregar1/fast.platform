@@ -2,7 +2,7 @@
 fast_secrets – Secrets backends (Vault, AWS, GCP) for FastMVC.
 """
 
-from fast_core import SecretsConfiguration, SecretsConfigurationDTO
+from from fast_platform import SecretsConfiguration, SecretsConfigurationDTO
 
 from .base import ISecretsBackend, build_secrets_backend
 from .cache import CachedSecretsBackend, RotationCallback

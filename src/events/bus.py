@@ -14,8 +14,8 @@ from typing import Any, Dict, Optional
 
 from loguru import logger
 
-from fast_core import EventsConfiguration
-from fast_core.utils import optional_import
+from from fast_platform import EventsConfiguration
+from from fast_platform.utils import optional_import
 
 _boto3, _ = optional_import("boto3")
 _eventhub_mod, EventHubProducerClient = optional_import(
