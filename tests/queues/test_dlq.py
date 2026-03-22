@@ -1,6 +1,6 @@
 """Tests for DLQ and quarantine helpers."""
 
-from from fast_platform.services.queues import QueueMessage
+from queues.broker import QueueMessage
 
 from fast_queues.dlq import (
     DEFAULT_QUARANTINE_SUFFIX,

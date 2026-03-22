@@ -1,5 +1,5 @@
 """
-ICE server lists from :class:`from fast_platform.config.dto_extras.RealtimeConfigurationDTO`.
+ICE server lists from :class:`fast_platform.config.dto_extras.RealtimeConfigurationDTO`.
 
 Also provides helpers to map legacy flat STUN/TURN URL lists from :class:`~fast_webrtc.dto.WebRTCConfigurationDTO`.
 """
@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from from fast_platform.config.dto_extras import RealtimeConfigurationDTO
+from config.dto_extras import RealtimeConfigurationDTO
 
 from .dto import WebRTCConfigurationDTO
 

@@ -2,7 +2,7 @@
 Read-replica URL and engine helpers (optional second connection for read-only work).
 
 Configure ``read_replica_connection_string`` (and optional ``read_replica_host`` /
-``read_replica_port``) on :class:`from fast_platform.config.dto.DBConfigurationDTO`.
+``read_replica_port``) on :class:`fast_platform.config.dto.DBConfigurationDTO`.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from from fast_platform import DBConfiguration, DBConfigurationDTO
+from fast_platform import DBConfiguration, DBConfigurationDTO
 
 from .engine import _pool_kwargs, create_session_factory, sync_connect_args_for_url
 

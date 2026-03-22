@@ -2,7 +2,7 @@
 fast_vectors – Vector stores (Pinecone, Qdrant, Weaviate) for FastMVC.
 """
 
-from from fast_platform import (
+from fast_platform import (
     VectorsConfiguration,
     VectorsConfigurationDTO,
     PineconeConfigDTO,

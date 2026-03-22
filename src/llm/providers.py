@@ -1,14 +1,14 @@
 """
 LLM provider implementations (OpenAI, Anthropic, Ollama) and factory.
 
-These live in ``fast_llm`` so the package stays usable without a separate ``from fast_platform.services`` tree.
+These live in ``fast_llm`` so the package stays usable without pulling in extra service layers.
 """
 
 from __future__ import annotations
 
 from typing import Any, Literal, Optional, Protocol, runtime_checkable
 
-from from fast_platform import LLMConfiguration
+from fast_platform import LLMConfiguration
 
 
 @runtime_checkable

@@ -2,7 +2,7 @@
 fast_storage – Object storage (S3, GCS, Azure Blob, local) for FastMVC.
 """
 
-from from fast_platform import StorageConfiguration, StorageConfigurationDTO
+from fast_platform import StorageConfiguration, StorageConfigurationDTO
 
 from .base import IStorageBackend, StorageObjectHead, build_storage_backend
 from .local_backend import LocalStorageBackend

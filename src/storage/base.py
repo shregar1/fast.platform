@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, BinaryIO, Optional
 
-from from fast_platform import StorageConfiguration
+from fast_platform import StorageConfiguration
 
 
 @dataclass(slots=True)

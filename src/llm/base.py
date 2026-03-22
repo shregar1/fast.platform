@@ -10,7 +10,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from from fast_platform import LLMConfiguration
+from fast_platform import LLMConfiguration
 
 try:
     from loguru import logger

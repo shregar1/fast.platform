@@ -1,7 +1,7 @@
 """
 Identity provider abstractions and OAuth2/OIDC builder.
 
-Uses IdentityProvidersConfiguration from from fast_platform. Optional: install
+Uses IdentityProvidersConfiguration from fast_platform. Optional: install
 fast_identity[oauth] for httpx-based token/userinfo requests.
 """
 
@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from from fast_platform import IdentityProvidersConfiguration
+from fast_platform import IdentityProvidersConfiguration
 
 try:
     import httpx

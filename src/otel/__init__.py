@@ -1,5 +1,5 @@
 """
-OpenTelemetry helpers (optional ``from fast_platform[otel]``).
+OpenTelemetry helpers (optional ``fast-platform[otel]`` extra).
 
 Uses ``opentelemetry-api`` only — no SDK/exporter requirement for attribute wiring.
 """

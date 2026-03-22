@@ -2,9 +2,9 @@
 fast_queues – Queue backends (RabbitMQ, SQS, Azure Service Bus, NATS) for FastMVC.
 """
 
-from from fast_platform import QueuesConfiguration, QueuesConfigurationDTO
+from fast_platform import QueuesConfiguration, QueuesConfigurationDTO
 
-from from fast_platform.services.queues import (
+from .broker import (
     IQueueBackend,
     QueueBroker,
     QueueMessage,

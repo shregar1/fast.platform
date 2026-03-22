@@ -1,4 +1,4 @@
-"""Cloud event bus helpers (SNS, EventBridge, Event Hubs, Kafka); configuration via ``from fast_platform``."""
+"""Cloud event bus helpers (SNS, EventBridge, Event Hubs, Kafka); configuration via :mod:`fast_platform.config`."""
 
 from .bus import (
     IEventBus,

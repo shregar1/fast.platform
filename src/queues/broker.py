@@ -12,8 +12,8 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from from fast_platform import QueuesConfiguration
-from from fast_platform.utils import optional_import
+from fast_platform import QueuesConfiguration
+from utils.optional_imports import optional_import
 
 try:
     from loguru import logger

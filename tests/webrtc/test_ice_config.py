@@ -1,6 +1,6 @@
 """Tests for ICE server helpers."""
 
-from from fast_platform.config.dto_extras import (
+from config.dto_extras import (
     RealtimeConfigurationDTO,
     WebRtcIceConfigDTO,
     WebRtcIceServerDTO,

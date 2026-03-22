@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fast-platform"
 version = "0.12.1"
-description = "Umbrella package: from fast_platform, fast_errors, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — same imports as former standalone fast_* packages."
+description = "Umbrella package: fast_platform.config, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — merged fast_* modules under one install."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -98,7 +98,7 @@ Homepage = "https://github.com/shregar1/fastMVC"
 where = ["src"]
 
 [tool.setuptools.package-data]
-from fast_platform = ["data/*.json"]
+fast_platform = ["config/**/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,8 +1,8 @@
-"""Payments configuration loader (uses from fast_platform resolver)."""
+"""Payments configuration loader (uses :func:`fast_platform.config.load_config_json`)."""
 
 from typing import Optional
 
-from from fast_platform import load_config_json
+from fast_platform import load_config_json
 
 from .dto import (
     LinkConfigDTO,

@@ -3,7 +3,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-from from fast_platform.config.dto import DBConfigurationDTO
+from config.dto import DBConfigurationDTO
 from sqlalchemy.ext.asyncio import create_async_engine
 
 import fast_db.async_engine as async_engine_mod

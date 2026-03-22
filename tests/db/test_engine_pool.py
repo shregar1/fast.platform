@@ -3,7 +3,7 @@
 from unittest.mock import MagicMock, patch
 
 import pytest
-from from fast_platform.config.dto import DBConfigurationDTO
+from config.dto import DBConfigurationDTO
 
 from fast_db.engine import create_and_set_session, get_engine, sync_connect_args_for_url
 

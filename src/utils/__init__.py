@@ -1,4 +1,4 @@
-"""Shared utilities for from fast_platform."""
+"""Shared utilities for fast-platform modules."""
 
 from .optional_imports import optional_import
 

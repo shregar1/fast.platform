@@ -7,7 +7,7 @@ from __future__ import annotations
 import importlib
 from typing import Any, Dict, List, Literal, Optional, Tuple
 
-from from fast_platform import JobsConfiguration
+from fast_platform import JobsConfiguration
 
 from .result import JobEnqueueResult
 from .timeout import resolve_job_timeout_seconds

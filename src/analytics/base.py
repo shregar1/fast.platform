@@ -7,7 +7,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
-from from fast_platform import AnalyticsConfiguration
+from fast_platform import AnalyticsConfiguration
 
 
 class IAnalyticsBackend(ABC):
