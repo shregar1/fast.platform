@@ -126,7 +126,7 @@ Single installable distribution (**`pip install fast-platform`**) that bundles m
 | `queues` | Queues (DLQ, envelope, backends) |
 | `jobs` | Background jobs |
 | `storage` | Object storage (S3, GCS, Azure) |
-| `secrets` | Secrets + cache |
+| `fast_secrets` | Secrets + cache (Vault, AWS, GCP backends; not the stdlib `secrets` module) |
 | `vectors` | Vector stores |
 | `tenancy` | Multi-tenant context |
 | `webhooks` | Webhook signing / delivery |

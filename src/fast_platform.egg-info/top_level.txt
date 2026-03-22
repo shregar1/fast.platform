@@ -6,6 +6,7 @@ datastores
 db
 errors
 events
+fast_secrets
 features
 identity
 jobs
@@ -19,7 +20,6 @@ payments
 queues
 resilience
 search
-secrets
 security
 storage
 streams

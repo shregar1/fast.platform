@@ -14,11 +14,11 @@ Single installable distribution (**`pip install fast-platform`**) that bundles m
 | `datastores` | `IDataStore` adapters (Redis, Mongo, ES, …) |
 | `observability` | Logging, metrics, tracing, audit, OTLP |
 | `analytics` | HTTP sink, sampling, PII scrub, schema registry |
-| `admin` | Admin API router (users, roles, audit log), generic SQLAlchemy CRUD routers |
+| `fast_admin` | Admin API router (users, roles, audit log), generic SQLAlchemy CRUD routers |
 | `queues` | Queues (DLQ, envelope, backends) |
 | `jobs` | Background jobs |
 | `storage` | Object storage (S3, GCS, Azure) |
-| `secrets` | Secrets + cache |
+| `fast_secrets` | Secrets + cache (Vault, AWS, GCP backends; not the stdlib `secrets` module) |
 | `vectors` | Vector stores |
 | `tenancy` | Multi-tenant context |
 | `webhooks` | Webhook signing / delivery |
