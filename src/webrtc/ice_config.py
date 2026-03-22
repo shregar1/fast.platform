@@ -22,7 +22,10 @@ def rtc_ice_servers_for_client(cfg: RealtimeConfigurationDTO) -> list[dict[str, 
     w = cfg.webrtc
     if not w.enabled:
         return []
-    return [s.model_dump(exclude_none=True) for s in w.ice_servers]
+    return [
+        {k: v for k, v in s.model_dump(exclude_none=True).items() if v != ""}
+        for s in w.ice_servers
+    ]
 
 
 def ice_servers_from_legacy_webrtc_dto(dto: WebRTCConfigurationDTO) -> list[dict[str, Any]]:

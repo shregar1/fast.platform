@@ -11,6 +11,8 @@ class CeleryJobsDTO(BaseModel):
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     broker_url: str = ""
+    result_backend: str = ""
+    namespace: str = "fastmvc"
 
 
 class RqJobsDTO(BaseModel):
