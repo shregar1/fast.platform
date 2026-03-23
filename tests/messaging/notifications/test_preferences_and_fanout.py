@@ -3,11 +3,11 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from notifications.dto import EmailNotificationTarget, NotificationFanoutRequest
+from core.dtos.notifications import EmailNotificationTarget, NotificationFanoutRequest
 
-from notifications.fanout import NotificationFanoutService
-from notifications.idempotency import InMemoryNotificationIdempotencyStore
-from notifications.preferences import StaticMutedCategories
+from messaging.notifications.fanout import NotificationFanoutService
+from messaging.notifications.idempotency import InMemoryNotificationIdempotencyStore
+from messaging.notifications.preferences import StaticMutedCategories
 from tests.messaging.notifications.abstraction import INotificationTests
 
 
@@ -15,7 +15,7 @@ class TestPreferencesAndFanout(INotificationTests):
     def test_fanout_skips_muted_category(self):
         prefs = StaticMutedCategories({"u1": {"marketing"}})
         email = AsyncMock()
-        with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
+        with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
             svc = NotificationFanoutService(email_sender=email, preference_store=prefs)
             req = NotificationFanoutRequest(
@@ -31,7 +31,7 @@ class TestPreferencesAndFanout(INotificationTests):
     def test_fanout_idempotency_second_send_skipped(self):
         store = InMemoryNotificationIdempotencyStore()
         email = AsyncMock()
-        with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
+        with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
             svc = NotificationFanoutService(email_sender=email, idempotency_store=store)
             req = NotificationFanoutRequest(
@@ -51,7 +51,7 @@ class TestPreferencesAndFanout(INotificationTests):
         store = InMemoryNotificationIdempotencyStore()
         email = AsyncMock()
         prefs = StaticMutedCategories({"u1": {"alerts"}})
-        with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
+        with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
             svc = NotificationFanoutService(
                 email_sender=email, preference_store=prefs, idempotency_store=store
@@ -76,7 +76,7 @@ class TestPreferencesAndFanout(INotificationTests):
             template_id="t",
             dedupe_key="k",
         )
-        with patch("notifications.fanout.PushNotificationService") as mock_push_cls:
+        with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
             svc = NotificationFanoutService(
                 email_sender=email, preference_store=prefs, idempotency_store=store

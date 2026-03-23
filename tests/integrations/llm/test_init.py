@@ -5,7 +5,7 @@ from tests.integrations.llm.abstraction import ILLMTests
 
 class TestInit(ILLMTests):
     def test_imports(self) -> None:
-        from llm import (
+        from integrations.llm import (
             ILLMService,
             InstrumentedOpenAILLMService,
             LLMConfiguration,

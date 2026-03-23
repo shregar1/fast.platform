@@ -12,7 +12,7 @@ import pytest
 
 from tests.messaging.notifications.abstraction import INotificationTests
 
-PACKAGE = "notifications"
+PACKAGE = "messaging.notifications"
 
 
 class TestPublicApi(INotificationTests):

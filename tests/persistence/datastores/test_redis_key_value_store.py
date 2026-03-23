@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-"""Tests for :class:`datastores.redis_kv.RedisKeyValueStore` (mocked redis)."""
+"""Tests for :class:`persistence.datastores.redis_kv.RedisKeyValueStore` (mocked redis)."""
 from unittest.mock import MagicMock, patch
 
-from datastores.redis_kv import RedisKeyValueStore
+from persistence.datastores.redis_kv import RedisKeyValueStore
 from tests.persistence.datastores.abstraction import IDatastoresTests
 
 
 class TestRedisKeyValueStore(IDatastoresTests):
-    @patch("datastores.redis_kv.redis.Redis")
+    @patch("persistence.datastores.redis_kv.redis.Redis")
     def test_connect_disconnect_roundtrip(self, mock_redis_cls: MagicMock) -> None:
         mock_client = MagicMock()
         mock_redis_cls.return_value = mock_client
@@ -18,7 +18,7 @@ class TestRedisKeyValueStore(IDatastoresTests):
         store.disconnect()
         mock_client.close.assert_called_once()
 
-    @patch("datastores.redis_kv.redis.Redis")
+    @patch("persistence.datastores.redis_kv.redis.Redis")
     def test_get_delegates_to_client(self, mock_redis_cls: MagicMock) -> None:
         mock_client = MagicMock()
         mock_client.get.return_value = b"v"

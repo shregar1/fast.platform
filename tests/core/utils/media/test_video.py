@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Tests for :mod:`utils.media.video`."""
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from utils.media.video import VideoUtility
+from core.utils.media.video import VideoUtility
 
 
 class TestVideoUtility(IMediaUtilsTests):

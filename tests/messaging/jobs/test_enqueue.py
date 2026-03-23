@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from dtos import JobsConfigurationDTO
-from jobs.enqueue import enqueue
+from core.dtos import JobsConfigurationDTO
+from messaging.jobs.enqueue import enqueue
 from tests.messaging.jobs.abstraction import IJobTests
 
 
@@ -27,7 +27,7 @@ class TestEnqueue(IJobTests):
         raw.update(overrides)
         return JobsConfigurationDTO.model_validate(raw)
 
-    @patch("jobs.enqueue.JobsConfiguration")
+    @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_enqueue_celery_apply_async(self, mock_jobs: MagicMock) -> None:
         cfg = self._cfg(
             celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"}
@@ -47,7 +47,7 @@ class TestEnqueue(IJobTests):
         assert r.job_id == "celery-id-1"
         assert r.timeout_seconds == 120
 
-    @patch("jobs.enqueue.JobsConfiguration")
+    @patch("messaging.jobs.enqueue.JobsConfiguration")
     @patch("rq.Queue")
     @patch("redis.Redis")
     def test_enqueue_rq_enqueue_call(
@@ -74,7 +74,7 @@ class TestEnqueue(IJobTests):
         assert r.backend == "rq"
         assert r.job_id == "rq-job-1"
 
-    @patch("jobs.enqueue.JobsConfiguration")
+    @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_enqueue_dramatiq_send_with_options(self, mock_jobs: MagicMock) -> None:
         pytest.importorskip("dramatiq")
         cfg = self._cfg(
@@ -92,7 +92,7 @@ class TestEnqueue(IJobTests):
         assert r.backend == "dramatiq"
         assert r.job_id == "dmq-1"
 
-    @patch("jobs.enqueue.JobsConfiguration")
+    @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_auto_infer_celery(self, mock_jobs: MagicMock) -> None:
         cfg = self._cfg(
             celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"}

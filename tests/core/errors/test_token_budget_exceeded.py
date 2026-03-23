@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from errors import TokenBudgetExceeded
+from core.errors import TokenBudgetExceeded
 from tests.core.errors.abstraction import IErrorsTests
 
 

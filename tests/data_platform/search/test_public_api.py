@@ -12,7 +12,7 @@ import pytest
 
 from tests.data_platform.search.abstraction import ISearchTests
 
-PACKAGE = "search"
+PACKAGE = "data_platform.search"
 
 
 class TestPublicApi(ISearchTests):

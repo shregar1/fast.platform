@@ -12,9 +12,9 @@ class TestBackendsConstructorsMissingDeps(ISecretsTests):
     def test_provider_backend_constructors_raise_runtime_error_when_dependency_missing(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from secrets.aws_backend import AwsSecretsBackend
-        from secrets.gcp_backend import GcpSecretsBackend
-        from secrets.vault_backend import VaultSecretsBackend
+        from sec.secrets.aws_backend import AwsSecretsBackend
+        from sec.secrets.gcp_backend import GcpSecretsBackend
+        from sec.secrets.vault_backend import VaultSecretsBackend
 
         real_import = builtins.__import__
 

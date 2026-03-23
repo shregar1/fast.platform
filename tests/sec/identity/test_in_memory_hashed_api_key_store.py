@@ -1,6 +1,6 @@
-"""Tests for :class:`identity.api_key.InMemoryHashedApiKeyStore`."""
+"""Tests for :class:`sec.identity.api_key.InMemoryHashedApiKeyStore`."""
 
-from identity.api_key import ApiKeyHashes, InMemoryHashedApiKeyStore
+from sec.identity.api_key import ApiKeyHashes, InMemoryHashedApiKeyStore
 from tests.sec.identity.abstraction import IIdentityTests
 
 

@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 """Tests for ``observability`` public re-exports."""
-import observability
+import operations.observability as observability
+
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

@@ -1,4 +1,4 @@
-"""Tests for :mod:`channels.acl`."""
+"""Tests for :mod:`realtime.channels.acl`."""
 
 import asyncio
 
@@ -9,13 +9,13 @@ from tests.realtime.channels.abstraction import IChannelTests
 
 class TestAcl(IChannelTests):
     def test_allow_all_acl(self):
-        from channels.acl import AllowAllChannelACL
+        from realtime.channels.acl import AllowAllChannelACL
 
         acl = AllowAllChannelACL()
         assert asyncio.run(acl.may_subscribe("u", "c")) is True
 
     def test_static_acl(self):
-        from channels.acl import StaticChannelACL
+        from realtime.channels.acl import StaticChannelACL
 
         acl = StaticChannelACL({"u1": {"a", "b"}})
         assert asyncio.run(acl.may_subscribe("u1", "a")) is True
@@ -25,7 +25,7 @@ class TestAcl(IChannelTests):
     def test_make_subscribe_acl_checker_raises(self):
         from starlette.exceptions import WebSocketException
 
-        from channels.acl import StaticChannelACL, make_subscribe_acl_checker
+        from realtime.channels.acl import StaticChannelACL, make_subscribe_acl_checker
 
         acl = StaticChannelACL({"u1": {"ok"}})
         check = make_subscribe_acl_checker(acl, user_id="u1")

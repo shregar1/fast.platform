@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :func:`storage.base.build_storage_backend` (local)."""
+"""Tests for :func:`data_platform.storage.base.build_storage_backend` (local)."""
 import types
 
 import pytest
@@ -12,7 +12,7 @@ class TestBackendsFactoryLocal(IStorageTests):
     def test_storage_factory_selects_local_backend(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path
     ) -> None:
-        from storage import base as storage_base
+        from data_platform.storage import base as storage_base
 
         class FakeCfg:
             def __init__(self) -> None:

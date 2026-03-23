@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 """Tests for DLQ and quarantine helpers."""
-from queues.broker import QueueMessage
-from queues.dlq import (
+from messaging.queues.broker import QueueMessage
+from messaging.queues.dlq import (
     DEFAULT_QUARANTINE_SUFFIX,
     dlq_name,
     is_dlq_name,

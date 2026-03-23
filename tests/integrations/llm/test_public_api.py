@@ -12,7 +12,7 @@ import pytest
 
 from tests.integrations.llm.abstraction import ILLMTests
 
-PACKAGE = "llm"
+PACKAGE = "integrations.llm"
 
 
 class TestPublicApi(ILLMTests):

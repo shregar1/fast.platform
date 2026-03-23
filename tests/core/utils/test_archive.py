@@ -6,7 +6,7 @@ import tarfile
 import zipfile
 
 from tests.core.utils.abstraction import IUtilsTests
-from utils.archive import ArchiveUtility
+from core.utils.archive import ArchiveUtility
 
 
 class TestArchiveUtility(IUtilsTests):

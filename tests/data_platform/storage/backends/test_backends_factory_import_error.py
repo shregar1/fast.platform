@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :func:`storage.base.build_storage_backend` when backend modules fail to import."""
+"""Tests for :func:`data_platform.storage.base.build_storage_backend` when backend modules fail to import."""
 import builtins
 import sys
 import types
@@ -14,7 +14,7 @@ class TestBackendsFactoryImportError(IStorageTests):
     def test_build_storage_backend_import_error_returns_none(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from storage import base as storage_base
+        from data_platform.storage import base as storage_base
 
         class FakeCfg:
             def __init__(self) -> None:
@@ -53,9 +53,9 @@ class TestBackendsFactoryImportError(IStorageTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("storage.s3_backend", None)
-        sys.modules.pop("storage.gcs_backend", None)
-        sys.modules.pop("storage.azure_backend", None)
+        sys.modules.pop("data_platform.storage.s3_backend", None)
+        sys.modules.pop("data_platform.storage.gcs_backend", None)
+        sys.modules.pop("data_platform.storage.azure_backend", None)
         assert storage_base.build_storage_backend("s3") is None
         assert storage_base.build_storage_backend("gcs") is None
         assert storage_base.build_storage_backend("azure_blob") is None

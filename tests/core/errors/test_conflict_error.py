@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from errors import ConflictError
+from core.errors import ConflictError
 from tests.core.errors.abstraction import IErrorsTests
 
 

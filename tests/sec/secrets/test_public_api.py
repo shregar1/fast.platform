@@ -12,7 +12,7 @@ import pytest
 
 from tests.sec.secrets.abstraction import ISecretsTests
 
-PACKAGE = "secrets"
+PACKAGE = "sec.secrets"
 
 
 class TestPublicApi(ISecretsTests):

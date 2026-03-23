@@ -13,20 +13,20 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 class TestSerdeWorkerOutboxExtra(IKafkaTests):
     def test_serialize_protobuf_missing_method(self) -> None:
-        from kafka.serde import serialize_protobuf
+        from messaging.kafka.serde import serialize_protobuf
 
         with pytest.raises(TypeError, match="SerializeToString"):
             serialize_protobuf(object())
 
     def test_serialize_protobuf_ok(self) -> None:
-        from kafka.serde import serialize_protobuf
+        from messaging.kafka.serde import serialize_protobuf
 
         m = SimpleNamespace(SerializeToString=lambda: b"\x01\x02")
         assert serialize_protobuf(m) == b"\x01\x02"
 
     def test_serialize_avro_record_when_fastavro_installed(self) -> None:
         pytest.importorskip("fastavro")
-        from kafka.serde import serialize_avro_record
+        from messaging.kafka.serde import serialize_avro_record
 
         schema = {"type": "record", "name": "R", "fields": [{"name": "n", "type": "int"}]}
         out = serialize_avro_record({"n": 1}, schema)
@@ -34,20 +34,20 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
 
     @pytest.mark.asyncio
     async def test_handle_message(self) -> None:
-        from kafka.worker import handle_message
+        from messaging.kafka.worker import handle_message
 
         await handle_message("topic", b"hello")
 
     def test_worker_run_invokes_asyncio_run(self) -> None:
-        with patch("kafka.worker.asyncio.run") as ar:
-            from kafka.worker import run
+        with patch("messaging.kafka.worker.asyncio.run") as ar:
+            from messaging.kafka.worker import run
 
             run()
             ar.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_run_outbox_publisher_loop_logs_on_publish_failure(self) -> None:
-        from kafka.outbox import OutboxMessage, run_outbox_publisher_loop
+        from messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
 
         stop = asyncio.Event()
 
@@ -63,7 +63,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
             await asyncio.sleep(0.15)
             stop.set()
 
-        with patch("kafka.outbox.publish_outbox_batch", side_effect=RuntimeError("send failed")):
+        with patch("messaging.kafka.outbox.publish_outbox_batch", side_effect=RuntimeError("send failed")):
             asyncio.create_task(stop_soon())
             task = asyncio.create_task(
                 run_outbox_publisher_loop(

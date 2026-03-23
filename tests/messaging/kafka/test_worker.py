@@ -6,9 +6,9 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestWorker(IKafkaTests):
-    @patch("kafka.worker.KafkaConsumer")
+    @patch("messaging.kafka.worker.KafkaConsumer")
     def test_worker_run(self, mock_consumer_cls):
-        from kafka.worker import run
+        from messaging.kafka.worker import run
 
         mock_consumer = MagicMock()
         mock_consumer.start = AsyncMock(return_value=None)

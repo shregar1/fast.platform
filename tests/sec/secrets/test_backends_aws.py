@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :class:`secrets.aws_backend.AwsSecretsBackend`."""
+"""Tests for :class:`sec.secrets.aws_backend.AwsSecretsBackend`."""
 import sys
 import types
 
@@ -9,7 +9,7 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 class TestBackendsAws(ISecretsTests):
     def test_aws_secrets_backend_get_secret_and_set_secret_happy_and_exists(self) -> None:
-        from secrets.aws_backend import AwsSecretsBackend
+        from sec.secrets.aws_backend import AwsSecretsBackend
 
         class FakeResourceExistsException(Exception):
             pass
@@ -47,7 +47,7 @@ class TestBackendsAws(ISecretsTests):
         assert backend._client.puts == [("p/exists", "v2")]
 
     def test_aws_secrets_backend_get_secret_exception_returns_none(self) -> None:
-        from secrets.aws_backend import AwsSecretsBackend
+        from sec.secrets.aws_backend import AwsSecretsBackend
 
         class FakeSecretsManagerClient:
             def __init__(self) -> None:

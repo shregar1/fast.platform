@@ -7,7 +7,7 @@ import pytest
 
 from tests.messaging.jobs.abstraction import IJobTests
 
-PACKAGE = "jobs"
+PACKAGE = "messaging.jobs"
 
 
 class TestPublicApi(IJobTests):

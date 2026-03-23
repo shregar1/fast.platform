@@ -7,7 +7,7 @@ from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 
 from tests.messaging.webhooks.abstraction import IWebhookTests
-from webhooks import require_webhook_signature, signature_header_value
+from messaging.webhooks import require_webhook_signature, signature_header_value
 
 
 @pytest.fixture

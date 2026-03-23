@@ -4,7 +4,7 @@ from __future__ import annotations
 import asyncio
 from typing import Any, Dict, Optional
 
-from payments.abstraction import IPaymentGateway, IProvider
+from integrations.payments.abstraction import IPaymentGateway, IProvider
 from tests.integrations.payments.abstraction import IPaymentsTests
 
 

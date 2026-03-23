@@ -2,10 +2,10 @@ from __future__ import annotations
 
 """Edge cases for tools, caching, budget, token_usage."""
 
-from llm.budget import estimate_tokens_from_text
-from llm.caching import anthropic_cached_text, anthropic_text_block, openai_system_message_cached
-from llm.token_usage import TokenUsage
-from llm.tools import (
+from integrations.llm.budget import estimate_tokens_from_text
+from integrations.llm.caching import anthropic_cached_text, anthropic_text_block, openai_system_message_cached
+from integrations.llm.token_usage import TokenUsage
+from integrations.llm.tools import (
     normalize_tools_to_anthropic,
     normalize_tools_to_openai,
     tool_definition_from_openai,
@@ -50,7 +50,7 @@ class TestToolsCachingBudgetEdges(ILLMTests):
         assert u.total_tokens == 0
 
     def test_tool_definition_from_anthropic_non_dict_schema(self) -> None:
-        from llm.tools import tool_definition_from_anthropic
+        from integrations.llm.tools import tool_definition_from_anthropic
 
         t = tool_definition_from_anthropic(
             {"name": "n", "description": "d", "input_schema": "not-a-dict"}

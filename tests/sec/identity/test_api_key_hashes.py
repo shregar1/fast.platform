@@ -1,6 +1,6 @@
-"""Tests for :class:`identity.api_key.ApiKeyHashes`."""
+"""Tests for :class:`sec.identity.api_key.ApiKeyHashes`."""
 
-from identity.api_key import ApiKeyHashes
+from sec.identity.api_key import ApiKeyHashes
 from tests.sec.identity.abstraction import IIdentityTests
 
 

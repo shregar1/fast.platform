@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Tests for :mod:`utils.digests`."""
 from tests.core.utils.abstraction import IUtilsTests
-from utils.digests import Digests
+from core.utils.digests import Digests
 
 
 class TestDigests(IUtilsTests):

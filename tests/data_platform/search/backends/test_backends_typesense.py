@@ -7,7 +7,7 @@ from tests.data_platform.search.backends._install import install_module
 
 class TestBackendsTypesense(ISearchTests):
     def test_typesense_backend_index_search_delete_and_filter(self, monkeypatch) -> None:
-        from search.typesense_backend import TypesenseBackend, _filter_str
+        from data_platform.search.typesense_backend import TypesenseBackend, _filter_str
 
         calls: dict[str, Any] = {}
 

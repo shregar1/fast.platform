@@ -12,7 +12,7 @@ import pytest
 
 from tests.sec.identity.abstraction import IIdentityTests
 
-PACKAGE = "identity"
+PACKAGE = "sec.identity"
 
 
 class TestPublicApi(IIdentityTests):

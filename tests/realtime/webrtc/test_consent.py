@@ -1,7 +1,7 @@
 """Tests for consent helpers."""
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from webrtc.consent import AllowAllMediaConsent, StaticDeniedPeers
+from realtime.webrtc.consent import AllowAllMediaConsent, StaticDeniedPeers
 
 
 class TestConsent(IWebRTCTests):

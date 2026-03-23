@@ -8,7 +8,7 @@ from urllib.error import HTTPError, URLError
 import pytest
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from webrtc.turn_twilio import fetch_twilio_turn_ice_servers, twilio_tokens_url
+from realtime.webrtc.turn_twilio import fetch_twilio_turn_ice_servers, twilio_tokens_url
 
 
 class TestTurnTwilio(IWebRTCTests):
@@ -16,7 +16,7 @@ class TestTurnTwilio(IWebRTCTests):
         assert "ACtest" in twilio_tokens_url("ACtest")
         assert "Tokens.json" in twilio_tokens_url("ACtest")
 
-    @patch("webrtc.turn_twilio.urlrequest.urlopen")
+    @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_ice_servers_parses_response(self, mock_urlopen):
         payload = {
             "ice_servers": [
@@ -47,7 +47,7 @@ class TestTurnTwilio(IWebRTCTests):
         assert out[1]["credential"] == "p"
         mock_urlopen.assert_called_once()
 
-    @patch("webrtc.turn_twilio.urlrequest.urlopen")
+    @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_raises_on_bad_json(self, mock_urlopen):
         class _Resp:
             def __enter__(self):
@@ -63,7 +63,7 @@ class TestTurnTwilio(IWebRTCTests):
         with pytest.raises(RuntimeError, match="ice_servers"):
             fetch_twilio_turn_ice_servers("ACx", "t")
 
-    @patch("webrtc.turn_twilio.urlrequest.urlopen")
+    @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_normalize_rejects_missing_urls(self, mock_urlopen):
         class _Resp:
             def __enter__(self):
@@ -79,7 +79,7 @@ class TestTurnTwilio(IWebRTCTests):
         with pytest.raises(ValueError, match="urls"):
             fetch_twilio_turn_ice_servers("ACx", "t")
 
-    @patch("webrtc.turn_twilio.urlrequest.urlopen")
+    @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_http_error(self, mock_urlopen):
         fp = io.BytesIO(b"auth failed")
         mock_urlopen.side_effect = HTTPError(
@@ -88,7 +88,7 @@ class TestTurnTwilio(IWebRTCTests):
         with pytest.raises(RuntimeError, match="HTTP 401"):
             fetch_twilio_turn_ice_servers("ACx", "t")
 
-    @patch("webrtc.turn_twilio.urlrequest.urlopen")
+    @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_url_error(self, mock_urlopen):
         mock_urlopen.side_effect = URLError("network down")
         with pytest.raises(RuntimeError, match="request failed"):

@@ -6,8 +6,7 @@ from tests.integrations.payments.abstraction import IPaymentsTests
 
 class TestInit(IPaymentsTests):
     def test_import(self) -> None:
-        import payments as p
-
+        import integrations.payments as p
         assert p.PaymentsConfiguration is not None
         assert p.PaymentsConfigurationDTO is not None
         assert p.CheckoutSession is not None

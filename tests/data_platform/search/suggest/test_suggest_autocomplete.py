@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-"""Tests for :func:`search.suggest.suggest_autocomplete`."""
+"""Tests for :func:`data_platform.search.suggest.suggest_autocomplete`."""
 from typing import Any, List, Optional
 
-from search.base import ISearchBackend
-from search.suggest import suggest_autocomplete
+from data_platform.search.base import ISearchBackend
+from data_platform.search.suggest import suggest_autocomplete
 from tests.data_platform.search.abstraction import ISearchTests
 
 

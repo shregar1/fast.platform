@@ -12,7 +12,7 @@ import pytest
 
 from tests.operations.tenancy.abstraction import ITenancyTests
 
-PACKAGE = "tenancy"
+PACKAGE = "operations.tenancy"
 
 
 class TestPublicApi(ITenancyTests):

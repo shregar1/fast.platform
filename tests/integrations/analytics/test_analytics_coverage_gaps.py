@@ -6,12 +6,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from analytics.buffer import BufferedAnalyticsBackend
-from analytics.middleware import default_analytics_user_key
-from analytics.pii import scrub_pii_properties
-from analytics.rate_limit import RateLimitedAnalyticsBackend
-from analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from analytics.validating_backend import ValidatingAnalyticsBackend
+from integrations.analytics.buffer import BufferedAnalyticsBackend
+from integrations.analytics.middleware import default_analytics_user_key
+from integrations.analytics.pii import scrub_pii_properties
+from integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
+from integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from integrations.analytics.validating_backend import ValidatingAnalyticsBackend
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
@@ -23,7 +23,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         assert b.buffer is b._buffer
 
     def test_http_sink_swallows_errors(self) -> None:
-        from analytics.http_sink import HttpSinkAnalyticsBackend
+        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("nope")):
             b = HttpSinkAnalyticsBackend("http://x")
@@ -54,7 +54,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         assert default_analytics_user_key(R3()) == "anonymous"
 
     def test_middleware_requires_starlette(self, monkeypatch: pytest.MonkeyPatch) -> None:
-        import analytics.middleware as mw
+        import integrations.analytics.middleware as mw
 
         monkeypatch.setattr(mw, "_STARLETTE", False)
         with pytest.raises(RuntimeError, match="starlette"):
@@ -68,7 +68,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         from starlette.routing import Route
         from starlette.testclient import TestClient
 
-        from analytics.middleware import AnalyticsSamplingMiddleware
+        from integrations.analytics.middleware import AnalyticsSamplingMiddleware
 
         backend = MagicMock()
 
@@ -77,7 +77,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
 
         app = Starlette(routes=[Route("/", home)])
         app.add_middleware(AnalyticsSamplingMiddleware, backend=backend, sample_rate=0.5)
-        with patch("analytics.middleware.random.random", return_value=0.99):
+        with patch("integrations.analytics.middleware.random.random", return_value=0.99):
             client = TestClient(app)
             client.get("/")
         assert backend.track.call_count == 0
@@ -112,7 +112,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         assert d["nested"]["email"] == "[REDACTED]"
 
     def test_scrubbing_backend_nested(self) -> None:
-        from analytics.pii import ScrubbingAnalyticsBackend
+        from integrations.analytics.pii import ScrubbingAnalyticsBackend
 
         inner = MagicMock()
         b = ScrubbingAnalyticsBackend(inner)
@@ -128,7 +128,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         inner.delete_user.assert_called_once_with("u")
 
     def test_http_sink_delete_error_swallowed(self) -> None:
-        from analytics.http_sink import HttpSinkAnalyticsBackend
+        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("down")):
             HttpSinkAnalyticsBackend("http://x").delete_user("u")
@@ -161,7 +161,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         from starlette.routing import Route
         from starlette.testclient import TestClient
 
-        from analytics.middleware import AnalyticsSamplingMiddleware
+        from integrations.analytics.middleware import AnalyticsSamplingMiddleware
 
         backend = MagicMock()
 

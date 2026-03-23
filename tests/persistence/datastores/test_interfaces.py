@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for :mod:`datastores.interfaces` ABC contracts."""
+"""Tests for :mod:`persistence.datastores.interfaces` ABC contracts."""
 import pytest
 
-from datastores.interfaces import (
+from persistence.datastores.interfaces import (
     IDataStore,
     IDocumentStore,
     IKeyValueStore,

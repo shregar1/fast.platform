@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 import pytest
 
-from errors import BadInputError
+from core.errors import BadInputError
 from tests.core.errors.abstraction import IErrorsTests
 
 

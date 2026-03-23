@@ -5,14 +5,14 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from db.replica import (
+from persistence.db.replica import (
     ReadDBDependency,
     create_and_set_read_session,
     create_read_session_factory,
     get_read_engine,
     read_replica_url_from_config,
 )
-from dtos import DBConfigurationDTO
+from core.dtos import DBConfigurationDTO
 from tests.persistence.db.abstraction import IDatabaseTests
 
 
@@ -46,7 +46,7 @@ class TestReplica(IDatabaseTests):
     def test_get_read_engine_none_without_replica(self):
         assert get_read_engine(DBConfigurationDTO()) is None
 
-    @patch("db.replica.create_engine")
+    @patch("persistence.db.replica.create_engine")
     def test_get_read_engine_passes_connect_args(self, mock_ce):
         cfg = DBConfigurationDTO(
             user_name="u",
@@ -74,11 +74,11 @@ class TestReplica(IDatabaseTests):
 
     def test_read_db_dependency_returns_session(self):
         mock_sess = MagicMock()
-        with patch("db.replica.get_read_db_session", return_value=mock_sess):
+        with patch("persistence.db.replica.get_read_db_session", return_value=mock_sess):
             assert ReadDBDependency.derive() is mock_sess
 
     def test_get_read_engine_instance_after_create(self):
-        from db.replica import get_read_engine_instance, set_global_read_engine
+        from persistence.db.replica import get_read_engine_instance, set_global_read_engine
 
         mock_eng = MagicMock()
         try:
@@ -87,8 +87,8 @@ class TestReplica(IDatabaseTests):
         finally:
             set_global_read_engine(None)
 
-    @patch("db.replica.get_read_engine")
-    @patch("db.replica.create_session_factory")
+    @patch("persistence.db.replica.get_read_engine")
+    @patch("persistence.db.replica.create_session_factory")
     def test_create_and_set_read_session(self, mock_csf, mock_ge):
         mock_eng = MagicMock()
         mock_ge.return_value = mock_eng

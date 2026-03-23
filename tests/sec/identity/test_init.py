@@ -1,6 +1,7 @@
 """Smoke test package import."""
 
-import identity as i
+import sec.identity as i
+
 from tests.sec.identity.abstraction import IIdentityTests
 
 

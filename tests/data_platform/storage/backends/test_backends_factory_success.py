@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :func:`storage.base.build_storage_backend` (S3, GCS, Azure)."""
+"""Tests for :func:`data_platform.storage.base.build_storage_backend` (S3, GCS, Azure)."""
 import sys
 import types
 
@@ -13,10 +13,10 @@ class TestBackendsFactorySuccess(IStorageTests):
     def test_storage_factory_success_builds_s3_gcs_and_azure(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path
     ) -> None:
-        from storage import base as storage_base
-        from storage.azure_backend import AzureBlobStorageBackend
-        from storage.gcs_backend import GCSStorageBackend
-        from storage.s3_backend import S3StorageBackend
+        from data_platform.storage import base as storage_base
+        from data_platform.storage.azure_backend import AzureBlobStorageBackend
+        from data_platform.storage.gcs_backend import GCSStorageBackend
+        from data_platform.storage.s3_backend import S3StorageBackend
 
         fake_botocore_config = types.ModuleType("botocore.config")
 

@@ -12,7 +12,7 @@ import pytest
 
 from tests.integrations.admin.abstraction import IAdminTests
 
-PACKAGE = "admin"
+PACKAGE = "integrations.admin"
 
 
 class TestPublicApi(IAdminTests):

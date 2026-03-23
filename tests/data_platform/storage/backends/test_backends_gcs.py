@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :class:`storage.gcs_backend.GCSStorageBackend`."""
+"""Tests for :class:`data_platform.storage.gcs_backend.GCSStorageBackend`."""
 import builtins
 import io
 import sys
@@ -9,7 +9,7 @@ from typing import BinaryIO, Optional
 
 import pytest
 
-from storage.gcs_backend import GCSStorageBackend
+from data_platform.storage.gcs_backend import GCSStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

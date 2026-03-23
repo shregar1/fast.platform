@@ -7,12 +7,12 @@ from unittest.mock import MagicMock, patch
 import jsonschema
 import pytest
 
-from analytics.buffer import BufferedAnalyticsBackend
-from analytics.http_sink import HttpSinkAnalyticsBackend
-from analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
-from analytics.rate_limit import RateLimitedAnalyticsBackend
-from analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from analytics.validating_backend import ValidatingAnalyticsBackend
+from integrations.analytics.buffer import BufferedAnalyticsBackend
+from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+from integrations.analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
+from integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
+from integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from integrations.analytics.validating_backend import ValidatingAnalyticsBackend
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 

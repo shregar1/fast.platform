@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from errors import ForbiddenError
+from core.errors import ForbiddenError
 from tests.core.errors.abstraction import IErrorsTests
 
 

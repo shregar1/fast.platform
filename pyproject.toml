@@ -117,7 +117,8 @@ Homepage = "https://github.com/shregar1/fastMVC"
 where = ["src"]
 
 [tool.setuptools.package-data]
-fast_platform = ["configuration/**/*.json", "py.typed"]
+fast_platform = ["py.typed"]
+"core.configuration" = ["**/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -187,7 +188,7 @@ indent-style = "space"
 line-length = 100
 target-version = ["py310"]
 # Ruff’s formatter wraps ``kafka/lag.py`` differently than Black; omit from Black checks.
-extend-exclude = "/(build|dist|\\.venv|\\.eggs)/|src/kafka/lag\\.py"
+extend-exclude = "/(build|dist|\\.venv|\\.eggs)/|src/messaging/kafka/lag\\.py"
 
 # ---------------------------------------------------------------------------
 # mypy — strict mode for ``src/`` (application code).

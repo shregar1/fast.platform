@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for ``observability.tracing``."""
+"""Tests for ``operations.observability.tracing``."""
 from unittest.mock import MagicMock
 
-from observability.tracing import Span, Tracer
+from operations.observability.tracing import Span, Tracer
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

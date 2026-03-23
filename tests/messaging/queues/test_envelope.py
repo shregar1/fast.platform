@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for :class:`queues.envelope.QueueMessageEnvelope`."""
+"""Tests for :class:`messaging.queues.envelope.QueueMessageEnvelope`."""
 import pytest
 
-from queues.envelope import (
+from messaging.queues.envelope import (
     ENVELOPE_VERSION_KEY,
     PRIORITY_KEY,
     QueueMessageEnvelope,

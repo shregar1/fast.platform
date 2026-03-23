@@ -1,1 +1,1 @@
-"""Tests for :mod:`search.base` (suggest defaults, factory wiring)."""
+"""Tests for :mod:`data_platform.search.base` (suggest defaults, factory wiring)."""

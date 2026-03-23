@@ -2,7 +2,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from search.base import ISearchBackend
+from data_platform.search.base import ISearchBackend
 from tests.data_platform.search.abstraction import ISearchTests
 
 

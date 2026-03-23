@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-"""Tests for ``observability.logging``."""
+"""Tests for ``operations.observability.logging``."""
 import json
 from types import SimpleNamespace
 
-from observability.logging import (
+from operations.observability.logging import (
     StructuredLogger,
     clear_log_context,
     get_log_context,

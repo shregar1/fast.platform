@@ -1,6 +1,6 @@
 """Tests for JSON envelope DTO and schema helper."""
 
-from kafka.dto import KafkaJsonEnvelope, kafka_json_envelope_json_schema
+from core.dtos.kafka import KafkaJsonEnvelope
 
 from tests.messaging.kafka.abstraction import IKafkaTests
 
@@ -15,6 +15,6 @@ class TestEnvelope(IKafkaTests):
         assert b'"trace"' in raw
 
     def test_kafka_json_envelope_json_schema(self):
-        schema = kafka_json_envelope_json_schema()
+        schema = KafkaJsonEnvelope.envelope_json_schema()
         assert schema.get("type") == "object"
         assert "message_type" in schema.get("properties", {})

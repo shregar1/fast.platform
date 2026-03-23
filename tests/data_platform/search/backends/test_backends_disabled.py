@@ -5,7 +5,7 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 class TestBackendsDisabled(ISearchTests):
     def test_build_search_backend_returns_none_when_disabled(self, monkeypatch) -> None:
-        from search import base as search_base
+        from data_platform.search import base as search_base
 
         class FakeCfg:
             def __init__(self):

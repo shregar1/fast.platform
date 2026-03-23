@@ -1,6 +1,6 @@
 """Tests for claim normalization."""
 
-from identity.claims_normalize import (
+from sec.identity.claims_normalize import (
     NormalizedClaims,
     normalize_roles,
     normalize_scopes,

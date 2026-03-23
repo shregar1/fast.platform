@@ -5,7 +5,7 @@ from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 class TestInit(IAnalyticsTests):
     def test_imports(self) -> None:
-        from analytics import (
+        from integrations.analytics import (
             AnalyticsConfiguration,
             AnalyticsConfigurationDTO,
             AnalyticsSamplingMiddleware,

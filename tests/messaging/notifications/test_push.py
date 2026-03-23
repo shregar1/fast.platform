@@ -7,9 +7,9 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestPush(INotificationTests):
-    @patch("notifications.push.PushConfiguration")
+    @patch("messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_disabled(self, mock_cfg_cls):
-        from notifications.push import PushNotificationService
+        from messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -21,9 +21,9 @@ class TestPush(INotificationTests):
         assert svc.fcm_enabled is False
         asyncio.run(svc.send_to_ios(["token"], "t", "b"))
 
-    @patch("notifications.push.PushConfiguration")
+    @patch("messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_enabled(self, mock_cfg_cls):
-        from notifications.push import PushNotificationService
+        from messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(

@@ -7,7 +7,7 @@ from tests.data_platform.search.backends._install import install_module
 
 class TestBackendsMeilisearch(ISearchTests):
     def test_build_search_backend_meilisearch_and_methods(self, monkeypatch) -> None:
-        from search import base as search_base
+        from data_platform.search import base as search_base
 
         class FakeIndex:
             def __init__(self):

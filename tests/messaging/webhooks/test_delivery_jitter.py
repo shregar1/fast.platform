@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import pytest
 
 from tests.messaging.webhooks.abstraction import IWebhookTests
-from webhooks.delivery import RetryPolicy, deliver_webhook
+from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
 
 class TestDeliveryJitter(IWebhookTests):
@@ -16,7 +16,7 @@ class TestDeliveryJitter(IWebhookTests):
         async def capture_sleep(seconds: float) -> None:
             sleeps.append(seconds)
 
-        monkeypatch.setattr("webhooks.delivery.asyncio.sleep", capture_sleep)
+        monkeypatch.setattr("messaging.webhooks.delivery.asyncio.sleep", capture_sleep)
         mock_response = MagicMock()
         mock_response.status_code = 500
         mock_response.text = "err"
@@ -24,8 +24,8 @@ class TestDeliveryJitter(IWebhookTests):
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=None)
         mock_client.post = AsyncMock(return_value=mock_response)
-        with patch("webhooks.delivery.httpx.AsyncClient", return_value=mock_client):
-            with patch("webhooks.delivery.random.uniform", return_value=1.5):
+        with patch("messaging.webhooks.delivery.httpx.AsyncClient", return_value=mock_client):
+            with patch("messaging.webhooks.delivery.random.uniform", return_value=1.5):
                 await deliver_webhook(
                     "https://example.com/hook",
                     b"{}",

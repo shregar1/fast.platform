@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :class:`storage.s3_backend.S3StorageBackend`."""
+"""Tests for :class:`data_platform.storage.s3_backend.S3StorageBackend`."""
 import builtins
 import io
 import sys
@@ -9,7 +9,7 @@ from typing import Any, BinaryIO, Optional
 
 import pytest
 
-from storage.s3_backend import S3StorageBackend
+from data_platform.storage.s3_backend import S3StorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for :func:`search.base.build_search_backend` (meilisearch)."""
+"""Tests for :func:`data_platform.search.base.build_search_backend` (meilisearch)."""
 import pytest
 
-from search.base import build_search_backend
+from data_platform.search.base import build_search_backend
 from tests.data_platform.search._fake_search_modules import (
     cleanup_fake_modules,
     install_fake_meilisearch,
@@ -27,7 +27,7 @@ class TestSearchFactoryMeilisearch(ISearchTests):
                 def get_config(self):
                     return Cfg()
 
-            monkeypatch.setattr("search.base.SearchConfiguration", SearchConfiguration)
+            monkeypatch.setattr("data_platform.search.base.SearchConfiguration", SearchConfiguration)
             m = build_search_backend("meilisearch")
             assert m is not None
         finally:

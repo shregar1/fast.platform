@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from errors import UnsupportedLLMProviderError
+from core.errors import UnsupportedLLMProviderError
 from tests.core.errors.abstraction import IErrorsTests
 
 

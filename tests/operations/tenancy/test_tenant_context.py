@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for tenant context and :class:`tenancy.Tenant`."""
+"""Tests for tenant context and :class:`operations.tenancy.Tenant`."""
 import pytest
 
-from tenancy import (
+from operations.tenancy import (
     Tenant,
     TenantConfig,
     TenantContext,

@@ -5,7 +5,7 @@ import asyncio
 
 import pytest
 
-from payments.webhook_idempotency import InMemoryWebhookIdempotencyStore
+from integrations.payments.webhook_idempotency import InMemoryWebhookIdempotencyStore
 from tests.integrations.payments.abstraction import IPaymentsTests
 
 

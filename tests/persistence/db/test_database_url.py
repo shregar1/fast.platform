@@ -9,7 +9,7 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 class TestDatabaseUrl(IDatabaseTests):
     def test_get_database_url_from_formatted_connection_string(self):
-        from db import get_database_url
+        from persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = "postgresql://{user_name}:{password}@{host}:{port}/{database}"
@@ -18,7 +18,7 @@ class TestDatabaseUrl(IDatabaseTests):
         mock_cfg.host = "localhost"
         mock_cfg.port = 5432
         mock_cfg.database = "db"
-        with patch("db.url.DBConfiguration") as DC:
+        with patch("persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             url = get_database_url()
             assert "postgresql://" in url
@@ -26,7 +26,7 @@ class TestDatabaseUrl(IDatabaseTests):
             assert "localhost" in url
 
     def test_get_database_url_raw_string_fallback(self):
-        from db import get_database_url
+        from persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = "sqlite:///./test.db"
@@ -35,17 +35,17 @@ class TestDatabaseUrl(IDatabaseTests):
         mock_cfg.host = None
         mock_cfg.port = None
         mock_cfg.database = None
-        with patch("db.url.DBConfiguration") as DC:
+        with patch("persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             assert get_database_url() == "sqlite:///./test.db"
 
     def test_get_database_url_raises_when_incomplete(self):
-        from db import get_database_url
+        from persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = ""
         mock_cfg.user_name = None
-        with patch("db.url.DBConfiguration") as DC:
+        with patch("persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             with pytest.raises(RuntimeError, match="incomplete"):
                 get_database_url()

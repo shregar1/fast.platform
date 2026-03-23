@@ -2,7 +2,7 @@
 
 import pytest
 
-import db.async_engine as async_engine_mod
+import persistence.db.async_engine as async_engine_mod
 
 
 @pytest.fixture(autouse=True)

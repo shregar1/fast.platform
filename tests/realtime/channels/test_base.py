@@ -2,7 +2,7 @@
 
 import pytest
 
-from channels.base import IChannelBackend
+from realtime.channels.base import IChannelBackend
 from tests.realtime.channels.abstraction import IChannelTests
 
 

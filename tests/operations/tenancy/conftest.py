@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from tenancy.context import InMemoryTenantStore, Tenant, TenantConfig
+from operations.tenancy.context import InMemoryTenantStore, Tenant, TenantConfig
 
 
 @pytest.fixture

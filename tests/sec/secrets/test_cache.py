@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-"""Tests for :class:`secrets.cache.CachedSecretsBackend`."""
-from secrets.base import ISecretsBackend
-from secrets.cache import CachedSecretsBackend
+"""Tests for :class:`sec.secrets.cache.CachedSecretsBackend`."""
+from sec.secrets.base import ISecretsBackend
+from sec.secrets.cache import CachedSecretsBackend
 from typing import Any, Optional
 
 from tests.sec.secrets.abstraction import ISecretsTests

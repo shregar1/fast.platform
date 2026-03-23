@@ -13,8 +13,8 @@ from starlette.responses import PlainTextResponse
 from starlette.routing import Route
 from starlette.testclient import TestClient
 
-from analytics.base import IAnalyticsBackend
-from analytics.middleware import AnalyticsSamplingMiddleware
+from integrations.analytics.base import IAnalyticsBackend
+from integrations.analytics.middleware import AnalyticsSamplingMiddleware
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 

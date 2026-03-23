@@ -1,1 +1,1 @@
-"""Tests for :mod:`search.bulk`."""
+"""Tests for :mod:`data_platform.search.bulk`."""

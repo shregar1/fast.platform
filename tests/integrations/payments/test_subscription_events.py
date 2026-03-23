@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """Tests for subscription lifecycle event enum."""
-from payments.subscription_events import (
+from integrations.payments.subscription_events import (
     SubscriptionLifecycleEvent,
     parse_subscription_lifecycle_event,
 )

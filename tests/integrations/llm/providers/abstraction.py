@@ -8,7 +8,7 @@ from tests.integrations.llm.abstraction import ILLMTests
 
 
 class ILLMProvidersTests(ILLMTests, ABC):
-    """Marker base for test classes covering :mod:`llm.providers`."""
+    """Marker base for test classes covering :mod:`integrations.llm.providers`."""
 
     __slots__ = ()
 

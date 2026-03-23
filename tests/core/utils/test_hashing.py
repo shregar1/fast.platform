@@ -6,7 +6,7 @@ import tempfile
 from pathlib import Path
 
 from tests.core.utils.abstraction import IUtilsTests
-from utils.hashing import HashingUtility
+from core.utils.hashing import HashingUtility
 
 
 class TestHashingUtility(IUtilsTests):

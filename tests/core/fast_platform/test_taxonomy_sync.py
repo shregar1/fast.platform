@@ -28,3 +28,18 @@ class TestTaxonomySync(IFastPlatformTests):
         for pkg, sec in PACKAGE_TO_SECTION.items():
             folder = SECTION_TEST_FOLDER[sec]
             assert folder and folder.isidentifier()
+
+    def test_canonical_core_imports_resolve(self) -> None:
+        """DTOs and configuration live under ``core.*``, not messaging shims."""
+        from core.configuration.kafka import KafkaConfiguration
+        from core.configuration.notifications import NotificationsConfiguration
+        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from core.dtos.notifications import NotificationFanoutRequest
+        from core.dtos.search import SearchConfigurationDTO
+
+        assert KafkaConfiguration is not None
+        assert NotificationsConfiguration is not None
+        assert KafkaConfigurationDTO is not None
+        assert KafkaJsonEnvelope is not None
+        assert NotificationFanoutRequest is not None
+        assert SearchConfigurationDTO is not None

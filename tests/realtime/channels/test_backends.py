@@ -41,7 +41,7 @@ class FakeRedisChannelClient:
 
 class TestBackends(IChannelTests):
     def test_redis_channel_backend_publish_calls_client_publish(self):
-        from channels.redis_backend import RedisChannelBackend
+        from realtime.channels.redis_backend import RedisChannelBackend
 
         pubsub = FakePubSub([])
         client = FakeRedisChannelClient(pubsub)
@@ -50,7 +50,7 @@ class TestBackends(IChannelTests):
         assert client.published == [("alerts", "{'a': 1}")]
 
     def test_redis_channel_backend_subscribe_filters_and_decodes_messages(self):
-        from channels.redis_backend import RedisChannelBackend
+        from realtime.channels.redis_backend import RedisChannelBackend
 
         pubsub = FakePubSub(
             [
@@ -75,7 +75,7 @@ class TestBackends(IChannelTests):
         assert pubsub.closed is True
 
     def test_kafka_channel_backend_is_not_implemented(self):
-        from channels.kafka_backend import KafkaChannelBackend
+        from realtime.channels.kafka_backend import KafkaChannelBackend
 
         backend = KafkaChannelBackend()
         with pytest.raises(NotImplementedError):

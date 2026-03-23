@@ -5,7 +5,7 @@ from tests.integrations.media.abstraction import IFastMediaTests
 
 class TestInit(IFastMediaTests):
     def test_imports(self) -> None:
-        from media import (
+        from integrations.media import (
             ImageVariantPipeline,
             IMediaStore,
             UploadResult,

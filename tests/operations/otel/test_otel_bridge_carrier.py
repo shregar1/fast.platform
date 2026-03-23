@@ -3,7 +3,7 @@ from __future__ import annotations
 """OpenTelemetry bridge: trace context carrier inject/extract."""
 from unittest.mock import MagicMock, patch
 
-from otel.bridge import OpenTelemetryBridge
+from operations.otel.bridge import OpenTelemetryBridge
 from tests.operations.otel.abstraction import IOtelTests
 
 
@@ -11,13 +11,13 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
     def test_inject_without_otel(self) -> None:
         carrier: dict[str, str] = {}
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", return_value=(None, None)
+            "core.utils.optional_imports.OptionalImports.optional_import", return_value=(None, None)
         ):
             assert OpenTelemetryBridge.inject_trace_context_into_carrier(carrier) is False
 
     def test_extract_without_otel(self) -> None:
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", return_value=(None, None)
+            "core.utils.optional_imports.OptionalImports.optional_import", return_value=(None, None)
         ):
             assert OpenTelemetryBridge.extract_trace_context_from_carrier({}) is None
 
@@ -37,7 +37,7 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
             return (None, None)
 
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
+            "core.utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
             assert OpenTelemetryBridge.inject_trace_context_into_carrier(carrier) is True
         inst.inject.assert_called_once()
@@ -54,7 +54,7 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
             return (None, None)
 
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
+            "core.utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
             assert (
                 OpenTelemetryBridge.extract_trace_context_from_carrier({"traceparent": "x"})
@@ -73,7 +73,7 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
             return (None, None)
 
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
+            "core.utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
             assert OpenTelemetryBridge.extract_trace_context_from_carrier({}) is None
 
@@ -91,7 +91,7 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
             return (None, None)
 
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
+            "core.utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
             assert OpenTelemetryBridge.inject_trace_context_into_carrier({}) is False
 
@@ -110,6 +110,6 @@ class TestOpenTelemetryBridgeCarrier(IOtelTests):
             return (None, None)
 
         with patch(
-            "utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
+            "core.utils.optional_imports.OptionalImports.optional_import", side_effect=oi_side_effect
         ):
             assert OpenTelemetryBridge.inject_trace_context_into_carrier({}) is False

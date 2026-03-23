@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from errors import LLMDependencyError
+from core.errors import LLMDependencyError
 from tests.core.errors.abstraction import IErrorsTests
 
 

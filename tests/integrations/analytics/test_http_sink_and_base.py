@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from analytics.base import IAnalyticsBackend, build_analytics_client
+from integrations.analytics.base import IAnalyticsBackend, build_analytics_client
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
@@ -27,7 +27,7 @@ class _Dummy(IAnalyticsBackend):
 
 class TestHttpSinkAndBase(IAnalyticsTests):
     def test_http_sink_track_identify_delete_success(self) -> None:
-        from analytics.http_sink import HttpSinkAnalyticsBackend
+        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", return_value=MagicMock()) as m:
             b = HttpSinkAnalyticsBackend("http://example.com/collect", api_key="k")
@@ -37,7 +37,7 @@ class TestHttpSinkAndBase(IAnalyticsTests):
             assert m.call_count == 3
 
     def test_http_sink_identify_empty_endpoint_branch(self) -> None:
-        from analytics.http_sink import HttpSinkAnalyticsBackend
+        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", return_value=MagicMock()):
             b = HttpSinkAnalyticsBackend("", api_key=None)
@@ -59,6 +59,6 @@ class TestHttpSinkAndBase(IAnalyticsTests):
             def get_config(self):
                 return Cfg()
 
-        monkeypatch.setattr("analytics.base.AnalyticsConfiguration", AnalyticsConfiguration)
+        monkeypatch.setattr("integrations.analytics.base.AnalyticsConfiguration", AnalyticsConfiguration)
         c = build_analytics_client()
         assert c is not None

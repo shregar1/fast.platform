@@ -1,11 +1,14 @@
 """
-Logical categorization of top-level packages under ``fast_platform``'s ``src`` tree.
+Logical categorization of domain packages under ``fast_platform``'s ``src`` tree.
 
-Physical layout stays flat (``configuration``, ``dtos``, …) under ``src/`` for import
-stability. The **test suite** mirrors this taxonomy under ``tests/<section>/`` where
-``section`` is :data:`SECTION_TEST_FOLDER` (e.g. ``tests/core/utils/``, ``tests/sec/security/``).
-The ``SECURITY`` section uses folder name ``sec`` so package ``security`` can live at
-``tests/sec/security/`` without path collision.
+Physical layout nests each domain package under a **section folder** (e.g.
+``src/core/configuration``, ``src/sec/security``) matching :class:`PackageSection`.
+The meta-package :mod:`fast_platform` stays at ``src/fast_platform`` (public entry point).
+
+The **test suite** mirrors the same taxonomy under ``tests/<section>/`` where
+``section`` is :data:`SECTION_TEST_FOLDER` (e.g. ``tests/core/utils/``,
+``tests/sec/security/``). The ``SECURITY`` section uses folder name ``sec`` so package
+``security`` can live at ``tests/sec/security/`` without path collision.
 
 This module is the **canonical map** for docs, CI splits, and navigation.
 """
@@ -49,7 +52,7 @@ class PackageSection(str, Enum):
     OPERATIONS = "operations"
 
 
-# Every key must be exactly one importable top-level name under src/
+# Every key is the *leaf* import name (e.g. ``configuration`` → ``core.configuration``).
 PACKAGE_TO_SECTION: Final[dict[str, PackageSection]] = {
     # --- core ---
     "configuration": PackageSection.CORE,
@@ -141,8 +144,10 @@ def all_taxonomy_packages() -> frozenset[str]:
 
 def discover_src_packages(src_root: Path | None = None) -> frozenset[str]:
     """
-    Top-level directory names under ``src`` that look like Python packages
-    (directory containing ``__init__.py`` or a plain namespace layout).
+    Leaf package names under ``src`` (e.g. ``configuration``, ``kafka``): each is a
+    directory containing ``__init__.py``, nested under its taxonomy section folder
+    (see :data:`SECTION_TEST_FOLDER`). The :mod:`fast_platform` meta-package is a
+    direct child of ``src`` and is included when present.
 
     Used by tests to ensure the taxonomy stays in sync with the tree.
     """
@@ -151,9 +156,21 @@ def discover_src_packages(src_root: Path | None = None) -> frozenset[str]:
     names: set[str] = set()
     if not root.is_dir():
         return frozenset()
+    if (root / "fast_platform" / "__init__.py").is_file():
+        names.add("fast_platform")
+    section_dirs = frozenset(SECTION_TEST_FOLDER.values())
     for p in root.iterdir():
         if not p.is_dir() or p.name.startswith(("_", ".")):
             continue
-        if (p / "__init__.py").is_file():
-            names.add(p.name)
+        if p.name == "fast_platform":
+            continue
+        if p.name not in section_dirs:
+            continue
+        if not (p / "__init__.py").is_file():
+            continue
+        for q in p.iterdir():
+            if not q.is_dir() or q.name.startswith(("_", ".")):
+                continue
+            if (q / "__init__.py").is_file():
+                names.add(q.name)
     return frozenset(names)

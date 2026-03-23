@@ -7,7 +7,7 @@ from tests.data_platform.search.backends._install import install_module
 
 class TestBackendsOpensearch(ISearchTests):
     def test_opensearch_backend_index_search_delete_and_filter(self, monkeypatch) -> None:
-        from search.opensearch_backend import OpenSearchBackend
+        from data_platform.search.opensearch_backend import OpenSearchBackend
 
         calls: dict[str, Any] = {}
 

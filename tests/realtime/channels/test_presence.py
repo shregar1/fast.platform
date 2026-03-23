@@ -35,7 +35,7 @@ async def _collect(aiter):
 
 class TestPresence(IChannelTests):
     def test_inmemory_presence_mark_list_and_eviction(self):
-        from channels.presence import InMemoryPresenceBackend
+        from realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         times = [1000.0, 1000.0, 1050.0, 1062.0]
@@ -54,7 +54,7 @@ class TestPresence(IChannelTests):
 
     def test_inmemory_mark_absent_noop_when_room_missing_or_empty(self):
         """Cover early return when ``room_id`` maps to a missing or empty room dict."""
-        from channels.presence import InMemoryPresenceBackend
+        from realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         backend._rooms["room1"] = {}
@@ -63,7 +63,7 @@ class TestPresence(IChannelTests):
         asyncio.run(backend.mark_absent("unknown_room", "u1"))
 
     def test_inmemory_presence_mark_absent_and_room_cleanup(self):
-        from channels.presence import InMemoryPresenceBackend
+        from realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         asyncio.run(backend.mark_present("room1", "u1"))
@@ -77,7 +77,7 @@ class TestPresence(IChannelTests):
         assert asyncio.run(backend.list_rooms_for_user("u2")) == []
 
     def test_presence_service_delegates_to_backend(self):
-        from channels.presence import PresenceService
+        from realtime.channels.presence import PresenceService
 
         calls: dict[str, list[Any]] = {
             "present": [],
@@ -112,7 +112,7 @@ class TestPresence(IChannelTests):
         assert calls["list_rooms"] == ["u1"]
 
     def test_redis_presence_backend_mark_and_list(self):
-        from channels.presence import RedisPresenceBackend
+        from realtime.channels.presence import RedisPresenceBackend
 
         client = FakeRedisClient()
         backend = RedisPresenceBackend(client=client, ttl_seconds=60)

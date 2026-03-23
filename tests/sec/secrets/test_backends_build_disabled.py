@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :func:`secrets.base.build_secrets_backend` when providers are disabled."""
+"""Tests for :func:`sec.secrets.base.build_secrets_backend` when providers are disabled."""
 import types
 
 import pytest
@@ -12,7 +12,7 @@ class TestBackendsBuildDisabled(ISecretsTests):
     def test_build_secrets_backend_returns_none_when_disabled(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from secrets import base as secrets_base
+        from sec.secrets import base as secrets_base
 
         class FakeCfg:
             def __init__(self) -> None:

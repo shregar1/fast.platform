@@ -6,7 +6,7 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 class TestInit(ISecretsTests):
     def test_imports(self) -> None:
-        from secrets import (
+        from sec.secrets import (
             CachedSecretsBackend,
             LeasedSecretsBackend,
             RotationCallback,
@@ -19,6 +19,5 @@ class TestInit(ISecretsTests):
         assert LeasedSecretsBackend is not None
         assert RotationCallback is not None
         assert redact_text("x", "x") == "***"
-        import secrets as sec_pkg
-
+        import sec.secrets as sec_pkg
         assert sec_pkg.__version__ == "0.3.0"

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-"""Tests for ``observability.abstraction``."""
+"""Tests for ``operations.observability.abstraction``."""
 from abc import ABC
 
-from observability.abstraction import IObservability
+from operations.observability.abstraction import IObservability
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

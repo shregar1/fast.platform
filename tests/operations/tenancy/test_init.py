@@ -6,7 +6,7 @@ from tests.operations.tenancy.abstraction import ITenancyTests
 
 class TestInit(ITenancyTests):
     def test_imports(self) -> None:
-        from tenancy import (
+        from operations.tenancy import (
             HeaderTenantResolver,
             InMemoryTenantStore,
             ResolutionStrategy,

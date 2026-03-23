@@ -1,6 +1,6 @@
 """Tests for db.table.Table constants."""
 
-from db.table import Table
+from persistence.db.table import Table
 from tests.persistence.db.abstraction import IDatabaseTests
 
 

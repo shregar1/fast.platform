@@ -9,9 +9,9 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestProducer(IKafkaTests):
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_when_disabled(self, mock_cfg_cls):
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -22,9 +22,9 @@ class TestProducer(IKafkaTests):
         asyncio.run(p.start())
         assert p._producer is None
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_stop_no_producer(self, mock_cfg_cls):
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -32,12 +32,12 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.stop())
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_running(self, mock_cfg_cls):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -50,9 +50,9 @@ class TestProducer(IKafkaTests):
         asyncio.run(p.send("topic", {"a": 1}))
         p._producer.send_and_wait.assert_awaited_once()
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_not_running(self, mock_cfg_cls):
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -60,14 +60,14 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.send("topic", "msg"))
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope(self, mock_cfg_cls):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from kafka.dto import KafkaJsonEnvelope
+        from core.dtos.kafka import KafkaJsonEnvelope
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -84,12 +84,12 @@ class TestProducer(IKafkaTests):
         assert topic == "events"
         assert b"Ping" in payload
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_from_dict(self, mock_cfg_cls):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -106,11 +106,11 @@ class TestProducer(IKafkaTests):
         )
         assert p._producer.send_and_wait.await_count == 1
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_when_disabled(self, mock_cfg_cls):
-        from kafka.dto import KafkaJsonEnvelope
+        from core.dtos.kafka import KafkaJsonEnvelope
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -118,12 +118,12 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.send_json_envelope("t", KafkaJsonEnvelope(message_type="x", payload={})))
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_bytes_with_headers(self, mock_cfg_cls):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MM(
@@ -140,14 +140,14 @@ class TestProducer(IKafkaTests):
         assert ca.kwargs["key"] == b"k"
         assert ca.kwargs["headers"] == [("x", b"y")]
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq(self, mock_cfg_cls):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from kafka.dto import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = KafkaConfigurationDTO(
@@ -170,11 +170,11 @@ class TestProducer(IKafkaTests):
         assert b"Err" in body
         assert ca.kwargs.get("headers")
 
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq_requires_topic(self, mock_cfg_cls):
-        from kafka.dto import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = KafkaConfigurationDTO(
@@ -190,10 +190,10 @@ class TestProducer(IKafkaTests):
                 )
             )
 
-    @patch("kafka.producer.AIOKafkaProducer")
-    @patch("kafka.producer.KafkaConfiguration")
+    @patch("messaging.kafka.producer.AIOKafkaProducer")
+    @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_stop_when_enabled(self, mock_cfg_cls, mock_aio_cls):
-        from kafka.producer import KafkaProducer
+        from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(

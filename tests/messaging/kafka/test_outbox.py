@@ -8,7 +8,7 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 class TestOutbox(IKafkaTests):
     def test_publish_outbox_batch(self):
-        from kafka.outbox import OutboxMessage, publish_outbox_batch
+        from messaging.kafka.outbox import OutboxMessage, publish_outbox_batch
 
         marks: list[int] = []
         producer = MagicMock()
@@ -29,13 +29,13 @@ class TestOutbox(IKafkaTests):
         assert marks == [1, 2]
 
     def test_postgres_outbox_ddl_is_non_empty(self):
-        from kafka.outbox import POSTGRES_OUTBOX_DDL
+        from messaging.kafka.outbox import POSTGRES_OUTBOX_DDL
 
         assert "kafka_outbox" in POSTGRES_OUTBOX_DDL
         assert "CREATE TABLE" in POSTGRES_OUTBOX_DDL
 
     def test_run_outbox_publisher_loop_stops_when_event_set(self):
-        from kafka.outbox import run_outbox_publisher_loop
+        from messaging.kafka.outbox import run_outbox_publisher_loop
 
         stop = asyncio.Event()
         stop.set()
@@ -48,7 +48,7 @@ class TestOutbox(IKafkaTests):
         load.assert_not_called()
 
     def test_run_outbox_publisher_loop_processes_one_batch(self):
-        from kafka.outbox import OutboxMessage, run_outbox_publisher_loop
+        from messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
 
         stop = asyncio.Event()
         seen: list[int] = []

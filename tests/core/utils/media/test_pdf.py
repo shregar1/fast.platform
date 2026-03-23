@@ -6,7 +6,7 @@ from io import BytesIO
 import pytest
 
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from utils.media.pdf import PdfUtility
+from core.utils.media.pdf import PdfUtility
 
 
 class TestPdfUtility(IMediaUtilsTests):
@@ -24,7 +24,7 @@ class TestPdfUtility(IMediaUtilsTests):
     def test_without_pypdf_returns_none_for_page_count(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        import utils.media.pdf as pu
+        import core.utils.media.pdf as pu
 
         monkeypatch.setattr(pu.OptionalImports, "optional_import", lambda m, a=None: (None, None))
         assert PdfUtility.page_count(b"%PDF") is None

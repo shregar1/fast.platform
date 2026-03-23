@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-"""Tests for :class:`storage.base.IStorageBackend` defaults and abstract methods."""
+"""Tests for :class:`data_platform.storage.base.IStorageBackend` defaults and abstract methods."""
 from typing import BinaryIO, Optional
 
 import pytest
 
-from storage.base import IStorageBackend
+from data_platform.storage.base import IStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

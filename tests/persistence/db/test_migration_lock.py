@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from db.migration_lock import advisory_migration_lock, try_advisory_migration_lock
+from persistence.db.migration_lock import advisory_migration_lock, try_advisory_migration_lock
 from tests.persistence.db.abstraction import IDatabaseTests
 
 

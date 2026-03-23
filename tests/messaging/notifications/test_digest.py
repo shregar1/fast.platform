@@ -1,9 +1,9 @@
 """Tests for digest buffer and fan-out builder."""
 
 import pytest
-from notifications.dto import EmailNotificationTarget, PushNotificationTarget
+from core.dtos.notifications import EmailNotificationTarget, PushNotificationTarget
 
-from notifications.digest import DigestBuffer, DigestItem, build_digest_fanout_request
+from messaging.notifications.digest import DigestBuffer, DigestItem, build_digest_fanout_request
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

@@ -5,7 +5,7 @@ from tests.integrations.admin.abstraction import IAdminTests
 
 class TestInit(IAdminTests):
     def test_imports(self) -> None:
-        from admin import (
+        from integrations.admin import (
             AdminUserSummary,
             AuditLogEntry,
             AuditLogHook,

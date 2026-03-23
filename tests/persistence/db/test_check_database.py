@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from sqlalchemy import create_engine
 
-from db import check_database
+from persistence.db import check_database
 from tests.persistence.db.abstraction import IDatabaseTests
 
 

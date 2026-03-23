@@ -1,7 +1,7 @@
 """
-Load :mod:`security.llm_provider_keys` without importing the ``security`` package.
+Load :mod:`sec.security.llm_provider_keys` without importing the ``security`` package.
 
-Avoids ``src/secrets`` shadowing the stdlib ``secrets`` module under pytest.
+Avoids ``src/sec/secrets`` shadowing the stdlib ``secrets`` module under pytest.
 """
 
 from __future__ import annotations
@@ -11,8 +11,8 @@ from pathlib import Path
 
 # tests/sec/security/… → repo root is four levels up
 _ROOT = Path(__file__).resolve().parents[3]
-_LLM_KEYS = _ROOT / "src" / "security" / "llm_provider_keys.py"
-_spec = importlib.util.spec_from_file_location("security.llm_provider_keys", _LLM_KEYS)
+_LLM_KEYS = _ROOT / "src" / "sec" / "security" / "llm_provider_keys.py"
+_spec = importlib.util.spec_from_file_location("sec.security.llm_provider_keys", _LLM_KEYS)
 assert _spec and _spec.loader
 _llm = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_llm)

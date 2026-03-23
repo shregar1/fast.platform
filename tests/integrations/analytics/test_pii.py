@@ -3,8 +3,8 @@ from __future__ import annotations
 """PII scrubbing."""
 from typing import Any, Optional
 
-from analytics.base import IAnalyticsBackend
-from analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
+from integrations.analytics.base import IAnalyticsBackend
+from integrations.analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 

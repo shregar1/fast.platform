@@ -3,8 +3,8 @@ from __future__ import annotations
 """Tests for timeout resolution."""
 from unittest.mock import MagicMock, patch
 
-from dtos import JobsConfigurationDTO
-from jobs.timeout import get_queue_timeouts, resolve_job_timeout_seconds
+from core.dtos import JobsConfigurationDTO
+from messaging.jobs.timeout import get_queue_timeouts, resolve_job_timeout_seconds
 from tests.messaging.jobs.abstraction import IJobTests
 
 
@@ -20,7 +20,7 @@ class TestTimeout(IJobTests):
     def test_resolve_none(self):
         assert resolve_job_timeout_seconds("x", queue_timeouts={}) is None
 
-    @patch("jobs.timeout.JobsConfiguration")
+    @patch("messaging.jobs.timeout.JobsConfiguration")
     def test_get_queue_timeouts(self, mock_jobs: MagicMock) -> None:
         cfg = JobsConfigurationDTO.model_validate(
             {

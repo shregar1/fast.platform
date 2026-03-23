@@ -3,8 +3,8 @@ from __future__ import annotations
 """Tests for ``subdomain_then_header`` and explicit resolver chains."""
 import pytest
 
-from tenancy.context import InMemoryTenantStore
-from tenancy.resolution import (
+from operations.tenancy.context import InMemoryTenantStore
+from operations.tenancy.resolution import (
     ResolutionStrategy,
     ResolverSpec,
     TenantResolverRegistry,

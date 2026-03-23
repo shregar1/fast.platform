@@ -1,1 +1,1 @@
-"""Tests for :mod:`search.suggest`."""
+"""Tests for :mod:`data_platform.search.suggest`."""

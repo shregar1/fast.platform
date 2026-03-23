@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :func:`secrets.base.build_secrets_backend` when backend modules fail to import."""
+"""Tests for :func:`sec.secrets.base.build_secrets_backend` when backend modules fail to import."""
 import builtins
 import sys
 import types
@@ -14,7 +14,7 @@ class TestBackendsBuildImportError(ISecretsTests):
     def test_build_secrets_backend_import_error_returns_none(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from secrets import base as secrets_base
+        from sec.secrets import base as secrets_base
 
         class FakeCfg:
             def __init__(self) -> None:
@@ -46,9 +46,9 @@ class TestBackendsBuildImportError(ISecretsTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("secrets.vault_backend", None)
-        sys.modules.pop("secrets.aws_backend", None)
-        sys.modules.pop("secrets.gcp_backend", None)
+        sys.modules.pop("sec.secrets.vault_backend", None)
+        sys.modules.pop("sec.secrets.aws_backend", None)
+        sys.modules.pop("sec.secrets.gcp_backend", None)
         assert secrets_base.build_secrets_backend("vault") is None
         assert secrets_base.build_secrets_backend("aws") is None
         assert secrets_base.build_secrets_backend("gcp") is None

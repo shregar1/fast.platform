@@ -12,7 +12,7 @@ import pytest
 
 from tests.messaging.webhooks.abstraction import IWebhookTests
 
-PACKAGE = "webhooks"
+PACKAGE = "messaging.webhooks"
 
 
 class TestPublicApi(IWebhookTests):

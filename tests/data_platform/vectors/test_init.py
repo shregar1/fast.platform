@@ -5,12 +5,8 @@ from tests.data_platform.vectors.abstraction import IVectorTests
 
 class TestInit(IVectorTests):
     def test_imports(self):
-        from vectors import (
-            build_vector_store,
-            prefixed_collection_name,
-            sanitize_collection_segment,
-        )
+        from data_platform.vectors import VectorCollectionNamesUtility, build_vector_store
 
         assert build_vector_store is not None
-        assert prefixed_collection_name("a", "b") == "a__b"
-        assert sanitize_collection_segment("X") == "x"
+        assert VectorCollectionNamesUtility.prefixed_collection_name("a", "b") == "a__b"
+        assert VectorCollectionNamesUtility.sanitize_collection_segment("X") == "x"

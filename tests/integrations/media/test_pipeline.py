@@ -4,7 +4,7 @@ import io
 
 from PIL import Image
 
-from media import (
+from integrations.media import (
     DefaultImageVariantGenerator,
     ImageVariantPipeline,
     InMemoryMediaStore,

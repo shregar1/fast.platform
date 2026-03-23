@@ -12,7 +12,7 @@ import pytest
 
 from tests.integrations.payments.abstraction import IPaymentsTests
 
-PACKAGE = "payments"
+PACKAGE = "integrations.payments"
 
 
 class TestPublicApi(IPaymentsTests):

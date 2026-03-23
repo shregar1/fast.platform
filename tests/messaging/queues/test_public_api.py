@@ -12,7 +12,7 @@ import pytest
 
 from tests.messaging.queues.abstraction import IQueueTests
 
-PACKAGE = "queues"
+PACKAGE = "messaging.queues"
 
 
 class TestPublicApi(IQueueTests):

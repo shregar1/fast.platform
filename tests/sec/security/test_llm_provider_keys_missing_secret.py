@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for missing secret behavior (``security.llm_provider_keys``)."""
+"""Tests for missing secret behavior (``sec.security.llm_provider_keys``)."""
 import pytest
 
 from tests.sec.security._llm_provider_keys_load import encrypt_api_key

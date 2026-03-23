@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :class:`secrets.base.ISecretsBackend` default abstract behavior."""
+"""Tests for :class:`sec.secrets.base.ISecretsBackend` default abstract behavior."""
 from typing import Any, Optional
 
 import pytest
@@ -10,7 +10,7 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 class TestBackendsAbstract(ISecretsTests):
     def test_is_secrets_backend_abstract_methods_raise_not_implemented(self) -> None:
-        from secrets.base import ISecretsBackend
+        from sec.secrets.base import ISecretsBackend
 
         class DummyBackend(ISecretsBackend):
             name = "dummy"

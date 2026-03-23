@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Tests for :mod:`utils.media.text`."""
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from utils.media.text import TextUtility
+from core.utils.media.text import TextUtility
 
 
 class TestTextUtility(IMediaUtilsTests):

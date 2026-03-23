@@ -12,7 +12,7 @@ import pytest
 
 from tests.realtime.channels.abstraction import IChannelTests
 
-PACKAGE = "channels"
+PACKAGE = "realtime.channels"
 
 
 class TestPublicApi(IChannelTests):

@@ -12,7 +12,7 @@ import pytest
 
 from tests.persistence.db.abstraction import IDatabaseTests
 
-PACKAGE = "db"
+PACKAGE = "persistence.db"
 
 
 class TestPublicApi(IDatabaseTests):

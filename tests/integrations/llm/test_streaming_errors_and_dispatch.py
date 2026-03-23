@@ -6,8 +6,8 @@ from typing import Any, cast
 
 import pytest
 
-from errors import UnsupportedLLMProviderError
-from llm.streaming import iter_anthropic_message_stream, iter_llm_stream
+from core.errors import UnsupportedLLMProviderError
+from integrations.llm.streaming import iter_anthropic_message_stream, iter_llm_stream
 from tests.integrations.llm.abstraction import ILLMTests
 
 

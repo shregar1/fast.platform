@@ -4,7 +4,7 @@ from __future__ import annotations
 import pytest
 
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from utils.media.image import ImageUtility
+from core.utils.media.image import ImageUtility
 
 # Minimal 1×1 PNG (transparent)
 _PNG_1X1 = (

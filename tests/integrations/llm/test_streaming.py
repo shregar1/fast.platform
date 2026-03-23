@@ -6,7 +6,7 @@ from typing import Any, AsyncIterator
 
 import pytest
 
-from llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
+from integrations.llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
 from tests.integrations.llm.abstraction import ILLMTests
 
 

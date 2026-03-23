@@ -9,10 +9,10 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestLag(IKafkaTests):
-    @patch("kafka.lag.AIOKafkaAdminClient")
-    @patch("kafka.lag.AIOKafkaConsumer")
+    @patch("messaging.kafka.lag.AIOKafkaAdminClient")
+    @patch("messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_computes_lag(self, mock_consumer_cls, mock_admin_cls):
-        from kafka.lag import poll_consumer_lag
+        from messaging.kafka.lag import poll_consumer_lag
 
         tp = TopicPartition("orders", 0)
         cons = MagicMock()
@@ -34,9 +34,9 @@ class TestLag(IKafkaTests):
         assert out[0].end_offset == 100
         assert out[0].lag == 10
 
-    @patch("kafka.lag.AIOKafkaConsumer")
+    @patch("messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_no_partitions(self, mock_consumer_cls):
-        from kafka.lag import poll_consumer_lag
+        from messaging.kafka.lag import poll_consumer_lag
 
         cons = MagicMock()
         cons.start = AsyncMock()

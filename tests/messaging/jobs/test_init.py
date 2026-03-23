@@ -5,7 +5,7 @@ from tests.messaging.jobs.abstraction import IJobTests
 
 class TestInit(IJobTests):
     def test_imports(self):
-        from jobs import (
+        from messaging.jobs import (
             JobEnqueueResult,
             JobsConfiguration,
             enqueue,
@@ -18,6 +18,5 @@ class TestInit(IJobTests):
         assert JobEnqueueResult is not None
         assert enqueue is not None
         assert resolve_job_timeout_seconds("q", explicit=1) == 1
-        import jobs as fj
-
+        import messaging.jobs as fj
         assert fj.__version__ == "0.3.0"

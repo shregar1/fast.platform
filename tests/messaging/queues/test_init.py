@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """Integration smoke tests for ``queues`` exports."""
-from queues import (
+from messaging.queues import (
     DEFAULT_DLQ_SUFFIX,
     ENVELOPE_VERSION_KEY,
     IQueueBackend,
@@ -12,13 +12,13 @@ from queues import (
     dlq_name,
     prepare_dlq_message,
 )
-from queues.broker import QueueMessage
-from queues.dlq import (
+from messaging.queues.broker import QueueMessage
+from messaging.queues.dlq import (
     prepare_quarantine_message,
     primary_queue_from_quarantine,
     quarantine_name,
 )
-from queues.envelope import should_quarantine as should_quarantine_fn
+from messaging.queues.envelope import should_quarantine as should_quarantine_fn
 from tests.messaging.queues.abstraction import IQueueTests
 
 
@@ -73,6 +73,5 @@ class TestInit(IQueueTests):
         assert not should_quarantine_fn(5, 0)
 
     def test_package_version(self) -> None:
-        import queues as q
-
+        import messaging.queues as q
         assert q.__version__ == "0.3.0"

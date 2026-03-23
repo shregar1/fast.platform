@@ -9,7 +9,7 @@ from tests.messaging.webhooks.abstraction import IWebhookTests
 
 class TestInit(IWebhookTests):
     def test_imports(self):
-        from webhooks import (
+        from messaging.webhooks import (
             compute_signature,
             require_webhook_signature,
         )
@@ -18,7 +18,7 @@ class TestInit(IWebhookTests):
         assert require_webhook_signature(secret="x") is not None
 
     def test_verify_roundtrip(self):
-        from webhooks import signature_header_value, verify_signature
+        from messaging.webhooks import signature_header_value, verify_signature
 
         payload = b'{"event":"test"}'
         secret = "sk_test"
@@ -28,18 +28,18 @@ class TestInit(IWebhookTests):
         assert verify_signature(payload, "not-prefixed", secret) is False
 
     def test_compute_signature_rejects_unknown_digest(self):
-        from webhooks import compute_signature
+        from messaging.webhooks import compute_signature
 
         with pytest.raises(ValueError, match="Unsupported HMAC"):
             compute_signature(b"x", "s", algorithm="not_a_real_digest")
 
     @pytest.mark.asyncio
     async def test_deliver_webhook_success_with_signature_and_non_retryable_error(self):
-        from webhooks.delivery import RetryPolicy, deliver_webhook
+        from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
         mock_response_ok = MagicMock(status_code=200, text="ok")
         mock_response_bad = MagicMock(status_code=400, text="bad request")
-        with patch("webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(side_effect=[mock_response_ok])
             code, err = await deliver_webhook("http://example/hook", b"{}", secret="sec")
@@ -47,7 +47,7 @@ class TestInit(IWebhookTests):
             assert err is None
             call_kw = inst.post.call_args
             assert "X-Webhook-Signature" in call_kw[1]["headers"]
-        with patch("webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(return_value=mock_response_bad)
             code, err = await deliver_webhook(
@@ -58,9 +58,9 @@ class TestInit(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_deliver_webhook_records_transport_error(self):
-        from webhooks.delivery import RetryPolicy, deliver_webhook
+        from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
-        with patch("webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(side_effect=OSError("down"))
             code, err = await deliver_webhook(
@@ -70,10 +70,10 @@ class TestInit(IWebhookTests):
             assert err is not None
 
     def test_deliver_webhook_sync(self):
-        from webhooks.delivery import deliver_webhook_sync
+        from messaging.webhooks.delivery import deliver_webhook_sync
 
         mock_response = MagicMock(status_code=201, text="created")
-        with patch("webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(return_value=mock_response)
             code, err = deliver_webhook_sync("http://example/hook", b"{}")
@@ -82,7 +82,7 @@ class TestInit(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_resolve_secret_async_callable(self):
-        from webhooks.fastapi_deps import _resolve_secret
+        from messaging.webhooks.fastapi_deps import _resolve_secret
 
         async def async_secret() -> str:
             return "from-async"

@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 import pytest
 
-from errors import NotFoundError
+from core.errors import NotFoundError
 from tests.core.errors.abstraction import IErrorsTests
 
 

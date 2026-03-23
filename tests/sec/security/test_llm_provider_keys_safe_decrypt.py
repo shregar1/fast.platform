@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for ``safe_decrypt`` (``security.llm_provider_keys``)."""
+"""Tests for ``safe_decrypt`` (``sec.security.llm_provider_keys``)."""
 import pytest
 
 from tests.sec.security._llm_provider_keys_load import safe_decrypt

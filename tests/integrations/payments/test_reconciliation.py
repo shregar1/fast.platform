@@ -3,7 +3,7 @@ from __future__ import annotations
 """Tests for reconciliation DTOs and CSV export."""
 from datetime import date
 
-from payments.reconciliation import (
+from integrations.payments.reconciliation import (
     ReconciliationLineItem,
     ReconciliationMismatchKind,
     ReconciliationReport,

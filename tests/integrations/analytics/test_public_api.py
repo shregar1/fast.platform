@@ -12,7 +12,7 @@ import pytest
 
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
-PACKAGE = "analytics"
+PACKAGE = "integrations.analytics"
 
 
 class TestPublicApi(IAnalyticsTests):

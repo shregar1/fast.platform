@@ -4,12 +4,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from db.url import get_database_url
+from persistence.db.url import get_database_url
 from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestUrl(IDatabaseTests):
-    @patch("db.url.DBConfiguration")
+    @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_formatted(self, mock_cls):
         cfg = MagicMock()
         cfg.connection_string = "postgresql://{user_name}@{host}:{port}/{database}"
@@ -25,7 +25,7 @@ class TestUrl(IDatabaseTests):
         assert "postgresql://" in url
         assert "u" in url
 
-    @patch("db.url.DBConfiguration")
+    @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_fallback_when_format_fails(self, mock_cls):
         cfg = MagicMock()
         cfg.connection_string = "postgresql://{bad_placeholder"
@@ -39,7 +39,7 @@ class TestUrl(IDatabaseTests):
         mock_cls.return_value = mock_inst
         assert get_database_url() == cfg.connection_string
 
-    @patch("db.url.DBConfiguration")
+    @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_raises_when_empty(self, mock_cls):
         cfg = MagicMock()
         cfg.connection_string = ""

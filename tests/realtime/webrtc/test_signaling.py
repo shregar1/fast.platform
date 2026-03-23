@@ -1,8 +1,8 @@
 """Tests for WebRTC signaling service."""
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from webrtc.consent import StaticDeniedPeers
-from webrtc.signaling import WebRTCSignalingService
+from realtime.webrtc.consent import StaticDeniedPeers
+from realtime.webrtc.signaling import WebRTCSignalingService
 
 
 class TestSignaling(IWebRTCTests):

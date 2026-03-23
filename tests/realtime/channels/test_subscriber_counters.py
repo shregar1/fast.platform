@@ -30,7 +30,7 @@ class FakeRedisForCounters:
 
 class TestSubscriberCounters(IChannelTests):
     def test_inmemory_subscriber_counters(self):
-        from channels.subscriber_counters import InMemorySubscriberCounters
+        from realtime.channels.subscriber_counters import InMemorySubscriberCounters
 
         c = InMemorySubscriberCounters()
         assert asyncio.run(c.count("x")) == 0
@@ -41,7 +41,7 @@ class TestSubscriberCounters(IChannelTests):
         assert asyncio.run(c.all_counts()) == {}
 
     def test_redis_subscriber_counters(self):
-        from channels.subscriber_counters import RedisSubscriberCounters
+        from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = FakeRedisForCounters()
         c = RedisSubscriberCounters(client, key_prefix="t:")

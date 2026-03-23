@@ -1,10 +1,10 @@
-"""Tests for :class:`kafka.idempotent.InMemoryDedupeStore`."""
+"""Tests for :class:`messaging.kafka.idempotent.InMemoryDedupeStore`."""
 
 import asyncio
 
 import pytest
 
-from kafka.idempotent import InMemoryDedupeStore
+from messaging.kafka.idempotent import InMemoryDedupeStore
 from tests.messaging.kafka.abstraction import IKafkaTests
 
 

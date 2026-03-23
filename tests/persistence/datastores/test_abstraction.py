@@ -1,6 +1,6 @@
-"""Tests for :mod:`datastores.abstraction`."""
+"""Tests for :mod:`persistence.datastores.abstraction`."""
 
-from datastores.abstraction import IDatastores
+from persistence.datastores.abstraction import IDatastores
 from tests.persistence.datastores.abstraction import IDatastoresTests
 
 

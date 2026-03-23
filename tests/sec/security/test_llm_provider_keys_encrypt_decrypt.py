@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for encrypt/decrypt round-trip (``security.llm_provider_keys``)."""
+"""Tests for encrypt/decrypt round-trip (``sec.security.llm_provider_keys``)."""
 import pytest
 
 from tests.sec.security._llm_provider_keys_load import decrypt_api_key, encrypt_api_key

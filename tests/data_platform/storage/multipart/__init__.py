@@ -1,1 +1,1 @@
-"""Tests for :mod:`storage.multipart`."""
+"""Tests for :mod:`data_platform.storage.multipart`."""

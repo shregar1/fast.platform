@@ -11,7 +11,7 @@ from tests.realtime.channels.abstraction import IChannelTests
 class TestSubscriberCountersRedis(IChannelTests):
     @pytest.mark.asyncio
     async def test_redis_counters_increment_decrement_negative_fix(self) -> None:
-        from channels.subscriber_counters import RedisSubscriberCounters
+        from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
         client.incr = AsyncMock(return_value=1)
@@ -27,7 +27,7 @@ class TestSubscriberCountersRedis(IChannelTests):
 
     @pytest.mark.asyncio
     async def test_redis_counters_count_and_all_counts(self) -> None:
-        from channels.subscriber_counters import RedisSubscriberCounters
+        from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
         client.incr = AsyncMock(return_value=1)
@@ -41,10 +41,10 @@ class TestSubscriberCountersRedis(IChannelTests):
         assert await c.all_counts() == {}
 
     def test_redis_unavailable_raises(self) -> None:
-        import channels.subscriber_counters as sc
+        import realtime.channels.subscriber_counters as sc
 
         with patch.object(sc, "aioredis", None):
-            from channels.subscriber_counters import RedisSubscriberCounters
+            from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
             with pytest.raises(RuntimeError, match="redis"):
                 RedisSubscriberCounters(MagicMock())

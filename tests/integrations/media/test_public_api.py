@@ -12,7 +12,7 @@ import pytest
 
 from tests.integrations.media.abstraction import IFastMediaTests
 
-PACKAGE = "media"
+PACKAGE = "integrations.media"
 
 
 class TestPublicApi(IFastMediaTests):

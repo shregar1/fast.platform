@@ -4,13 +4,13 @@ import pytest
 
 pytest.importorskip("webhooks")
 
-from notifications import NotificationRetryPolicy, as_webhook_retry_policy
+from messaging.notifications import NotificationRetryPolicy, as_webhook_retry_policy
 from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestRetryPolicyWebhookAlign(INotificationTests):
     def test_notification_retry_policy_defaults_match_webhooks(self):
-        from webhooks.delivery import RetryPolicy as W
+        from messaging.webhooks.delivery import RetryPolicy as W
 
         n = NotificationRetryPolicy()
         w = W()
@@ -21,7 +21,7 @@ class TestRetryPolicyWebhookAlign(INotificationTests):
         assert n.retry_on_status == w.retry_on_status
 
     def test_from_webhook_retry_policy(self):
-        from webhooks.delivery import RetryPolicy as W
+        from messaging.webhooks.delivery import RetryPolicy as W
 
         w = W(max_attempts=5, jitter_ratio=0.1)
         n = NotificationRetryPolicy.from_webhook_retry_policy(w)

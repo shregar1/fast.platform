@@ -4,14 +4,14 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from media import (
+from integrations.media import (
     ImageVariantPipeline,
     InMemoryMediaStore,
     VirusDetectedError,
     clamscan_bytes,
     noop_virus_scan,
 )
-from media.virus_scan import ClamdScanner
+from integrations.media.virus_scan import ClamdScanner
 from tests.integrations.media.abstraction import IFastMediaTests
 
 
@@ -34,7 +34,7 @@ class TestVirusScan(IFastMediaTests):
         proc.returncode = 0
         proc.stdout = b""
         proc.stderr = b""
-        monkeypatch.setattr("media.virus_scan.subprocess.run", lambda *a, **k: proc)
+        monkeypatch.setattr("integrations.media.virus_scan.subprocess.run", lambda *a, **k: proc)
         clamscan_bytes(b"ok")
 
     def test_clamscan_infected(self, monkeypatch):
@@ -42,7 +42,7 @@ class TestVirusScan(IFastMediaTests):
         proc.returncode = 1
         proc.stdout = b"stdin: Eicar-Test-Signature FOUND"
         proc.stderr = b""
-        monkeypatch.setattr("media.virus_scan.subprocess.run", lambda *a, **k: proc)
+        monkeypatch.setattr("integrations.media.virus_scan.subprocess.run", lambda *a, **k: proc)
         with pytest.raises(VirusDetectedError):
             clamscan_bytes(b"infected")
 
@@ -59,7 +59,7 @@ class TestVirusScan(IFastMediaTests):
             def close(self) -> None:
                 pass
 
-        monkeypatch.setattr("media.virus_scan.socket.create_connection", lambda *a, **k: FakeSock())
+        monkeypatch.setattr("integrations.media.virus_scan.socket.create_connection", lambda *a, **k: FakeSock())
         with pytest.raises(VirusDetectedError):
             scanner(b"data")
 
@@ -76,5 +76,5 @@ class TestVirusScan(IFastMediaTests):
             def close(self) -> None:
                 pass
 
-        monkeypatch.setattr("media.virus_scan.socket.create_connection", lambda *a, **k: FakeSock())
+        monkeypatch.setattr("integrations.media.virus_scan.socket.create_connection", lambda *a, **k: FakeSock())
         scanner(b"clean")

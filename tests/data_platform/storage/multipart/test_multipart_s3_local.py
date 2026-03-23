@@ -8,14 +8,14 @@ from typing import Any
 
 import pytest
 
-from storage.multipart import multipart_upload_large_file
+from data_platform.storage.multipart import multipart_upload_large_file
 from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestMultipartS3Local(IStorageTests):
     def test_multipart_upload_s3_and_rejects_local(self, tmp_path: Path) -> None:
-        from storage.local_backend import LocalStorageBackend
-        from storage.s3_backend import S3StorageBackend
+        from data_platform.storage.local_backend import LocalStorageBackend
+        from data_platform.storage.s3_backend import S3StorageBackend
 
         class FakeS3Client:
             def __init__(self) -> None:

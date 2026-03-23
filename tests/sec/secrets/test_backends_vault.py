@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for Vault-backed :func:`secrets.base.build_secrets_backend` and :class:`secrets.vault_backend.VaultSecretsBackend`."""
+"""Tests for Vault-backed :func:`sec.secrets.base.build_secrets_backend` and :class:`sec.secrets.vault_backend.VaultSecretsBackend`."""
 import sys
 import types
 from typing import Any, Optional
@@ -14,8 +14,8 @@ class TestBackendsVault(ISecretsTests):
     def test_build_secrets_backend_selects_vault_and_calls_methods(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from secrets import base as secrets_base
-        from secrets.vault_backend import VaultSecretsBackend
+        from sec.secrets import base as secrets_base
+        from sec.secrets.vault_backend import VaultSecretsBackend
 
         class FakeKVv2:
             def __init__(self) -> None:
@@ -72,7 +72,7 @@ class TestBackendsVault(ISecretsTests):
     def test_vault_backend_get_secret_exception_returns_none(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
-        from secrets.vault_backend import VaultSecretsBackend
+        from sec.secrets.vault_backend import VaultSecretsBackend
 
         class FakeKVv2:
             def read_secret_version(self, *, path: str, mount_point: str):

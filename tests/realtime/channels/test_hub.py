@@ -20,7 +20,7 @@ class FakeWebSocket:
 
 class TestHub(IChannelTests):
     def test_hub_connect_broadcast_and_disconnect_cleanup(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws1 = FakeWebSocket()
@@ -39,7 +39,7 @@ class TestHub(IChannelTests):
         assert "room1" not in hub._topics
 
     def test_hub_broadcast_disconnects_broken_socket(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         good = FakeWebSocket()
@@ -52,7 +52,7 @@ class TestHub(IChannelTests):
         assert bad not in {s.ws for s in hub._topics["room1"]}
 
     def test_hub_subscriber_counts_and_topic_names(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws1 = FakeWebSocket()
@@ -66,7 +66,7 @@ class TestHub(IChannelTests):
         assert set(hub.topic_names()) == {"a", "b"}
 
     def test_hub_send_ping_record_pong_and_sweep(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws = FakeWebSocket()
@@ -84,7 +84,7 @@ class TestHub(IChannelTests):
         assert hub.subscriber_count("room1") == 1
 
     def test_hub_record_pong_without_topic_and_sweep_all_stale(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws = FakeWebSocket()
@@ -96,7 +96,7 @@ class TestHub(IChannelTests):
         assert "z" not in hub._topics
 
     def test_hub_send_ping_with_queue(self):
-        from channels.hub import ChannelsHub
+        from realtime.channels.hub import ChannelsHub
 
         async def run():
             hub = ChannelsHub(max_queue_depth_per_subscriber=4)

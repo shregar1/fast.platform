@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-"""Tests for ``observability.metrics``."""
-from observability.metrics import Metrics
+"""Tests for ``operations.observability.metrics``."""
+from operations.observability.metrics import Metrics
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

@@ -11,14 +11,14 @@ from tests.messaging.notifications.abstraction import INotificationTests
 class TestTemplatingJinja(INotificationTests):
     def test_render_jinja_string_ok(self) -> None:
         pytest.importorskip("jinja2")
-        from notifications.templating import render_jinja_string
+        from messaging.notifications.templating import render_jinja_string
 
         assert render_jinja_string("Hello {{ name }}", context={"name": "x"}) == "Hello x"
 
     def test_render_jinja_import_error(self) -> None:
         import builtins
 
-        import notifications.templating as t
+        import messaging.notifications.templating as t
 
         real_import = builtins.__import__
 
