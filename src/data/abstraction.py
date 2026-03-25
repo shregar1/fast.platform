@@ -1,4 +1,4 @@
-"""data_platform package abstractions."""
+"""data package abstractions."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from abc import ABC
 
 
 class IDataPlatform(ABC):
-    """Marker base for concrete types in the ``data_platform`` package."""
+    """Marker base for concrete types in the ``data`` package."""
 
     __slots__ = ()
 

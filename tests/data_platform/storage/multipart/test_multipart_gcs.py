@@ -5,13 +5,13 @@ import io
 import sys
 import types
 
-from data_platform.storage.multipart import multipart_upload_large_file
+from data.storage.multipart import multipart_upload_large_file
 from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestMultipartGcs(IStorageTests):
     def test_multipart_upload_gcs(self) -> None:
-        from data_platform.storage.gcs_backend import GCSStorageBackend
+        from data.storage.gcs_backend import GCSStorageBackend
 
         class FakeBlob:
             def __init__(self, key: str) -> None:

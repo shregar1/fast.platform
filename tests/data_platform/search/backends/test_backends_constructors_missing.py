@@ -9,9 +9,9 @@ class TestBackendsConstructorsMissing(ISearchTests):
     def test_backend_constructors_raise_runtime_error_when_dependency_missing(
         self, monkeypatch
     ) -> None:
-        from data_platform.search.meilisearch_backend import MeilisearchBackend
-        from data_platform.search.opensearch_backend import OpenSearchBackend
-        from data_platform.search.typesense_backend import TypesenseBackend
+        from data.search.meilisearch_backend import MeilisearchBackend
+        from data.search.opensearch_backend import OpenSearchBackend
+        from data.search.typesense_backend import TypesenseBackend
 
         real_import = builtins.__import__
 

@@ -12,7 +12,7 @@ import pytest
 
 from tests.data_platform.storage.abstraction import IStorageTests
 
-PACKAGE = "data_platform.storage"
+PACKAGE = "data.storage"
 
 
 class TestPublicApi(IStorageTests):

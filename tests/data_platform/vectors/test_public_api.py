@@ -12,7 +12,7 @@ import pytest
 
 from tests.data_platform.vectors.abstraction import IVectorTests
 
-PACKAGE = "data_platform.vectors"
+PACKAGE = "data.vectors"
 
 
 class TestPublicApi(IVectorTests):

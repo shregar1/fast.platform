@@ -3,7 +3,7 @@ from __future__ import annotations
 """Tests for :meth:`ISearchBackend.suggest` default and :meth:`search_faceted` wrapper."""
 from typing import Any, List, Optional
 
-from data_platform.search.base import ISearchBackend
+from data.search.base import ISearchBackend
 from tests.data_platform.search.abstraction import ISearchTests
 
 

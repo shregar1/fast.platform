@@ -6,7 +6,7 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 class TestInit(ISearchTests):
     def test_imports(self) -> None:
-        from data_platform.search import (
+        from data.search import (
             BulkIndexResult,
             FacetedSearchResult,
             ISearchBackend,

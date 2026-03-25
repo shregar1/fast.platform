@@ -1,1 +1,1 @@
-"""Tests for :mod:`data_platform.search.rollover`."""
+"""Tests for :mod:`data.search.rollover`."""

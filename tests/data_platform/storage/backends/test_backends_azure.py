@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-"""Tests for :class:`data_platform.storage.azure_backend.AzureBlobStorageBackend`."""
+"""Tests for :class:`data.storage.azure_backend.AzureBlobStorageBackend`."""
 import builtins
 import io
 import sys
@@ -9,7 +9,7 @@ from typing import Any, BinaryIO
 
 import pytest
 
-from data_platform.storage.azure_backend import AzureBlobStorageBackend
+from data.storage.azure_backend import AzureBlobStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

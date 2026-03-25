@@ -9,7 +9,7 @@ The **test suite** mirrors the same taxonomy under ``tests/<section>/`` where
 ``section`` is :data:`SECTION_TEST_FOLDER` (e.g. ``tests/core/utils/``,
 ``tests/sec/security/``). The ``SECURITY`` section uses folder name ``sec`` so package
 ``security`` can live at ``tests/sec/security/`` without path collision.
-are 
+
 This module is the **canonical map** for docs, CI splits, and navigation.
 """
 

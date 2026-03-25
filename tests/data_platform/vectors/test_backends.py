@@ -11,7 +11,7 @@ from tests.data_platform.vectors.abstraction import IVectorTests
 
 class TestBackends(IVectorTests):
     def test_is_vector_store_abstract_methods_raise_not_implemented(self):
-        from data_platform.vectors.base import IVectorStore
+        from data.vectors.base import IVectorStore
 
         class DummyStore(IVectorStore):
             name = "dummy"
@@ -47,7 +47,7 @@ class TestBackends(IVectorTests):
             s.delete_index("i")
 
     def test_build_vector_store_selection_and_import_error(self, monkeypatch):
-        from data_platform.vectors import base as vector_base
+        from data.vectors import base as vector_base
 
         class FakeCfg:
             def __init__(self):
@@ -209,15 +209,15 @@ class TestBackends(IVectorTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("data_platform.vectors.qdrant_backend", None)
-        sys.modules.pop("data_platform.vectors.weaviate_backend", None)
-        sys.modules.pop("data_platform.vectors.pinecone_backend", None)
+        sys.modules.pop("data.vectors.qdrant_backend", None)
+        sys.modules.pop("data.vectors.weaviate_backend", None)
+        sys.modules.pop("data.vectors.pinecone_backend", None)
         assert vector_base.build_vector_store("qdrant") is None
         assert vector_base.build_vector_store("weaviate") is None
         assert vector_base.build_vector_store("pinecone") is None
 
     def test_qdrant_backend_upsert_query_and_delete_with_filter(self, monkeypatch):
-        from data_platform.vectors.qdrant_backend import QdrantVectorStore
+        from data.vectors.qdrant_backend import QdrantVectorStore
 
         if "qdrant_client" not in sys.modules:
             fake_qdrant = types.ModuleType("qdrant_client")
@@ -284,7 +284,7 @@ class TestBackends(IVectorTests):
         store.delete_index("idx")
 
     def test_weaviate_backend_upsert_query_and_delete(self, monkeypatch):
-        from data_platform.vectors.weaviate_backend import WeaviateVectorStore
+        from data.vectors.weaviate_backend import WeaviateVectorStore
 
         if "weaviate" not in sys.modules:
             fake_weaviate = types.ModuleType("weaviate")
@@ -355,7 +355,7 @@ class TestBackends(IVectorTests):
         store.delete_index("idx")
 
     def test_pinecone_backend_upsert_query_and_delete(self, monkeypatch):
-        from data_platform.vectors.pinecone_backend import PineconeVectorStore
+        from data.vectors.pinecone_backend import PineconeVectorStore
 
         if "pinecone" not in sys.modules:
             fake_pinecone = types.ModuleType("pinecone")
@@ -374,7 +374,7 @@ class TestBackends(IVectorTests):
         store.delete_index("main-index")
 
     def test_build_vector_store_unknown_backend_returns_none(self, monkeypatch):
-        from data_platform.vectors import base as vector_base
+        from data.vectors import base as vector_base
 
         class FakeCfg:
             def __init__(self):
@@ -395,9 +395,9 @@ class TestBackends(IVectorTests):
     def test_vector_backend_constructors_raise_runtime_error_when_dependency_missing(
         self, monkeypatch
     ):
-        from data_platform.vectors.pinecone_backend import PineconeVectorStore
-        from data_platform.vectors.qdrant_backend import QdrantVectorStore
-        from data_platform.vectors.weaviate_backend import WeaviateVectorStore
+        from data.vectors.pinecone_backend import PineconeVectorStore
+        from data.vectors.qdrant_backend import QdrantVectorStore
+        from data.vectors.weaviate_backend import WeaviateVectorStore
 
         real_import = builtins.__import__
 
@@ -415,7 +415,7 @@ class TestBackends(IVectorTests):
             WeaviateVectorStore(url="http://weaviate", api_key="x")
 
     def test_weaviate_backend_api_key_uses_cloud_connection(self):
-        from data_platform.vectors.weaviate_backend import WeaviateVectorStore
+        from data.vectors.weaviate_backend import WeaviateVectorStore
 
         calls: dict[str, Any] = {}
         fake_weaviate = types.ModuleType("weaviate")

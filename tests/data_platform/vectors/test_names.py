@@ -2,7 +2,7 @@
 
 import pytest
 
-from data_platform.vectors.names import VectorCollectionNamesUtility
+from data.vectors.names import VectorCollectionNamesUtility
 
 from tests.data_platform.vectors.abstraction import IVectorTests
 

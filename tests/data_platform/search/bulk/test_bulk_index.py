@@ -5,8 +5,8 @@ from typing import Any, List, Optional
 
 import pytest
 
-from data_platform.search.base import ISearchBackend
-from data_platform.search.bulk import bulk_index_documents
+from data.search.base import ISearchBackend
+from data.search.bulk import bulk_index_documents
 from tests.data_platform.search.abstraction import ISearchTests
 
 

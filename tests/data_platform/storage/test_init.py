@@ -6,7 +6,7 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 class TestInit(IStorageTests):
     def test_imports(self) -> None:
-        from data_platform.storage import (
+        from data.storage import (
             IStorageBackend,
             LocalStorageBackend,
             StorageConfiguration,
