@@ -1,5 +1,5 @@
 """Taxonomy section package (see :mod:`fast_platform.taxonomy`)."""
 
-from .abstraction import IOperations
+from .abstraction import IDataPlatform
 
-__all__ = ["IOperations"]
+__all__ = ["IDataPlatform"]

@@ -1,5 +1,7 @@
 """Public ``fast_platform`` namespace (re-exports ``core.configuration`` + ``core.dtos``)."""
 
+from .abstraction import IPlatform
+
 from core.configuration import *  # noqa: F403,F401
 from core.dtos import *  # noqa: F403,F401
 

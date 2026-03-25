@@ -2,59 +2,34 @@
 
 from __future__ import annotations
 
-import json
-import os
 from typing import Optional
 
-from loguru import logger
-
-from core.dtos.payments import (
-    LinkConfigDTO,
-    PaymentsConfigurationDTO,
-    PaypalConfigDTO,
-    PayUConfigDTO,
-    RazorpayConfigDTO,
-    StripeConfigDTO,
-)
+from core.configuration.abstraction import ConfigurationSingletonBase
+from core.dtos.payments import PaymentsConfigurationDTO
 
 
-class PaymentsConfiguration:
-    """Singleton configuration for payment providers."""
+class PaymentsConfiguration(ConfigurationSingletonBase[PaymentsConfigurationDTO]):
+    """
+    Singleton configuration for payment providers.
+
+    Reads from ``config/payments/config.json``
+    (or ``FASTMVC_PAYMENTS_CONFIG_PATH`` / ``FASTMVC_CONFIG_BASE`` env vars).
+
+    Uses :class:`~core.configuration.abstraction.ConfigurationSingletonBase`
+    for the singleton pattern, JSON loading, and Pydantic validation —
+    eliminating the previously hand-rolled duplicate implementation.
+
+    Example:
+        >>> cfg = PaymentsConfiguration().get_config()
+        >>> cfg.stripe.enabled
+        False
+    """
 
     _instance: Optional["PaymentsConfiguration"] = None
-
-    @staticmethod
-    def _load_config_json(section: str, env_key: str) -> Optional[dict]:
-        """Load ``config/<section>/config.json`` (or ``FASTMVC_CONFIG_BASE/...``)."""
-        path = os.getenv(f"FASTMVC_{env_key}_CONFIG_PATH")
-        if not path:
-            base = os.getenv("FASTMVC_CONFIG_BASE")
-            path = (
-                os.path.join(base, section, "config.json") if base else f"config/{section}/config.json"
-            )
-        try:
-            with open(path, encoding="utf-8") as f:
-                return json.load(f)
-        except FileNotFoundError:
-            logger.debug("Config file not found: %s", path)
-            return None
-        except json.JSONDecodeError as exc:
-            logger.warning("Invalid JSON in %s: %s", path, exc)
-            return None
-
-    def __new__(cls) -> "PaymentsConfiguration":
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-            raw = cls._load_config_json("payments", "PAYMENTS")
-            r = raw or {}
-            cls._instance._dto = PaymentsConfigurationDTO(
-                stripe=StripeConfigDTO(**(r.get("stripe") or {})),
-                razorpay=RazorpayConfigDTO(**(r.get("razorpay") or {})),
-                paypal=PaypalConfigDTO(**(r.get("paypal") or {})),
-                payu=PayUConfigDTO(**(r.get("payu") or {})),
-                link=LinkConfigDTO(**(r.get("link") or {})),
-            )
-        return cls._instance
+    _section = "payments"
+    _env_key = "PAYMENTS"
+    _dto = PaymentsConfigurationDTO
 
     def get_config(self) -> PaymentsConfigurationDTO:
-        return self._dto
+        """Return the validated payments configuration DTO."""
+        return self._dto  # type: ignore[return-value]

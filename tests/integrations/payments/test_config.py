@@ -14,7 +14,7 @@ class TestConfig(IPaymentsTests):
             "stripe": {"enabled": True, "api_key": "sk_test"},
             "razorpay": {"enabled": True, "key_id": "rzp_x"},
         }
-        with patch("core.configuration.payments._load_config_json", return_value=raw):
+        with patch.object(PaymentsConfiguration, "_load_config_json", return_value=raw):
             cfg = PaymentsConfiguration()
         dto = cfg.get_config()
         assert dto.stripe.enabled is True
@@ -23,7 +23,7 @@ class TestConfig(IPaymentsTests):
 
     def test_payments_configuration_defaults_when_config_missing(self) -> None:
         PaymentsConfiguration._instance = None
-        with patch("core.configuration.payments._load_config_json", return_value=None):
+        with patch.object(PaymentsConfiguration, "_load_config_json", return_value=None):
             cfg = PaymentsConfiguration()
         dto = cfg.get_config()
         assert dto.stripe.enabled is False
