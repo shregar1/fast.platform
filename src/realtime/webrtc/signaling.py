@@ -1,5 +1,4 @@
-"""
-Simple in-memory WebRTC signaling service.
+"""Simple in-memory WebRTC signaling service.
 
 Designed for small deployments and local development.
 For production, consider replacing this with a distributed
@@ -23,8 +22,7 @@ class SessionExpiredCallback(Protocol):
 
 
 class WebRTCSignalingService:
-    """
-    Manages rooms and peers for WebRTC signaling.
+    """Manages rooms and peers for WebRTC signaling.
 
     This implementation is intentionally simple and in-memory.
 
@@ -90,9 +88,7 @@ class WebRTCSignalingService:
         return peers
 
     def cleanup_expired_sessions(self) -> int:
-        """
-        Scan all rooms and remove peers past TTL. Returns the number of peers removed.
-        """
+        """Scan all rooms and remove peers past TTL. Returns the number of peers removed."""
         removed = 0
         for room_id in list(self._rooms.keys()):
             before = len(self._rooms[room_id])

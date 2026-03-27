@@ -1,5 +1,4 @@
-"""
-ZIP and tar introspection using the Python standard library.
+"""ZIP and tar introspection using the Python standard library.
 
 All operations are **read-only** and operate on **in-memory** ``bytes`` (the
 full archive is loaded). They are
@@ -20,8 +19,7 @@ __all__ = ["ArchiveUtility", "IArchiveUtility"]
 
 
 class ArchiveUtility(IArchiveUtility):
-    """
-    Read-only helpers for ZIP and tar archives in memory.
+    """Read-only helpers for ZIP and tar archives in memory.
 
     **ZIP:** Uses :mod:`zipfile` on a :class:`io.BytesIO` wrapper—entire archive
     must fit in memory for these helpers.
@@ -32,8 +30,7 @@ class ArchiveUtility(IArchiveUtility):
 
     @staticmethod
     def is_zip(data: bytes) -> bool:
-        """
-        Return whether *data* begins with a ZIP local file header or EOCD marker.
+        r"""Return whether *data* begins with a ZIP local file header or EOCD marker.
 
         True for ``PK\\x03\\x04`` (typical local header) or ``PK\\x05\\x06`` (end
         of central directory, e.g. empty zip). This is a quick sniff, not full
@@ -48,6 +45,7 @@ class ArchiveUtility(IArchiveUtility):
         -------
         bool
             ``True`` if the prefix matches common ZIP signatures.
+
         """
         if len(data) < 4:
             return False
@@ -55,8 +53,7 @@ class ArchiveUtility(IArchiveUtility):
 
     @staticmethod
     def is_gzip(data: bytes) -> bool:
-        """
-        Return whether *data* starts with the gzip magic bytes ``0x1f 0x8b``.
+        """Return whether *data* starts with the gzip magic bytes ``0x1f 0x8b``.
 
         Used to choose tar open mode for :meth:`tar_member_names`.
 
@@ -69,13 +66,13 @@ class ArchiveUtility(IArchiveUtility):
         -------
         bool
             ``True`` if gzip magic is present.
+
         """
         return len(data) >= 2 and data[:2] == b"\x1f\x8b"
 
     @staticmethod
     def zip_namelist(data: bytes) -> list[str]:
-        """
-        Return all member path names in a ZIP archive.
+        """Return all member path names in a ZIP archive.
 
         Parameters
         ----------
@@ -92,14 +89,14 @@ class ArchiveUtility(IArchiveUtility):
         ------
         zipfile.BadZipFile
             If *data* is not a valid ZIP archive.
+
         """
         with zipfile.ZipFile(io.BytesIO(data)) as zf:
             return zf.namelist()
 
     @staticmethod
     def zip_read_member(data: bytes, name: str) -> bytes:
-        """
-        Read the uncompressed bytes for a single named member.
+        """Read the uncompressed bytes for a single named member.
 
         Parameters
         ----------
@@ -119,6 +116,7 @@ class ArchiveUtility(IArchiveUtility):
             If *name* is not present in the archive.
         zipfile.BadZipFile
             If *data* is not a valid ZIP archive.
+
         """
         with zipfile.ZipFile(io.BytesIO(data)) as zf:
             with zf.open(name) as f:
@@ -126,8 +124,7 @@ class ArchiveUtility(IArchiveUtility):
 
     @staticmethod
     def tar_member_names(data: bytes) -> list[str]:
-        """
-        List names of **regular file** members in a tar archive.
+        """List names of **regular file** members in a tar archive.
 
         Opens with ``r:gz`` if :meth:`is_gzip` is true, otherwise ``r:``.
         Directories, symlinks, and special entries are skipped—only ``isfile()``
@@ -147,6 +144,7 @@ class ArchiveUtility(IArchiveUtility):
         ------
         tarfile.TarError
             If *data* is not a readable tar in the chosen mode.
+
         """
         bio = io.BytesIO(data)
         mode = "r:gz" if ArchiveUtility.is_gzip(data) else "r:"

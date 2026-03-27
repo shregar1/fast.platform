@@ -1,6 +1,4 @@
-"""
-Dead-letter and quarantine queue naming, plus DLQ/quarantine message wrapping.
-"""
+"""Dead-letter and quarantine queue naming, plus DLQ/quarantine message wrapping."""
 
 from __future__ import annotations
 
@@ -23,6 +21,14 @@ def dlq_name(primary_queue: str) -> str:
 
 
 def is_dlq_name(name: str) -> bool:
+    """Execute is_dlq_name operation.
+
+    Args:
+        name: The name parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return name.endswith(DEFAULT_DLQ_SUFFIX)
 
 
@@ -42,10 +48,26 @@ def quarantine_name(primary_queue: str) -> str:
 
 
 def is_quarantine_name(name: str) -> bool:
+    """Execute is_quarantine_name operation.
+
+    Args:
+        name: The name parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return name.endswith(DEFAULT_QUARANTINE_SUFFIX)
 
 
 def primary_queue_from_quarantine(quarantine_name_str: str) -> str:
+    """Execute primary_queue_from_quarantine operation.
+
+    Args:
+        quarantine_name_str: The quarantine_name_str parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if is_quarantine_name(quarantine_name_str):
         return quarantine_name_str[: -len(DEFAULT_QUARANTINE_SUFFIX)]
     return quarantine_name_str
@@ -58,8 +80,7 @@ def prepare_dlq_message(
     reason: str,
     error: Optional[str] = None,
 ) -> Tuple[bytes, Dict[str, Any]]:
-    """
-    Build a DLQ body (JSON) and attribute metadata for a failed message.
+    """Build a DLQ body (JSON) and attribute metadata for a failed message.
 
     The body includes base64-encoded original bytes and copies of relevant attributes.
     """
@@ -93,8 +114,7 @@ def prepare_quarantine_message(
     last_error: Optional[str] = None,
     extra_metadata: Optional[Dict[str, Any]] = None,
 ) -> Tuple[bytes, Dict[str, Any]]:
-    """
-    Build a quarantine queue body after ``failure_count`` failures (>= ``max_failures``).
+    """Build a quarantine queue body after ``failure_count`` failures (>= ``max_failures``).
 
     ``extra_metadata`` is merged into the JSON document for operators (ids, traces, etc.).
     """

@@ -1,5 +1,4 @@
-"""
-Observability: structured logging, metrics, tracing, audit, Datadog, OpenTelemetry.
+"""Observability: structured logging, metrics, tracing, audit, Datadog, OpenTelemetry.
 
 Import as ``import observability`` (package lives under ``src/observability``).
 """

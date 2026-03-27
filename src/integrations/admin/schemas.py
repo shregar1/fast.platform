@@ -1,6 +1,4 @@
-"""
-Pydantic DTOs for the admin API (users, roles, audit log).
-"""
+"""Pydantic DTOs for the admin API (users, roles, audit log)."""
 
 from __future__ import annotations
 

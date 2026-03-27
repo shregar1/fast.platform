@@ -1,5 +1,4 @@
-"""
-Batch digest buffer: accumulate items per user/category and flush on a schedule.
+"""Batch digest buffer: accumulate items per user/category and flush on a schedule.
 
 Pair with cron, APScheduler, or a Celery beat task (see package README).
 """
@@ -29,16 +28,26 @@ class DigestItem:
 
 
 class DigestBuffer:
-    """
-    In-memory accumulator keyed by ``(user_id, category)``.
+    """In-memory accumulator keyed by ``(user_id, category)``.
 
     Not durable — use for single-process demos or back with Redis in your app if needed.
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._buf: DefaultDict[Tuple[str, str], List[DigestItem]] = defaultdict(list)
 
     def add(self, user_id: str, category: str, item: DigestItem) -> None:
+        """Execute add operation.
+
+        Args:
+            user_id: The user_id parameter.
+            category: The category parameter.
+            item: The item parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._buf[(user_id, category)].append(item)
 
     def take_and_clear(self, user_id: str, category: str) -> List[DigestItem]:
@@ -54,6 +63,11 @@ class DigestBuffer:
         return out
 
     def bucket_count(self) -> int:
+        """Execute bucket_count operation.
+
+        Returns:
+            The result of the operation.
+        """
         return len(self._buf)
 
 
@@ -66,8 +80,7 @@ def build_digest_fanout_request(
     category: Optional[str] = None,
     user_id: Optional[str] = None,
 ) -> NotificationFanoutRequest:
-    """
-    Build a single :class:`~fast_notifications.dto.NotificationFanoutRequest` from buffered rows.
+    """Build a single :class:`~fast_notifications.dto.NotificationFanoutRequest` from buffered rows.
 
     * *items* — non-empty list of digest lines (titles/bodies merged into one message).
     * At least one of *email* or *push* must be set (same rules as core DTO).

@@ -1,6 +1,4 @@
-"""
-User notification preferences (e.g. muted categories / preference center).
-"""
+"""User notification preferences (e.g. muted categories / preference center)."""
 
 from __future__ import annotations
 
@@ -22,9 +20,7 @@ class AllowAllNotificationPreferences:
 
 
 class StaticMutedCategories:
-    """
-    Fixed mapping ``user_id`` → set of muted category ids (e.g. ``{"marketing", "digest"}``).
-    """
+    """Fixed mapping ``user_id`` → set of muted category ids (e.g. ``{"marketing", "digest"}``)."""
 
     def __init__(self, muted: Mapping[str, Set[str]]) -> None:
         self._muted = {uid: set(cats) for uid, cats in muted.items()}

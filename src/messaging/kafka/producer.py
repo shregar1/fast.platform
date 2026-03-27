@@ -1,6 +1,4 @@
-"""
-Kafka producer integration using aiokafka.
-"""
+"""Kafka producer integration using aiokafka."""
 
 from __future__ import annotations
 
@@ -19,11 +17,17 @@ class KafkaProducer:
     """High-level Kafka producer wrapper."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         cfg = KafkaConfiguration().get_config()
         self._cfg = cfg
         self._producer: AIOKafkaProducer | None = None
 
     async def start(self) -> None:
+        """Execute start operation.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._cfg.enabled:
             logger.info("Kafka producer not started (disabled in config).")
             return
@@ -32,11 +36,25 @@ class KafkaProducer:
         logger.info("Kafka producer started.")
 
     async def stop(self) -> None:
+        """Execute stop operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._producer:
             await self._producer.stop()
             logger.info("Kafka producer stopped.")
 
     async def send(self, topic: str, value: Any) -> None:
+        """Execute send operation.
+
+        Args:
+            topic: The topic parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._producer:
             logger.warning("Kafka producer is not running; message dropped.")
             return
@@ -59,9 +77,7 @@ class KafkaProducer:
     async def send_json_envelope(
         self, topic: str, envelope: Union[KafkaJsonEnvelope, dict[str, Any]]
     ) -> None:
-        """
-        Publish a :class:`~fast_kafka.dto.KafkaJsonEnvelope` (or dict) as UTF-8 JSON bytes.
-        """
+        """Publish a :class:`~fast_kafka.dto.KafkaJsonEnvelope` (or dict) as UTF-8 JSON bytes."""
         if not self._producer:
             logger.warning("Kafka producer is not running; message dropped.")
             return
@@ -82,8 +98,7 @@ class KafkaProducer:
         offset: Optional[int] = None,
         extra_headers: Optional[list[tuple[str, bytes]]] = None,
     ) -> None:
-        """
-        Publish a JSON envelope to the configured (or explicit) DLQ topic with
+        """Publish a JSON envelope to the configured (or explicit) DLQ topic with
         :func:`~fast_kafka.dlq.make_dlq_headers` for routing metadata.
         """
         if isinstance(envelope, dict):

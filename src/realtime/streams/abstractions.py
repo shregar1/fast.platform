@@ -1,6 +1,4 @@
-"""
-Abstractions for high-frequency market data and generic event streams.
-"""
+"""Abstractions for high-frequency market data and generic event streams."""
 
 from __future__ import annotations
 
@@ -16,6 +14,8 @@ if TYPE_CHECKING:
 
 @dataclass
 class Tick:
+    """Represents the Tick class."""
+
     symbol: str
     price: float
     size: float
@@ -25,6 +25,8 @@ class Tick:
 
 @dataclass
 class OrderEvent:
+    """Represents the OrderEvent class."""
+
     tenant_id: str
     order_id: str
     symbol: str
@@ -35,28 +37,35 @@ class OrderEvent:
 
 
 class IMarketDataFeed(IStreams, ABC):
-    """
-    Interface for external market data providers (Kafka, Redis streams, FIX, etc.).
-    """
+    """Interface for external market data providers (Kafka, Redis streams, FIX, etc.)."""
 
     @abstractmethod
     async def run(self, hub: MarketDataHub) -> None:  # pragma: no cover - interface
-        """
-        Connect to an external feed and push ticks into the hub.
-        """
+        """Connect to an external feed and push ticks into the hub."""
 
 
 class IEventStream(IStreams, ABC):
-    """
-    Generic high-frequency event stream abstraction.
-    """
+    """Generic high-frequency event stream abstraction."""
 
     @abstractmethod
     async def publish(self, event: Any) -> None:  # pragma: no cover - interface
+        """Execute publish operation.
+
+        Args:
+            event: The event parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def subscribe(self) -> AsyncGenerator[Any, None]:  # pragma: no cover - interface
+        """Execute subscribe operation.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 

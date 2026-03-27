@@ -1,5 +1,4 @@
-"""
-Read-replica URL and engine helpers (optional second connection for read-only work).
+"""Read-replica URL and engine helpers (optional second connection for read-only work).
 
 Configure ``read_replica_connection_string`` (and optional ``read_replica_host`` /
 ``read_replica_port``) on :class:`dtos.db.DBConfigurationDTO`.
@@ -25,6 +24,11 @@ class ReadDBDependency:
 
     @staticmethod
     def derive() -> Session:
+        """Execute derive operation.
+
+        Returns:
+            The result of the operation.
+        """
         session = get_read_db_session()
         if session is None:
             raise RuntimeError(
@@ -38,6 +42,14 @@ _global_read_session: Optional[Session] = None
 
 
 def _primary_config_complete(config: DBConfigurationDTO) -> bool:
+    """Execute _primary_config_complete operation.
+
+    Args:
+        config: The config parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return bool(
         config.user_name
         and config.password
@@ -49,8 +61,7 @@ def _primary_config_complete(config: DBConfigurationDTO) -> bool:
 
 
 def read_replica_url_from_config(config: DBConfigurationDTO) -> Optional[str]:
-    """
-    Build the read-replica DSN when ``read_replica_connection_string`` is set.
+    """Build the read-replica DSN when ``read_replica_connection_string`` is set.
 
     Returns ``None`` if replica is not configured or primary credentials are incomplete.
     """
@@ -69,8 +80,7 @@ def read_replica_url_from_config(config: DBConfigurationDTO) -> Optional[str]:
 
 
 def get_read_engine(config: Optional[DBConfigurationDTO] = None) -> Optional[Engine]:
-    """
-    Create a sync :class:`~sqlalchemy.engine.Engine` for the read replica, or ``None``.
+    """Create a sync :class:`~sqlalchemy.engine.Engine` for the read replica, or ``None``.
 
     Uses the same pool and PostgreSQL ``connect_args`` as :func:`get_engine`.
     """
@@ -97,11 +107,27 @@ def create_read_session_factory(
 
 
 def set_global_read_engine(engine: Optional[Engine]) -> None:
+    """Execute set_global_read_engine operation.
+
+    Args:
+        engine: The engine parameter.
+
+    Returns:
+        The result of the operation.
+    """
     global _global_read_engine
     _global_read_engine = engine
 
 
 def set_global_read_session(session: Optional[Session]) -> None:
+    """Execute set_global_read_session operation.
+
+    Args:
+        session: The session parameter.
+
+    Returns:
+        The result of the operation.
+    """
     global _global_read_session
     _global_read_session = session
 
@@ -112,14 +138,18 @@ def get_read_db_session() -> Optional[Session]:
 
 
 def get_read_engine_instance() -> Optional[Engine]:
+    """Execute get_read_engine_instance operation.
+
+    Returns:
+        The result of the operation.
+    """
     return _global_read_engine
 
 
 def create_and_set_read_session(
     config: Optional[DBConfigurationDTO] = None,
 ) -> Optional[Session]:
-    """
-    Build read engine + session, store globals for :func:`get_read_db_session`.
+    """Build read engine + session, store globals for :func:`get_read_db_session`.
 
     Returns ``None`` if replica is not configured or primary config is incomplete.
     """

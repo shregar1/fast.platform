@@ -1,5 +1,4 @@
-"""
-Generic Webhook Integration
+"""Generic Webhook Integration.
 
 Send notifications to any HTTP endpoint.
 """

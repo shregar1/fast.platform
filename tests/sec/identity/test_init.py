@@ -6,7 +6,14 @@ from tests.sec.identity.abstraction import IIdentityTests
 
 
 class TestIdentityPackageImports(IIdentityTests):
+    """Represents the TestIdentityPackageImports class."""
+
     def test_import(self) -> None:
+        """Execute test_import operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert i.build_identity_providers is not None
         assert i.IIdentityProvider is not None
         assert i.IdentityUserProfile is not None

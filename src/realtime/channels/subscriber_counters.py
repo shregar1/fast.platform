@@ -1,5 +1,4 @@
-"""
-Optional per-channel subscriber counters (in-memory or Redis).
+"""Optional per-channel subscriber counters (in-memory or Redis).
 
 Use alongside :class:`~fast_channels.hub.ChannelsHub` by calling
 ``increment`` / ``decrement`` when WebSockets join or leave a topic, or read
@@ -22,15 +21,32 @@ class InMemorySubscriberCounters:
     """Per-process subscriber counts per channel/topic id."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._counts: Dict[str, int] = {}
 
     async def increment(self, channel_id: str) -> int:
+        """Execute increment operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         n = self._counts.get(channel_id, 0) + 1
         self._counts[channel_id] = n
         logger.debug("Subscriber count {} -> {}", channel_id, n)
         return n
 
     async def decrement(self, channel_id: str) -> int:
+        """Execute decrement operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         n = max(0, self._counts.get(channel_id, 0) - 1)
         if n == 0:
             self._counts.pop(channel_id, None)
@@ -40,15 +56,27 @@ class InMemorySubscriberCounters:
         return n
 
     async def count(self, channel_id: str) -> int:
+        """Execute count operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._counts.get(channel_id, 0)
 
     async def all_counts(self) -> Dict[str, int]:
+        """Execute all_counts operation.
+
+        Returns:
+            The result of the operation.
+        """
         return dict(self._counts)
 
 
 class RedisSubscriberCounters:
-    """
-    Distributed subscriber counts using Redis INCR/DECR.
+    """Distributed subscriber counts using Redis INCR/DECR.
 
     Requires ``redis.asyncio`` (optional dependency is satisfied via the package's ``redis`` dep).
     """
@@ -56,21 +84,51 @@ class RedisSubscriberCounters:
     def __init__(
         self, client: "aioredis.Redis", *, key_prefix: str = "channels:subscribers:"
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            client: The client parameter.
+            key_prefix: The key_prefix parameter.
+        """
         if aioredis is None:
             raise RuntimeError("redis.asyncio is not available")
         self._client = client
         self._key_prefix = key_prefix
 
     def _key(self, channel_id: str) -> str:
+        """Execute _key operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return f"{self._key_prefix}{channel_id}"
 
     async def increment(self, channel_id: str) -> int:
+        """Execute increment operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._key(channel_id)
         n = int(await self._client.incr(key))
         logger.debug("[Redis] Subscriber count {} -> {}", channel_id, n)
         return n
 
     async def decrement(self, channel_id: str) -> int:
+        """Execute decrement operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._key(channel_id)
         n = int(await self._client.decr(key))
         if n < 0:
@@ -82,6 +140,14 @@ class RedisSubscriberCounters:
         return n
 
     async def count(self, channel_id: str) -> int:
+        """Execute count operation.
+
+        Args:
+            channel_id: The channel_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._key(channel_id)
         raw = await self._client.get(key)
         if raw is None:

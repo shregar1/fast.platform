@@ -20,7 +20,6 @@ class StructuredLog(IStructuredLogUtility):
         **extra: Any,
     ) -> dict[str, Any]:
         """Shallow merge *extra* into a copy of *base* (suitable for JSON output)."""
-
         out: dict[str, Any] = dict(base)
         for k, v in extra.items():
             if v is not None:
@@ -30,7 +29,6 @@ class StructuredLog(IStructuredLogUtility):
     @staticmethod
     def utc_timestamp_iso() -> str:
         """RFC 3339 timestamp in UTC."""
-
         return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     @staticmethod
@@ -43,7 +41,6 @@ class StructuredLog(IStructuredLogUtility):
         **extra: Any,
     ) -> dict[str, Any]:
         """Build a single log record dict with stable keys for JSON serialization."""
-
         rec: dict[str, Any] = {
             "timestamp": StructuredLog.utc_timestamp_iso(),
             "level": level.upper(),
@@ -61,5 +58,4 @@ class StructuredLog(IStructuredLogUtility):
     @staticmethod
     def format_json_log_line(record: Mapping[str, Any]) -> str:
         """One JSON object per line (newline-terminated by caller if needed)."""
-
         return json.dumps(record, default=str, ensure_ascii=False)

@@ -1,6 +1,4 @@
-"""
-Daily reconciliation: compare payment gateway totals vs internal ledger (DTO + CSV hook).
-"""
+"""Daily reconciliation: compare payment gateway totals vs internal ledger (DTO + CSV hook)."""
 
 from __future__ import annotations
 
@@ -37,8 +35,7 @@ class ReconciliationLineItem(BaseModel):
 
 
 class ReconciliationReport(BaseModel):
-    """
-    Aggregated daily (or windowed) reconciliation result.
+    """Aggregated daily (or windowed) reconciliation result.
 
     *amounts* are in the smallest currency unit (cents, paisa, …).
     """
@@ -55,8 +52,7 @@ class ReconciliationReport(BaseModel):
 
 
 def reconciliation_report_to_csv(report: ReconciliationReport) -> str:
-    """
-    Serialize *report* to CSV for exports, BI tools, or email attachments.
+    """Serialize *report* to CSV for exports, BI tools, or email attachments.
 
     First block: summary columns; second block: one row per :class:`ReconciliationLineItem`.
     """

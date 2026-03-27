@@ -1,5 +1,4 @@
-"""
-Prometheus Metrics Module.
+"""Prometheus Metrics Module.
 
 Provides Prometheus metrics collection and exposure for FastAPI applications.
 """
@@ -23,13 +22,19 @@ class MetricValue:
 
 
 class Counter:
-    """
-    Prometheus-style counter metric.
+    """Prometheus-style counter metric.
 
     A counter is a cumulative metric that can only increase.
     """
 
     def __init__(self, name: str, description: str, labels: list[str] | None = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            name: The name parameter.
+            description: The description parameter.
+            labels: The labels parameter.
+        """
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -38,6 +43,11 @@ class Counter:
 
     @property
     def name(self) -> str:
+        """Execute name operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._name
 
     def inc(self, value: float = 1.0, **labels: str) -> None:
@@ -66,13 +76,19 @@ class Counter:
 
 
 class Gauge:
-    """
-    Prometheus-style gauge metric.
+    """Prometheus-style gauge metric.
 
     A gauge is a metric that can increase and decrease.
     """
 
     def __init__(self, name: str, description: str, labels: list[str] | None = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            name: The name parameter.
+            description: The description parameter.
+            labels: The labels parameter.
+        """
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -81,6 +97,11 @@ class Gauge:
 
     @property
     def name(self) -> str:
+        """Execute name operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._name
 
     def set(self, value: float, **labels: str) -> None:
@@ -121,8 +142,7 @@ class Gauge:
 
 
 class Histogram:
-    """
-    Prometheus-style histogram metric.
+    """Prometheus-style histogram metric.
 
     A histogram samples observations and counts them in buckets.
     """
@@ -136,6 +156,14 @@ class Histogram:
         labels: list[str] | None = None,
         buckets: tuple[float, ...] | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            name: The name parameter.
+            description: The description parameter.
+            labels: The labels parameter.
+            buckets: The buckets parameter.
+        """
         self._name = name
         self._description = description
         self._labels = labels or []
@@ -149,6 +177,11 @@ class Histogram:
 
     @property
     def name(self) -> str:
+        """Execute name operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._name
 
     def observe(self, value: float, **labels: str) -> None:
@@ -194,22 +227,37 @@ class HistogramTimer:
     """Context manager for timing histogram observations."""
 
     def __init__(self, histogram: Histogram, labels: dict[str, str]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            histogram: The histogram parameter.
+            labels: The labels parameter.
+        """
         self._histogram = histogram
         self._labels = labels
         self._start: float = 0
 
     def __enter__(self) -> "HistogramTimer":
+        """Execute __enter__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         self._start = time.perf_counter()
         return self
 
     def __exit__(self, *args: object) -> None:
+        """Execute __exit__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         duration = time.perf_counter() - self._start
         self._histogram.observe(duration, **self._labels)
 
 
 class Metrics:
-    """
-    Metrics registry and exporter.
+    """Metrics registry and exporter.
 
     Provides a central registry for all metrics and Prometheus export.
 
@@ -231,6 +279,7 @@ class Metrics:
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._counters: dict[str, Counter] = {}
         self._gauges: dict[str, Gauge] = {}
         self._histograms: dict[str, Histogram] = {}
@@ -285,8 +334,7 @@ def get_metrics() -> Metrics:
 
 
 class MetricsMiddleware(BaseHTTPMiddleware):
-    """
-    FastAPI middleware for automatic HTTP metrics collection.
+    """FastAPI middleware for automatic HTTP metrics collection.
 
     Collects:
     - http_requests_total (counter)
@@ -300,6 +348,13 @@ class MetricsMiddleware(BaseHTTPMiddleware):
         metrics: Optional[Metrics] = None,
         exclude_paths: set[str] | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            app: The app parameter.
+            metrics: The metrics parameter.
+            exclude_paths: The exclude_paths parameter.
+        """
         super().__init__(app)
         self._metrics = metrics or get_metrics()
         self._exclude_paths = exclude_paths or {"/metrics", "/health"}
@@ -321,6 +376,15 @@ class MetricsMiddleware(BaseHTTPMiddleware):
         )
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Execute dispatch operation.
+
+        Args:
+            request: The request parameter.
+            call_next: The call_next parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if request.url.path in self._exclude_paths:
             return await call_next(request)
 

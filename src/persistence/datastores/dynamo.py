@@ -1,5 +1,4 @@
-"""
-AWS DynamoDB key-value / document store implementation.
+"""AWS DynamoDB key-value / document store implementation.
 
 Provides a very thin wrapper around `boto3.resource("dynamodb")` that
 implements the `IKeyValueStore` interface for single-table style access.
@@ -19,8 +18,7 @@ except Exception:  # pragma: no cover - optional import
 
 
 class DynamoKeyValueStore(IKeyValueStore):
-    """
-    DynamoDB-backed key-value/document store.
+    """DynamoDB-backed key-value/document store.
 
     This implementation is intentionally minimal and focused on single-table
     access with a primary key named `pk`. Projects are expected to subclass
@@ -33,6 +31,13 @@ class DynamoKeyValueStore(IKeyValueStore):
         region_name: str = "us-east-1",
         endpoint_url: Optional[str] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            table_name: The table_name parameter.
+            region_name: The region_name parameter.
+            endpoint_url: The endpoint_url parameter.
+        """
         self._table_name = table_name
         self._region_name = region_name
         self._endpoint_url = endpoint_url
@@ -40,6 +45,11 @@ class DynamoKeyValueStore(IKeyValueStore):
         self._table: Any = None
 
     def connect(self) -> None:
+        """Execute connect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if boto3 is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError("boto3 is not installed. Install it with `pip install boto3`.")
         self._resource = boto3.resource(
@@ -55,6 +65,11 @@ class DynamoKeyValueStore(IKeyValueStore):
         )
 
     def disconnect(self) -> None:
+        """Execute disconnect operation.
+
+        Returns:
+            The result of the operation.
+        """
         # boto3 resources use HTTP connection pooling and do not require
         # explicit shutdown; we just drop references.
         self._table = None
@@ -62,12 +77,29 @@ class DynamoKeyValueStore(IKeyValueStore):
         logger.info("Disconnected DynamoKeyValueStore")
 
     def get(self, key: str) -> Any:
+        """Execute get operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._table is None:
             raise RuntimeError("DynamoKeyValueStore is not connected.")
         response = self._table.get_item(Key={"pk": key})
         return response.get("Item")
 
     def set(self, key: str, value: Any, **kwargs: Any) -> None:
+        """Execute set operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._table is None:
             raise RuntimeError("DynamoKeyValueStore is not connected.")
         item: Dict[str, Any] = {"pk": key}
@@ -78,16 +110,31 @@ class DynamoKeyValueStore(IKeyValueStore):
         self._table.put_item(Item=item, **kwargs)
 
     def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._table is None:
             raise RuntimeError("DynamoKeyValueStore is not connected.")
         self._table.delete_item(Key={"pk": key})
 
     def exists(self, key: str) -> bool:
+        """Execute exists operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self.get(key) is not None
 
     def increment(self, key: str, amount: int = 1) -> int:
-        """
-        Increment a numeric `value` attribute on the stored item.
+        """Increment a numeric `value` attribute on the stored item.
         Creates the item if it does not exist.
         """
         if self._table is None:
@@ -102,8 +149,7 @@ class DynamoKeyValueStore(IKeyValueStore):
         return int(response["Attributes"]["value"])
 
     def expire(self, key: str, ttl_seconds: int) -> None:
-        """
-        Set a TTL attribute on the item (if a TTL attribute is configured on the table).
+        """Set a TTL attribute on the item (if a TTL attribute is configured on the table).
         This is a best-effort helper; projects may override to use a specific TTL field name.
         """
         if self._table is None:

@@ -1,6 +1,4 @@
-"""
-Base interface for channels (pub-sub) backends.
-"""
+"""Base interface for channels (pub-sub) backends."""
 
 from __future__ import annotations
 

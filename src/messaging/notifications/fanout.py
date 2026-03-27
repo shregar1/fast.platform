@@ -1,5 +1,4 @@
-"""
-Multi-provider fan-out: one :class:`~fast_notifications.dto.NotificationFanoutRequest`
+"""Multi-provider fan-out: one :class:`~fast_notifications.dto.NotificationFanoutRequest`
 to email (pluggable) and push (APNS/FCM via :class:`~fast_notifications.push.PushNotificationService`).
 """
 
@@ -51,8 +50,7 @@ class LoggingEmailSender:
 
 
 class NotificationFanoutService:
-    """
-    Dispatches a :class:`~fast_notifications.dto.NotificationFanoutRequest` to
+    """Dispatches a :class:`~fast_notifications.dto.NotificationFanoutRequest` to
     configured email and push backends.
 
     Optional **preference store** skips muted categories; optional **idempotency store**
@@ -75,9 +73,7 @@ class NotificationFanoutService:
         self._idempotency_ttl = idempotency_ttl_seconds
 
     async def dispatch(self, req: NotificationFanoutRequest) -> bool:
-        """
-        Deliver to configured channels. Returns ``False`` if skipped (muted category or duplicate idempotency key).
-        """
+        """Deliver to configured channels. Returns ``False`` if skipped (muted category or duplicate idempotency key)."""
         if req.user_id and req.category:
             if await self._prefs.is_category_muted(req.user_id, req.category):
                 logger.info(

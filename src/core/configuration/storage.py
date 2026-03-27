@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class StorageConfiguration(ConfigurationSingletonBase[StorageConfigurationDTO]):
+    """Represents the StorageConfiguration class."""
+
     _instance: Optional["StorageConfiguration"] = None
     _section: str = "storage"
     _env_key: str = "STORAGE"

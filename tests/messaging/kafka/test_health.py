@@ -7,7 +7,14 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestHealth(IKafkaTests):
+    """Represents the TestHealth class."""
+
     def test_describe_cluster_health_ok(self):
+        """Execute test_describe_cluster_health_ok operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.health import describe_cluster_health
 
         fake = {
@@ -17,6 +24,11 @@ class TestHealth(IKafkaTests):
         }
 
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock()
@@ -34,9 +46,19 @@ class TestHealth(IKafkaTests):
         asyncio.run(run())
 
     def test_describe_cluster_health_error(self):
+        """Execute test_describe_cluster_health_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.health import describe_cluster_health
 
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock(side_effect=RuntimeError("no broker"))
@@ -50,11 +72,21 @@ class TestHealth(IKafkaTests):
         asyncio.run(run())
 
     def test_describe_cluster_health_close_errors_swallowed(self):
+        """Execute test_describe_cluster_health_close_errors_swallowed operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.health import describe_cluster_health
 
         fake = {"cluster_id": "x", "brokers": [], "controller_id": 0}
 
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock()

@@ -1,5 +1,4 @@
-"""
-OneSignal Integration
+"""OneSignal Integration.
 
 Cross-platform push notifications.
 """

@@ -11,6 +11,8 @@ from .weaviate_config import WeaviateConfigDTO
 
 
 class VectorsConfigurationDTO(IDTO):
+    """Represents the VectorsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     pinecone: PineconeConfigDTO = Field(default_factory=PineconeConfigDTO)
     qdrant: QdrantConfigDTO = Field(default_factory=QdrantConfigDTO)

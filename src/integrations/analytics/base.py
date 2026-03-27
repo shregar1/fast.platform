@@ -1,6 +1,4 @@
-"""
-Analytics / event tracking interface and factory.
-"""
+"""Analytics / event tracking interface and factory."""
 
 from __future__ import annotations
 
@@ -31,8 +29,7 @@ class IAnalyticsBackend(IAnalytics, ABC):
         raise NotImplementedError
 
     def delete_user(self, distinct_id: str) -> None:
-        """
-        Request downstream analytics to delete or anonymize this user (GDPR / right to erasure).
+        """Request downstream analytics to delete or anonymize this user (GDPR / right to erasure).
 
         Default is a no-op; HTTP and other backends may override to notify vendors.
         """
@@ -40,8 +37,7 @@ class IAnalyticsBackend(IAnalytics, ABC):
 
 
 def build_analytics_client() -> Optional[IAnalyticsBackend]:
-    """
-    Build an analytics client from AnalyticsConfiguration (config/analytics/config.json).
+    """Build an analytics client from AnalyticsConfiguration (config/analytics/config.json).
     Uses http_sink if enabled; otherwise no-op or optional Segment/PostHog/Mixpanel.
     """
     cfg = AnalyticsConfiguration().get_config()

@@ -14,6 +14,12 @@ class UnsupportedLLMProviderError(IError):
         *,
         detail: str | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            provider: The provider parameter.
+            detail: The detail parameter.
+        """
         super().__init__()
         self.provider = provider
         self.responseMessage = detail or f"Unsupported LLM provider: {provider!r}"

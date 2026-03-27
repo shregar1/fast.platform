@@ -1,5 +1,4 @@
-"""
-Elasticsearch search store implementation.
+"""Elasticsearch search store implementation.
 
 Provides a thin wrapper around the official `elasticsearch` client that
 implements the `ISearchStore` interface.
@@ -18,9 +17,7 @@ except Exception:  # pragma: no cover - optional import
 
 
 class ElasticsearchSearchStore(ISearchStore):
-    """
-    Elasticsearch-backed search store.
-    """
+    """Elasticsearch-backed search store."""
 
     def __init__(
         self,
@@ -29,6 +26,14 @@ class ElasticsearchSearchStore(ISearchStore):
         password: Optional[str] = None,
         verify_certs: bool = True,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            hosts: The hosts parameter.
+            username: The username parameter.
+            password: The password parameter.
+            verify_certs: The verify_certs parameter.
+        """
         self._hosts = list(hosts or ["http://localhost:9200"])
         self._username = username
         self._password = password
@@ -37,11 +42,21 @@ class ElasticsearchSearchStore(ISearchStore):
 
     @property
     def client(self) -> Any:
+        """Execute client operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._client is None:
             raise RuntimeError("ElasticsearchSearchStore is not connected.")
         return self._client
 
     def connect(self) -> None:
+        """Execute connect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if Elasticsearch is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError(
                 "elasticsearch client is not installed. "
@@ -55,6 +70,11 @@ class ElasticsearchSearchStore(ISearchStore):
         logger.info("Connected ElasticsearchSearchStore", hosts=self._hosts)
 
     def disconnect(self) -> None:
+        """Execute disconnect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._client is not None:
             try:
                 self._client.close()
@@ -69,9 +89,28 @@ class ElasticsearchSearchStore(ISearchStore):
         id: str,
         document: Dict[str, Any],
     ) -> Any:
+        """Execute index operation.
+
+        Args:
+            index: The index parameter.
+            id: The id parameter.
+            document: The document parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self.client.index(index=index, id=id, document=document)
 
     def delete(self, index: str, id: str) -> Any:
+        """Execute delete operation.
+
+        Args:
+            index: The index parameter.
+            id: The id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self.client.delete(index=index, id=id, ignore=[404])
 
     def search(
@@ -80,9 +119,24 @@ class ElasticsearchSearchStore(ISearchStore):
         query: Dict[str, Any],
         size: int = 10,
     ) -> Dict[str, Any]:
+        """Execute search operation.
+
+        Args:
+            index: The index parameter.
+            query: The query parameter.
+            size: The size parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self.client.search(index=index, query=query, size=size)
 
     def ping(self) -> bool:
+        """Execute ping operation.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             return bool(self.client.ping())
         except Exception as exc:  # pragma: no cover

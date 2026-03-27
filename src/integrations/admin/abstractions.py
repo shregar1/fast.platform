@@ -1,5 +1,4 @@
-"""
-Admin resource abstractions: users, roles, audit log.
+"""Admin resource abstractions: users, roles, audit log.
 
 Prefer importing from :mod:`admin.schemas` and :mod:`admin.repositories`;
 this module re-exports the same names for backward compatibility.

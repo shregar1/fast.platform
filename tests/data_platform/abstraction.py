@@ -1,3 +1,5 @@
+"""Module abstraction.py."""
+
 from __future__ import annotations
 
 """Section suite for ``PackageSection.DATA_PLATFORM``."""

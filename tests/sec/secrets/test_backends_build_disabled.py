@@ -1,3 +1,5 @@
+"""Module test_backends_build_disabled.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`sec.secrets.base.build_secrets_backend` when providers are disabled."""
@@ -9,13 +11,26 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsBuildDisabled(ISecretsTests):
+    """Represents the TestBackendsBuildDisabled class."""
+
     def test_build_secrets_backend_returns_none_when_disabled(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
+        """Execute test_build_secrets_backend_returns_none_when_disabled operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from sec.secrets import base as secrets_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.vault = types.SimpleNamespace(
                     enabled=False, url=None, token=None, mount_point=None
                 )

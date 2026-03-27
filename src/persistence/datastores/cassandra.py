@@ -1,5 +1,4 @@
-"""
-Cassandra wide-column store implementation.
+"""Cassandra wide-column store implementation.
 
 Provides a thin wrapper around the `cassandra-driver` library implementing
 the `IWideColumnStore` interface.
@@ -18,9 +17,7 @@ except Exception:  # pragma: no cover - optional import
 
 
 class CassandraWideColumnStore(IWideColumnStore):
-    """
-    Cassandra-backed wide-column store.
-    """
+    """Cassandra-backed wide-column store."""
 
     def __init__(
         self,
@@ -28,6 +25,13 @@ class CassandraWideColumnStore(IWideColumnStore):
         port: int = 9042,
         keyspace: Optional[str] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            contact_points: The contact_points parameter.
+            port: The port parameter.
+            keyspace: The keyspace parameter.
+        """
         self._contact_points = list(contact_points or ["127.0.0.1"])
         self._port = port
         self._keyspace = keyspace
@@ -35,6 +39,11 @@ class CassandraWideColumnStore(IWideColumnStore):
         self._session: Any = None
 
     def connect(self) -> None:
+        """Execute connect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if Cluster is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError(
                 "cassandra-driver is not installed. Install it with `pip install cassandra-driver`."
@@ -52,6 +61,11 @@ class CassandraWideColumnStore(IWideColumnStore):
         )
 
     def disconnect(self) -> None:
+        """Execute disconnect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._session is not None:
             self._session.shutdown()
             self._session = None
@@ -61,11 +75,25 @@ class CassandraWideColumnStore(IWideColumnStore):
         logger.info("Disconnected CassandraWideColumnStore")
 
     def get_session(self) -> Any:
+        """Execute get_session operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._session is None:
             raise RuntimeError("CassandraWideColumnStore is not connected.")
         return self._session
 
     def execute(self, query: str, parameters: Any | None = None) -> Any:
+        """Execute execute operation.
+
+        Args:
+            query: The query parameter.
+            parameters: The parameters parameter.
+
+        Returns:
+            The result of the operation.
+        """
         session = self.get_session()
         if parameters is None:
             return session.execute(query)

@@ -1,5 +1,4 @@
-"""
-Trace context propagation aligned with :class:`utils.request_id_context.RequestIdContext`.
+"""Trace context propagation aligned with :class:`utils.request_id_context.RequestIdContext`.
 
 Requires ``pip install 'fast-platform[otel]'`` (``opentelemetry-api``).
 """
@@ -19,13 +18,17 @@ class OpenTelemetryBridge:
 
     @staticmethod
     def _trace_api() -> Optional[Any]:
+        """Execute _trace_api operation.
+
+        Returns:
+            The result of the operation.
+        """
         mod, _ = OptionalImports.optional_import("opentelemetry.trace")
         return mod
 
     @staticmethod
     def apply_request_id_to_current_span(*, attribute_key: str = _REQUEST_ID_ATTR) -> bool:
-        """
-        Set the current request ID on the active span, if tracing is available.
+        """Set the current request ID on the active span, if tracing is available.
 
         Returns True if an attribute was set on a recording span.
         """
@@ -43,8 +46,7 @@ class OpenTelemetryBridge:
 
     @staticmethod
     def inject_trace_context_into_carrier(carrier: MutableMapping[str, str]) -> bool:
-        """
-        W3C ``traceparent`` injection into a string-keyed mapping (e.g. HTTP headers).
+        """W3C ``traceparent`` injection into a string-keyed mapping (e.g. HTTP headers).
 
         Returns False if OpenTelemetry is not installed.
         """
@@ -64,8 +66,7 @@ class OpenTelemetryBridge:
 
     @staticmethod
     def extract_trace_context_from_carrier(carrier: Mapping[str, str]) -> Any | None:
-        """
-        Parse W3C trace context from *carrier* (e.g. incoming ``traceparent`` header).
+        """Parse W3C trace context from *carrier* (e.g. incoming ``traceparent`` header).
 
         Returns an OpenTelemetry ``Context`` or None if OTEL is missing / invalid.
         """

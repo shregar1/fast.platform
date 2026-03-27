@@ -1,5 +1,4 @@
-"""
-HTML parser that collects visible text from a fragment (tags ignored).
+"""HTML parser that collects visible text from a fragment (tags ignored).
 
 Used by :class:`~utils.html.HtmlUtility` for :meth:`~utils.html.HtmlUtility.strip_tags`.
 """
@@ -13,8 +12,7 @@ __all__ = ["HtmlStripTagsParser"]
 
 
 class HtmlStripTagsParser(HTMLParser):
-    """
-    Collect visible character data from an HTML fragment, ignoring tags.
+    """Collect visible character data from an HTML fragment, ignoring tags.
 
     Subclasses :class:`html.parser.HTMLParser` with ``convert_charrefs=True`` so
     numeric and named character references in the source become Unicode text in
@@ -23,6 +21,7 @@ class HtmlStripTagsParser(HTMLParser):
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         super().__init__(convert_charrefs=True)
         self._buf = StringIO()
 

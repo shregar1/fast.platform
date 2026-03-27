@@ -13,4 +13,9 @@ class SystemClock(IClockUtility):
     """Production clock: ``datetime.now(timezone.utc)``."""
 
     def now(self) -> datetime:
+        """Execute now operation.
+
+        Returns:
+            The result of the operation.
+        """
         return datetime.now(timezone.utc)

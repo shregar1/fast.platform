@@ -1,6 +1,4 @@
-"""
-Server-initiated WebSocket ping and stale-connection sweep for :class:`~fast_channels.hub.ChannelsHub`.
-"""
+"""Server-initiated WebSocket ping and stale-connection sweep for :class:`~fast_channels.hub.ChannelsHub`."""
 
 from __future__ import annotations
 
@@ -19,8 +17,7 @@ async def run_heartbeat_loop(
     ping_payload: str = '{"type":"ping"}',
     stop_event: Optional[asyncio.Event] = None,
 ) -> None:
-    """
-    Periodically send *ping_payload* to every topic and disconnect subscribers
+    """Periodically send *ping_payload* to every topic and disconnect subscribers
     that have not had :meth:`~fast_channels.hub.ChannelsHub.record_pong` called
     within *stale_after_seconds*.
 

@@ -1,5 +1,4 @@
-"""
-Lightweight in-process metrics (no Prometheus client required).
+"""Lightweight in-process metrics (no Prometheus client required).
 
 Use for tests, smoke dashboards, or adapters that push to OTLP/Prometheus later.
 """

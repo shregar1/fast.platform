@@ -1,5 +1,4 @@
-"""
-GCP Integration
+"""GCP Integration.
 
 Google Cloud Platform services: Pub/Sub.
 """

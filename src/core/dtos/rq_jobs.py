@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class RqJobsDTO(IDTO):
+    """Represents the RqJobsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     connection_url: str = ""

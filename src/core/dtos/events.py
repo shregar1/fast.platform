@@ -12,6 +12,8 @@ from .sns_notification import SnsNotificationDTO
 
 
 class EventsConfigurationDTO(IDTO):
+    """Represents the EventsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     sns: SnsNotificationDTO = Field(default_factory=SnsNotificationDTO)
     event_hubs: EventHubsDTO = Field(default_factory=EventHubsDTO)

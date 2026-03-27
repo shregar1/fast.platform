@@ -1,6 +1,4 @@
-"""
-Media upload and URL abstractions.
-"""
+"""Media upload and URL abstractions."""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -24,13 +22,17 @@ class UploadResult:
     metadata: dict[str, Any] = None
 
     def __post_init__(self) -> None:
+        """Execute __post_init__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self.metadata is None:
             self.metadata = {}
 
 
 class IMediaStore(IMedia, ABC):
-    """
-    Interface for media storage: upload, download URL / presigned URL, delete.
+    """Interface for media storage: upload, download URL / presigned URL, delete.
     Can be backed by fast_storage or custom S3/GCS.
     """
 
@@ -76,9 +78,7 @@ class IImageVariantGenerator(IMedia, ABC):
         format: Optional[str] = None,
         quality: Optional[int] = None,
     ) -> str:
-        """
-        Generate variant; store and return new key (e.g. thumbs/abc_200x200.webp).
-        """
+        """Generate variant; store and return new key (e.g. thumbs/abc_200x200.webp)."""
         raise NotImplementedError
 
 

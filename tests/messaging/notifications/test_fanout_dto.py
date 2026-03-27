@@ -13,19 +13,36 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestFanoutDto(INotificationTests):
+    """Represents the TestFanoutDto class."""
+
     def test_fanout_request_email_only(self):
+        """Execute test_fanout_request_email_only operation.
+
+        Returns:
+            The result of the operation.
+        """
         req = NotificationFanoutRequest(
             title="Hi", body="Body", email=EmailNotificationTarget(to=["a@example.com"])
         )
         assert req.push is None
 
     def test_fanout_request_push_only(self):
+        """Execute test_fanout_request_push_only operation.
+
+        Returns:
+            The result of the operation.
+        """
         req = NotificationFanoutRequest(
             title="Hi", body="Body", push=PushNotificationTarget(ios_device_tokens=["t1"])
         )
         assert req.email is None
 
     def test_fanout_request_both_channels(self):
+        """Execute test_fanout_request_both_channels operation.
+
+        Returns:
+            The result of the operation.
+        """
         req = NotificationFanoutRequest(
             title="Hi",
             body="Body",
@@ -35,14 +52,29 @@ class TestFanoutDto(INotificationTests):
         assert req.retry_policy is None
 
     def test_fanout_rejects_no_channel(self):
+        """Execute test_fanout_rejects_no_channel operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(ValueError, match="At least one"):
             NotificationFanoutRequest(title="x", body="y")
 
     def test_fanout_rejects_empty_push(self):
+        """Execute test_fanout_rejects_empty_push operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(ValueError, match="push is set"):
             NotificationFanoutRequest(title="x", body="y", push=PushNotificationTarget())
 
     def test_retry_policy_dto_roundtrip(self):
+        """Execute test_retry_policy_dto_roundtrip operation.
+
+        Returns:
+            The result of the operation.
+        """
         dto = NotificationRetryPolicyDTO()
         dc = dto.to_dataclass()
         assert isinstance(dc, NotificationRetryPolicy)

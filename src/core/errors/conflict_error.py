@@ -4,8 +4,7 @@ from .abstraction import IError
 
 
 class ConflictError(IError):
-    """
-    Exception for resource or state conflicts (409).
+    """Exception for resource or state conflicts (409).
 
     Raised when the operation conflicts with the current state
     (e.g. duplicate resource, concurrent update, business rule).
@@ -17,6 +16,13 @@ class ConflictError(IError):
         responseKey: str,
         httpStatusCode: int = 409,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            responseMessage: The responseMessage parameter.
+            responseKey: The responseKey parameter.
+            httpStatusCode: The httpStatusCode parameter.
+        """
         super().__init__()
         self.responseMessage = responseMessage
         self.responseKey = responseKey

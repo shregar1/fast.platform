@@ -4,7 +4,14 @@ from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
 class TestInit(IAnalyticsTests):
+    """Represents the TestInit class."""
+
     def test_imports(self) -> None:
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.analytics import (
             AnalyticsConfiguration,
             AnalyticsConfigurationDTO,

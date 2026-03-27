@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class SQSConfigDTO(IDTO):
+    """Represents the SQSConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     region: str = ""

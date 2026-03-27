@@ -1,5 +1,4 @@
-"""
-Optional virus scanning hooks (ClamAV) for uploaded bytes.
+"""Optional virus scanning hooks (ClamAV) for uploaded bytes.
 
 Uses **ClamAV** only when configured; no extra PyPI dependency beyond the stdlib
 (``subprocess`` / ``socket``).
@@ -38,8 +37,7 @@ def clamscan_bytes(
     clamscan_bin: str = "clamscan",
     timeout: float = 120.0,
 ) -> None:
-    """
-    Scan **data** with the ``clamscan`` CLI (writes a temp file).
+    """Scan **data** with the ``clamscan`` CLI (writes a temp file).
 
     Return codes: 0 = clean, 1 = infected, 2 = error (raises).
     """
@@ -70,8 +68,7 @@ def clamscan_bytes(
 
 
 class ClamdScanner:
-    """
-    Talk to **clamd** over TCP using the INSTREAM protocol (default ``127.0.0.1:3310``).
+    """Talk to **clamd** over TCP using the INSTREAM protocol (default ``127.0.0.1:3310``).
 
     Suitable when ``clamd`` is running locally or reachable on the network.
     """

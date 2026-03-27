@@ -1,3 +1,5 @@
+"""Module test_archive.py."""
+
 from __future__ import annotations
 
 """Tests for :mod:`utils.archive`."""
@@ -10,7 +12,14 @@ from core.utils.archive import ArchiveUtility
 
 
 class TestArchiveUtility(IUtilsTests):
+    """Represents the TestArchiveUtility class."""
+
     def test_zip_roundtrip(self) -> None:
+        """Execute test_zip_roundtrip operation.
+
+        Returns:
+            The result of the operation.
+        """
         buf = io.BytesIO()
         with zipfile.ZipFile(buf, "w") as zf:
             zf.writestr("a.txt", b"hello")
@@ -20,6 +29,11 @@ class TestArchiveUtility(IUtilsTests):
         assert ArchiveUtility.zip_read_member(data, "a.txt") == b"hello"
 
     def test_tar_uncompressed(self) -> None:
+        """Execute test_tar_uncompressed operation.
+
+        Returns:
+            The result of the operation.
+        """
         buf = io.BytesIO()
         with tarfile.open(fileobj=buf, mode="w") as tf:
             ti = tarfile.TarInfo(name="b.txt")
@@ -29,6 +43,11 @@ class TestArchiveUtility(IUtilsTests):
         assert "b.txt" in ArchiveUtility.tar_member_names(data)
 
     def test_tar_gzip(self) -> None:
+        """Execute test_tar_gzip operation.
+
+        Returns:
+            The result of the operation.
+        """
         raw = io.BytesIO()
         with tarfile.open(fileobj=raw, mode="w:gz") as tf:
             ti = tarfile.TarInfo(name="c.txt")

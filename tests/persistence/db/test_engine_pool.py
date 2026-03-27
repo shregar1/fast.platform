@@ -10,7 +10,14 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestEnginePool(IDatabaseTests):
+    """Represents the TestEnginePool class."""
+
     def test_get_engine_passes_pool_kwargs(self):
+        """Execute test_get_engine_passes_pool_kwargs operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -35,6 +42,11 @@ class TestEnginePool(IDatabaseTests):
             assert kwargs["pool_pre_ping"] is False
 
     def test_pool_recycle_omitted_when_none(self):
+        """Execute test_pool_recycle_omitted_when_none operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -50,11 +62,24 @@ class TestEnginePool(IDatabaseTests):
             assert "pool_recycle" not in kwargs
 
     def test_get_engine_incomplete_raises(self):
+        """Execute test_get_engine_incomplete_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(RuntimeError, match="incomplete"):
             get_engine(DBConfigurationDTO())
 
     @patch("persistence.db.engine.DBConfiguration")
     def test_get_engine_uses_singleton_config(self, mock_db_cls):
+        """Execute test_get_engine_uses_singleton_config operation.
+
+        Args:
+            mock_db_cls: The mock_db_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_conf = MagicMock()
         mock_conf.get_config.return_value = DBConfigurationDTO(
             user_name="u",
@@ -74,6 +99,17 @@ class TestEnginePool(IDatabaseTests):
     @patch("persistence.db.engine.create_session_factory")
     @patch("persistence.db.engine.get_engine")
     def test_create_and_set_session(self, mock_ge, mock_csf, mock_sge, mock_sgs):
+        """Execute test_create_and_set_session operation.
+
+        Args:
+            mock_ge: The mock_ge parameter.
+            mock_csf: The mock_csf parameter.
+            mock_sge: The mock_sge parameter.
+            mock_sgs: The mock_sgs parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_eng = MagicMock()
         mock_ge.return_value = mock_eng
         mock_fac = MagicMock()
@@ -94,10 +130,23 @@ class TestEnginePool(IDatabaseTests):
         mock_sgs.assert_called_once_with(mock_sess)
 
     def test_create_and_set_session_returns_none_when_incomplete(self):
+        """Execute test_create_and_set_session_returns_none_when_incomplete operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert create_and_set_session(DBConfigurationDTO()) is None
 
     @patch("persistence.db.engine.create_engine")
     def test_get_engine_passes_postgres_connect_args(self, mock_ce):
+        """Execute test_get_engine_passes_postgres_connect_args operation.
+
+        Args:
+            mock_ce: The mock_ce parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db.engine import get_engine
 
         config = DBConfigurationDTO(
@@ -118,10 +167,20 @@ class TestEnginePool(IDatabaseTests):
         assert "statement_timeout=2500" in ca["options"]
 
     def test_sync_connect_args_sqlite_empty(self):
+        """Execute test_sync_connect_args_sqlite_empty operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = DBConfigurationDTO(connection_name="x", statement_timeout_seconds=1.0)
         assert sync_connect_args_for_url("sqlite:///./a.db", cfg) == {}
 
     def test_sync_connect_args_only_application_name(self):
+        """Execute test_sync_connect_args_only_application_name operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = DBConfigurationDTO(connection_name="app")
         ca = sync_connect_args_for_url("postgresql+psycopg2://u:p@h:5432/d", cfg)
         assert ca["application_name"] == "app"

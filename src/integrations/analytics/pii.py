@@ -24,6 +24,17 @@ _PHONE_RE = re.compile(r"\b\+?\d[\d\s().-]{8,}\d\b")
 
 
 def _scrub_scalar_key(key: str, v: Any, *, redact_keys: Optional[Set[str]], deny: Set[str]) -> Any:
+    """Execute _scrub_scalar_key operation.
+
+    Args:
+        key: The key parameter.
+        v: The v parameter.
+        redact_keys: The redact_keys parameter.
+        deny: The deny parameter.
+
+    Returns:
+        The result of the operation.
+    """
     lk = key.lower()
     if any(d in lk for d in deny):
         return "[REDACTED]"
@@ -59,6 +70,12 @@ class ScrubbingAnalyticsBackend(IAnalyticsBackend):
     """Wrap a backend and scrub ``properties`` / ``traits`` before send."""
 
     def __init__(self, inner: IAnalyticsBackend, *, redact_keys: Optional[Set[str]] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            inner: The inner parameter.
+            redact_keys: The redact_keys parameter.
+        """
         self._inner = inner
         self._redact_keys = redact_keys
 
@@ -68,6 +85,16 @@ class ScrubbingAnalyticsBackend(IAnalyticsBackend):
         event_name: str,
         properties: Optional[dict[str, Any]] = None,
     ) -> None:
+        """Execute track operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            event_name: The event_name parameter.
+            properties: The properties parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._inner.track(
             distinct_id,
             event_name,
@@ -75,10 +102,27 @@ class ScrubbingAnalyticsBackend(IAnalyticsBackend):
         )
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
+        """Execute identify operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            traits: The traits parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._inner.identify(
             distinct_id,
             scrub_pii_properties(traits, redact_keys=self._redact_keys),
         )
 
     def delete_user(self, distinct_id: str) -> None:
+        """Execute delete_user operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._inner.delete_user(distinct_id)

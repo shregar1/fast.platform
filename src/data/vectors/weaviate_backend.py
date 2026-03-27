@@ -13,6 +13,12 @@ class WeaviateVectorStore(IVectorStore):
     name = "weaviate"
 
     def __init__(self, url: str = "http://localhost:8080", api_key: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            url: The url parameter.
+            api_key: The api_key parameter.
+        """
         try:
             import weaviate
         except ImportError as e:
@@ -35,6 +41,15 @@ class WeaviateVectorStore(IVectorStore):
     def upsert(
         self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]
     ) -> None:
+        """Execute upsert operation.
+
+        Args:
+            index_name: The index_name parameter.
+            vectors: The vectors parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._client.collections.get(index_name).batch.dynamic() as batch:
             for vid, vec, meta in vectors:
                 batch.add_object(properties=meta or {}, vector=vec)
@@ -47,9 +62,28 @@ class WeaviateVectorStore(IVectorStore):
         top_k: int = 10,
         filter: Optional[dict[str, Any]] = None,
     ) -> List[tuple[str, float, Optional[dict[str, Any]]]]:
+        """Execute query operation.
+
+        Args:
+            index_name: The index_name parameter.
+            vector: The vector parameter.
+            top_k: The top_k parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         coll = self._client.collections.get(index_name)
         r = coll.query.near_vector(near_vector=vector, limit=top_k)
         return [(str(o.uuid), o.metadata.distance or 0.0, dict(o.properties)) for o in r.objects]
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.collections.delete(index_name)

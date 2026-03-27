@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class LaunchDarklyFeatureFlagsDTO(IDTO):
+    """Represents the LaunchDarklyFeatureFlagsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     sdk_key: str = ""

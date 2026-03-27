@@ -4,7 +4,14 @@ from tests.integrations.media.abstraction import IFastMediaTests
 
 
 class TestInit(IFastMediaTests):
+    """Represents the TestInit class."""
+
     def test_imports(self) -> None:
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.media import (
             ImageVariantPipeline,
             IMediaStore,

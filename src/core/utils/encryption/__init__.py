@@ -1,5 +1,4 @@
-"""
-Generic symmetric encryption helpers (Fernet, AES-GCM).
+"""Generic symmetric encryption helpers (Fernet, AES-GCM).
 
 Prefer :class:`FernetEncryption` for simple string/blob storage; use
 :class:`AesGcmEncryption` when you need AES directly or associated authenticated data (AAD).

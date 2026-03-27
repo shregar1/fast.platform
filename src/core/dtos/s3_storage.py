@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class S3StorageDTO(IDTO):
+    """Represents the S3StorageDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     bucket: str = ""

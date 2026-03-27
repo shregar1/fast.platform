@@ -1,5 +1,4 @@
-"""
-MongoDB document store implementation.
+"""MongoDB document store implementation.
 
 Provides a minimal wrapper around `pymongo.MongoClient` implementing the
 `IDocumentStore` interface.
@@ -22,47 +21,102 @@ except Exception:  # pragma: no cover - optional import
 
 
 class MongoDocumentStore(IDocumentStore):
-    """
-    MongoDB-backed document store.
-    """
+    """MongoDB-backed document store."""
 
     def __init__(self, uri: str, database: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            uri: The uri parameter.
+            database: The database parameter.
+        """
         self._uri = uri
         self._database_name = database
         self._client: Optional[Any] = None
 
     def connect(self) -> None:
+        """Execute connect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if MongoClient is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError("pymongo is not installed. Install it with `pip install pymongo`.")
         self._client = MongoClient(self._uri)
         logger.info("Connected MongoDocumentStore", uri=self._uri, database=self._database_name)
 
     def disconnect(self) -> None:
+        """Execute disconnect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._client is not None:
             self._client.close()
             self._client = None
             logger.info("Disconnected MongoDocumentStore")
 
     def get_database(self) -> Any:
+        """Execute get_database operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._client is None:
             raise RuntimeError("MongoDocumentStore is not connected.")
         return self._client[self._database_name]
 
     def insert_one(self, collection: str, document: Dict[str, Any]) -> Any:
+        """Execute insert_one operation.
+
+        Args:
+            collection: The collection parameter.
+            document: The document parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         return db[collection].insert_one(document)
 
     def find_one(self, collection: str, filter: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """Execute find_one operation.
+
+        Args:
+            collection: The collection parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         result = db[collection].find_one(filter)
         # pymongo returns a dict-like object; we return it as-is.
         return result
 
     def delete_one(self, collection: str, filter: Dict[str, Any]) -> None:
+        """Execute delete_one operation.
+
+        Args:
+            collection: The collection parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         db[collection].delete_one(filter)
 
     def find_many(self, collection: str, filter: Dict[str, Any]) -> list[Dict[str, Any]]:
+        """Execute find_many operation.
+
+        Args:
+            collection: The collection parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         cursor = db[collection].find(filter)
         return list(cursor)
@@ -73,6 +127,16 @@ class MongoDocumentStore(IDocumentStore):
         filter: Dict[str, Any],
         update: Dict[str, Any],
     ) -> None:
+        """Execute update_one operation.
+
+        Args:
+            collection: The collection parameter.
+            filter: The filter parameter.
+            update: The update parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         db[collection].update_one(filter, update)
 
@@ -82,5 +146,15 @@ class MongoDocumentStore(IDocumentStore):
         filter: Dict[str, Any],
         update: Dict[str, Any],
     ) -> None:
+        """Execute update_many operation.
+
+        Args:
+            collection: The collection parameter.
+            filter: The filter parameter.
+            update: The update parameter.
+
+        Returns:
+            The result of the operation.
+        """
         db = self.get_database()
         db[collection].update_many(filter, update)

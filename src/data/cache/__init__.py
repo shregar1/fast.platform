@@ -9,7 +9,7 @@ from data.cache.decorator import cached, cache_evict, clear_cache, invalidate_pa
 __all__ = [
     "ICaching",
     "cached",
-    "cache_evict", 
+    "cache_evict",
     "clear_cache",
     "invalidate_pattern",
 ]

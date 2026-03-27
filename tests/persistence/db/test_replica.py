@@ -1,3 +1,5 @@
+"""Module test_replica.py."""
+
 from __future__ import annotations
 
 """Read-replica URL and engine helpers."""
@@ -17,7 +19,14 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestReplica(IDatabaseTests):
+    """Represents the TestReplica class."""
+
     def test_read_replica_url_none_when_not_configured(self):
+        """Execute test_read_replica_url_none_when_not_configured operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -29,6 +38,11 @@ class TestReplica(IDatabaseTests):
         assert read_replica_url_from_config(cfg) is None
 
     def test_read_replica_url_formats(self):
+        """Execute test_read_replica_url_formats operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -44,10 +58,23 @@ class TestReplica(IDatabaseTests):
         assert "u" in url
 
     def test_get_read_engine_none_without_replica(self):
+        """Execute test_get_read_engine_none_without_replica operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert get_read_engine(DBConfigurationDTO()) is None
 
     @patch("persistence.db.replica.create_engine")
     def test_get_read_engine_passes_connect_args(self, mock_ce):
+        """Execute test_get_read_engine_passes_connect_args operation.
+
+        Args:
+            mock_ce: The mock_ce parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -66,18 +93,38 @@ class TestReplica(IDatabaseTests):
         assert kwargs["connect_args"]["application_name"] == "read-api"
 
     def test_create_read_session_factory_none(self):
+        """Execute test_create_read_session_factory_none operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert create_read_session_factory(DBConfigurationDTO()) is None
 
     def test_read_db_dependency_raises_when_no_session(self):
+        """Execute test_read_db_dependency_raises_when_no_session operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(RuntimeError, match="Read replica"):
             ReadDBDependency.derive()
 
     def test_read_db_dependency_returns_session(self):
+        """Execute test_read_db_dependency_returns_session operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_sess = MagicMock()
         with patch("persistence.db.replica.get_read_db_session", return_value=mock_sess):
             assert ReadDBDependency.derive() is mock_sess
 
     def test_get_read_engine_instance_after_create(self):
+        """Execute test_get_read_engine_instance_after_create operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db.replica import get_read_engine_instance, set_global_read_engine
 
         mock_eng = MagicMock()
@@ -90,6 +137,15 @@ class TestReplica(IDatabaseTests):
     @patch("persistence.db.replica.get_read_engine")
     @patch("persistence.db.replica.create_session_factory")
     def test_create_and_set_read_session(self, mock_csf, mock_ge):
+        """Execute test_create_and_set_read_session operation.
+
+        Args:
+            mock_csf: The mock_csf parameter.
+            mock_ge: The mock_ge parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_eng = MagicMock()
         mock_ge.return_value = mock_eng
         mock_fac = MagicMock()

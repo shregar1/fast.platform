@@ -1,6 +1,4 @@
-"""
-Unified async iterators for OpenAI and Anthropic streaming chat/message APIs.
-"""
+"""Unified async iterators for OpenAI and Anthropic streaming chat/message APIs."""
 
 from __future__ import annotations
 
@@ -31,8 +29,7 @@ async def iter_openai_chat_stream(
     *,
     stream_provider: OpenAICompatibleStreamProvider = "openai",
 ) -> AsyncIterator[StreamChunk]:
-    """
-    Iterate an OpenAI ``AsyncStream`` from ``chat.completions.create(..., stream=True)``.
+    """Iterate an OpenAI ``AsyncStream`` from ``chat.completions.create(..., stream=True)``.
 
     Yields text deltas; if a chunk includes ``usage``, emits a :class:`StreamChunk`
     with ``usage`` set (often with empty ``text``).
@@ -58,8 +55,7 @@ async def iter_openai_chat_stream(
 
 
 async def iter_anthropic_message_stream(stream: Any) -> AsyncIterator[StreamChunk]:
-    """
-    Iterate the ``text_stream`` of an Anthropic ``MessageStream`` (from ``messages.stream``).
+    """Iterate the ``text_stream`` of an Anthropic ``MessageStream`` (from ``messages.stream``).
 
     After text completes, calls ``get_final_message()`` when present and yields usage.
     """

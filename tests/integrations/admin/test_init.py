@@ -4,7 +4,14 @@ from tests.integrations.admin.abstraction import IAdminTests
 
 
 class TestInit(IAdminTests):
+    """Represents the TestInit class."""
+
     def test_imports(self) -> None:
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.admin import (
             AdminUserSummary,
             AuditLogEntry,

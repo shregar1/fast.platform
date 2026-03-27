@@ -21,8 +21,7 @@ class BooleanUtility(IDatatype):
 
     @staticmethod
     def parse_optional(value: Any) -> Optional[bool]:
-        """
-        Return ``True``, ``False``, or ``None`` if *value* cannot be interpreted.
+        """Return ``True``, ``False``, or ``None`` if *value* cannot be interpreted.
 
         - ``bool`` → unchanged.
         - ``None`` → ``None``.
@@ -30,7 +29,6 @@ class BooleanUtility(IDatatype):
         - ``str`` (after strip, casefold): known truthy/falsey tokens → bool; else ``None``.
         - Other types → ``None``.
         """
-
         if isinstance(value, bool):
             return value
         if value is None:
@@ -53,18 +51,15 @@ class BooleanUtility(IDatatype):
     @staticmethod
     def coerce(value: Any, *, default: bool = False) -> bool:
         """Like :meth:`parse_optional` but returns *default* when parsing yields ``None``."""
-
         parsed = BooleanUtility.parse_optional(value)
         return default if parsed is None else parsed
 
     @staticmethod
     def strict_bool(value: Any) -> bool:
-        """
-        Return a strict ``bool``.
+        """Return a strict ``bool``.
 
         Raises :class:`TypeError` or :class:`ValueError` if *value* is not a clear true/false.
         """
-
         parsed = BooleanUtility.parse_optional(value)
         if parsed is None:
             raise ValueError(f"not a boolean-like value: {value!r}")

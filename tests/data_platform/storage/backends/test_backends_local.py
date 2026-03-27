@@ -1,3 +1,5 @@
+"""Module test_backends_local.py."""
+
 from __future__ import annotations
 
 """Tests for :class:`data.storage.local_backend.LocalStorageBackend`."""
@@ -8,7 +10,17 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsLocal(IStorageTests):
+    """Represents the TestBackendsLocal class."""
+
     def test_local_storage_backend_upload_download_delete(self, tmp_path) -> None:
+        """Execute test_local_storage_backend_upload_download_delete operation.
+
+        Args:
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         backend = LocalStorageBackend(
             base_dir=str(tmp_path / "storage"), base_url="https://example.com/files"
         )
@@ -20,6 +32,14 @@ class TestBackendsLocal(IStorageTests):
         assert (tmp_path / "storage" / "a" / "b.txt").exists() is False
 
     def test_local_storage_exists_head(self, tmp_path) -> None:
+        """Execute test_local_storage_exists_head operation.
+
+        Args:
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         backend = LocalStorageBackend(base_dir=str(tmp_path / "storage"))
         assert backend.exists("missing") is False
         with pytest.raises(FileNotFoundError):

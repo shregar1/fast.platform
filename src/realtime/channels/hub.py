@@ -1,6 +1,4 @@
-"""
-In-memory WebSocket channels hub.
-"""
+"""In-memory WebSocket channels hub."""
 
 from __future__ import annotations
 
@@ -17,9 +15,17 @@ if TYPE_CHECKING:
 
 
 class _HubSubscriber:
+    """Represents the _HubSubscriber class."""
+
     __slots__ = ("ws", "queue", "_sender_task", "last_pong_at")
 
     def __init__(self, ws: WebSocket, *, queue_maxsize: Optional[int]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            ws: The ws parameter.
+            queue_maxsize: The queue_maxsize parameter.
+        """
         self.ws = ws
         self.queue: Optional[asyncio.Queue[str]] = None
         self._sender_task: Optional[asyncio.Task[None]] = None
@@ -29,8 +35,7 @@ class _HubSubscriber:
 
 
 class ChannelsHub:
-    """
-    Tracks WebSocket connections per topic and dispatches messages.
+    """Tracks WebSocket connections per topic and dispatches messages.
 
     * ``metrics`` — optional :class:`~fast_channels.metrics.ChannelMetrics`
       (e.g. :class:`~fast_channels.metrics.InMemoryChannelMetrics`).
@@ -46,6 +51,12 @@ class ChannelsHub:
         metrics: Optional["ChannelMetrics"] = None,
         max_queue_depth_per_subscriber: Optional[int] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            metrics: The metrics parameter.
+            max_queue_depth_per_subscriber: The max_queue_depth_per_subscriber parameter.
+        """
         if max_queue_depth_per_subscriber is not None and max_queue_depth_per_subscriber < 1:
             raise ValueError("max_queue_depth_per_subscriber must be >= 1 when set")
         self._metrics = metrics
@@ -53,6 +64,15 @@ class ChannelsHub:
         self._topics: Dict[str, Set[_HubSubscriber]] = {}
 
     async def connect(self, topic: str, ws: WebSocket) -> None:
+        """Execute connect operation.
+
+        Args:
+            topic: The topic parameter.
+            ws: The ws parameter.
+
+        Returns:
+            The result of the operation.
+        """
         await ws.accept()
         sub = _HubSubscriber(ws, queue_maxsize=self._max_queue_depth_per_subscriber)
         self._topics.setdefault(topic, set()).add(sub)
@@ -63,6 +83,15 @@ class ChannelsHub:
         logger.debug("WebSocket joined topic {}", topic)
 
     def disconnect(self, topic: str, ws: WebSocket) -> None:
+        """Execute disconnect operation.
+
+        Args:
+            topic: The topic parameter.
+            ws: The ws parameter.
+
+        Returns:
+            The result of the operation.
+        """
         subs = self._topics.get(topic)
         if not subs:
             return
@@ -83,6 +112,15 @@ class ChannelsHub:
         logger.debug("WebSocket left topic {}", topic)
 
     async def broadcast(self, topic: str, message: str) -> None:
+        """Execute broadcast operation.
+
+        Args:
+            topic: The topic parameter.
+            message: The message parameter.
+
+        Returns:
+            The result of the operation.
+        """
         subs = list(self._topics.get(topic, set()))
         if self._metrics and subs:
             self._metrics.record_publish(topic, recipient_count=len(subs))
@@ -105,6 +143,15 @@ class ChannelsHub:
                     self.disconnect(topic, sub.ws)
 
     async def _drain_sender(self, topic: str, sub: _HubSubscriber) -> None:
+        """Execute _drain_sender operation.
+
+        Args:
+            topic: The topic parameter.
+            sub: The sub parameter.
+
+        Returns:
+            The result of the operation.
+        """
         assert sub.queue is not None
         try:
             while True:
@@ -131,14 +178,21 @@ class ChannelsHub:
         return list(self._topics.keys())
 
     def record_pong(self, ws: WebSocket, topic: Optional[str] = None) -> None:
-        """
-        Mark *ws* as alive (call when the client responds to a JSON/text ping).
+        """Mark *ws* as alive (call when the client responds to a JSON/text ping).
 
         If *topic* is omitted, searches all topics (slightly slower).
         """
         now = time.time()
 
         def _touch(sub: _HubSubscriber) -> None:
+            """Execute _touch operation.
+
+            Args:
+                sub: The sub parameter.
+
+            Returns:
+                The result of the operation.
+            """
             sub.last_pong_at = now
 
         if topic is not None:

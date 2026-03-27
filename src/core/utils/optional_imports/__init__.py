@@ -1,5 +1,4 @@
-"""
-Optional dependency loading without failing the whole application at import time.
+"""Optional dependency loading without failing the whole application at import time.
 
 Use this pattern for **extras** (PDF, Pillow, vector DBs) so core code paths
 import cleanly in minimal environments while optional features resolve their
@@ -18,8 +17,7 @@ __all__ = ["IOptionalImportsUtility", "OptionalImports"]
 
 
 class OptionalImports(IOptionalImportsUtility):
-    """
-    Resolve optional third-party modules and attributes defensively.
+    """Resolve optional third-party modules and attributes defensively.
 
     Typical usage in utility classes::
 
@@ -31,8 +29,7 @@ class OptionalImports(IOptionalImportsUtility):
 
     @staticmethod
     def optional_import(module: str, attr: str | None = None) -> Tuple[Any | None, Any | None]:
-        """
-        Import *module* and optionally retrieve *attr* from it.
+        """Import *module* and optionally retrieve *attr* from it.
 
         If ``importlib.import_module(module)`` raises any exception, returns
         ``(None, None)``. If *attr* is ``None``, returns ``(module, None)`` on
@@ -52,6 +49,7 @@ class OptionalImports(IOptionalImportsUtility):
         -------
         tuple
             ``(imported_module_or_None, attribute_or_None)``.
+
         """
         try:
             mod = importlib.import_module(module)

@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class UnleashFeatureFlagsDTO(IDTO):
+    """Represents the UnleashFeatureFlagsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     url: str = ""

@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class QdrantConfigDTO(IDTO):
+    """Represents the QdrantConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     url: str = ""

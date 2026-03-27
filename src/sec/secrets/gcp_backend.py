@@ -13,6 +13,12 @@ class GcpSecretsBackend(ISecretsBackend):
     name = "gcp"
 
     def __init__(self, project_id: str, credentials_path: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            project_id: The project_id parameter.
+            credentials_path: The credentials_path parameter.
+        """
         try:
             from google.cloud import secretmanager
         except ImportError as e:
@@ -27,9 +33,25 @@ class GcpSecretsBackend(ISecretsBackend):
         self._project = project_id
 
     def _name(self, key: str) -> str:
+        """Execute _name operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return f"projects/{self._project}/secrets/{key}/versions/latest"
 
     def get_secret(self, key: str, **kwargs: Any) -> Optional[str]:
+        """Execute get_secret operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             r = self._client.access_secret_version(name=self._name(key))
             return r.payload.data.decode("utf-8")
@@ -37,6 +59,15 @@ class GcpSecretsBackend(ISecretsBackend):
             return None
 
     def set_secret(self, key: str, value: str) -> None:
+        """Execute set_secret operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         parent = f"projects/{self._project}"
         try:
             self._client.create_secret(

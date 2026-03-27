@@ -1,5 +1,4 @@
-"""
-Public re-exports for :mod:`utils` — shared helpers used across fast-platform.
+"""Public re-exports for :mod:`utils` — shared helpers used across fast-platform.
 
 This package aggregates small, stateless **utility** types (hashing, media sniffing,
 archives, time, metrics, etc.). Prefer importing concrete classes from their
@@ -33,7 +32,12 @@ from .optional_imports import IOptionalImportsUtility, OptionalImports
 from .request_id_context import IRequestIdContextUtility, RequestIdContext
 from .retry import AsyncRetry, IAsyncRetryUtility
 from .sanitization import ISanitization, SanitizationJsonUtility
-from .structured_log import IStructuredLogUtility, StructuredLog, StructuredLogFields, StructuredLogSink
+from .structured_log import (
+    IStructuredLogUtility,
+    StructuredLog,
+    StructuredLogFields,
+    StructuredLogSink,
+)
 from .time import ITimeUtility, TimeUtility
 from .validation import (
     ValidationError,

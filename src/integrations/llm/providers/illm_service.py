@@ -7,6 +7,8 @@ from typing import Protocol, runtime_checkable
 
 @runtime_checkable
 class ILLMService(Protocol):
+    """Represents the ILLMService class."""
+
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
         """Run a single user-message completion and return assistant text."""
 

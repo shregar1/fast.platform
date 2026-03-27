@@ -1,5 +1,4 @@
-"""
-Named tenant resolution strategies and a registry for building resolvers.
+"""Named tenant resolution strategies and a registry for building resolvers.
 
 Use this when you want configurable resolution (e.g. subdomain first, then header)
 without wiring ``ChainedTenantResolver`` manually in every app.
@@ -35,8 +34,7 @@ class ResolutionStrategy(str, Enum):
 
 @dataclass(frozen=True)
 class ResolverSpec:
-    """
-    One step in a resolution chain: strategy name and options passed to the factory.
+    """One step in a resolution chain: strategy name and options passed to the factory.
 
     Example::
 
@@ -48,27 +46,48 @@ class ResolverSpec:
 
 
 def _normalize_key(name: str) -> str:
+    """Execute _normalize_key operation.
+
+    Args:
+        name: The name parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return str(name).strip().lower().replace("-", "_")
 
 
 def _strategy_key(name: Union[str, ResolutionStrategy]) -> str:
+    """Execute _strategy_key operation.
+
+    Args:
+        name: The name parameter.
+
+    Returns:
+        The result of the operation.
+    """
     raw = name.value if isinstance(name, ResolutionStrategy) else str(name)
     return _normalize_key(raw)
 
 
 class TenantResolverRegistry:
-    """
-    Registry of named resolution strategies.
+    """Registry of named resolution strategies.
 
     Default registrations: ``header``, ``subdomain``, ``path``, ``jwt``.
     Register custom factories with :meth:`register`.
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._factories: dict[str, ResolverFactory] = {}
         self._register_defaults()
 
     def _register_defaults(self) -> None:
+        """Execute _register_defaults operation.
+
+        Returns:
+            The result of the operation.
+        """
         self.register(
             ResolutionStrategy.HEADER,
             lambda store, opts: HeaderTenantResolver(
@@ -114,8 +133,7 @@ class TenantResolverRegistry:
     def build(
         self, store: TenantStore, name: Union[str, ResolutionStrategy], **options: Any
     ) -> TenantResolver:
-        """
-        Build a single resolver. ``options`` are passed to the strategy factory
+        """Build a single resolver. ``options`` are passed to the strategy factory
         (e.g. ``base_domain=...`` for ``subdomain``).
         """
         key = _strategy_key(name)
@@ -151,8 +169,7 @@ def subdomain_then_header(
     header_name: str = "X-Tenant-ID",
     excluded_subdomains: Optional[list[str]] = None,
 ) -> ChainedTenantResolver:
-    """
-    Common preset: resolve by subdomain slug first, then by ``header_name`` (tenant id).
+    """Common preset: resolve by subdomain slug first, then by ``header_name`` (tenant id).
 
     Subdomain resolution uses :class:`SubdomainTenantResolver`; header uses
     :class:`HeaderTenantResolver`.

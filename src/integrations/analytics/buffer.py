@@ -11,8 +11,7 @@ Record = Dict[str, Any]
 
 
 class BufferedAnalyticsBackend(IAnalyticsBackend):
-    """
-    Record ``track`` / ``identify`` / ``delete_user`` calls.
+    """Record ``track`` / ``identify`` / ``delete_user`` calls.
 
     * ``dry_run=True`` (default): do not forward to ``inner``.
     * ``dry_run=False``: forward to ``inner`` immediately and still append to the buffer.
@@ -21,6 +20,12 @@ class BufferedAnalyticsBackend(IAnalyticsBackend):
     """
 
     def __init__(self, inner: Optional[IAnalyticsBackend] = None, *, dry_run: bool = True) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            inner: The inner parameter.
+            dry_run: The dry_run parameter.
+        """
         self._inner = inner
         self._dry_run = dry_run
         self._buffer: List[Record] = []
@@ -36,6 +41,16 @@ class BufferedAnalyticsBackend(IAnalyticsBackend):
         event_name: str,
         properties: Optional[dict[str, Any]] = None,
     ) -> None:
+        """Execute track operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            event_name: The event_name parameter.
+            properties: The properties parameter.
+
+        Returns:
+            The result of the operation.
+        """
         rec: Record = {
             "op": "track",
             "distinct_id": distinct_id,
@@ -47,6 +62,15 @@ class BufferedAnalyticsBackend(IAnalyticsBackend):
             self._inner.track(distinct_id, event_name, properties)
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
+        """Execute identify operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            traits: The traits parameter.
+
+        Returns:
+            The result of the operation.
+        """
         rec: Record = {
             "op": "identify",
             "distinct_id": distinct_id,
@@ -57,6 +81,14 @@ class BufferedAnalyticsBackend(IAnalyticsBackend):
             self._inner.identify(distinct_id, traits)
 
     def delete_user(self, distinct_id: str) -> None:
+        """Execute delete_user operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         rec: Record = {"op": "delete_user", "distinct_id": distinct_id}
         self._buffer.append(rec)
         if not self._dry_run and self._inner is not None:

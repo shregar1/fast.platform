@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class VectorsConfiguration(ConfigurationSingletonBase[VectorsConfigurationDTO]):
+    """Represents the VectorsConfiguration class."""
+
     _instance: Optional["VectorsConfiguration"] = None
     _section: str = "vectors"
     _env_key: str = "VECTORS"

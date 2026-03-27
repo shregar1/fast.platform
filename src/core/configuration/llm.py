@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class LLMConfiguration(ConfigurationSingletonBase[LLMConfigurationDTO]):
+    """Represents the LLMConfiguration class."""
+
     _instance: Optional["LLMConfiguration"] = None
     _section: str = "llm"
     _env_key: str = "LLM"

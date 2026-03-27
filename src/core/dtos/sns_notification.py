@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class SnsNotificationDTO(IDTO):
+    """Represents the SnsNotificationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     region: str = ""

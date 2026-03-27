@@ -1,5 +1,4 @@
-"""
-FastMVC Testing Module
+"""FastMVC Testing Module.
 
 Contract testing and load testing utilities.
 """

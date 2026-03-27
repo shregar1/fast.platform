@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class MeilisearchDTO(IDTO):
+    """Represents the MeilisearchDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     host: str = ""

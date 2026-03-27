@@ -1,6 +1,4 @@
-"""
-Cluster health probes via Kafka Admin API (metadata / ``describe_cluster``).
-"""
+"""Cluster health probes via Kafka Admin API (metadata / ``describe_cluster``)."""
 
 from __future__ import annotations
 
@@ -27,8 +25,7 @@ async def describe_cluster_health(
     *,
     request_timeout_ms: int = 5_000,
 ) -> KafkaClusterHealth:
-    """
-    Connect with :class:`AIOKafkaAdminClient`, call ``describe_cluster``, and return a summary.
+    """Connect with :class:`AIOKafkaAdminClient`, call ``describe_cluster``, and return a summary.
 
     Suitable for HTTP health endpoints or startup probes when Kafka must be reachable.
     """

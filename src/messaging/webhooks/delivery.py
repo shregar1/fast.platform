@@ -1,6 +1,4 @@
-"""
-Outbound webhook delivery with retries and optional signing.
-"""
+"""Outbound webhook delivery with retries and optional signing."""
 
 import asyncio
 import random
@@ -34,11 +32,11 @@ async def deliver_webhook(
     retry_policy: Optional[RetryPolicy] = None,
     timeout: float = 30.0,
 ) -> tuple[int, Optional[str]]:
-    """
-    POST payload to url with optional HMAC signature and retries.
+    """POST payload to url with optional HMAC signature and retries.
 
     Returns:
         (status_code, error_message). error_message is None on success.
+
     """
     policy = retry_policy or RetryPolicy()
     headers = dict(extra_headers or {})

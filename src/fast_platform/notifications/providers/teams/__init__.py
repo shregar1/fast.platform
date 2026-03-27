@@ -1,5 +1,4 @@
-"""
-Microsoft Teams Integration
+"""Microsoft Teams Integration.
 
 Send notifications to Microsoft Teams via webhooks.
 """

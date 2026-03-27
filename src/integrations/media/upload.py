@@ -1,6 +1,4 @@
-"""
-Multipart file upload helpers for FastAPI.
-"""
+"""Multipart file upload helpers for FastAPI."""
 
 from typing import Optional
 
@@ -8,9 +6,7 @@ from fastapi import UploadFile
 
 
 async def read_upload_as_bytes(upload: UploadFile, max_size: Optional[int] = None) -> bytes:
-    """
-    Read UploadFile to bytes. Optionally enforce max_size (raises ValueError if exceeded).
-    """
+    """Read UploadFile to bytes. Optionally enforce max_size (raises ValueError if exceeded)."""
     chunks: list[bytes] = []
     total = 0
     while True:

@@ -1,5 +1,4 @@
-"""
-Optional real-time adapters: poll snapshot file changes or SSE-friendly chunks.
+"""Optional real-time adapters: poll snapshot file changes or SSE-friendly chunks.
 
 These are intentionally lightweight (no LaunchDarkly streaming SDK).
 """
@@ -19,8 +18,7 @@ async def poll_snapshot_changes(
     *,
     interval_seconds: float = 5.0,
 ) -> AsyncIterator[Dict[str, Any]]:
-    """
-    Async iterator that yields the parsed snapshot JSON whenever the file's mtime changes.
+    """Async iterator that yields the parsed snapshot JSON whenever the file's mtime changes.
 
     First yield happens after the first successful read. Suitable for long-poll or SSE loops
     that rebuild a :class:`~fast_feature_flags.snapshot.SnapshotFeatureFlagsClient` in-process.
@@ -40,8 +38,7 @@ async def poll_snapshot_changes(
 
 
 def format_sse_event(data: Any, *, event: str = "snapshot", event_id: Optional[str] = None) -> str:
-    """
-    Format one Server-Sent Events frame (``event:`` / ``id:`` / ``data:``).
+    """Format one Server-Sent Events frame (``event:`` / ``id:`` / ``data:``).
 
     ``data`` is JSON-encoded if not a string.
     """

@@ -1,5 +1,4 @@
-"""
-Discord Integration
+"""Discord Integration.
 
 Send notifications to Discord channels via webhooks.
 """

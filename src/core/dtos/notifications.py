@@ -1,6 +1,4 @@
-"""
-DTOs for push notification configuration (iOS/Android) and multi-channel fan-out.
-"""
+"""DTOs for push notification configuration (iOS/Android) and multi-channel fan-out."""
 
 from __future__ import annotations
 
@@ -42,8 +40,7 @@ class PushConfigurationDTO(IDTO):
 
 
 class NotificationRetryPolicyDTO(IDTO):
-    """
-    JSON-friendly retry policy with the same fields/defaults as
+    """JSON-friendly retry policy with the same fields/defaults as
     :class:`~fast_webhooks.delivery.RetryPolicy` and
     :class:`~fast_notifications.retry_policy.NotificationRetryPolicy`.
     """
@@ -55,6 +52,11 @@ class NotificationRetryPolicyDTO(IDTO):
     retry_on_status: set[int] = Field(default_factory=lambda: {408, 429, 500, 502, 503})
 
     def to_dataclass(self) -> Any:
+        """Execute to_dataclass operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.notifications.retry_policy import NotificationRetryPolicy
 
         return NotificationRetryPolicy(
@@ -67,6 +69,14 @@ class NotificationRetryPolicyDTO(IDTO):
 
     @classmethod
     def from_dataclass(cls, policy: Any) -> NotificationRetryPolicyDTO:
+        """Execute from_dataclass operation.
+
+        Args:
+            policy: The policy parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return cls(
             max_attempts=policy.max_attempts,
             initial_delay_seconds=policy.initial_delay_seconds,
@@ -92,8 +102,7 @@ class PushNotificationTarget(IDTO):
 
 
 class NotificationFanoutRequest(IDTO):
-    """
-    Single DTO for email + push: set ``email``, ``push``, or both.
+    """Single DTO for email + push: set ``email``, ``push``, or both.
     Optional ``retry_policy`` carries the same retry shape as webhooks for downstream HTTP/SMTP clients.
 
     Optional ``user_id`` / ``template_id`` / ``dedupe_key`` enable idempotent fan-out;
@@ -113,6 +122,11 @@ class NotificationFanoutRequest(IDTO):
 
     @model_validator(mode="after")
     def _validate_channels(self) -> NotificationFanoutRequest:
+        """Execute _validate_channels operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self.email is None and self.push is None:
             raise ValueError("At least one of email or push must be set")
         if self.push is not None:

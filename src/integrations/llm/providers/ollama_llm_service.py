@@ -9,6 +9,12 @@ class OllamaLLMService:
     """Call a local Ollama server over HTTP (``/api/chat``)."""
 
     def __init__(self, base_url: str, model: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            base_url: The base_url parameter.
+            model: The model parameter.
+        """
         try:
             import httpx
         except ImportError as e:  # pragma: no cover
@@ -22,6 +28,15 @@ class OllamaLLMService:
         self._model = model
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         async with self._httpx.AsyncClient(timeout=120.0) as client:
             r = await client.post(
                 f"{self._base_url}/api/chat",

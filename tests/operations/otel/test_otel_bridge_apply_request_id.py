@@ -1,3 +1,5 @@
+"""Module test_otel_bridge_apply_request_id.py."""
+
 from __future__ import annotations
 
 """OpenTelemetry bridge: apply request id to current span."""
@@ -8,11 +10,23 @@ from tests.operations.otel.abstraction import IOtelTests
 
 
 class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
+    """Represents the TestOpenTelemetryBridgeApplyRequestId class."""
+
     def test_apply_no_trace_module(self) -> None:
+        """Execute test_apply_no_trace_module operation.
+
+        Returns:
+            The result of the operation.
+        """
         with patch.object(OpenTelemetryBridge, "_trace_api", return_value=None):
             assert OpenTelemetryBridge.apply_request_id_to_current_span() is False
 
     def test_apply_no_request_id(self) -> None:
+        """Execute test_apply_no_request_id operation.
+
+        Returns:
+            The result of the operation.
+        """
         trace = MagicMock()
         trace.get_current_span.return_value = MagicMock(is_recording=lambda: True)
         with (
@@ -22,6 +36,11 @@ class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
             assert OpenTelemetryBridge.apply_request_id_to_current_span() is False
 
     def test_apply_sets_attribute(self) -> None:
+        """Execute test_apply_sets_attribute operation.
+
+        Returns:
+            The result of the operation.
+        """
         trace = MagicMock()
         span = MagicMock()
         span.is_recording.return_value = True
@@ -34,6 +53,11 @@ class TestOpenTelemetryBridgeApplyRequestId(IOtelTests):
         span.set_attribute.assert_called_once()
 
     def test_apply_span_not_recording(self) -> None:
+        """Execute test_apply_span_not_recording operation.
+
+        Returns:
+            The result of the operation.
+        """
         trace = MagicMock()
         span = MagicMock()
         span.is_recording.return_value = False

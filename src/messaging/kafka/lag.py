@@ -1,6 +1,4 @@
-"""
-Consumer group lag via Admin API + end offsets (``aiokafka``).
-"""
+"""Consumer group lag via Admin API + end offsets (``aiokafka``)."""
 
 from __future__ import annotations
 
@@ -41,8 +39,7 @@ async def poll_consumer_lag(
     request_timeout_ms: int = 10_000,
     client_id: str = "fastmvc-consumer-lag",
 ) -> list[ConsumerLagEntry]:
-    """
-    Return approximate lag per partition for *group_id* on the given *topics*.
+    """Return approximate lag per partition for *group_id* on the given *topics*.
 
     Uses :class:`AIOKafkaConsumer` to resolve partitions and end offsets, and
     :class:`AIOKafkaAdminClient` for ``list_consumer_group_offsets``. Requires

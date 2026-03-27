@@ -1,6 +1,4 @@
-"""
-Secrets backend interface and factory.
-"""
+"""Secrets backend interface and factory."""
 
 from __future__ import annotations
 
@@ -33,9 +31,8 @@ class ISecretsBackend(ISecrets, ABC):
 
 
 def build_secrets_backend(backend: str = "vault") -> Optional[ISecretsBackend]:
-    """
-    Build a secrets backend from SecretsConfiguration (config/secrets/config.json).
-    backend: "vault" | "aws" | "gcp"
+    """Build a secrets backend from SecretsConfiguration (config/secrets/config.json).
+    backend: "vault" | "aws" | "gcp".
     """
     cfg = SecretsConfiguration().get_config()
 

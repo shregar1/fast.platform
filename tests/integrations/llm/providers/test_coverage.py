@@ -1,3 +1,5 @@
+"""Module test_coverage.py."""
+
 from __future__ import annotations
 
 """Cover :mod:`integrations.llm.providers` with mocks (no real API calls).
@@ -15,8 +17,15 @@ from tests.integrations.llm.providers.abstraction import ILLMProvidersTests
 
 
 class TestProvidersCoverage(ILLMProvidersTests):
+    """Represents the TestProvidersCoverage class."""
+
     @pytest.mark.asyncio
     async def test_openai_generate(self) -> None:
+        """Execute test_openai_generate operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="hello"))]
         mock_client = MagicMock()
@@ -29,6 +38,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_anthropic_generate_text_parts(self) -> None:
+        """Execute test_anthropic_generate_text_parts operation.
+
+        Returns:
+            The result of the operation.
+        """
         t1 = SimpleNamespace(type="text", text="a")
         t2 = SimpleNamespace(type="image", text="x")
         mock_resp = MagicMock(content=[t1, t2])
@@ -42,6 +56,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_anthropic_base_url_optional(self) -> None:
+        """Execute test_anthropic_base_url_optional operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_resp = MagicMock(content=[])
         mock_client = MagicMock()
         mock_client.messages.create = AsyncMock(return_value=mock_resp)
@@ -53,6 +72,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_ollama_generate(self) -> None:
+        """Execute test_ollama_generate operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_response = MagicMock()
         mock_response.raise_for_status = MagicMock()
         mock_response.json = MagicMock(return_value={"message": {"content": "ollama-out"}})
@@ -68,15 +92,27 @@ class TestProvidersCoverage(ILLMProvidersTests):
             assert await svc.generate("hi") == "ollama-out"
 
     def test_build_llm_service_openai(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_openai operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm import providers as prov
 
         class OpenAIStub:
+            """Represents the OpenAIStub class."""
+
             enabled = True
             api_key = "k"
             base_url = None
             model = "gpt"
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = OpenAIStub()
             anthropic = SimpleNamespace(enabled=False)
             ollama = SimpleNamespace(enabled=False)
@@ -85,7 +121,14 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=False)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
@@ -95,9 +138,19 @@ class TestProvidersCoverage(ILLMProvidersTests):
         assert prov.build_llm_service("ollama") is None
 
     def test_build_llm_service_anthropic(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_anthropic operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm import providers as prov
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = SimpleNamespace(enabled=False)
             anthropic = SimpleNamespace(enabled=True, api_key="a", base_url=None, model="c")
             ollama = SimpleNamespace(enabled=False)
@@ -106,7 +159,14 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=False)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
@@ -114,9 +174,19 @@ class TestProvidersCoverage(ILLMProvidersTests):
         assert svc is not None
 
     def test_build_llm_service_ollama(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_ollama operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm import providers as prov
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = SimpleNamespace(enabled=False)
             anthropic = SimpleNamespace(enabled=False)
             ollama = SimpleNamespace(enabled=True, base_url="http://x", model="m")
@@ -125,7 +195,14 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=False)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
@@ -133,6 +210,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
         assert svc is not None
 
     def test_illm_service_protocol(self) -> None:
+        """Execute test_illm_service_protocol operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm.providers import ILLMService, OpenAILLMService
 
         with patch("openai.AsyncOpenAI", return_value=MagicMock()):
@@ -141,6 +223,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_groq_generate(self) -> None:
+        """Execute test_groq_generate operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="groq"))]
         mock_client = MagicMock()
@@ -153,6 +240,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_mistral_generate(self) -> None:
+        """Execute test_mistral_generate operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="mistral-out"))]
         mock_client = MagicMock()
@@ -165,6 +257,11 @@ class TestProvidersCoverage(ILLMProvidersTests):
 
     @pytest.mark.asyncio
     async def test_gemini_generate(self) -> None:
+        """Execute test_gemini_generate operation.
+
+        Returns:
+            The result of the operation.
+        """
         mock_resp = MagicMock()
         mock_resp.text = "gemini-text"
         mock_model = MagicMock()
@@ -191,9 +288,19 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 del sys.modules["google"]
 
     def test_build_llm_service_groq(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_groq operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm import providers as prov
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = SimpleNamespace(enabled=False)
             anthropic = SimpleNamespace(enabled=False)
             ollama = SimpleNamespace(enabled=False)
@@ -202,16 +309,33 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=False)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         assert prov.build_llm_service("groq") is not None
 
     def test_build_llm_service_mistral(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_mistral operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm import providers as prov
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = SimpleNamespace(enabled=False)
             anthropic = SimpleNamespace(enabled=False)
             ollama = SimpleNamespace(enabled=False)
@@ -222,18 +346,35 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=False)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         assert prov.build_llm_service("mistral") is not None
 
     def test_build_llm_service_gemini(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_build_llm_service_gemini operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("google.generativeai")
 
         from integrations.llm import providers as prov
 
         class Cfg:
+            """Represents the Cfg class."""
+
             openai = SimpleNamespace(enabled=False)
             anthropic = SimpleNamespace(enabled=False)
             ollama = SimpleNamespace(enabled=False)
@@ -242,7 +383,14 @@ class TestProvidersCoverage(ILLMProvidersTests):
             gemini = SimpleNamespace(enabled=True, api_key="g", model="gemini-pro", base_url=None)
 
         class LLMConfiguration:
+            """Represents the LLMConfiguration class."""
+
             def get_config(self):
+                """Execute get_config operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return Cfg()
 
         monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)

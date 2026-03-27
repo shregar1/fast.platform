@@ -1,5 +1,4 @@
-"""
-Mint short-lived TURN credentials via Twilio's **Tokens** API (STUN + TURN ``ice_servers``).
+"""Mint short-lived TURN credentials via Twilio's **Tokens** API (STUN + TURN ``ice_servers``).
 
 Uses only the standard library (``urllib``). Credentials are created server-side; never ship
 Twilio auth tokens to browsers.
@@ -42,8 +41,7 @@ def fetch_twilio_turn_ice_servers(
     ttl_seconds: int = 86_400,
     timeout_seconds: float = 10.0,
 ) -> list[dict[str, Any]]:
-    """
-    POST to Twilio and return ``RTCIceServer``-shaped dicts (``urls``, optional ``username`` / ``credential``).
+    """POST to Twilio and return ``RTCIceServer``-shaped dicts (``urls``, optional ``username`` / ``credential``).
 
     Raises ``RuntimeError`` on HTTP errors or malformed JSON.
 

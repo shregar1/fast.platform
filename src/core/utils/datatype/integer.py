@@ -15,15 +15,13 @@ class IntegerUtility(IDatatype):
     @staticmethod
     def clamp(value: int, low: int, high: int) -> int:
         """Return *value* limited to the inclusive ``[low, high]`` range."""
-
         if low > high:
             raise ValueError("low must be <= high")
         return max(low, min(high, value))
 
     @staticmethod
     def to_int(value: Any, *, default: Optional[int] = None) -> Optional[int]:
-        """
-        Convert *value* to ``int``.
+        """Convert *value* to ``int``.
 
         - ``bool`` is rejected (use explicit ``int(bool)`` if intended).
         - ``int`` passes through.
@@ -31,7 +29,6 @@ class IntegerUtility(IDatatype):
         - ``float`` is accepted only if it is a whole number (e.g. ``3.0``); otherwise *default*.
         - Other types → *default*.
         """
-
         if isinstance(value, bool):
             return default
         if isinstance(value, int):
@@ -52,12 +49,10 @@ class IntegerUtility(IDatatype):
 
     @staticmethod
     def parse_int_strict(value: Union[str, int], *, base: int = 10) -> int:
-        """
-        Parse an integer string (or pass through ``int``). Raises :class:`ValueError` on failure.
+        """Parse an integer string (or pass through ``int``). Raises :class:`ValueError` on failure.
 
         *base* is passed to ``int(..., base)`` for string inputs.
         """
-
         if isinstance(value, bool):
             raise TypeError("bool is not accepted; use an explicit int")
         if isinstance(value, int):

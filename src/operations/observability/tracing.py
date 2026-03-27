@@ -1,5 +1,4 @@
-"""
-Distributed Tracing Module.
+"""Distributed Tracing Module.
 
 Provides OpenTelemetry-compatible distributed tracing for FastAPI applications.
 """
@@ -35,8 +34,7 @@ def get_span_id() -> Optional[str]:
 
 @dataclass
 class Span:
-    """
-    Represents a trace span.
+    """Represents a trace span.
 
     A span is a single operation within a trace.
     """
@@ -117,13 +115,18 @@ class ConsoleSpanExporter(SpanExporter):
 
 
 class CollectorSpanExporter(SpanExporter):
-    """
-    Export spans to a collector (Jaeger, Zipkin, etc.).
+    """Export spans to a collector (Jaeger, Zipkin, etc.).
 
     This is a placeholder for actual collector integration.
     """
 
     def __init__(self, endpoint: str, headers: Optional[dict[str, str]] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            endpoint: The endpoint parameter.
+            headers: The headers parameter.
+        """
         self._endpoint = endpoint
         self._headers = headers or {}
 
@@ -134,8 +137,7 @@ class CollectorSpanExporter(SpanExporter):
 
 
 class Tracer:
-    """
-    Distributed tracer for creating and managing spans.
+    """Distributed tracer for creating and managing spans.
 
     Usage:
         tracer = Tracer("my_service")
@@ -150,12 +152,12 @@ class Tracer:
         service_name: str,
         exporter: Optional[SpanExporter] = None,
     ) -> None:
-        """
-        Initialize tracer.
+        """Initialize tracer.
 
         Args:
             service_name: Name of the service.
             exporter: Span exporter instance.
+
         """
         self._service_name = service_name
         self._exporter = exporter or ConsoleSpanExporter()
@@ -170,8 +172,7 @@ class Tracer:
         trace_id: Optional[str] = None,
         parent_span_id: Optional[str] = None,
     ) -> Span:
-        """
-        Start a new span.
+        """Start a new span.
 
         Args:
             name: Span name.
@@ -180,6 +181,7 @@ class Tracer:
 
         Returns:
             New Span instance.
+
         """
         if trace_id is None:
             trace_id = _trace_id.get() or self._generate_id()
@@ -211,8 +213,7 @@ class Tracer:
         _span_id.set(_parent_span_id.get())
 
     def span(self, name: str) -> "SpanContext":
-        """
-        Context manager for spans.
+        """Context manager for spans.
 
         Usage:
             with tracer.span("operation") as span:
@@ -225,11 +226,22 @@ class SpanContext:
     """Context manager for spans."""
 
     def __init__(self, tracer: Tracer, name: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            tracer: The tracer parameter.
+            name: The name parameter.
+        """
         self._tracer = tracer
         self._name = name
         self._span: Optional[Span] = None
 
     def __enter__(self) -> Span:
+        """Execute __enter__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         self._span = self._tracer.start_span(self._name)
         return self._span
 
@@ -239,6 +251,16 @@ class SpanContext:
         exc_val: BaseException | None,
         exc_tb: types.TracebackType | None,
     ) -> None:
+        """Execute __exit__ operation.
+
+        Args:
+            exc_type: The exc_type parameter.
+            exc_val: The exc_val parameter.
+            exc_tb: The exc_tb parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._span:
             if exc_type:
                 self._span.set_status("ERROR", str(exc_val))
@@ -251,8 +273,7 @@ class SpanContext:
 
 
 def trace(name: Optional[str] = None) -> Callable:
-    """
-    Decorator to trace a function.
+    """Decorator to trace a function.
 
     Usage:
         @trace("process_order")
@@ -261,10 +282,23 @@ def trace(name: Optional[str] = None) -> Callable:
     """
 
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
         span_name = name or func.__name__
 
         @functools.wraps(func)
         async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             tracer = Tracer("default")
             with tracer.span(span_name) as span:
                 span.set_attribute("function", func.__name__)
@@ -272,6 +306,11 @@ def trace(name: Optional[str] = None) -> Callable:
 
         @functools.wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             tracer = Tracer("default")
             with tracer.span(span_name) as span:
                 span.set_attribute("function", func.__name__)
@@ -292,8 +331,7 @@ def asyncio_iscoroutinefunction(func: Callable) -> bool:
 
 
 class TracingMiddleware(BaseHTTPMiddleware):
-    """
-    FastAPI middleware for automatic request tracing.
+    """FastAPI middleware for automatic request tracing.
 
     Automatically creates spans for HTTP requests with:
     - Method, path, status code
@@ -312,11 +350,28 @@ class TracingMiddleware(BaseHTTPMiddleware):
         exporter: Optional[SpanExporter] = None,
         exclude_paths: set[str] | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            app: The app parameter.
+            service_name: The service_name parameter.
+            exporter: The exporter parameter.
+            exclude_paths: The exclude_paths parameter.
+        """
         super().__init__(app)
         self._tracer = Tracer(service_name, exporter)
         self._exclude_paths = exclude_paths or {"/metrics", "/health"}
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Execute dispatch operation.
+
+        Args:
+            request: The request parameter.
+            call_next: The call_next parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if request.url.path in self._exclude_paths:
             return await call_next(request)
 

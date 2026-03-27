@@ -11,6 +11,13 @@ class GeminiLLMService:
     """Google Gemini via ``google-generativeai`` (Google AI Studio key)."""
 
     def __init__(self, api_key: str, model: str, base_url: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            model: The model parameter.
+            base_url: The base_url parameter.
+        """
         try:
             import google.generativeai as genai
         except ImportError as e:  # pragma: no cover
@@ -26,11 +33,28 @@ class GeminiLLMService:
         _ = base_url
 
     async def _generate_response(self, prompt: str, *, max_tokens: int) -> Any:
+        """Execute _generate_response operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         gc = self._genai.GenerationConfig(max_output_tokens=max_tokens)
         return await self._gemini_model.generate_content_async(prompt, generation_config=gc)
 
     @staticmethod
     def _extract_text(resp: Any) -> str:
+        """Execute _extract_text operation.
+
+        Args:
+            resp: The resp parameter.
+
+        Returns:
+            The result of the operation.
+        """
         t = getattr(resp, "text", None)
         if t:
             return str(t)
@@ -45,6 +69,15 @@ class GeminiLLMService:
         return ""
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._generate_response(prompt, max_tokens=max_tokens)
         return self._extract_text(resp)
 

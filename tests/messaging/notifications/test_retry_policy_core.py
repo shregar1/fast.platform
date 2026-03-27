@@ -5,7 +5,14 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestRetryPolicyCore(INotificationTests):
+    """Represents the TestRetryPolicyCore class."""
+
     def test_notification_retry_policy_defaults(self):
+        """Execute test_notification_retry_policy_defaults operation.
+
+        Returns:
+            The result of the operation.
+        """
         n = NotificationRetryPolicy()
         assert n.max_attempts == 3
         assert n.initial_delay_seconds == 1.0

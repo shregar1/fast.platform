@@ -1,5 +1,4 @@
-"""
-Video container sniffing from magic bytes (no codec decode).
+"""Video container sniffing from magic bytes (no codec decode).
 
 These helpers inspect only a short prefix of a file or buffer. They are useful
 for logging, upload validation, and choosing a MIME type before spawning
@@ -18,8 +17,7 @@ __all__ = ["VideoUtility"]
 
 
 class VideoUtility(IMedia):
-    """
-    Heuristic video container detection from leading bytes.
+    """Heuristic video container detection from leading bytes.
 
     Supports common web and desktop wrappers: ISO BMFF (``ftyp``) for MP4/MOV,
     EBML header for WebM-style detection, and RIFF/AVI. Unknown or too-short
@@ -29,8 +27,7 @@ class VideoUtility(IMedia):
 
     @staticmethod
     def detect_container(data: bytes) -> Optional[str]:
-        """
-        Guess a container label from the first bytes of *data*.
+        """Guess a container label from the first bytes of *data*.
 
         **ISO BMFF:** If bytes 4–7 are ``ftyp``, treats the file as MP4-like;
         if the brand at 8–11 starts with ``qt``, returns ``mov``, otherwise
@@ -53,6 +50,7 @@ class VideoUtility(IMedia):
         -------
         str or None
             One of ``mp4``, ``mov``, ``webm``, ``avi``, or ``None``.
+
         """
         if len(data) < 12:
             return None
@@ -72,8 +70,7 @@ class VideoUtility(IMedia):
 
     @staticmethod
     def mime_from_magic(data: bytes) -> Optional[str]:
-        """
-        Map :meth:`detect_container` output to a common ``video/*`` MIME type.
+        """Map :meth:`detect_container` output to a common ``video/*`` MIME type.
 
         Parameters
         ----------
@@ -84,6 +81,7 @@ class VideoUtility(IMedia):
         -------
         str or None
             e.g. ``video/mp4``, or ``None`` if the container is unknown.
+
         """
         c = VideoUtility.detect_container(data)
         if c is None:

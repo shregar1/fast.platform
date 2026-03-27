@@ -1,5 +1,4 @@
-"""
-Cloud event bus and notification abstractions.
+"""Cloud event bus and notification abstractions.
 
 Provides:
 - INotificationBus for user/system notifications (SNS)
@@ -33,22 +32,46 @@ except Exception:  # pragma: no cover - optional
 
 
 class INotificationBus(IEvents, ABC):
+    """Represents the INotificationBus class."""
+
     @abstractmethod
     async def publish(
         self, subject: str, payload: Dict[str, Any]
     ) -> None:  # pragma: no cover - interface
+        """Execute publish operation.
+
+        Args:
+            subject: The subject parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
 class IEventBus(IEvents, ABC):
+    """Represents the IEventBus class."""
+
     @abstractmethod
     async def publish(
         self, channel: str, payload: Dict[str, Any]
     ) -> None:  # pragma: no cover - interface
+        """Execute publish operation.
+
+        Args:
+            channel: The channel parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
 class SnsNotificationBus(INotificationBus):
+    """Represents the SnsNotificationBus class."""
+
     def __init__(
         self,
         region: str,
@@ -56,6 +79,14 @@ class SnsNotificationBus(INotificationBus):
         access_key_id: Optional[str],
         secret_access_key: Optional[str],
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            region: The region parameter.
+            topic_arn: The topic_arn parameter.
+            access_key_id: The access_key_id parameter.
+            secret_access_key: The secret_access_key parameter.
+        """
         if _boto3 is None:  # pragma: no cover - optional
             raise RuntimeError("boto3 is not installed")
         session_kwargs: Dict[str, Any] = {}
@@ -68,11 +99,25 @@ class SnsNotificationBus(INotificationBus):
         self._topic_arn = topic_arn
 
     async def publish(self, subject: str, payload: Dict[str, Any]) -> None:
+        """Execute publish operation.
+
+        Args:
+            subject: The subject parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if _boto3 is None:  # pragma: no cover - optional
             logger.warning("boto3 is not installed; SNS publish skipped.")
             return
 
         def _send_sync() -> None:
+            """Execute _send_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             self._client.publish(
                 TopicArn=self._topic_arn,
                 Subject=subject,
@@ -83,6 +128,8 @@ class SnsNotificationBus(INotificationBus):
 
 
 class EventBridgeEventBus(IEventBus):
+    """Represents the EventBridgeEventBus class."""
+
     def __init__(
         self,
         region: str,
@@ -92,6 +139,16 @@ class EventBridgeEventBus(IEventBus):
         access_key_id: Optional[str],
         secret_access_key: Optional[str],
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            region: The region parameter.
+            bus_name: The bus_name parameter.
+            source: The source parameter.
+            detail_type: The detail_type parameter.
+            access_key_id: The access_key_id parameter.
+            secret_access_key: The secret_access_key parameter.
+        """
         if _boto3 is None:  # pragma: no cover - optional
             raise RuntimeError("boto3 is not installed")
         session_kwargs: Dict[str, Any] = {}
@@ -106,6 +163,15 @@ class EventBridgeEventBus(IEventBus):
         self._detail_type = detail_type
 
     async def publish(self, channel: str, payload: Dict[str, Any]) -> None:
+        """Execute publish operation.
+
+        Args:
+            channel: The channel parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if _boto3 is None:  # pragma: no cover - optional
             logger.warning("boto3 is not installed; EventBridge publish skipped.")
             return
@@ -118,13 +184,26 @@ class EventBridgeEventBus(IEventBus):
         }
 
         def _send_sync() -> None:
+            """Execute _send_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             self._client.put_events(Entries=[entry])
 
         await to_thread(_send_sync)
 
 
 class EventHubsEventBus(IEventBus):
+    """Represents the EventHubsEventBus class."""
+
     def __init__(self, connection_string: str, event_hub_name: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            connection_string: The connection_string parameter.
+            event_hub_name: The event_hub_name parameter.
+        """
         if EventHubProducerClient is None or EventData is None:  # pragma: no cover - optional
             raise RuntimeError("azure-eventhub is not installed")
         self._client = EventHubProducerClient.from_connection_string(
@@ -133,6 +212,15 @@ class EventHubsEventBus(IEventBus):
         )
 
     async def publish(self, channel: str, payload: Dict[str, Any]) -> None:
+        """Execute publish operation.
+
+        Args:
+            channel: The channel parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if EventHubProducerClient is None or EventData is None:  # pragma: no cover - optional
             logger.warning("azure-eventhub is not installed; Event Hubs publish skipped.")
             return
@@ -140,6 +228,11 @@ class EventHubsEventBus(IEventBus):
         body = json.dumps({"channel": channel, "payload": payload})
 
         def _send_sync() -> None:
+            """Execute _send_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             with self._client:
                 event_data_batch = self._client.create_batch()
                 event_data_batch.add(EventData(body))  # type: ignore[call-arg]
@@ -149,13 +242,29 @@ class EventHubsEventBus(IEventBus):
 
 
 class KafkaEventBus(IEventBus):
+    """Represents the KafkaEventBus class."""
+
     def __init__(self, topic: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            topic: The topic parameter.
+        """
         if KafkaProducer is None:  # pragma: no cover - optional
             raise RuntimeError("KafkaProducer wrapper is not available")
         self._topic = topic
         self._producer = KafkaProducer()
 
     async def publish(self, channel: str, payload: Dict[str, Any]) -> None:
+        """Execute publish operation.
+
+        Args:
+            channel: The channel parameter.
+            payload: The payload parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if KafkaProducer is None:  # pragma: no cover - optional
             logger.warning("KafkaProducer wrapper is not available; Kafka publish skipped.")
             return
@@ -164,6 +273,11 @@ class KafkaEventBus(IEventBus):
 
 
 def build_notification_bus() -> Optional[INotificationBus]:
+    """Execute build_notification_bus operation.
+
+    Returns:
+        The result of the operation.
+    """
     cfg = EventsConfiguration.instance().get_config()
     if cfg.sns.enabled and cfg.sns.topic_arn:
         try:
@@ -180,8 +294,7 @@ def build_notification_bus() -> Optional[INotificationBus]:
 
 
 def build_event_bus() -> Optional[IEventBus]:
-    """
-    Build a primary event bus for high-volume events.
+    """Build a primary event bus for high-volume events.
 
     Priority:
       - Azure Event Hubs

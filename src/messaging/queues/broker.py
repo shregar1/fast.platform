@@ -1,5 +1,4 @@
-"""
-Queue / messaging abstraction layer.
+"""Queue / messaging abstraction layer.
 
 Provides a minimal interface over RabbitMQ, Amazon SQS, and NATS.
 Concrete integrations use optional third-party libraries; if they are
@@ -31,14 +30,14 @@ _sb_mod, ServiceBusClient = OptionalImports.optional_import("azure.servicebus", 
 
 @dataclass
 class QueueMessage:
+    """Represents the QueueMessage class."""
+
     body: bytes
     attributes: Dict[str, Any] | None = None
 
 
 class IQueueBackend(IQueue, ABC):
-    """
-    Minimal interface for queue backends.
-    """
+    """Minimal interface for queue backends."""
 
     name: str
 
@@ -46,17 +45,44 @@ class IQueueBackend(IQueue, ABC):
     async def publish(
         self, message: QueueMessage, *, routing_key: Optional[str] = None
     ) -> None:  # pragma: no cover - interface
+        """Execute publish operation.
+
+        Args:
+            message: The message parameter.
+            routing_key: The routing_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
 class RabbitMQBackend(IQueueBackend):
+    """Represents the RabbitMQBackend class."""
+
     def __init__(self, url: str, exchange: str, default_routing_key: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            url: The url parameter.
+            exchange: The exchange parameter.
+            default_routing_key: The default_routing_key parameter.
+        """
         self.name = "rabbitmq"
         self._url = url
         self._exchange = exchange
         self._default_routing_key = default_routing_key
 
     async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:
+        """Execute publish operation.
+
+        Args:
+            message: The message parameter.
+            routing_key: The routing_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if pika is None:  # pragma: no cover - optional
             if logger:
                 logger.warning("pika is not installed; RabbitMQ publish skipped.")
@@ -65,6 +91,11 @@ class RabbitMQBackend(IQueueBackend):
         routing_key = routing_key or self._default_routing_key
 
         def _publish_sync() -> None:
+            """Execute _publish_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             params = pika.URLParameters(self._url)
             connection = pika.BlockingConnection(params)
             channel = connection.channel()
@@ -80,6 +111,8 @@ class RabbitMQBackend(IQueueBackend):
 
 
 class SQSBackend(IQueueBackend):
+    """Represents the SQSBackend class."""
+
     def __init__(
         self,
         region: str,
@@ -87,6 +120,14 @@ class SQSBackend(IQueueBackend):
         access_key_id: Optional[str],
         secret_access_key: Optional[str],
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            region: The region parameter.
+            queue_url: The queue_url parameter.
+            access_key_id: The access_key_id parameter.
+            secret_access_key: The secret_access_key parameter.
+        """
         self.name = "sqs"
         self._region = region
         self._queue_url = queue_url
@@ -96,12 +137,26 @@ class SQSBackend(IQueueBackend):
     async def publish(
         self, message: QueueMessage, *, routing_key: Optional[str] = None
     ) -> None:  # routing_key unused
+        """Execute publish operation.
+
+        Args:
+            message: The message parameter.
+            routing_key: The routing_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if boto3 is None:  # pragma: no cover - optional
             if logger:
                 logger.warning("boto3 is not installed; SQS publish skipped.")
             return
 
         def _send_sync() -> None:
+            """Execute _send_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             session_kwargs: Dict[str, Any] = {}
             if self._access_key_id and self._secret_access_key:
                 session_kwargs.update(
@@ -122,12 +177,29 @@ class SQSBackend(IQueueBackend):
 
 
 class NATSBackend(IQueueBackend):
+    """Represents the NATSBackend class."""
+
     def __init__(self, servers: list[str], subject: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            servers: The servers parameter.
+            subject: The subject parameter.
+        """
         self.name = "nats"
         self._servers = servers
         self._subject = subject
 
     async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:
+        """Execute publish operation.
+
+        Args:
+            message: The message parameter.
+            routing_key: The routing_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if nats is None:  # pragma: no cover - optional
             if logger:
                 logger.warning("nats-py is not installed; NATS publish skipped.")
@@ -140,7 +212,15 @@ class NATSBackend(IQueueBackend):
 
 
 class AzureServiceBusBackend(IQueueBackend):
+    """Represents the AzureServiceBusBackend class."""
+
     def __init__(self, connection_string: str, queue_name: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            connection_string: The connection_string parameter.
+            queue_name: The queue_name parameter.
+        """
         if ServiceBusClient is None:  # pragma: no cover - optional
             raise RuntimeError("azure-servicebus is not installed")
         self.name = "service_bus"
@@ -148,12 +228,26 @@ class AzureServiceBusBackend(IQueueBackend):
         self._queue_name = queue_name
 
     async def publish(self, message: QueueMessage, *, routing_key: Optional[str] = None) -> None:
+        """Execute publish operation.
+
+        Args:
+            message: The message parameter.
+            routing_key: The routing_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if ServiceBusClient is None:  # pragma: no cover - optional
             if logger:
                 logger.warning("azure-servicebus is not installed; Service Bus publish skipped.")
             return
 
         def _send_sync() -> None:
+            """Execute _send_sync operation.
+
+            Returns:
+                The result of the operation.
+            """
             with ServiceBusClient.from_connection_string(self._connection_string) as client:
                 sender = client.get_queue_sender(queue_name=self._queue_name)
                 with sender:
@@ -169,14 +263,14 @@ class AzureServiceBusBackend(IQueueBackend):
 
 
 class QueueBroker:
-    """
-    High-level facade over multiple queue backends.
+    """High-level facade over multiple queue backends.
 
     It instantiates enabled backends from core.configuration and lets callers
     publish messages by backend name.
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         cfg = QueuesConfiguration().get_config()
         self._backends: Dict[str, IQueueBackend] = {}
 
@@ -225,6 +319,17 @@ class QueueBroker:
         routing_key: Optional[str] = None,
         attributes: Optional[Dict[str, Any]] = None,
     ) -> None:
+        """Execute publish operation.
+
+        Args:
+            backend: The backend parameter.
+            body: The body parameter.
+            routing_key: The routing_key parameter.
+            attributes: The attributes parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if isinstance(body, str):
             body_bytes = body.encode("utf-8")
         else:

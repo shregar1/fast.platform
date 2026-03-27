@@ -1,6 +1,4 @@
-"""
-Image variant pipeline: thumb + WebP (and custom specs) uploaded via :class:`~fast_media.abstractions.IMediaStore`.
-"""
+"""Image variant pipeline: thumb + WebP (and custom specs) uploaded via :class:`~fast_media.abstractions.IMediaStore`."""
 
 from __future__ import annotations
 
@@ -14,9 +12,7 @@ if TYPE_CHECKING:
 
 
 def variant_storage_key(base_key: str, variant_name: str, ext: str) -> str:
-    """
-    Derive a sibling key: ``dir/a.jpg`` → ``dir/a_thumb.webp`` (extension from variant).
-    """
+    """Derive a sibling key: ``dir/a.jpg`` → ``dir/a_thumb.webp`` (extension from variant)."""
     ext = ext.lstrip(".")
     if "/" in base_key:
         directory, name = base_key.rsplit("/", 1)
@@ -49,8 +45,7 @@ DEFAULT_THUMB_WEBP_VARIANTS: tuple[VariantSpec, ...] = (
 
 
 class ImageVariantPipeline:
-    """
-    Generate image variants with Pillow and upload each to an :class:`IMediaStore`.
+    """Generate image variants with Pillow and upload each to an :class:`IMediaStore`.
 
     Pass an optional **virus_scan** callable (see :mod:`fast_media.virus_scan`)
     to reject payloads before decoding images.
@@ -62,6 +57,12 @@ class ImageVariantPipeline:
         *,
         variants: tuple[VariantSpec, ...] | list[VariantSpec] | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            store: The store parameter.
+            variants: The variants parameter.
+        """
         self._store = store
         self._variants: tuple[VariantSpec, ...] = (
             tuple(variants) if variants else DEFAULT_THUMB_WEBP_VARIANTS
@@ -74,8 +75,7 @@ class ImageVariantPipeline:
         source_bytes: bytes,
         virus_scan: Optional[Callable[[bytes], None]] = None,
     ) -> dict[str, UploadResult]:
-        """
-        Optionally scan **source_bytes**, then for each variant resize/transcode and upload.
+        """Optionally scan **source_bytes**, then for each variant resize/transcode and upload.
 
         Keys are produced with :func:`variant_storage_key` (``thumb`` → ``*_thumb.webp``, etc.).
         """
@@ -99,6 +99,14 @@ class ImageVariantPipeline:
 
 
 def _mime_for_format(fmt: str) -> str:
+    """Execute _mime_for_format operation.
+
+    Args:
+        fmt: The fmt parameter.
+
+    Returns:
+        The result of the operation.
+    """
     f = fmt.lower()
     if f == "webp":
         return "image/webp"

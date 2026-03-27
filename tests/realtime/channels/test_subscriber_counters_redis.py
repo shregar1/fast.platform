@@ -1,3 +1,5 @@
+"""Module test_subscriber_counters_redis.py."""
+
 from __future__ import annotations
 
 """Redis subscriber counters and import guard."""
@@ -9,8 +11,15 @@ from tests.realtime.channels.abstraction import IChannelTests
 
 
 class TestSubscriberCountersRedis(IChannelTests):
+    """Represents the TestSubscriberCountersRedis class."""
+
     @pytest.mark.asyncio
     async def test_redis_counters_increment_decrement_negative_fix(self) -> None:
+        """Execute test_redis_counters_increment_decrement_negative_fix operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
@@ -27,6 +36,11 @@ class TestSubscriberCountersRedis(IChannelTests):
 
     @pytest.mark.asyncio
     async def test_redis_counters_count_and_all_counts(self) -> None:
+        """Execute test_redis_counters_count_and_all_counts operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
@@ -41,6 +55,11 @@ class TestSubscriberCountersRedis(IChannelTests):
         assert await c.all_counts() == {}
 
     def test_redis_unavailable_raises(self) -> None:
+        """Execute test_redis_unavailable_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
         import realtime.channels.subscriber_counters as sc
 
         with patch.object(sc, "aioredis", None):

@@ -1,5 +1,4 @@
-"""
-Service-to-service API key helpers: SHA-256 hex digest and constant-time verify.
+"""Service-to-service API key helpers: SHA-256 hex digest and constant-time verify.
 
 Not JWT — use alongside bearer tokens for machine clients.
 """
@@ -31,25 +30,41 @@ class ApiKeyHashes:
 
 
 class InMemoryHashedApiKeyStore:
-    """
-    Register pre-hashed keys (e.g. from env/DB) and verify presented secrets.
+    """Register pre-hashed keys (e.g. from env/DB) and verify presented secrets.
 
     ``register`` stores ``key_id -> hex_hash``; ``verify`` tries the incoming
     secret against every registered hash (suitable for a small set of service keys).
     """
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._by_id: Dict[str, str] = {}
 
     def register(self, key_id: str, hex_hash: str) -> None:
+        """Execute register operation.
+
+        Args:
+            key_id: The key_id parameter.
+            hex_hash: The hex_hash parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._by_id[key_id] = hex_hash.strip().lower()
 
     def remove(self, key_id: str) -> None:
+        """Execute remove operation.
+
+        Args:
+            key_id: The key_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._by_id.pop(key_id, None)
 
     def verify(self, api_key: str) -> Optional[str]:
-        """
-        If ``api_key`` matches a registered hash, return that key's ``key_id``;
+        """If ``api_key`` matches a registered hash, return that key's ``key_id``;
         otherwise ``None``.
         """
         if not self._by_id:

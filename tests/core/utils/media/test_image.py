@@ -1,3 +1,5 @@
+"""Module test_image.py."""
+
 from __future__ import annotations
 
 """Tests for :mod:`utils.media.image`."""
@@ -15,14 +17,31 @@ _PNG_1X1 = (
 
 
 class TestImageUtility(IMediaUtilsTests):
+    """Represents the TestImageUtility class."""
+
     def test_detect_format_png(self) -> None:
+        """Execute test_detect_format_png operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert ImageUtility.detect_format(_PNG_1X1) == "png"
         assert ImageUtility.mime_from_magic(_PNG_1X1) == "image/png"
 
     def test_detect_format_jpeg(self) -> None:
+        """Execute test_detect_format_jpeg operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert ImageUtility.detect_format(b"\xff\xd8\xff\xe0\x00\x10JFIF") == "jpeg"
 
     def test_dimensions_with_pillow(self) -> None:
+        """Execute test_dimensions_with_pillow operation.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("PIL")
         dim = ImageUtility.dimensions(_PNG_1X1)
         assert dim == (1, 1)

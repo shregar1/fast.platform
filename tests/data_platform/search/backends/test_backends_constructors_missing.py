@@ -1,3 +1,5 @@
+"""Module test_backends_constructors_missing.py."""
+
 import builtins
 
 import pytest
@@ -6,9 +8,19 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestBackendsConstructorsMissing(ISearchTests):
+    """Represents the TestBackendsConstructorsMissing class."""
+
     def test_backend_constructors_raise_runtime_error_when_dependency_missing(
         self, monkeypatch
     ) -> None:
+        """Execute test_backend_constructors_raise_runtime_error_when_dependency_missing operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.search.meilisearch_backend import MeilisearchBackend
         from data.search.opensearch_backend import OpenSearchBackend
         from data.search.typesense_backend import TypesenseBackend
@@ -16,6 +28,14 @@ class TestBackendsConstructorsMissing(ISearchTests):
         real_import = builtins.__import__
 
         def _deny_import(name, *args, **kwargs):
+            """Execute _deny_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if name in {"meilisearch", "opensearchpy", "typesense"}:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)

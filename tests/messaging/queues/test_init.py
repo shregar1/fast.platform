@@ -1,3 +1,5 @@
+"""Module test_init.py."""
+
 from __future__ import annotations
 
 """Integration smoke tests for ``queues`` exports."""
@@ -23,13 +25,25 @@ from tests.messaging.queues.abstraction import IQueueTests
 
 
 class TestInit(IQueueTests):
+    """Represents the TestInit class."""
+
     def test_core_symbols_non_none(self) -> None:
+        """Execute test_core_symbols_non_none operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert QueueBroker is not None
         assert QueuesConfiguration is not None
         assert IQueueBackend is not None
         assert QueuesConfigurationDTO is not None
 
     def test_dlq_naming_helpers(self) -> None:
+        """Execute test_dlq_naming_helpers operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert dlq_name("q") == "q" + DEFAULT_DLQ_SUFFIX
         assert dlq_name("q" + DEFAULT_DLQ_SUFFIX) == "q" + DEFAULT_DLQ_SUFFIX
         assert (
@@ -39,10 +53,20 @@ class TestInit(IQueueTests):
         assert primary_queue_from_quarantine("plain") == "plain"
 
     def test_envelope_version_constant(self) -> None:
+        """Execute test_envelope_version_constant operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert ENVELOPE_VERSION_KEY == "envelope_version"
         assert QueueMessageEnvelope(payload={}).envelope_version == 1
 
     def test_prepare_dlq_and_quarantine(self) -> None:
+        """Execute test_prepare_dlq_and_quarantine operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert prepare_dlq_message("q", QueueMessage(body=b""), reason="x")[0]
         raw, attrs = prepare_dlq_message(
             "q",
@@ -63,6 +87,11 @@ class TestInit(IQueueTests):
         assert b"oops" in body_q
 
     def test_envelope_serialization_and_quarantine_rules(self) -> None:
+        """Execute test_envelope_serialization_and_quarantine_rules operation.
+
+        Returns:
+            The result of the operation.
+        """
         env = QueueMessageEnvelope(payload={"k": 1}, last_error="e")
         d = env.to_dict()
         assert d["last_error"] == "e"
@@ -73,5 +102,11 @@ class TestInit(IQueueTests):
         assert not should_quarantine_fn(5, 0)
 
     def test_package_version(self) -> None:
+        """Execute test_package_version operation.
+
+        Returns:
+            The result of the operation.
+        """
         import messaging.queues as q
+
         assert q.__version__ == "0.3.0"

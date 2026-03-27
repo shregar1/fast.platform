@@ -1,6 +1,4 @@
-"""
-Multiple OIDC issuers during migrations: one JWKS URI per issuer string.
-"""
+"""Multiple OIDC issuers during migrations: one JWKS URI per issuer string."""
 
 from __future__ import annotations
 
@@ -10,8 +8,7 @@ from .jwks_cache import JWKSCache
 
 
 class MultiIssuerJWKSCache:
-    """
-    Route ``iss`` values to the correct JWKS endpoint.
+    """Route ``iss`` values to the correct JWKS endpoint.
 
     Pass a map of issuer URL (must match JWT ``iss`` claim) to JWKS URI.
     """
@@ -21,6 +18,12 @@ class MultiIssuerJWKSCache:
         issuer_to_jwks_uri: Dict[str, str],
         ttl_seconds: int = 3600,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            issuer_to_jwks_uri: The issuer_to_jwks_uri parameter.
+            ttl_seconds: The ttl_seconds parameter.
+        """
         if not issuer_to_jwks_uri:
             raise ValueError("issuer_to_jwks_uri must not be empty")
         self._ttl = ttl_seconds
@@ -29,17 +32,46 @@ class MultiIssuerJWKSCache:
         }
 
     def issuers(self) -> frozenset[str]:
+        """Execute issuers operation.
+
+        Returns:
+            The result of the operation.
+        """
         return frozenset(self._caches.keys())
 
     def has_issuer(self, issuer: str) -> bool:
+        """Execute has_issuer operation.
+
+        Args:
+            issuer: The issuer parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return issuer in self._caches
 
     async def get_jwks(self, issuer: str) -> Dict[str, Any]:
+        """Execute get_jwks operation.
+
+        Args:
+            issuer: The issuer parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if issuer not in self._caches:
             raise KeyError(issuer)
         return await self._caches[issuer].get_jwks()
 
     async def refresh_issuer(self, issuer: str) -> Dict[str, Any]:
+        """Execute refresh_issuer operation.
+
+        Args:
+            issuer: The issuer parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if issuer not in self._caches:
             raise KeyError(issuer)
         return await self._caches[issuer].refresh()

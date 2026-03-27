@@ -1,5 +1,4 @@
-"""
-WhatsApp Business API Integration
+"""WhatsApp Business API Integration.
 
 Send messages via WhatsApp Business API (Meta/Facebook).
 """

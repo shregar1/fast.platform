@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class StreamsConfigurationDTO(IDTO):
+    """Represents the StreamsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = True
     tick_history: int = 1000

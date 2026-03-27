@@ -1,5 +1,4 @@
-"""
-Per-request token budget guards for streaming and non-streaming usage.
+"""Per-request token budget guards for streaming and non-streaming usage.
 
 Use with :class:`~fast_llm.token_usage.TokenUsage` and :class:`~fast_llm.streaming.StreamChunk`.
 """
@@ -35,8 +34,7 @@ async def iter_llm_stream_with_budget(
     estimate_text_until_usage: bool = True,
     chars_per_token: float = 4.0,
 ) -> AsyncIterator[StreamChunk]:
-    """
-    Wrap a unified LLM stream and enforce a **hard** cumulative cap.
+    """Wrap a unified LLM stream and enforce a **hard** cumulative cap.
 
     * When a chunk includes :attr:`StreamChunk.usage`, ``cumulative`` is set to
       :attr:`~fast_llm.token_usage.TokenUsage.total_tokens` (authoritative).

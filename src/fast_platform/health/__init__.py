@@ -1,5 +1,4 @@
-"""
-FastMVC Health Module
+"""FastMVC Health Module.
 
 Health checks, readiness and liveness probes for Kubernetes.
 """

@@ -1,3 +1,5 @@
+"""Module test_backends_factory_import_error.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`data.storage.base.build_storage_backend` when backend modules fail to import."""
@@ -11,13 +13,26 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsFactoryImportError(IStorageTests):
+    """Represents the TestBackendsFactoryImportError class."""
+
     def test_build_storage_backend_import_error_returns_none(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
+        """Execute test_build_storage_backend_import_error_returns_none operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.storage import base as storage_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.s3 = types.SimpleNamespace(
                     enabled=True,
                     bucket="b",
@@ -48,6 +63,14 @@ class TestBackendsFactoryImportError(IStorageTests):
         real_import = builtins.__import__
 
         def _fail_backend_import(name: str, *args: object, **kwargs: object):
+            """Execute _fail_backend_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if "s3_backend" in name or "gcs_backend" in name or "azure_backend" in name:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)

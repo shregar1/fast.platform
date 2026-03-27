@@ -1,5 +1,4 @@
-"""
-Datastore protocol interfaces for FastMVC.
+"""Datastore protocol interfaces for FastMVC.
 
 Concrete implementations live in this package (Redis, Mongo, Cassandra, …).
 ``abstractions.datastore`` re-exports these symbols for backward compatibility.
@@ -12,8 +11,7 @@ from .abstraction import IDatastores
 
 
 class IDataStore(IDatastores, ABC):
-    """
-    Base interface for any data store.
+    """Base interface for any data store.
 
     Provides lifecycle hooks to connect and disconnect underlying clients.
     """
@@ -28,8 +26,7 @@ class IDataStore(IDatastores, ABC):
 
 
 class IRelationalDatabase(IDataStore):
-    """
-    Interface for relational SQL databases (PostgreSQL, MySQL, SQLite, etc.).
+    """Interface for relational SQL databases (PostgreSQL, MySQL, SQLite, etc.).
 
     Implementations should provide a SQLAlchemy `Session` or engine-like
     object via `get_session`.
@@ -41,15 +38,11 @@ class IRelationalDatabase(IDataStore):
 
     @abstractmethod
     def ping(self) -> bool:  # pragma: no cover - interface only
-        """
-        Lightweight health check for the underlying connection.
-        """
+        """Lightweight health check for the underlying connection."""
 
 
 class IKeyValueStore(IDataStore):
-    """
-    Interface for key-value stores (e.g., Redis).
-    """
+    """Interface for key-value stores (e.g., Redis)."""
 
     @abstractmethod
     def get(self, key: str) -> Any:  # pragma: no cover - interface only
@@ -69,8 +62,7 @@ class IKeyValueStore(IDataStore):
 
     @abstractmethod
     def increment(self, key: str, amount: int = 1) -> int:  # pragma: no cover
-        """
-        Atomically increment an integer value stored at the given key.
+        """Atomically increment an integer value stored at the given key.
         Returns the new value.
         """
 
@@ -80,9 +72,7 @@ class IKeyValueStore(IDataStore):
 
 
 class IDocumentStore(IDataStore):
-    """
-    Interface for document databases (e.g., MongoDB, Cosmos DB in document mode).
-    """
+    """Interface for document databases (e.g., MongoDB, Cosmos DB in document mode)."""
 
     @abstractmethod
     def get_database(self) -> Any:  # pragma: no cover - interface only
@@ -128,9 +118,7 @@ class IDocumentStore(IDataStore):
 
 
 class IWideColumnStore(IDataStore):
-    """
-    Interface for wide-column stores (e.g., Cassandra, Scylla).
-    """
+    """Interface for wide-column stores (e.g., Cassandra, Scylla)."""
 
     @abstractmethod
     def get_session(self) -> Any:  # pragma: no cover - interface only
@@ -138,15 +126,11 @@ class IWideColumnStore(IDataStore):
 
     @abstractmethod
     def execute(self, query: str, parameters: Any | None = None) -> Any:  # pragma: no cover
-        """
-        Execute a CQL statement and return the driver-specific result object.
-        """
+        """Execute a CQL statement and return the driver-specific result object."""
 
 
 class ISearchStore(IDataStore):
-    """
-    Interface for full-text search engines (e.g., Elasticsearch, OpenSearch).
-    """
+    """Interface for full-text search engines (e.g., Elasticsearch, OpenSearch)."""
 
     @abstractmethod
     def index(

@@ -1,6 +1,4 @@
-"""
-Tenant context management using context variables.
-"""
+"""Tenant context management using context variables."""
 
 import contextvars
 from dataclasses import dataclass, field
@@ -25,8 +23,7 @@ class TenantConfig:
 
 @dataclass
 class Tenant:
-    """
-    Tenant representation.
+    """Tenant representation.
 
     Attributes:
         id: Unique tenant identifier.
@@ -36,6 +33,7 @@ class Tenant:
         created_at: Creation timestamp.
         config: Tenant-specific configuration.
         metadata: Additional metadata.
+
     """
 
     id: str
@@ -94,21 +92,46 @@ class TenantContext:
     """Context manager for tenant operations."""
 
     def __init__(self, tenant: Optional[Tenant]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            tenant: The tenant parameter.
+        """
         self._tenant = tenant
         self._token: Optional[contextvars.Token] = None
 
     def __enter__(self) -> "TenantContext":
+        """Execute __enter__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         self._token = set_current_tenant(self._tenant)
         return self
 
     def __exit__(self, *args: object) -> None:
+        """Execute __exit__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._token is not None:
             _current_tenant.reset(self._token)
 
     async def __aenter__(self) -> "TenantContext":
+        """Execute __aenter__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self.__enter__()
 
     async def __aexit__(self, *args: object) -> None:
+        """Execute __aexit__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         self.__exit__(*args)
 
 
@@ -148,22 +171,55 @@ class InMemoryTenantStore(TenantStore):
     """In-memory tenant store for development/testing."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._tenants: dict[str, Tenant] = {}
         self._slug_index: dict[str, str] = {}
         self._domain_index: dict[str, str] = {}
 
     async def get_by_id(self, tenant_id: str) -> Optional[Tenant]:
+        """Execute get_by_id operation.
+
+        Args:
+            tenant_id: The tenant_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._tenants.get(tenant_id)
 
     async def get_by_slug(self, slug: str) -> Optional[Tenant]:
+        """Execute get_by_slug operation.
+
+        Args:
+            slug: The slug parameter.
+
+        Returns:
+            The result of the operation.
+        """
         tenant_id = self._slug_index.get(slug)
         return self._tenants.get(tenant_id) if tenant_id else None
 
     async def get_by_domain(self, domain: str) -> Optional[Tenant]:
+        """Execute get_by_domain operation.
+
+        Args:
+            domain: The domain parameter.
+
+        Returns:
+            The result of the operation.
+        """
         tenant_id = self._domain_index.get(domain)
         return self._tenants.get(tenant_id) if tenant_id else None
 
     async def create(self, tenant: Tenant) -> Tenant:
+        """Execute create operation.
+
+        Args:
+            tenant: The tenant parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._tenants[tenant.id] = tenant
         self._slug_index[tenant.slug] = tenant.id
         if tenant.config.custom_domain:
@@ -171,6 +227,14 @@ class InMemoryTenantStore(TenantStore):
         return tenant
 
     async def update(self, tenant: Tenant) -> Tenant:
+        """Execute update operation.
+
+        Args:
+            tenant: The tenant parameter.
+
+        Returns:
+            The result of the operation.
+        """
         old = self._tenants.get(tenant.id)
         if old:
             if old.slug != tenant.slug:
@@ -184,6 +248,14 @@ class InMemoryTenantStore(TenantStore):
         return tenant
 
     async def delete(self, tenant_id: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            tenant_id: The tenant_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         tenant = self._tenants.get(tenant_id)
         if tenant:
             del self._slug_index[tenant.slug]
@@ -192,6 +264,14 @@ class InMemoryTenantStore(TenantStore):
             del self._tenants[tenant_id]
 
     async def list_all(self, active_only: bool = True) -> list[Tenant]:
+        """Execute list_all operation.
+
+        Args:
+            active_only: The active_only parameter.
+
+        Returns:
+            The result of the operation.
+        """
         tenants = list(self._tenants.values())
         if active_only:
             tenants = [t for t in tenants if t.is_active]

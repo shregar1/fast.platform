@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class RealtimeConfiguration(ConfigurationSingletonBase[RealtimeConfigurationDTO]):
+    """Represents the RealtimeConfiguration class."""
+
     _instance: Optional["RealtimeConfiguration"] = None
     _section: str = "realtime"
     _env_key: str = "REALTIME"

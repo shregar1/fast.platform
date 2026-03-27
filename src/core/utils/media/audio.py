@@ -1,5 +1,4 @@
-"""
-Audio format sniffing from magic bytes (no decode).
+"""Audio format sniffing from magic bytes (no decode).
 
 Inspects only a small prefix to classify common containers and sync patterns.
 Does not parse full frames, validate CRCs, or detect every proprietary variant.
@@ -17,8 +16,7 @@ __all__ = ["AudioUtility"]
 
 
 class AudioUtility(IMedia):
-    """
-    Heuristic audio container / framing detection.
+    """Heuristic audio container / framing detection.
 
     Covers RIFF/WAVE, FLAC, MP3 (ID3 or MPEG sync), Ogg, ADTS AAC, and AIFF
     (``FORM`` … ``AIFF``). Edge cases (e.g. MP3 without ID3 in the first bytes)
@@ -27,8 +25,7 @@ class AudioUtility(IMedia):
 
     @staticmethod
     def detect_format(data: bytes) -> Optional[str]:
-        """
-        Infer a short audio format label from the beginning of *data*.
+        """Infer a short audio format label from the beginning of *data*.
 
         Rules (first match wins where applicable):
 
@@ -48,6 +45,7 @@ class AudioUtility(IMedia):
         -------
         str or None
             One of ``wav``, ``flac``, ``mp3``, ``ogg``, ``aac_adts``, ``aiff``, or ``None``.
+
         """
         if len(data) < 4:
             return None
@@ -67,8 +65,7 @@ class AudioUtility(IMedia):
 
     @staticmethod
     def mime_from_magic(data: bytes) -> Optional[str]:
-        """
-        Map :meth:`detect_format` to a conventional ``audio/*`` MIME type.
+        """Map :meth:`detect_format` to a conventional ``audio/*`` MIME type.
 
         Parameters
         ----------
@@ -79,6 +76,7 @@ class AudioUtility(IMedia):
         -------
         str or None
             e.g. ``audio/mpeg`` for MP3, or ``None`` if unknown.
+
         """
         fmt = AudioUtility.detect_format(data)
         if fmt is None:

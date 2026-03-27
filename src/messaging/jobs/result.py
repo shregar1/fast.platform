@@ -1,6 +1,4 @@
-"""
-Enqueue/result DTOs and backend-agnostic job status without exposing Celery/RQ/Dramatiq types.
-"""
+"""Enqueue/result DTOs and backend-agnostic job status without exposing Celery/RQ/Dramatiq types."""
 
 from __future__ import annotations
 
@@ -47,6 +45,14 @@ class JobStatusSnapshot:
 
 
 def _map_celery_state(state: str) -> JobStatus:
+    """Execute _map_celery_state operation.
+
+    Args:
+        state: The state parameter.
+
+    Returns:
+        The result of the operation.
+    """
     s = (state or "").upper()
     if s in ("PENDING",):
         return JobStatus.PENDING
@@ -70,8 +76,7 @@ def get_job_status(
     dramatiq_queue_name: Optional[str] = None,
     dramatiq_actor_name: Optional[str] = None,
 ) -> JobStatusSnapshot:
-    """
-    Fetch status/result using ``job_id`` and ``backend``.
+    """Fetch status/result using ``job_id`` and ``backend``.
 
     - **celery** — optional ``celery_app``; defaults to :func:`fast_jobs.celery_app.make_celery_app`.
     - **rq** — pass Redis connection via ``rq_connection`` (required).
@@ -90,6 +95,15 @@ def get_job_status(
 
 
 def _status_celery(job_id: str, celery_app: Any) -> JobStatusSnapshot:
+    """Execute _status_celery operation.
+
+    Args:
+        job_id: The job_id parameter.
+        celery_app: The celery_app parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from celery.result import AsyncResult
     except ImportError as e:  # pragma: no cover
@@ -119,6 +133,15 @@ def _status_celery(job_id: str, celery_app: Any) -> JobStatusSnapshot:
 
 
 def _status_rq(job_id: str, rq_connection: Any) -> JobStatusSnapshot:
+    """Execute _status_rq operation.
+
+    Args:
+        job_id: The job_id parameter.
+        rq_connection: The rq_connection parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from rq.job import Job
         from rq.job import JobStatus as RQJobStatus
@@ -162,6 +185,16 @@ def _status_dramatiq(
     dramatiq_queue_name: Optional[str],
     dramatiq_actor_name: Optional[str],
 ) -> JobStatusSnapshot:
+    """Execute _status_dramatiq operation.
+
+    Args:
+        job_id: The job_id parameter.
+        dramatiq_queue_name: The dramatiq_queue_name parameter.
+        dramatiq_actor_name: The dramatiq_actor_name parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         import dramatiq  # noqa: F401
         from dramatiq.broker import get_broker

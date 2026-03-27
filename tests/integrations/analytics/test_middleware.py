@@ -19,23 +19,60 @@ from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
 class MemBackend(IAnalyticsBackend):
+    """Represents the MemBackend class."""
+
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self.events: list[tuple[str, str, dict[str, Any]]] = []
 
     def track(
         self, distinct_id: str, event_name: str, properties: Optional[dict[str, Any]] = None
     ) -> None:
+        """Execute track operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            event_name: The event_name parameter.
+            properties: The properties parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self.events.append((distinct_id, event_name, dict(properties or {})))
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
+        """Execute identify operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            traits: The traits parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pass
 
 
 class TestMiddleware(IAnalyticsTests):
+    """Represents the TestMiddleware class."""
+
     def test_middleware_tracks_request(self) -> None:
+        """Execute test_middleware_tracks_request operation.
+
+        Returns:
+            The result of the operation.
+        """
         inner = MemBackend()
 
         async def home(_: Any) -> PlainTextResponse:
+            """Execute home operation.
+
+            Args:
+                _: The _ parameter.
+
+            Returns:
+                The result of the operation.
+            """
             return PlainTextResponse("hi")
 
         app = Starlette(routes=[Route("/", home)])

@@ -1,6 +1,4 @@
-"""
-TTL cache and optional rotation callbacks around any :class:`ISecretsBackend`.
-"""
+"""TTL cache and optional rotation callbacks around any :class:`ISecretsBackend`."""
 
 from __future__ import annotations
 
@@ -15,8 +13,7 @@ class RotationCallback(Protocol):
 
 
 class CachedSecretsBackend(ISecretsBackend):
-    """
-    Wraps a backend with a per-key TTL cache.
+    """Wraps a backend with a per-key TTL cache.
 
     Pass ``force_refresh=True`` to bypass the cache. Optional ``on_rotation`` is invoked
     when a newly fetched value differs from the previously cached one (or on first fetch

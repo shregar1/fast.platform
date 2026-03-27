@@ -1,3 +1,5 @@
+"""Module test_tools_caching_budget.py."""
+
 from __future__ import annotations
 
 """Tool DTOs, cache helpers, token budget."""
@@ -30,12 +32,24 @@ from tests.integrations.llm.abstraction import ILLMTests
 
 
 async def _chunks(*items: StreamChunk) -> AsyncIterator[StreamChunk]:
+    """Execute _chunks operation.
+
+    Returns:
+        The result of the operation.
+    """
     for c in items:
         yield c
 
 
 class TestToolsCachingBudget(ILLMTests):
+    """Represents the TestToolsCachingBudget class."""
+
     def test_tool_definition_roundtrip_openai_anthropic(self) -> None:
+        """Execute test_tool_definition_roundtrip_openai_anthropic operation.
+
+        Returns:
+            The result of the operation.
+        """
         t = ToolDefinition(
             name="get_weather",
             description="Weather lookup",
@@ -55,6 +69,11 @@ class TestToolsCachingBudget(ILLMTests):
         assert tool_definition_from_anthropic(an).name == "get_weather"
 
     def test_normalize_mixed_tool_lists(self) -> None:
+        """Execute test_normalize_mixed_tool_lists operation.
+
+        Returns:
+            The result of the operation.
+        """
         openai_shape = {
             "type": "function",
             "function": {
@@ -76,6 +95,11 @@ class TestToolsCachingBudget(ILLMTests):
         assert to_a[1]["name"] == "g"
 
     def test_tool_definitions_lists(self) -> None:
+        """Execute test_tool_definitions_lists operation.
+
+        Returns:
+            The result of the operation.
+        """
         tools = [
             ToolDefinition("a", "da", {"type": "object", "properties": {}}),
         ]
@@ -83,6 +107,11 @@ class TestToolsCachingBudget(ILLMTests):
         assert len(tool_definitions_to_anthropic_tools(tools)) == 1
 
     def test_cache_helpers(self) -> None:
+        """Execute test_cache_helpers operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert ephemeral_cache_control() == {"type": "ephemeral"}
         p = openai_content_part_text("hello", cache_control=ephemeral_cache_control())
         assert p["type"] == "text" and p["cache_control"]["type"] == "ephemeral"
@@ -91,6 +120,11 @@ class TestToolsCachingBudget(ILLMTests):
         assert isinstance(sysm["content"], list)
 
     def test_check_usage_against_budget(self) -> None:
+        """Execute test_check_usage_against_budget operation.
+
+        Returns:
+            The result of the operation.
+        """
         u = TokenUsage(1, 2, 3, model="m", provider="openai")
         check_usage_against_budget(u, 10)
         with pytest.raises(TokenBudgetExceeded):
@@ -98,6 +132,11 @@ class TestToolsCachingBudget(ILLMTests):
 
     @pytest.mark.asyncio
     async def test_iter_llm_stream_with_budget_usage(self) -> None:
+        """Execute test_iter_llm_stream_with_budget_usage operation.
+
+        Returns:
+            The result of the operation.
+        """
         chunks: List[StreamChunk] = [
             StreamChunk(text="a", provider="openai"),
             StreamChunk(
@@ -117,6 +156,11 @@ class TestToolsCachingBudget(ILLMTests):
 
     @pytest.mark.asyncio
     async def test_iter_llm_stream_with_budget_raises_on_estimate(self) -> None:
+        """Execute test_iter_llm_stream_with_budget_raises_on_estimate operation.
+
+        Returns:
+            The result of the operation.
+        """
         big = "x" * 400
         chunks = [StreamChunk(text=big, provider="openai")]
         with pytest.raises(TokenBudgetExceeded):

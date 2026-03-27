@@ -1,3 +1,5 @@
+"""Module backend.py."""
+
 from __future__ import annotations
 
 import asyncio
@@ -20,32 +22,80 @@ _redis_mod, _redis_cls = OptionalImports.optional_import("redis.asyncio", "Redis
 
 
 class ICache(ICaching, ABC):
+    """Represents the ICache class."""
+
     @abstractmethod
     async def get(self, key: str) -> Any:  # pragma: no cover - interface
+        """Execute get operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def set(
         self, key: str, value: Any, ttl_seconds: Optional[int] = None
     ) -> None:  # pragma: no cover - interface
+        """Execute set operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+            ttl_seconds: The ttl_seconds parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def delete(self, key: str) -> None:  # pragma: no cover - interface
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def clear(self) -> None:  # pragma: no cover - interface
+        """Execute clear operation.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
 class InMemoryCache(ICache):
+    """Represents the InMemoryCache class."""
+
     def __init__(self, default_ttl_seconds: int) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            default_ttl_seconds: The default_ttl_seconds parameter.
+        """
         self._store: Dict[str, Tuple[float, Any]] = {}
         self._default_ttl = default_ttl_seconds
         self._lock = asyncio.Lock()
 
     async def get(self, key: str) -> Any:
+        """Execute get operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         async with self._lock:
             entry = self._store.get(key)
             if not entry:
@@ -57,22 +107,54 @@ class InMemoryCache(ICache):
             return value
 
     async def set(self, key: str, value: Any, ttl_seconds: Optional[int] = None) -> None:
+        """Execute set operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+            ttl_seconds: The ttl_seconds parameter.
+
+        Returns:
+            The result of the operation.
+        """
         ttl = ttl_seconds or self._default_ttl
         expires_at = time.time() + ttl if ttl > 0 else 0
         async with self._lock:
             self._store[key] = (expires_at, value)
 
     async def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         async with self._lock:
             self._store.pop(key, None)
 
     async def clear(self) -> None:
+        """Execute clear operation.
+
+        Returns:
+            The result of the operation.
+        """
         async with self._lock:
             self._store.clear()
 
 
 class RedisCache(ICache):
+    """Represents the RedisCache class."""
+
     def __init__(self, url: str, namespace: str, default_ttl_seconds: int) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            url: The url parameter.
+            namespace: The namespace parameter.
+            default_ttl_seconds: The default_ttl_seconds parameter.
+        """
         if _redis_cls is None:  # pragma: no cover - optional
             raise RuntimeError("redis.asyncio is not installed")
         self._redis = _redis_cls.from_url(url)  # type: ignore[operator]
@@ -80,9 +162,25 @@ class RedisCache(ICache):
         self._default_ttl = default_ttl_seconds
 
     def _k(self, key: str) -> str:
+        """Execute _k operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return f"{self._ns}{key}"
 
     async def get(self, key: str) -> Any:
+        """Execute get operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raw = await self._redis.get(self._k(key))
         if raw is None:
             return None
@@ -94,6 +192,16 @@ class RedisCache(ICache):
             return raw
 
     async def set(self, key: str, value: Any, ttl_seconds: Optional[int] = None) -> None:
+        """Execute set operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+            ttl_seconds: The ttl_seconds parameter.
+
+        Returns:
+            The result of the operation.
+        """
         ttl = ttl_seconds or self._default_ttl
         payload: Union[str, bytes]
         if isinstance(value, (str, bytes)):
@@ -105,9 +213,22 @@ class RedisCache(ICache):
         await self._redis.set(self._k(key), payload, ex=ttl if ttl > 0 else None)
 
     async def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         await self._redis.delete(self._k(key))
 
     async def clear(self) -> None:
+        """Execute clear operation.
+
+        Returns:
+            The result of the operation.
+        """
         # Best-effort: delete keys with namespace prefix
         pattern = self._k("*")
         async for key in self._redis.scan_iter(match=pattern):  # type: ignore[attr-defined]
@@ -118,6 +239,11 @@ _CACHE_SINGLETON: Optional[ICache] = None
 
 
 def get_cache() -> Optional[ICache]:
+    """Execute get_cache operation.
+
+    Returns:
+        The result of the operation.
+    """
     global _CACHE_SINGLETON
     if _CACHE_SINGLETON is not None:
         return _CACHE_SINGLETON
@@ -157,6 +283,16 @@ F = TypeVar("F", bound=Callable[..., Awaitable[Any]])
 def _default_cache_key(
     func: Callable[..., Any], args: Tuple[Any, ...], kwargs: Dict[str, Any]
 ) -> str:
+    """Execute _default_cache_key operation.
+
+    Args:
+        func: The func parameter.
+        args: The args parameter.
+        kwargs: The kwargs parameter.
+
+    Returns:
+        The result of the operation.
+    """
     parts: list[Hashable] = [func.__module__, func.__qualname__]
     parts.extend(args)
     for k in sorted(kwargs.keys()):
@@ -171,8 +307,7 @@ def cache_result(
     ] = None,
     ttl_seconds: Optional[int] = None,
 ) -> Callable[[F], F]:
-    """
-    Decorator to cache async service calls using the configured cache backend.
+    """Decorator to cache async service calls using the configured cache backend.
 
     If caching is disabled or the backend cannot be initialized, the decorator
     becomes a no-op and always calls through.
@@ -180,10 +315,23 @@ def cache_result(
     _log = logger
 
     def decorator(func: F) -> F:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
         kb = key_builder or _default_cache_key
 
         @wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             cache = get_cache()
             if cache is None:
                 return await func(*args, **kwargs)

@@ -1,6 +1,4 @@
-"""
-Cancel in-flight jobs where the backend supports it.
-"""
+"""Cancel in-flight jobs where the backend supports it."""
 
 from __future__ import annotations
 
@@ -25,8 +23,7 @@ def cancel_job(
     rq_connection: Any = None,
     terminate: bool = True,
 ) -> CancelJobResult:
-    """
-    Request cancellation of a job.
+    """Request cancellation of a job.
 
     - **celery** — ``control.revoke`` with optional ``terminate`` (SIGTERM workers).
     - **rq** — ``Job.cancel()`` on the fetched job (requires ``rq_connection``).
@@ -47,6 +44,16 @@ def cancel_job(
 
 
 def _cancel_celery(job_id: str, celery_app: Any, *, terminate: bool) -> CancelJobResult:
+    """Execute _cancel_celery operation.
+
+    Args:
+        job_id: The job_id parameter.
+        celery_app: The celery_app parameter.
+        terminate: The terminate parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from celery.result import AsyncResult
     except ImportError as e:  # pragma: no cover
@@ -62,6 +69,15 @@ def _cancel_celery(job_id: str, celery_app: Any, *, terminate: bool) -> CancelJo
 
 
 def _cancel_rq(job_id: str, rq_connection: Any) -> CancelJobResult:
+    """Execute _cancel_rq operation.
+
+    Args:
+        job_id: The job_id parameter.
+        rq_connection: The rq_connection parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from rq.job import Job
     except ImportError as e:  # pragma: no cover

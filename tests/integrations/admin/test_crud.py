@@ -1,3 +1,5 @@
+"""Module test_crud.py."""
+
 from __future__ import annotations
 
 """Tests for generic CRUD router and audit hooks."""
@@ -19,24 +21,34 @@ from tests.integrations.admin.abstraction import IAdminTests
 
 
 class Base(DeclarativeBase):
+    """Represents the Base class."""
+
     pass
 
 
 class Widget(Base):
+    """Represents the Widget class."""
+
     __tablename__ = "widgets"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
 
 
 class WidgetCreate(BaseModel):
+    """Represents the WidgetCreate class."""
+
     name: str
 
 
 class WidgetUpdate(BaseModel):
+    """Represents the WidgetUpdate class."""
+
     name: Optional[str] = None
 
 
 class WidgetRead(BaseModel):
+    """Represents the WidgetRead class."""
+
     model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
@@ -44,6 +56,11 @@ class WidgetRead(BaseModel):
 
 @pytest.fixture
 def engine():
+    """Execute engine operation.
+
+    Returns:
+        The result of the operation.
+    """
     eng = create_engine(
         "sqlite+pysqlite:///:memory:",
         connect_args={"check_same_thread": False},
@@ -55,9 +72,22 @@ def engine():
 
 @pytest.fixture
 def session_dep(engine):
+    """Execute session_dep operation.
+
+    Args:
+        engine: The engine parameter.
+
+    Returns:
+        The result of the operation.
+    """
     SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
     def get_db():
+        """Execute get_db operation.
+
+        Returns:
+            The result of the operation.
+        """
         db = SessionLocal()
         try:
             yield db
@@ -68,7 +98,17 @@ def session_dep(engine):
 
 
 class TestCrud(IAdminTests):
+    """Represents the TestCrud class."""
+
     def test_crud_roundtrip_and_audit(self, session_dep):
+        """Execute test_crud_roundtrip_and_audit operation.
+
+        Args:
+            session_dep: The session_dep parameter.
+
+        Returns:
+            The result of the operation.
+        """
         events: list[dict[str, Any]] = []
 
         async def audit_hook(
@@ -79,6 +119,18 @@ class TestCrud(IAdminTests):
             details: Optional[dict[str, Any]],
             request: Optional[Any] = None,
         ) -> None:
+            """Execute audit_hook operation.
+
+            Args:
+                action: The action parameter.
+                resource_type: The resource_type parameter.
+                resource_id: The resource_id parameter.
+                details: The details parameter.
+                request: The request parameter.
+
+            Returns:
+                The result of the operation.
+            """
             events.append(
                 {"action": action, "resource_type": resource_type, "resource_id": resource_id}
             )
@@ -115,8 +167,20 @@ class TestCrud(IAdminTests):
         assert client.get(f"/widgets/{wid}").status_code == 404
 
     def test_audit_repository_hook_and_actor(self, session_dep):
+        """Execute test_audit_repository_hook_and_actor operation.
+
+        Args:
+            session_dep: The session_dep parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class MemAudit(IAuditLogRepository):
+            """Represents the MemAudit class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.appends: list[dict[str, Any]] = []
 
             async def append(
@@ -130,6 +194,20 @@ class TestCrud(IAdminTests):
                 ip_address: Optional[str] = None,
                 user_agent: Optional[str] = None,
             ) -> AuditLogEntry:
+                """Execute append operation.
+
+                Args:
+                    action: The action parameter.
+                    resource_type: The resource_type parameter.
+                    actor_id: The actor_id parameter.
+                    resource_id: The resource_id parameter.
+                    details: The details parameter.
+                    ip_address: The ip_address parameter.
+                    user_agent: The user_agent parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.appends.append(
                     {
                         "action": action,
@@ -148,11 +226,24 @@ class TestCrud(IAdminTests):
                 )
 
             async def list_entries(self, **kwargs: Any) -> list[AuditLogEntry]:
+                """Execute list_entries operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return []
 
         repo = MemAudit()
 
         def actor(req: Request) -> Optional[str]:
+            """Execute actor operation.
+
+            Args:
+                req: The req parameter.
+
+            Returns:
+                The result of the operation.
+            """
             return "actor-1"
 
         app = FastAPI()
@@ -179,10 +270,22 @@ class TestCrud(IAdminTests):
         """Explicit audit_repository_hook without crud get_actor_id wiring."""
 
         class MemAudit(IAuditLogRepository):
+            """Represents the MemAudit class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.appends: list[str] = []
 
             async def append(self, action: str, resource_type: str, **kwargs: Any) -> AuditLogEntry:
+                """Execute append operation.
+
+                Args:
+                    action: The action parameter.
+                    resource_type: The resource_type parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.appends.append(action)
                 return AuditLogEntry(
                     id="1",
@@ -192,6 +295,11 @@ class TestCrud(IAdminTests):
                 )
 
             async def list_entries(self, **kwargs: Any) -> list[AuditLogEntry]:
+                """Execute list_entries operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return []
 
         repo = MemAudit()

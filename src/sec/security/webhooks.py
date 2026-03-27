@@ -1,5 +1,4 @@
-"""
-Webhook Verification.
+"""Webhook Verification.
 
 Provides signature verification for incoming webhooks
 to ensure authenticity and prevent replay attacks.
@@ -19,8 +18,7 @@ from .abstraction import ISecurity
 
 @dataclass
 class WebhookConfig:
-    """
-    Webhook verification configuration.
+    """Webhook verification configuration.
 
     Attributes:
         secret: Webhook secret key.
@@ -28,6 +26,7 @@ class WebhookConfig:
         timestamp_header: Header containing timestamp.
         tolerance_seconds: Max age of webhook in seconds.
         algorithm: HMAC algorithm to use.
+
     """
 
     secret: str
@@ -44,8 +43,7 @@ class WebhookVerificationError(Exception):
 
 
 class WebhookVerifier(ISecurity):
-    """
-    Webhook signature verifier.
+    """Webhook signature verifier.
 
     Supports HMAC-based signature verification with timestamp
     validation to prevent replay attacks.
@@ -71,8 +69,7 @@ class WebhookVerifier(ISecurity):
         tolerance_seconds: int = 300,
         algorithm: str = "sha256",
     ) -> None:
-        """
-        Initialize webhook verifier.
+        """Initialize webhook verifier.
 
         Args:
             secret: Webhook secret key.
@@ -80,6 +77,7 @@ class WebhookVerifier(ISecurity):
             timestamp_header: Header containing timestamp.
             tolerance_seconds: Max age of webhook in seconds.
             algorithm: HMAC algorithm (sha256, sha512, etc.).
+
         """
         self._secret = secret.encode() if isinstance(secret, str) else secret
         self._signature_header = signature_header
@@ -92,8 +90,7 @@ class WebhookVerifier(ISecurity):
         payload: Union[str, bytes],
         timestamp: Optional[str] = None,
     ) -> str:
-        """
-        Compute HMAC signature for payload.
+        """Compute HMAC signature for payload.
 
         Args:
             payload: Request body.
@@ -101,6 +98,7 @@ class WebhookVerifier(ISecurity):
 
         Returns:
             Hex-encoded signature.
+
         """
         if isinstance(payload, str):
             payload = payload.encode()
@@ -125,8 +123,7 @@ class WebhookVerifier(ISecurity):
         signature: str,
         timestamp: Optional[str] = None,
     ) -> bool:
-        """
-        Verify webhook signature.
+        """Verify webhook signature.
 
         Args:
             payload: Request body.
@@ -138,6 +135,7 @@ class WebhookVerifier(ISecurity):
 
         Raises:
             WebhookVerificationError: If verification fails.
+
         """
         # Check timestamp if provided
         if timestamp:
@@ -165,8 +163,7 @@ class WebhookVerifier(ISecurity):
         return True
 
     async def verify_request(self, request: Request) -> bytes:
-        """
-        Verify webhook from FastAPI request.
+        """Verify webhook from FastAPI request.
 
         Args:
             request: FastAPI request object.
@@ -176,6 +173,7 @@ class WebhookVerifier(ISecurity):
 
         Raises:
             HTTPException: If verification fails.
+
         """
         # Get signature
         signature = request.headers.get(self._signature_header)
@@ -198,8 +196,7 @@ class WebhookVerifier(ISecurity):
             raise HTTPException(status_code=401, detail=str(e))
 
     def verified(self, func: Callable) -> Callable:
-        """
-        Decorator to verify webhook requests.
+        """Decorator to verify webhook requests.
 
         Usage:
             @verifier.verified
@@ -209,6 +206,14 @@ class WebhookVerifier(ISecurity):
 
         @functools.wraps(func)
         async def wrapper(request: Request, *args: Any, **kwargs: Any) -> Any:
+            """Execute wrapper operation.
+
+            Args:
+                request: The request parameter.
+
+            Returns:
+                The result of the operation.
+            """
             await self.verify_request(request)
             return await func(request, *args, **kwargs)
 
@@ -216,8 +221,7 @@ class WebhookVerifier(ISecurity):
 
 
 class MultiSecretWebhookVerifier(ISecurity):
-    """
-    Webhook verifier that supports multiple secrets.
+    """Webhook verifier that supports multiple secrets.
 
     Useful when rotating secrets or handling webhooks
     from multiple sources.
@@ -230,14 +234,14 @@ class MultiSecretWebhookVerifier(ISecurity):
         timestamp_header: str = "X-Timestamp",
         tolerance_seconds: int = 300,
     ) -> None:
-        """
-        Initialize with multiple secrets.
+        """Initialize with multiple secrets.
 
         Args:
             secrets: List of valid secrets.
             signature_header: Header containing signature.
             timestamp_header: Header containing timestamp.
             tolerance_seconds: Max age of webhook.
+
         """
         self._verifiers = [
             WebhookVerifier(
@@ -255,8 +259,7 @@ class MultiSecretWebhookVerifier(ISecurity):
         signature: str,
         timestamp: Optional[str] = None,
     ) -> bool:
-        """
-        Verify using any of the configured secrets.
+        """Verify using any of the configured secrets.
 
         Returns True if any secret validates the signature.
         """

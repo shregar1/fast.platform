@@ -7,6 +7,14 @@ from pathlib import Path
 
 
 def pytest_configure(config: object) -> None:
+    """Execute pytest_configure operation.
+
+    Args:
+        config: The config parameter.
+
+    Returns:
+        The result of the operation.
+    """
     root = Path(getattr(config, "rootpath", Path(__file__).resolve().parents[1]))
     src = root / "src"
     s = str(src.resolve())

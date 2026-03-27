@@ -1,3 +1,5 @@
+"""Module test_factory_typesense_opensearch.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`data.search.base.build_search_backend` (typesense + opensearch)."""
@@ -13,14 +15,26 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestSearchFactoryTypesenseOpensearch(ISearchTests):
+    """Represents the TestSearchFactoryTypesenseOpensearch class."""
+
     def test_build_search_backend_typesense_and_opensearch(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
+        """Execute test_build_search_backend_typesense_and_opensearch operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         install_fake_typesense()
         install_fake_opensearch()
         try:
 
             class Cfg:
+                """Represents the Cfg class."""
+
                 meilisearch = type("M", (), {"enabled": False, "url": None})()
                 typesense = type(
                     "T",
@@ -34,7 +48,14 @@ class TestSearchFactoryTypesenseOpensearch(ISearchTests):
                 )()
 
             class SearchConfiguration:
+                """Represents the SearchConfiguration class."""
+
                 def get_config(self):
+                    """Execute get_config operation.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     return Cfg()
 
             monkeypatch.setattr("data.search.base.SearchConfiguration", SearchConfiguration)

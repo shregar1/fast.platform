@@ -1,5 +1,4 @@
-"""
-fast_db – DB extension for FastMVC.
+"""fast_db – DB extension for FastMVC.
 
 Provides SQLAlchemy engine/session from fast_platform DB config,
 FastAPI DBDependency, table name constants, and get_database_url for Alembic.

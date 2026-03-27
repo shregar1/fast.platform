@@ -1,3 +1,5 @@
+"""Module test_bulk_index.py."""
+
 from __future__ import annotations
 
 """Bulk index API."""
@@ -11,13 +13,29 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 
 class FlakyBulkBackend(ISearchBackend):
+    """Represents the FlakyBulkBackend class."""
+
     name = "flaky"
 
     def __init__(self, fail_batches: set[int]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            fail_batches: The fail_batches parameter.
+        """
         self.fail_batches = fail_batches
         self.batches: list[list[dict[str, Any]]] = []
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
+        """Execute index_documents operation.
+
+        Args:
+            index_name: The index_name parameter.
+            documents: The documents parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bi = len(self.batches)
         self.batches.append(documents)
         if bi in self.fail_batches:
@@ -32,14 +50,41 @@ class FlakyBulkBackend(ISearchBackend):
         offset: int = 0,
         filter: Optional[dict[str, Any]] = None,
     ) -> List[dict[str, Any]]:
+        """Execute search operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return []
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pass
 
 
 class TestBulkIndex(ISearchTests):
+    """Represents the TestBulkIndex class."""
+
     def test_bulk_index_success_and_errors(self) -> None:
+        """Execute test_bulk_index_success_and_errors operation.
+
+        Returns:
+            The result of the operation.
+        """
         b = FlakyBulkBackend(fail_batches={1})
         docs = [{"i": i} for i in range(5)]
         r = bulk_index_documents(b, "idx", docs, batch_size=2)
@@ -53,6 +98,11 @@ class TestBulkIndex(ISearchTests):
         assert r.errors[0].documents_in_batch == 2
 
     def test_bulk_index_stop_on_error(self) -> None:
+        """Execute test_bulk_index_stop_on_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         b = FlakyBulkBackend(fail_batches={0})
         docs = [{"i": i} for i in range(4)]
         r = bulk_index_documents(b, "idx", docs, batch_size=2, stop_on_error=True)
@@ -60,6 +110,11 @@ class TestBulkIndex(ISearchTests):
         assert r.batches_failed == 1
 
     def test_bulk_index_batch_size_invalid(self) -> None:
+        """Execute test_bulk_index_batch_size_invalid operation.
+
+        Returns:
+            The result of the operation.
+        """
         b = FlakyBulkBackend(fail_batches=set())
         with pytest.raises(ValueError):
             bulk_index_documents(b, "idx", [], batch_size=0)

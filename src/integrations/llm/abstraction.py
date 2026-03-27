@@ -1,5 +1,4 @@
-"""
-LLM provider abstraction.
+"""LLM provider abstraction.
 
 Supports OpenAI, Anthropic, and local/Ollama-style models via a common
 ``ILLMService`` interface.
@@ -41,19 +40,35 @@ class ILLM(ABC):
 
 
 class ILLMService(ILLM, ABC):
-    """
-    Minimal LLM service interface.
-    """
+    """Minimal LLM service interface."""
 
     @abstractmethod
     async def generate(
         self, prompt: str, *, max_tokens: int = 256
     ) -> str:  # pragma: no cover - interface
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
 class OpenAILLMService(ILLMService):
+    """Represents the OpenAILLMService class."""
+
     def __init__(self, api_key: str, base_url: Optional[str], model: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+        """
         if openai is None:  # pragma: no cover - optional
             raise LLMDependencyError(provider="openai", pip_extra="fast_llm[openai]")
         client_kwargs: Dict[str, Any] = {"api_key": api_key}
@@ -63,6 +78,15 @@ class OpenAILLMService(ILLMService):
         self._model = model
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._client.chat.completions.create(
             model=self._model,
             messages=[{"role": "user", "content": prompt}],
@@ -73,7 +97,16 @@ class OpenAILLMService(ILLMService):
 
 
 class AnthropicLLMService(ILLMService):
+    """Represents the AnthropicLLMService class."""
+
     def __init__(self, api_key: str, base_url: Optional[str], model: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+        """
         if anthropic is None:  # pragma: no cover - optional
             raise LLMDependencyError(provider="anthropic", pip_extra="fast_llm[anthropic]")
         client_kwargs: Dict[str, Any] = {"api_key": api_key}
@@ -83,6 +116,15 @@ class AnthropicLLMService(ILLMService):
         self._model = model
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._client.messages.create(
             model=self._model,
             max_tokens=max_tokens,
@@ -97,13 +139,30 @@ class AnthropicLLMService(ILLMService):
 
 
 class OllamaLLMService(ILLMService):
+    """Represents the OllamaLLMService class."""
+
     def __init__(self, base_url: str, model: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            base_url: The base_url parameter.
+            model: The model parameter.
+        """
         if httpx is None:  # pragma: no cover - optional
             raise LLMDependencyError(provider="ollama", pip_extra="fast_llm[ollama]")
         self._base_url = base_url.rstrip("/")
         self._model = model
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         url = f"{self._base_url}/api/generate"
         payload = {"model": self._model, "prompt": prompt, "stream": False}
         async with httpx.AsyncClient() as client:
@@ -114,8 +173,7 @@ class OllamaLLMService(ILLMService):
 
 
 def build_llm_service() -> Optional[ILLMService]:
-    """
-    Build an LLM service instance from core.configuration.
+    """Build an LLM service instance from core.configuration.
 
     Priority:
       - OpenAI

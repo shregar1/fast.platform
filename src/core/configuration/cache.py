@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class CacheConfiguration(ConfigurationSingletonBase[CacheConfigurationDTO]):
+    """Represents the CacheConfiguration class."""
+
     _instance: Optional["CacheConfiguration"] = None
     _section: str = "cache"
     _env_key: str = "CACHE"

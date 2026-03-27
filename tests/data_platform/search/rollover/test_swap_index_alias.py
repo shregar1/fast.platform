@@ -1,3 +1,5 @@
+"""Module test_swap_index_alias.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`data.search.rollover.swap_index_alias`."""
@@ -8,16 +10,38 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestSwapIndexAlias(ISearchTests):
+    """Represents the TestSwapIndexAlias class."""
+
     def test_swap_index_alias_remove_and_add(self) -> None:
+        """Execute test_swap_index_alias_remove_and_add operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Indices:
+            """Represents the _Indices class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.last_body: Optional[dict[str, Any]] = None
 
             def update_aliases(self, body: dict[str, Any]) -> None:
+                """Execute update_aliases operation.
+
+                Args:
+                    body: The body parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.last_body = body
 
         class _Client:
+            """Represents the _Client class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.indices = _Indices()
 
         c = _Client()
@@ -30,15 +54,35 @@ class TestSwapIndexAlias(ISearchTests):
         }
 
     def test_swap_index_alias_add_only(self) -> None:
+        """Execute test_swap_index_alias_add_only operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Indices:
+            """Represents the _Indices class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.last_body: Optional[dict[str, Any]] = None
 
             def update_aliases(self, body: dict[str, Any]) -> None:
+                """Execute update_aliases operation.
+
+                Args:
+                    body: The body parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.last_body = body
 
         class _Client:
+            """Represents the _Client class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.indices = _Indices()
 
         c = _Client()

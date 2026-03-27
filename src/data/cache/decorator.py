@@ -1,23 +1,22 @@
-"""
-Cache Decorator for Fast Platform
+"""Cache Decorator for Fast Platform.
 
 Lightweight caching with Redis support.
 
 Usage:
     from core.cache_decorator import cached
-    
+
     @cached(ttl=300)
     async def get_user(user_id: str) -> User:
         return await db.get(User, user_id)
-    
+
     @cached(ttl=600, key="posts:{category}:{page}")
     async def list_posts(category: str, page: int = 1):
         return await db.query(Post).filter_by(category=category).offset((page-1)*10).limit(10).all()
-    
+
     # Invalidate cache
     from core.cache_decorator import invalidate
     invalidate("posts:{category}:*", category="tech")
-    
+
     # Or use the decorator's invalidate method
     list_posts.invalidate(category="tech", page=1)
 
@@ -36,6 +35,7 @@ from datetime import timedelta
 
 try:
     from redis import Redis
+
     HAS_REDIS = True
 except ImportError:
     HAS_REDIS = False
@@ -48,9 +48,10 @@ def _get_redis() -> Optional[Any]:
     """Get Redis connection or None."""
     if not HAS_REDIS:
         return None
-    
+
     try:
         import os
+
         redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
         return Redis.from_url(redis_url, decode_responses=False)
     except Exception:
@@ -64,10 +65,11 @@ def _build_key(func: Callable, key_template: Optional[str], args, kwargs) -> str
         try:
             # Get function argument names
             import inspect
+
             sig = inspect.signature(func)
             bound = sig.bind(*args, **kwargs)
             bound.apply_defaults()
-            
+
             cache_key = key_template.format(**bound.arguments)
         except Exception:
             # Fall back to hash if template fails
@@ -75,9 +77,10 @@ def _build_key(func: Callable, key_template: Optional[str], args, kwargs) -> str
     else:
         # Use function name + arguments hash
         cache_key = f"{func.__module__}.{func.__name__}:{_hash_args(args, kwargs)}"
-    
+
     # Add prefix
     import os
+
     prefix = os.getenv("CACHE_PREFIX", "fastmvc")
     return f"{prefix}:{cache_key}"
 
@@ -91,40 +94,50 @@ def _hash_args(args, kwargs) -> str:
         return hashlib.md5(str(args).encode() + str(kwargs).encode()).hexdigest()
 
 
-def cached(
-    ttl: int = 300,
-    key: Optional[str] = None,
-    unless: Optional[Callable] = None
-):
-    """
-    Cache decorator for functions.
-    
+def cached(ttl: int = 300, key: Optional[str] = None, unless: Optional[Callable] = None):
+    """Cache decorator for functions.
+
     Args:
         ttl: Time to live in seconds (default: 300)
         key: Cache key template, e.g., "user:{user_id}"
         unless: Function that returns True if result should not be cached
-    
+
     Usage:
         @cached(ttl=300)
         async def get_user(user_id: str):
             return await db.get(User, user_id)
-        
+
         @cached(ttl=600, key="posts:{category}")
         async def get_posts(category: str):
             return await db.query(Post).filter_by(category=category).all()
+
     """
+
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
         is_async = callable(func) and func.__code__.co_flags & 0x80
-        
+
         @functools.wraps(func)
         async def async_wrapper(*args, **kwargs):
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             # Check unless condition
             if unless and unless(*args, **kwargs):
                 return await func(*args, **kwargs)
-            
+
             # Build cache key
             cache_key = _build_key(func, key, args, kwargs)
-            
+
             # Try to get from cache
             redis = _get_redis()
             try:
@@ -135,6 +148,7 @@ def cached(
                 else:
                     # Use memory cache
                     import time
+
                     if cache_key in _memory_cache:
                         value, expiry = _memory_cache[cache_key]
                         if expiry > time.time():
@@ -144,32 +158,38 @@ def cached(
             except Exception:
                 # Cache failure - continue to function
                 pass
-            
+
             # Call function
             result = await func(*args, **kwargs)
-            
+
             # Store in cache
             try:
                 if redis:
                     redis.setex(cache_key, ttl, pickle.dumps(result))
                 else:
                     import time
+
                     _memory_cache[cache_key] = (result, time.time() + ttl)
             except Exception:
                 # Cache failure - ignore
                 pass
-            
+
             return result
-        
+
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             # Check unless condition
             if unless and unless(*args, **kwargs):
                 return func(*args, **kwargs)
-            
+
             # Build cache key
             cache_key = _build_key(func, key, args, kwargs)
-            
+
             # Try to get from cache
             redis = _get_redis()
             try:
@@ -179,6 +199,7 @@ def cached(
                         return pickle.loads(cached_value)
                 else:
                     import time
+
                     if cache_key in _memory_cache:
                         value, expiry = _memory_cache[cache_key]
                         if expiry > time.time():
@@ -187,24 +208,25 @@ def cached(
                             del _memory_cache[cache_key]
             except Exception:
                 pass
-            
+
             # Call function
             result = func(*args, **kwargs)
-            
+
             # Store in cache
             try:
                 if redis:
                     redis.setex(cache_key, ttl, pickle.dumps(result))
                 else:
                     import time
+
                     _memory_cache[cache_key] = (result, time.time() + ttl)
             except Exception:
                 pass
-            
+
             return result
-        
+
         wrapper = async_wrapper if is_async else sync_wrapper
-        
+
         # Add invalidate method
         def invalidate(*args, **kwargs):
             """Invalidate cache for this function with given args."""
@@ -217,39 +239,38 @@ def cached(
                     del _memory_cache[cache_key]
             except Exception:
                 pass
-        
+
         wrapper.invalidate = invalidate
-        
+
         return wrapper
+
     return decorator
 
 
 def invalidate_pattern(pattern: str) -> int:
-    """
-    Invalidate cache keys matching pattern.
-    
+    """Invalidate cache keys matching pattern.
+
     Args:
         pattern: Glob pattern, e.g., "user:*" or "posts:{category}:*"
-    
+
     Returns:
         Number of keys deleted
+
     """
     redis = _get_redis()
     if not redis:
         # Memory cache - simple matching
-        keys_to_delete = [
-            k for k in _memory_cache.keys()
-            if _match_glob(k, pattern)
-        ]
+        keys_to_delete = [k for k in _memory_cache.keys() if _match_glob(k, pattern)]
         for k in keys_to_delete:
             del _memory_cache[k]
         return len(keys_to_delete)
-    
+
     # Redis - use SCAN and DELETE
     import os
+
     prefix = os.getenv("CACHE_PREFIX", "fastmvc")
     full_pattern = f"{prefix}:{pattern}"
-    
+
     deleted = 0
     for key in redis.scan_iter(match=full_pattern):
         redis.delete(key)
@@ -260,6 +281,7 @@ def invalidate_pattern(pattern: str) -> int:
 def _match_glob(key: str, pattern: str) -> bool:
     """Simple glob matching for memory cache."""
     import fnmatch
+
     return fnmatch.fnmatch(key, pattern)
 
 
@@ -268,6 +290,7 @@ def clear_cache() -> None:
     redis = _get_redis()
     if redis:
         import os
+
         prefix = os.getenv("CACHE_PREFIX", "fastmvc")
         for key in redis.scan_iter(match=f"{prefix}:*"):
             redis.delete(key)
@@ -277,22 +300,35 @@ def clear_cache() -> None:
 
 # Decorator for cache eviction
 def cache_evict(key: str):
-    """
-    Decorator to evict cache entries after function execution.
-    
+    """Decorator to evict cache entries after function execution.
+
     Usage:
         @cache_evict("user:{user_id}")
         async def update_user(user_id: str, data: dict):
             # After this runs, "user:{user_id}" cache is cleared
             return await db.update(User, user_id, data)
     """
+
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
         is_async = callable(func) and func.__code__.co_flags & 0x80
-        
+
         @functools.wraps(func)
         async def async_wrapper(*args, **kwargs):
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             result = await func(*args, **kwargs)
-            
+
             # Build key and evict
             cache_key = _build_key(func, key, args, kwargs)
             redis = _get_redis()
@@ -303,13 +339,18 @@ def cache_evict(key: str):
                     del _memory_cache[cache_key]
             except Exception:
                 pass
-            
+
             return result
-        
+
         @functools.wraps(func)
         def sync_wrapper(*args, **kwargs):
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             result = func(*args, **kwargs)
-            
+
             cache_key = _build_key(func, key, args, kwargs)
             redis = _get_redis()
             try:
@@ -319,8 +360,9 @@ def cache_evict(key: str):
                     del _memory_cache[cache_key]
             except Exception:
                 pass
-            
+
             return result
-        
+
         return async_wrapper if is_async else sync_wrapper
+
     return decorator

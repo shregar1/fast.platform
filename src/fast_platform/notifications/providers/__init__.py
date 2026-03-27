@@ -1,6 +1,4 @@
-"""
-Notification providers
-"""
+"""Notification providers."""
 
 from .twilio import TwilioClient
 from .sendgrid import SendGridClient

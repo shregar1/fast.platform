@@ -1,25 +1,54 @@
+"""Module test_hub.py."""
+
 import asyncio
 
 from tests.realtime.channels.abstraction import IChannelTests
 
 
 class FakeWebSocket:
+    """Represents the FakeWebSocket class."""
+
     def __init__(self, *, fail_on_send: bool = False):
+        """Execute __init__ operation.
+
+        Args:
+            fail_on_send: The fail_on_send parameter.
+        """
         self.accepted = False
         self.sent: list[str] = []
         self._fail_on_send = fail_on_send
 
     async def accept(self):
+        """Execute accept operation.
+
+        Returns:
+            The result of the operation.
+        """
         self.accepted = True
 
     async def send_text(self, message: str):
+        """Execute send_text operation.
+
+        Args:
+            message: The message parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._fail_on_send:
             raise RuntimeError("send failed")
         self.sent.append(message)
 
 
 class TestHub(IChannelTests):
+    """Represents the TestHub class."""
+
     def test_hub_connect_broadcast_and_disconnect_cleanup(self):
+        """Execute test_hub_connect_broadcast_and_disconnect_cleanup operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
@@ -39,6 +68,11 @@ class TestHub(IChannelTests):
         assert "room1" not in hub._topics
 
     def test_hub_broadcast_disconnects_broken_socket(self):
+        """Execute test_hub_broadcast_disconnects_broken_socket operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
@@ -52,6 +86,11 @@ class TestHub(IChannelTests):
         assert bad not in {s.ws for s in hub._topics["room1"]}
 
     def test_hub_subscriber_counts_and_topic_names(self):
+        """Execute test_hub_subscriber_counts_and_topic_names operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
@@ -66,6 +105,11 @@ class TestHub(IChannelTests):
         assert set(hub.topic_names()) == {"a", "b"}
 
     def test_hub_send_ping_record_pong_and_sweep(self):
+        """Execute test_hub_send_ping_record_pong_and_sweep operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
@@ -84,6 +128,11 @@ class TestHub(IChannelTests):
         assert hub.subscriber_count("room1") == 1
 
     def test_hub_record_pong_without_topic_and_sweep_all_stale(self):
+        """Execute test_hub_record_pong_without_topic_and_sweep_all_stale operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
@@ -96,9 +145,19 @@ class TestHub(IChannelTests):
         assert "z" not in hub._topics
 
     def test_hub_send_ping_with_queue(self):
+        """Execute test_hub_send_ping_with_queue operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.hub import ChannelsHub
 
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             hub = ChannelsHub(max_queue_depth_per_subscriber=4)
             ws = FakeWebSocket()
             await hub.connect("room1", ws)

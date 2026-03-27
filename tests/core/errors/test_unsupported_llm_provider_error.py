@@ -7,7 +7,14 @@ from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestUnsupportedLLMProviderError(IErrorsTests):
+    """Represents the TestUnsupportedLLMProviderError class."""
+
     def test_provider_field(self) -> None:
+        """Execute test_provider_field operation.
+
+        Returns:
+            The result of the operation.
+        """
         err = UnsupportedLLMProviderError("foo")
         assert err.provider == "foo"
         assert "foo" in err.responseMessage

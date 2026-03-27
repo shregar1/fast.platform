@@ -1,5 +1,4 @@
-"""
-LLM provider implementations and factory.
+"""LLM provider implementations and factory.
 
 Each concrete provider lives in its own module under :mod:`llm.providers`.
 """

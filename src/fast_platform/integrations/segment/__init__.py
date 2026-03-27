@@ -1,5 +1,4 @@
-"""
-Segment Integration
+"""Segment Integration.
 
 Customer data platform.
 """

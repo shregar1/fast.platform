@@ -9,7 +9,14 @@ from tests.core.errors.abstraction import IErrorsTests
 
 
 class TestBadInputError(IErrorsTests):
+    """Represents the TestBadInputError class."""
+
     def test_creation(self):
+        """Execute test_creation operation.
+
+        Returns:
+            The result of the operation.
+        """
         error = BadInputError(
             responseMessage="Invalid email format",
             responseKey="error_invalid_email",
@@ -20,6 +27,11 @@ class TestBadInputError(IErrorsTests):
         assert error.httpStatusCode == HTTPStatus.BAD_REQUEST
 
     def test_is_exception(self):
+        """Execute test_is_exception operation.
+
+        Returns:
+            The result of the operation.
+        """
         error = BadInputError(
             responseMessage="Test",
             responseKey="test",
@@ -28,6 +40,11 @@ class TestBadInputError(IErrorsTests):
         assert isinstance(error, BaseException)
 
     def test_can_be_raised(self):
+        """Execute test_can_be_raised operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(BadInputError) as exc_info:
             raise BadInputError(
                 responseMessage="Test error",

@@ -1,6 +1,4 @@
-"""
-fast_webhooks – Webhook signing, retries, and outbound delivery for FastMVC.
-"""
+"""fast_webhooks – Webhook signing, retries, and outbound delivery for FastMVC."""
 
 from .delivery import (
     RetryPolicy,

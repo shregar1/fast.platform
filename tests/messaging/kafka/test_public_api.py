@@ -1,3 +1,5 @@
+"""Module test_public_api.py."""
+
 from __future__ import annotations
 
 """
@@ -16,7 +18,14 @@ PACKAGE = "messaging.kafka"
 
 
 class TestPublicApi(IKafkaTests):
+    """Represents the TestPublicApi class."""
+
     def test_package_imports(self):
+        """Execute test_package_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             m = importlib.import_module(PACKAGE)
         except ImportError as e:
@@ -24,6 +33,11 @@ class TestPublicApi(IKafkaTests):
         assert m is not None
 
     def test_version_when_present(self):
+        """Execute test_version_when_present operation.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             m = importlib.import_module(PACKAGE)
         except ImportError as e:
@@ -33,6 +47,11 @@ class TestPublicApi(IKafkaTests):
             assert m.__version__
 
     def test_public_exports_resolve(self):
+        """Execute test_public_exports_resolve operation.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             m = importlib.import_module(PACKAGE)
         except ImportError as e:

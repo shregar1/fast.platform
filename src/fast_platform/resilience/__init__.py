@@ -1,5 +1,4 @@
-"""
-FastMVC Resilience Module
+"""FastMVC Resilience Module.
 
 Circuit breakers, retries, bulkheads, and rate limiting.
 """

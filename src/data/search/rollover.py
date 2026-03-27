@@ -12,8 +12,7 @@ def swap_index_alias(
     add_index: str,
     remove_index: Optional[str] = None,
 ) -> None:
-    """
-    Atomically move ``alias`` to ``add_index`` and optionally remove it from ``remove_index``.
+    """Atomically move ``alias`` to ``add_index`` and optionally remove it from ``remove_index``.
 
     Uses ``indices.update_aliases`` (same on ``opensearch-py`` and ``elasticsearch`` clients).
     Typical blue/green flow: bulk index to ``my_index_v2``, then call with

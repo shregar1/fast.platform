@@ -4,7 +4,14 @@ from tests.core.utils.abstraction import IUtilsTests
 
 
 class TestSanitizationJsonUtility(IUtilsTests):
+    """Represents the TestSanitizationJsonUtility class."""
+
     def test_removes_id_fields_recursively(self) -> None:
+        """Execute test_removes_id_fields_recursively operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.utils.sanitization import SanitizationJsonUtility
 
         data = {

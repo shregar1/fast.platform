@@ -1,6 +1,4 @@
-"""
-Optional image variant generation (resize, format) using Pillow.
-"""
+"""Optional image variant generation (resize, format) using Pillow."""
 
 from typing import Optional
 
@@ -13,8 +11,7 @@ def generate_image_variant(
     max_height: Optional[int] = None,
     quality: int = 85,
 ) -> bytes:
-    """
-    Resize/convert image to variant. Returns new image bytes.
+    """Resize/convert image to variant. Returns new image bytes.
 
     Requires Pillow: pip install fast_media[pillow]
     """

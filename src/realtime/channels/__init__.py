@@ -1,6 +1,4 @@
-"""
-fast_channels – Real-time channels extension for FastMVC.
-"""
+"""fast_channels – Real-time channels extension for FastMVC."""
 
 from __future__ import annotations
 

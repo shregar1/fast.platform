@@ -1,6 +1,4 @@
-"""
-Search backend interface and factory.
-"""
+"""Search backend interface and factory."""
 
 from __future__ import annotations
 
@@ -45,8 +43,7 @@ class ISearchBackend(ISearch, ABC):
         field: str = "title",
         limit: int = 10,
     ) -> List[str]:
-        """
-        Autocomplete-style suggestions as distinct string values from ``field``.
+        """Autocomplete-style suggestions as distinct string values from ``field``.
 
         Default uses :meth:`search` with the prefix as query and dedupes by field value;
         backends may override for native completion / prefix APIs.
@@ -79,8 +76,7 @@ class ISearchBackend(ISearch, ABC):
         facet_fields: Optional[List[str]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> FacetedSearchResult:
-        """
-        Search with optional facet fields. Default implementation wraps :meth:`search`
+        """Search with optional facet fields. Default implementation wraps :meth:`search`
         and returns empty ``facets``; backends may override for native facet support.
 
         When ``highlight_fields`` is set, backends that support it fill :attr:`SearchHit.highlights`.
@@ -107,9 +103,8 @@ class ISearchBackend(ISearch, ABC):
 
 
 def build_search_backend(backend: str = "meilisearch") -> Optional[ISearchBackend]:
-    """
-    Build a search backend from SearchConfiguration (config/search/config.json).
-    backend: "meilisearch" | "typesense" | "opensearch"
+    """Build a search backend from SearchConfiguration (config/search/config.json).
+    backend: "meilisearch" | "typesense" | "opensearch".
     """
     cfg = SearchConfiguration().get_config()
 

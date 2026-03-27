@@ -1,6 +1,4 @@
-"""
-Twilio SMS integration
-"""
+"""Twilio SMS integration."""
 
 from typing import Optional, Dict, Any
 from dataclasses import dataclass
@@ -8,7 +6,8 @@ from dataclasses import dataclass
 
 @dataclass
 class SMSMessage:
-    """SMS message"""
+    """SMS message."""
+
     to: str
     body: str
     from_number: Optional[str] = None
@@ -17,7 +16,8 @@ class SMSMessage:
 
 @dataclass
 class SMSResult:
-    """SMS send result"""
+    """SMS send result."""
+
     sid: str
     status: str
     to: str
@@ -27,84 +27,85 @@ class SMSResult:
 
 
 class TwilioClient:
-    """
-    Twilio SMS client
-    """
-    
+    """Twilio SMS client."""
+
     def __init__(
         self,
         account_sid: Optional[str] = None,
         auth_token: Optional[str] = None,
-        from_number: Optional[str] = None
+        from_number: Optional[str] = None,
     ):
+        """Execute __init__ operation.
+
+        Args:
+            account_sid: The account_sid parameter.
+            auth_token: The auth_token parameter.
+            from_number: The from_number parameter.
+        """
         self.account_sid = account_sid
         self.auth_token = auth_token
         self.from_number = from_number
         self._client = None
-    
+
     def _get_client(self):
+        """Execute _get_client operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._client is None:
             try:
                 from twilio.rest import Client
+
                 self._client = Client(self.account_sid, self.auth_token)
             except ImportError:
                 raise ImportError("twilio package required for TwilioClient")
         return self._client
-    
+
     async def send_sms(
         self,
         to: str,
         body: str,
         from_number: Optional[str] = None,
-        media_urls: Optional[list] = None
+        media_urls: Optional[list] = None,
     ) -> SMSResult:
-        """
-        Send an SMS
-        
+        """Send an SMS.
+
         Args:
             to: Recipient phone number
             body: Message body
             from_number: Sender number (uses default if not provided)
             media_urls: Optional media URLs (MMS)
+
         """
         client = self._get_client()
-        
+
         from_num = from_number or self.from_number
         if not from_num:
             raise ValueError("from_number required")
-        
-        params = {
-            "to": to,
-            "from_": from_num,
-            "body": body
-        }
-        
+
+        params = {"to": to, "from_": from_num, "body": body}
+
         if media_urls:
             params["media_url"] = media_urls
-        
+
         message = client.messages.create(**params)
-        
+
         return SMSResult(
             sid=message.sid,
             status=message.status,
             to=message.to,
             from_number=message.from_,
             body=message.body,
-            price=message.price
+            price=message.price,
         )
-    
-    async def send_bulk_sms(
-        self,
-        messages: list[SMSMessage]
-    ) -> list[SMSResult]:
-        """Send multiple SMS messages"""
+
+    async def send_bulk_sms(self, messages: list[SMSMessage]) -> list[SMSResult]:
+        """Send multiple SMS messages."""
         results = []
         for msg in messages:
             result = await self.send_sms(
-                to=msg.to,
-                body=msg.body,
-                from_number=msg.from_number,
-                media_urls=msg.media_urls
+                to=msg.to, body=msg.body, from_number=msg.from_number, media_urls=msg.media_urls
             )
             results.append(result)
         return results

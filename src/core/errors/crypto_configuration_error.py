@@ -15,6 +15,13 @@ class CryptoConfigurationError(IError):
         responseKey: str = "crypto.invalid_configuration",
         httpStatusCode: int = 400,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            responseMessage: The responseMessage parameter.
+            responseKey: The responseKey parameter.
+            httpStatusCode: The httpStatusCode parameter.
+        """
         super().__init__()
         self.responseMessage = responseMessage
         self.responseKey = responseKey

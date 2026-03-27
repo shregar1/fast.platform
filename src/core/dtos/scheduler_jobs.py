@@ -8,5 +8,7 @@ from .abstraction import IDTO
 
 
 class SchedulerJobsDTO(IDTO):
+    """Represents the SchedulerJobsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False

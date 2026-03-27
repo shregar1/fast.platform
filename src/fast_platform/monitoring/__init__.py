@@ -1,5 +1,4 @@
-"""
-FastMVC Monitoring Module
+"""FastMVC Monitoring Module.
 
 Synthetic monitoring, SLA tracking, and alerting.
 """

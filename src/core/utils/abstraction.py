@@ -1,5 +1,4 @@
-"""
-Base types for :mod:`utils`.
+"""Base types for :mod:`utils`.
 
 Concrete helpers in this package inherit :class:`IUtility` so call sites and
 documentation can treat them as a consistent “utility” family, even though most
@@ -18,8 +17,7 @@ from abc import ABC
 
 
 class IUtility(ABC):
-    """
-    Marker abstract base for utility classes under :mod:`utils`.
+    """Marker abstract base for utility classes under :mod:`utils`.
 
     Subclasses are typically collections of :func:`staticmethod` helpers (no shared
     mutable state). Inheriting from :class:`IUtility` documents intent and keeps

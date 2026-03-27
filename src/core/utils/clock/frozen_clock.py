@@ -15,9 +15,19 @@ class FrozenClock(IClockUtility):
     __slots__ = ("_fixed",)
 
     def __init__(self, fixed: datetime) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            fixed: The fixed parameter.
+        """
         if fixed.tzinfo is None:
             fixed = fixed.replace(tzinfo=timezone.utc)
         self._fixed = fixed.astimezone(timezone.utc)
 
     def now(self) -> datetime:
+        """Execute now operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._fixed

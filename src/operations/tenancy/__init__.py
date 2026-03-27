@@ -1,6 +1,4 @@
-"""
-fast_tenancy – Multi-tenancy (tenant context, JWT, middleware) for FastMVC.
-"""
+"""fast_tenancy – Multi-tenancy (tenant context, JWT, middleware) for FastMVC."""
 
 from .context import (
     InMemoryTenantStore,

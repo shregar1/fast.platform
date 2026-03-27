@@ -1,5 +1,4 @@
-"""
-ICE server lists from :class:`dtos.realtime.RealtimeConfigurationDTO`.
+"""ICE server lists from :class:`dtos.realtime.RealtimeConfigurationDTO`.
 
 Also provides helpers to map legacy flat STUN/TURN URL lists from :class:`~webrtc.dto.WebRTCConfigurationDTO`.
 """
@@ -15,8 +14,7 @@ if TYPE_CHECKING:
 
 
 def rtc_ice_servers_for_client(cfg: RealtimeConfigurationDTO) -> list[dict[str, Any]]:
-    """
-    Build a JSON-serializable list of ``RTCIceServer``-shaped dicts for browser clients.
+    """Build a JSON-serializable list of ``RTCIceServer``-shaped dicts for browser clients.
 
     When ``cfg.webrtc.enabled`` is false, returns an empty list.
     """
@@ -29,8 +27,7 @@ def rtc_ice_servers_for_client(cfg: RealtimeConfigurationDTO) -> list[dict[str, 
 
 
 def ice_servers_from_legacy_webrtc_dto(dto: WebRTCConfigurationDTO) -> list[dict[str, Any]]:
-    """
-    Map ``stun_servers`` / ``turn_servers`` URL strings to minimal ``{"urls": ...}`` entries.
+    """Map ``stun_servers`` / ``turn_servers`` URL strings to minimal ``{"urls": ...}`` entries.
 
     Prefer :func:`rtc_ice_servers_for_client` with :class:`RealtimeConfigurationDTO` when possible.
     """

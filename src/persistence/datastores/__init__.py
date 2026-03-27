@@ -1,5 +1,4 @@
-"""
-Concrete ``IDataStore`` adapters for Redis, Mongo, Cassandra, Dynamo, Cosmos, Elasticsearch.
+"""Concrete ``IDataStore`` adapters for Redis, Mongo, Cassandra, Dynamo, Cosmos, Elasticsearch.
 
 Relational DB: ``fast_db``. Object storage: ``fast_storage``.
 

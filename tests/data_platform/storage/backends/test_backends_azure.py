@@ -1,3 +1,5 @@
+"""Module test_backends_azure.py."""
+
 from __future__ import annotations
 
 """Tests for :class:`data.storage.azure_backend.AzureBlobStorageBackend`."""
@@ -14,53 +16,134 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsAzure(IStorageTests):
+    """Represents the TestBackendsAzure class."""
+
     def test_azure_blob_backend_upload_download_delete(self, monkeypatch, tmp_path) -> None:
+        """Execute test_azure_blob_backend_upload_download_delete operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class FakeBlobClient:
+            """Represents the FakeBlobClient class."""
+
             def __init__(self, key: str):
+                """Execute __init__ operation.
+
+                Args:
+                    key: The key parameter.
+                """
                 self.key = key
                 self.url = f"https://blob/{key}"
                 self._uploaded = False
 
             def upload_blob(self, data: bytes | BinaryIO, content_settings: Any = None):
+                """Execute upload_blob operation.
+
+                Args:
+                    data: The data parameter.
+                    content_settings: The content_settings parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.uploaded = True
                 self._uploaded = True
 
             def exists(self) -> bool:
+                """Execute exists operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self._uploaded
 
             def get_blob_properties(self):
+                """Execute get_blob_properties operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 cs = types.SimpleNamespace(content_type="text/plain")
                 return types.SimpleNamespace(
                     size=2, content_settings=cs, etag="e1", last_modified=None
                 )
 
             def download_blob(self):
+                """Execute download_blob operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return types.SimpleNamespace(readall=lambda: b"azure-bytes")
 
         class FakeContainerClient:
+            """Represents the FakeContainerClient class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self._blobs: dict[str, FakeBlobClient] = {}
                 self.deleted: list[str] = []
 
             def get_blob_client(self, key: str) -> FakeBlobClient:
+                """Execute get_blob_client operation.
+
+                Args:
+                    key: The key parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 if key not in self._blobs:
                     self._blobs[key] = FakeBlobClient(key)
                 return self._blobs[key]
 
             def delete_blob(self, key: str):
+                """Execute delete_blob operation.
+
+                Args:
+                    key: The key parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.deleted.append(key)
 
         class FakeBlobServiceClient:
+            """Represents the FakeBlobServiceClient class."""
+
             def __init__(self, *args, **kwargs):
+                """Execute __init__ operation."""
                 self._container = FakeContainerClient()
                 self.init_args = args
                 self.init_kwargs = kwargs
 
             @staticmethod
             def from_connection_string(connection_string: str) -> FakeBlobServiceClient:
+                """Execute from_connection_string operation.
+
+                Args:
+                    connection_string: The connection_string parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return FakeBlobServiceClient()
 
             def get_container_client(self, container: str) -> FakeContainerClient:
+                """Execute get_container_client operation.
+
+                Args:
+                    container: The container parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self._container
 
         fake_azure_blob = types.ModuleType("azure.storage.blob")
@@ -87,8 +170,20 @@ class TestBackendsAzure(IStorageTests):
         assert ah.size == 2
 
     def test_azure_blob_backend_account_url_branch_and_missing_args(self, monkeypatch) -> None:
+        """Execute test_azure_blob_backend_account_url_branch_and_missing_args operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class FakeBlobServiceClient:
+            """Represents the FakeBlobServiceClient class."""
+
             def __init__(self, *args, **kwargs):
+                """Execute __init__ operation."""
                 self._container = types.SimpleNamespace(
                     get_blob_client=lambda key: types.SimpleNamespace(
                         upload_blob=lambda *a, **k: None,
@@ -100,9 +195,25 @@ class TestBackendsAzure(IStorageTests):
 
             @staticmethod
             def from_connection_string(connection_string: str) -> FakeBlobServiceClient:
+                """Execute from_connection_string operation.
+
+                Args:
+                    connection_string: The connection_string parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return FakeBlobServiceClient()
 
             def get_container_client(self, container: str):
+                """Execute get_container_client operation.
+
+                Args:
+                    container: The container parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self._container
 
         fake_azure_blob = types.ModuleType("azure.storage.blob")
@@ -121,12 +232,26 @@ class TestBackendsAzure(IStorageTests):
                 container="c", connection_string=None, account_url=None, base_path=""
             )
 
-    def test_azure_blob_backend_dependency_missing_raises_runtime_error(
-        self, monkeypatch
-    ) -> None:
+    def test_azure_blob_backend_dependency_missing_raises_runtime_error(self, monkeypatch) -> None:
+        """Execute test_azure_blob_backend_dependency_missing_raises_runtime_error operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         real_import = builtins.__import__
 
         def _deny_import(name, *args, **kwargs):
+            """Execute _deny_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if name in {"azure.storage.blob", "azure.storage"}:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)

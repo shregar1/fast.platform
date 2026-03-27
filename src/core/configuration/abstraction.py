@@ -14,8 +14,7 @@ TConfigurationDTO = TypeVar("TConfigurationDTO", bound=BaseModel, covariant=True
 
 @runtime_checkable
 class IConfiguration(Protocol[TConfigurationDTO]):
-    """
-    Structural type for configuration singletons (e.g. :class:`CacheConfiguration`)
+    """Structural type for configuration singletons (e.g. :class:`CacheConfiguration`)
     that expose a validated Pydantic DTO via :meth:`get_config`.
     """
 
@@ -23,8 +22,7 @@ class IConfiguration(Protocol[TConfigurationDTO]):
 
 
 class ConfigurationSingletonBase(Generic[TConfigurationDTO]):
-    """
-    Singleton base for JSON-backed configuration modules under ``configuration/``.
+    """Singleton base for JSON-backed configuration modules under ``configuration/``.
 
     Subclasses set ``_instance``, ``_section``, ``_env_key``, and ``_dto`` (Pydantic model class).
     """
@@ -44,8 +42,7 @@ class ConfigurationSingletonBase(Generic[TConfigurationDTO]):
 
     @classmethod
     def load_config_json(cls, section: str, env_key: str) -> Optional[Dict[str, Any]]:
-        """
-        Load ``config/<section>/config.json`` (or ``FASTMVC_CONFIG_BASE/<section>/config.json``).
+        """Load ``config/<section>/config.json`` (or ``FASTMVC_CONFIG_BASE/<section>/config.json``).
 
         ``env_key`` is used for ``FASTMVC_{env_key}_CONFIG_PATH`` override.
         """

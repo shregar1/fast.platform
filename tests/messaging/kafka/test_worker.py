@@ -6,8 +6,18 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestWorker(IKafkaTests):
+    """Represents the TestWorker class."""
+
     @patch("messaging.kafka.worker.KafkaConsumer")
     def test_worker_run(self, mock_consumer_cls):
+        """Execute test_worker_run operation.
+
+        Args:
+            mock_consumer_cls: The mock_consumer_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.worker import run
 
         mock_consumer = MagicMock()

@@ -1,6 +1,4 @@
-"""
-Celery application factory using JobsConfiguration from fast_platform.
-"""
+"""Celery application factory using JobsConfiguration from fast_platform."""
 
 from __future__ import annotations
 
@@ -14,8 +12,7 @@ def make_celery_app(
     broker_url: Optional[str] = None,
     result_backend: Optional[str] = None,
 ) -> Any:
-    """
-    Create a Celery app from JobsConfiguration (config/jobs/config.json).
+    """Create a Celery app from JobsConfiguration (config/jobs/config.json).
 
     Pass namespace/broker_url/result_backend to override config.
     """

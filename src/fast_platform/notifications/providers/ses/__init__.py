@@ -1,5 +1,4 @@
-"""
-Amazon SES Integration
+"""Amazon SES Integration.
 
 Send emails via Amazon Simple Email Service.
 """

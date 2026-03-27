@@ -1,3 +1,5 @@
+"""Module test_tracing.py."""
+
 from __future__ import annotations
 
 """Tests for ``operations.observability.tracing``."""
@@ -8,7 +10,14 @@ from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestTracer(IObservabilityTests):
+    """Represents the TestTracer class."""
+
     def test_start_span_sets_service_attribute(self) -> None:
+        """Execute test_start_span_sets_service_attribute operation.
+
+        Returns:
+            The result of the operation.
+        """
         exp = MagicMock()
         t = Tracer("svc-a", exporter=exp)
         span = t.start_span("op1", trace_id="trace-fixed")
@@ -20,6 +29,11 @@ class TestTracer(IObservabilityTests):
         assert isinstance(exp.export.call_args[0][0], Span)
 
     def test_span_context_manager(self) -> None:
+        """Execute test_span_context_manager operation.
+
+        Returns:
+            The result of the operation.
+        """
         exp = MagicMock()
         t = Tracer("svc-b", exporter=exp)
         with t.span("inner") as span:

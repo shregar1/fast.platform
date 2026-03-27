@@ -1,5 +1,4 @@
-"""
-PDF metadata and text extraction via optional ``pypdf``.
+"""PDF metadata and text extraction via optional ``pypdf``.
 
 Install with ``pip install pypdf`` or the ``fast-platform[utils-pdf]`` extra.
 When ``pypdf`` is not installed, public methods return ``None`` (they do not
@@ -22,8 +21,7 @@ __all__ = ["PdfUtility"]
 
 
 class PdfUtility(IMedia):
-    """
-    Read-only PDF helpers built on ``pypdf`` (optional dependency).
+    """Read-only PDF helpers built on ``pypdf`` (optional dependency).
 
     Use for page counts and best-effort text extraction in pipelines or
     ingestion jobs. **Text extraction** quality depends on how the PDF encodes
@@ -36,13 +34,13 @@ class PdfUtility(IMedia):
 
     @staticmethod
     def _reader_cls() -> Optional[Type[Any]]:
-        """
-        Resolve ``pypdf.PdfReader`` or return ``None`` if the package is missing.
+        """Resolve ``pypdf.PdfReader`` or return ``None`` if the package is missing.
 
         Returns
         -------
         type or None
             The ``PdfReader`` class, or ``None`` if ``pypdf`` cannot be loaded.
+
         """
         mod, PdfReader = OptionalImports.optional_import("pypdf", "PdfReader")
         if mod is None or PdfReader is None:
@@ -51,8 +49,7 @@ class PdfUtility(IMedia):
 
     @staticmethod
     def page_count(data: bytes) -> int | None:
-        """
-        Return the number of pages in a PDF given as in-memory bytes.
+        """Return the number of pages in a PDF given as in-memory bytes.
 
         Parameters
         ----------
@@ -63,6 +60,7 @@ class PdfUtility(IMedia):
         -------
         int or None
             Page count, or ``None`` if ``pypdf`` is unavailable or parsing fails.
+
         """
         PdfReader = PdfUtility._reader_cls()
         if PdfReader is None:
@@ -76,8 +74,7 @@ class PdfUtility(IMedia):
 
     @staticmethod
     def page_count_path(path: Union[str, Path]) -> int | None:
-        """
-        Return the number of pages in a PDF file on disk.
+        """Return the number of pages in a PDF file on disk.
 
         Parameters
         ----------
@@ -88,6 +85,7 @@ class PdfUtility(IMedia):
         -------
         int or None
             Page count, or ``None`` if ``pypdf`` is unavailable or parsing fails.
+
         """
         PdfReader = PdfUtility._reader_cls()
         if PdfReader is None:
@@ -100,8 +98,7 @@ class PdfUtility(IMedia):
 
     @staticmethod
     def extract_text(data: bytes, *, max_pages: int | None = None) -> str | None:
-        """
-        Extract and concatenate textual content from PDF pages (best-effort).
+        r"""Extract and concatenate textual content from PDF pages (best-effort).
 
         Iterates pages in order (``page.extract_text()`` per page). ``max_pages``
         limits how many pages are read from the start—useful to cap CPU on very
@@ -121,6 +118,7 @@ class PdfUtility(IMedia):
         str or None
             Extracted text, or ``None`` if ``pypdf`` is missing or the whole
             document fails to parse.
+
         """
         PdfReader = PdfUtility._reader_cls()
         if PdfReader is None:

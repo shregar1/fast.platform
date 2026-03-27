@@ -1,3 +1,5 @@
+"""Module test_public_api.py."""
+
 from __future__ import annotations
 
 """Ensure every name in __all__ resolves."""
@@ -11,7 +13,14 @@ PACKAGE = "messaging.jobs"
 
 
 class TestPublicApi(IJobTests):
+    """Represents the TestPublicApi class."""
+
     def test_public_exports_resolve(self):
+        """Execute test_public_exports_resolve operation.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             m = importlib.import_module(PACKAGE)
         except ImportError as e:

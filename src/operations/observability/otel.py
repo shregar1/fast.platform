@@ -1,5 +1,4 @@
-"""
-OpenTelemetry integration helpers.
+"""OpenTelemetry integration helpers.
 
 This module configures OpenTelemetry tracing for FastAPI based on
 `config/telemetry/config.json`. It is optional and only activated
@@ -19,9 +18,7 @@ if TYPE_CHECKING:
 
 
 def configure_otel(app: FastAPI) -> None:
-    """
-    Configure OpenTelemetry tracing for the given FastAPI app.
-    """
+    """Configure OpenTelemetry tracing for the given FastAPI app."""
     cfg = TelemetryConfiguration().get_config()
     if not cfg.enabled:
         logger.info("OpenTelemetry is disabled in configuration.")

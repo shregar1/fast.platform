@@ -1,6 +1,4 @@
-"""
-Offline JSON snapshot feature flag client (no network).
-"""
+"""Offline JSON snapshot feature flag client (no network)."""
 
 from __future__ import annotations
 
@@ -13,8 +11,7 @@ from .evaluation import FlagEvaluation, FlagEvaluationReason
 
 
 def load_snapshot_from_path(path: str | Path) -> Dict[str, Any]:
-    """
-    Load and parse snapshot JSON from disk.
+    """Load and parse snapshot JSON from disk.
 
     If the root object has a ``flags`` object, its keys are merged to the top level so
     ``data["my_flag"]`` works as well as ``data["flags"]["my_flag"]``.
@@ -35,8 +32,7 @@ def load_snapshot_from_path(path: str | Path) -> Dict[str, Any]:
 
 
 class SnapshotFeatureFlagsClient(IFeatureFlagsClient):
-    """
-    Evaluate flags from a JSON file.
+    """Evaluate flags from a JSON file.
 
     Supported shapes:
 
@@ -46,15 +42,36 @@ class SnapshotFeatureFlagsClient(IFeatureFlagsClient):
     """
 
     def __init__(self, data: Dict[str, Any]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            data: The data parameter.
+        """
         self._data = data
         self._flags = self._normalize(data)
 
     @classmethod
     def from_path(cls, path: str | Path) -> SnapshotFeatureFlagsClient:
+        """Execute from_path operation.
+
+        Args:
+            path: The path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return cls(load_snapshot_from_path(path))
 
     @staticmethod
     def _normalize(data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+        """Execute _normalize operation.
+
+        Args:
+            data: The data parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raw = data.get("flags", data)
         if not isinstance(raw, dict):
             raise ValueError("snapshot must be a JSON object")
@@ -74,12 +91,30 @@ class SnapshotFeatureFlagsClient(IFeatureFlagsClient):
         return out
 
     def is_enabled(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> bool:
+        """Execute is_enabled operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         ent = self._flags.get(flag_key)
         if ent is None:
             return False
         return bool(ent["enabled"])
 
     def get_value(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> Any:
+        """Execute get_value operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         ent = self._flags.get(flag_key)
         if ent is None:
             return None
@@ -90,6 +125,15 @@ class SnapshotFeatureFlagsClient(IFeatureFlagsClient):
     def evaluate_with_reason(
         self, flag_key: str, context: Optional[dict[str, Any]] = None
     ) -> FlagEvaluation:
+        """Execute evaluate_with_reason operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         ent = self._flags.get(flag_key)
         if ent is None:
             return FlagEvaluation(

@@ -1,6 +1,4 @@
-"""
-Secret lease with background refresh before TTL expiry (long-lived workers).
-"""
+"""Secret lease with background refresh before TTL expiry (long-lived workers)."""
 
 from __future__ import annotations
 
@@ -12,8 +10,7 @@ from .cache import CachedSecretsBackend
 
 
 class LeasedSecretsBackend(ISecretsBackend):
-    """
-    Wraps a backend with a :class:`CachedSecretsBackend` and schedules **proactive**
+    """Wraps a backend with a :class:`CachedSecretsBackend` and schedules **proactive**
     refreshes on a daemon timer so values stay warm before the TTL expires.
 
     After each successful ``get_secret``, a timer fires at ``ttl_seconds * refresh_at_ratio``
@@ -34,6 +31,16 @@ class LeasedSecretsBackend(ISecretsBackend):
         on_rotation: Any = None,
         notify_on_first_fetch: bool = False,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            inner: The inner parameter.
+            ttl_seconds: The ttl_seconds parameter.
+            refresh_at_ratio: The refresh_at_ratio parameter.
+            name: The name parameter.
+            on_rotation: The on_rotation parameter.
+            notify_on_first_fetch: The notify_on_first_fetch parameter.
+        """
         if not 0 < refresh_at_ratio < 1:
             raise ValueError("refresh_at_ratio must be between 0 and 1 (exclusive)")
         self._cached = CachedSecretsBackend(
@@ -51,6 +58,14 @@ class LeasedSecretsBackend(ISecretsBackend):
         self._stopped = False
 
     def get_secret(self, key: str, **kwargs: Any) -> Optional[str]:
+        """Execute get_secret operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         force_refresh = bool(kwargs.get("force_refresh", False))
         val = self._cached.get_secret(key, **kwargs)
         if val is not None and not force_refresh and not self._stopped:
@@ -58,16 +73,41 @@ class LeasedSecretsBackend(ISecretsBackend):
         return val
 
     def set_secret(self, key: str, value: str) -> None:
+        """Execute set_secret operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._cancel_timer(key)
         self._cached.set_secret(key, value)
 
     def _cancel_timer(self, key: str) -> None:
+        """Execute _cancel_timer operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             t = self._timers.pop(key, None)
         if t is not None:
             t.cancel()
 
     def _schedule_refresh(self, key: str) -> None:
+        """Execute _schedule_refresh operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             if self._stopped:
                 return
@@ -81,6 +121,14 @@ class LeasedSecretsBackend(ISecretsBackend):
             self._timers[key] = timer
 
     def _on_timer(self, key: str) -> None:
+        """Execute _on_timer operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             self._timers.pop(key, None)
         if self._stopped:

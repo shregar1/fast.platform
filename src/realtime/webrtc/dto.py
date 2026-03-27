@@ -1,6 +1,4 @@
-"""
-DTO for WebRTC signaling configuration settings.
-"""
+"""DTO for WebRTC signaling configuration settings."""
 
 from typing import List
 
@@ -8,8 +6,7 @@ from pydantic import BaseModel
 
 
 class WebRTCConfigurationDTO(BaseModel):
-    """
-    DTO for WebRTC configuration.
+    """DTO for WebRTC configuration.
 
     Fields:
         enabled (bool): Whether WebRTC signaling APIs are enabled.

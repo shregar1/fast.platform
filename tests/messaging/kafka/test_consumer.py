@@ -7,9 +7,17 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class _Msg:
+    """Represents the _Msg class."""
+
     __slots__ = ("topic", "partition", "offset", "value")
 
     def __init__(self, value: bytes, offset: int = 0) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            value: The value parameter.
+            offset: The offset parameter.
+        """
         self.topic = "t1"
         self.partition = 0
         self.offset = offset
@@ -20,20 +28,45 @@ class _AsyncConsumerMock:
     """Minimal async-iterable consumer with a ``commit`` hook."""
 
     def __init__(self, messages: list[_Msg]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            messages: The messages parameter.
+        """
         self._messages = messages
         self.commit = AsyncMock()
 
     def __aiter__(self):
+        """Execute __aiter__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._gen()
 
     async def _gen(self):
+        """Execute _gen operation.
+
+        Returns:
+            The result of the operation.
+        """
         for m in self._messages:
             yield m
 
 
 class TestConsumer(IKafkaTests):
+    """Represents the TestConsumer class."""
+
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_start_when_disabled(self, mock_cfg_cls):
+        """Execute test_consumer_start_when_disabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -47,6 +80,14 @@ class TestConsumer(IKafkaTests):
 
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_stop_no_consumer(self, mock_cfg_cls):
+        """Execute test_consumer_stop_no_consumer operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -57,6 +98,14 @@ class TestConsumer(IKafkaTests):
 
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_loop_when_not_running(self, mock_cfg_cls):
+        """Execute test_consumer_loop_when_not_running operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -65,12 +114,29 @@ class TestConsumer(IKafkaTests):
         c = KafkaConsumer()
 
         async def handler(t, v):
+            """Execute handler operation.
+
+            Args:
+                t: The t parameter.
+                v: The v parameter.
+
+            Returns:
+                The result of the operation.
+            """
             pass
 
         asyncio.run(c.loop(handler))
 
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_loop_idempotent_dedupes_and_commits(self, mock_cfg_cls):
+        """Execute test_consumer_loop_idempotent_dedupes_and_commits operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -90,6 +156,15 @@ class TestConsumer(IKafkaTests):
         calls: list[int] = []
 
         async def handler(t, v):
+            """Execute handler operation.
+
+            Args:
+                t: The t parameter.
+                v: The v parameter.
+
+            Returns:
+                The result of the operation.
+            """
             calls.append(1)
 
         asyncio.run(c.loop_idempotent(handler))
@@ -98,6 +173,14 @@ class TestConsumer(IKafkaTests):
 
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_loop_idempotent_requires_manual_commit(self, mock_cfg_cls):
+        """Execute test_consumer_loop_idempotent_requires_manual_commit operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -114,6 +197,15 @@ class TestConsumer(IKafkaTests):
         c._cfg = mock_cfg.get_config.return_value
 
         async def handler(t, v):
+            """Execute handler operation.
+
+            Args:
+                t: The t parameter.
+                v: The v parameter.
+
+            Returns:
+                The result of the operation.
+            """
             pass
 
         try:
@@ -125,6 +217,14 @@ class TestConsumer(IKafkaTests):
 
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_loop_idempotent_when_not_running(self, mock_cfg_cls):
+        """Execute test_consumer_loop_idempotent_when_not_running operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
@@ -133,6 +233,15 @@ class TestConsumer(IKafkaTests):
         c = KafkaConsumer()
 
         async def handler(t, v):
+            """Execute handler operation.
+
+            Args:
+                t: The t parameter.
+                v: The v parameter.
+
+            Returns:
+                The result of the operation.
+            """
             pass
 
         asyncio.run(c.loop_idempotent(handler))
@@ -140,6 +249,15 @@ class TestConsumer(IKafkaTests):
     @patch("messaging.kafka.consumer.AIOKafkaConsumer")
     @patch("messaging.kafka.consumer.KafkaConfiguration")
     def test_consumer_start_stop_when_enabled(self, mock_cfg_cls, mock_aio_cls):
+        """Execute test_consumer_start_stop_when_enabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+            mock_aio_cls: The mock_aio_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()

@@ -9,10 +9,26 @@ from core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
 
 
 def _strip_meili_meta(hit: dict[str, Any]) -> dict[str, Any]:
+    """Execute _strip_meili_meta operation.
+
+    Args:
+        hit: The hit parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return {k: v for k, v in hit.items() if k not in ("_formatted", "_matchesPosition")}
 
 
 def _meili_highlights(hit: dict[str, Any]) -> Optional[dict[str, List[str]]]:
+    """Execute _meili_highlights operation.
+
+    Args:
+        hit: The hit parameter.
+
+    Returns:
+        The result of the operation.
+    """
     fmt = hit.get("_formatted")
     if not isinstance(fmt, dict):
         return None
@@ -29,6 +45,12 @@ class MeilisearchBackend(ISearchBackend):
     name = "meilisearch"
 
     def __init__(self, url: str, api_key: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            url: The url parameter.
+            api_key: The api_key parameter.
+        """
         try:
             from meilisearch import Client
         except ImportError as e:
@@ -38,6 +60,15 @@ class MeilisearchBackend(ISearchBackend):
         self._client = Client(url, api_key)
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
+        """Execute index_documents operation.
+
+        Args:
+            index_name: The index_name parameter.
+            documents: The documents parameter.
+
+        Returns:
+            The result of the operation.
+        """
         index = self._client.index(index_name)
         index.add_documents(documents)
 
@@ -51,6 +82,19 @@ class MeilisearchBackend(ISearchBackend):
         filter: Optional[dict[str, Any]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> List[dict[str, Any]]:
+        """Execute search operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         index = self._client.index(index_name)
         kwargs: dict[str, Any] = {"limit": limit, "offset": offset}
         if filter is not None:
@@ -72,6 +116,20 @@ class MeilisearchBackend(ISearchBackend):
         facet_fields: Optional[List[str]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> FacetedSearchResult:
+        """Execute search_faceted operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            facet_fields: The facet_fields parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         index = self._client.index(index_name)
         kwargs: dict[str, Any] = {"limit": limit, "offset": offset}
         if filter is not None:
@@ -102,4 +160,12 @@ class MeilisearchBackend(ISearchBackend):
         )
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.delete_index(index_name)

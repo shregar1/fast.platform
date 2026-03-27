@@ -1,3 +1,5 @@
+"""Module test_backends_meilisearch.py."""
+
 import types
 from typing import Any, List, Optional
 
@@ -6,18 +8,47 @@ from tests.data_platform.search.backends._install import install_module
 
 
 class TestBackendsMeilisearch(ISearchTests):
+    """Represents the TestBackendsMeilisearch class."""
+
     def test_build_search_backend_meilisearch_and_methods(self, monkeypatch) -> None:
+        """Execute test_build_search_backend_meilisearch_and_methods operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.search import base as search_base
 
         class FakeIndex:
+            """Represents the FakeIndex class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.added: list[tuple[str, list[dict[str, Any]]]] = []
                 self.last_search: dict[str, Any] = {}
 
             def add_documents(self, documents: List[dict[str, Any]]):
+                """Execute add_documents operation.
+
+                Args:
+                    documents: The documents parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.added.append(("default", documents))
 
             def search(self, query: str, **kwargs: Any):
+                """Execute search operation.
+
+                Args:
+                    query: The query parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.last_search = {"query": query, **kwargs}
                 hits: list[dict[str, Any]] = [{"id": 1}, {"id": 2}]
                 if kwargs.get("attributesToHighlight"):
@@ -28,15 +59,39 @@ class TestBackendsMeilisearch(ISearchTests):
                 return out
 
         class FakeMeiliClient:
+            """Represents the FakeMeiliClient class."""
+
             def __init__(self, url: str, api_key: Optional[str] = None):
+                """Execute __init__ operation.
+
+                Args:
+                    url: The url parameter.
+                    api_key: The api_key parameter.
+                """
                 self.url = url
                 self.api_key = api_key
                 self._index = FakeIndex()
 
             def index(self, index_name: str) -> FakeIndex:
+                """Execute index operation.
+
+                Args:
+                    index_name: The index_name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self._index
 
             def delete_index(self, index_name: str) -> None:
+                """Execute delete_index operation.
+
+                Args:
+                    index_name: The index_name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.deleted = index_name
 
         fake_mod = types.ModuleType("meilisearch")
@@ -44,7 +99,10 @@ class TestBackendsMeilisearch(ISearchTests):
         install_module("meilisearch", fake_mod)
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.meilisearch = types.SimpleNamespace(
                     enabled=True, url="http://localhost:7700", api_key="k"
                 )

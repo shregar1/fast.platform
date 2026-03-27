@@ -1,5 +1,4 @@
-"""
-Strong Customer Authentication (SCA) / 3DS — optional gateway extension.
+"""Strong Customer Authentication (SCA) / 3DS — optional gateway extension.
 
 Implement :class:`IStrongCustomerAuthenticationGateway` alongside :class:`~fast_payments.base.IPaymentGateway`
 when the PSP supports redirect or in-app 3DS challenges (Stripe PaymentIntent, Adyen, etc.).
@@ -26,8 +25,7 @@ class SCAChallengeResult:
 
 @runtime_checkable
 class IStrongCustomerAuthenticationGateway(Protocol):
-    """
-    Optional methods for gateways that expose 3DS / SCA flows.
+    """Optional methods for gateways that expose 3DS / SCA flows.
 
     Apps should use ``isinstance(gw, IStrongCustomerAuthenticationGateway)`` before calling.
     """

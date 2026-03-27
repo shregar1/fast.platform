@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class AwsSecretsDTO(IDTO):
+    """Represents the AwsSecretsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     region: str = ""

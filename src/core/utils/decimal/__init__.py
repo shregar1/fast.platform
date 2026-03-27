@@ -16,7 +16,6 @@ class DecimalUtility(IDecimalUtility):
     @staticmethod
     def to_decimal(value: Any, *, allow_float: bool = False) -> Decimal:
         """Convert common input types to :class:`decimal.Decimal` safely."""
-
         if isinstance(value, Decimal):
             return value
         if isinstance(value, bool):
@@ -44,7 +43,6 @@ class DecimalUtility(IDecimalUtility):
         allow_float: bool = False,
     ) -> Decimal:
         """Quantize to a fixed number of decimal places."""
-
         if decimal_places < 0:
             raise ValueError("decimal_places must be >= 0")
 
@@ -61,7 +59,6 @@ class DecimalUtility(IDecimalUtility):
         allow_float: bool = False,
     ) -> Decimal:
         """Round an amount to currency minor units (e.g. cents for USD)."""
-
         return DecimalUtility.quantize_decimal(
             amount,
             decimal_places=minor_units,

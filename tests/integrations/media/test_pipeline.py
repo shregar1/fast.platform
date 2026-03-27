@@ -15,6 +15,11 @@ from tests.integrations.media.abstraction import IFastMediaTests
 
 
 def _rgb_png_bytes() -> bytes:
+    """Execute _rgb_png_bytes operation.
+
+    Returns:
+        The result of the operation.
+    """
     img = Image.new("RGB", (400, 300), color=(10, 20, 30))
     buf = io.BytesIO()
     img.save(buf, format="PNG")
@@ -22,11 +27,23 @@ def _rgb_png_bytes() -> bytes:
 
 
 class TestPipeline(IFastMediaTests):
+    """Represents the TestPipeline class."""
+
     def test_variant_storage_key(self):
+        """Execute test_variant_storage_key operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert variant_storage_key("a/b/c.jpg", "thumb", "webp") == "a/b/c_thumb.webp"
         assert variant_storage_key("photo.png", "webp", "webp") == "photo_webp.webp"
 
     def test_pipeline_uploads_thumb_and_webp(self):
+        """Execute test_pipeline_uploads_thumb_and_webp operation.
+
+        Returns:
+            The result of the operation.
+        """
         store = InMemoryMediaStore()
         pipe = ImageVariantPipeline(store)
         png = _rgb_png_bytes()
@@ -38,6 +55,11 @@ class TestPipeline(IFastMediaTests):
         assert store.get_bytes(out["webp"].key)[:4] == b"RIFF"
 
     def test_pipeline_custom_variants(self):
+        """Execute test_pipeline_custom_variants operation.
+
+        Returns:
+            The result of the operation.
+        """
         store = InMemoryMediaStore()
         pipe = ImageVariantPipeline(store, variants=(VariantSpec("small", 50, 50, "webp", 80),))
         png = _rgb_png_bytes()
@@ -46,6 +68,11 @@ class TestPipeline(IFastMediaTests):
         assert len(store.get_bytes(out["small"].key)) > 0
 
     def test_default_generator_roundtrip(self):
+        """Execute test_default_generator_roundtrip operation.
+
+        Returns:
+            The result of the operation.
+        """
         store = InMemoryMediaStore()
         png = _rgb_png_bytes()
         store.upload("orig/x.png", png, content_type="image/png")

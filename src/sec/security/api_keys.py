@@ -1,5 +1,4 @@
-"""
-API Key Management.
+"""API Key Management.
 
 Provides API key generation, validation, and management.
 """
@@ -21,14 +20,12 @@ from .abstraction import ISecurity
 
 def _token_urlsafe(nbytes: int) -> str:
     """Cryptographically strong URL-safe token (stdlib :mod:`secrets` compatible)."""
-
     return base64.urlsafe_b64encode(os.urandom(nbytes)).rstrip(b"=").decode("ascii")
 
 
 @dataclass
 class APIKey:
-    """
-    API Key representation.
+    """API Key representation.
 
     Attributes:
         id: Unique key identifier.
@@ -41,6 +38,7 @@ class APIKey:
         is_active: Whether key is active.
         rate_limit: Requests per minute limit.
         metadata: Additional metadata.
+
     """
 
     id: str
@@ -117,38 +115,83 @@ class InMemoryAPIKeyStore(APIKeyStore):
     """In-memory API key store (for development/testing)."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._keys: dict[str, APIKey] = {}
         self._hash_to_id: dict[str, str] = {}
 
     async def store(self, api_key: APIKey) -> None:
+        """Execute store operation.
+
+        Args:
+            api_key: The api_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._keys[api_key.id] = api_key
         self._hash_to_id[api_key.key_hash] = api_key.id
 
     async def get_by_hash(self, key_hash: str) -> Optional[APIKey]:
+        """Execute get_by_hash operation.
+
+        Args:
+            key_hash: The key_hash parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key_id = self._hash_to_id.get(key_hash)
         if key_id:
             return self._keys.get(key_id)
         return None
 
     async def get_by_id(self, key_id: str) -> Optional[APIKey]:
+        """Execute get_by_id operation.
+
+        Args:
+            key_id: The key_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._keys.get(key_id)
 
     async def update(self, api_key: APIKey) -> None:
+        """Execute update operation.
+
+        Args:
+            api_key: The api_key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._keys[api_key.id] = api_key
 
     async def delete(self, key_id: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key_id: The key_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if key_id in self._keys:
             key = self._keys[key_id]
             del self._hash_to_id[key.key_hash]
             del self._keys[key_id]
 
     async def list_all(self) -> list[APIKey]:
+        """Execute list_all operation.
+
+        Returns:
+            The result of the operation.
+        """
         return list(self._keys.values())
 
 
 class APIKeyManager(ISecurity):
-    """
-    API Key manager for creating and validating API keys.
+    """API Key manager for creating and validating API keys.
 
     Usage:
         manager = APIKeyManager()
@@ -175,12 +218,12 @@ class APIKeyManager(ISecurity):
         store: Optional[APIKeyStore] = None,
         prefix: str = "sk_live_",
     ) -> None:
-        """
-        Initialize API key manager.
+        """Initialize API key manager.
 
         Args:
             store: API key store implementation.
             prefix: Prefix for generated keys.
+
         """
         self._store = store or InMemoryAPIKeyStore()
         self._prefix = prefix
@@ -201,8 +244,7 @@ class APIKeyManager(ISecurity):
         rate_limit: Optional[int] = None,
         metadata: Optional[dict[str, Any]] = None,
     ) -> tuple[APIKey, str]:
-        """
-        Create a new API key.
+        """Create a new API key.
 
         Args:
             name: Human-readable name for the key.
@@ -214,6 +256,7 @@ class APIKeyManager(ISecurity):
         Returns:
             Tuple of (APIKey object, plain text key).
             The plain text key should be given to the user once and not stored.
+
         """
         plain_key = self._generate_key()
         key_hash = self._hash_key(plain_key)
@@ -236,14 +279,14 @@ class APIKeyManager(ISecurity):
         return api_key, plain_key
 
     async def validate(self, plain_key: str) -> Optional[APIKey]:
-        """
-        Validate an API key.
+        """Validate an API key.
 
         Args:
             plain_key: Plain text API key.
 
         Returns:
             APIKey if valid, None otherwise.
+
         """
         key_hash = self._hash_key(plain_key)
         api_key = await self._store.get_by_hash(key_hash)
@@ -264,14 +307,14 @@ class APIKeyManager(ISecurity):
         return api_key
 
     async def revoke(self, key_id: str) -> bool:
-        """
-        Revoke an API key.
+        """Revoke an API key.
 
         Args:
             key_id: Key ID to revoke.
 
         Returns:
             True if revoked, False if not found.
+
         """
         api_key = await self._store.get_by_id(key_id)
         if api_key:
@@ -281,14 +324,14 @@ class APIKeyManager(ISecurity):
         return False
 
     async def rotate(self, key_id: str) -> Optional[tuple[APIKey, str]]:
-        """
-        Rotate an API key (generate new key, invalidate old).
+        """Rotate an API key (generate new key, invalidate old).
 
         Args:
             key_id: Key ID to rotate.
 
         Returns:
             Tuple of (new APIKey, new plain key) or None if not found.
+
         """
         old_key = await self._store.get_by_id(key_id)
         if old_key is None:
@@ -313,8 +356,7 @@ class APIKeyManager(ISecurity):
 
 
 class APIKeyValidator(ISecurity):
-    """
-    FastAPI dependency for API key validation.
+    """FastAPI dependency for API key validation.
 
     Usage:
         from fastapi import Depends
@@ -333,14 +375,14 @@ class APIKeyValidator(ISecurity):
         query_name: str = "api_key",
         required_scopes: Optional[list[str]] = None,
     ) -> None:
-        """
-        Initialize validator.
+        """Initialize validator.
 
         Args:
             manager: API key manager.
             header_name: Header name for API key.
             query_name: Query parameter name for API key.
             required_scopes: Required scopes for access.
+
         """
         self._manager = manager
         self._header_scheme = APIKeyHeader(name=header_name, auto_error=False)
@@ -380,8 +422,7 @@ def require_api_key(
     manager: APIKeyManager,
     scopes: Optional[list[str]] = None,
 ) -> APIKeyValidator:
-    """
-    Create an API key validator dependency.
+    """Create an API key validator dependency.
 
     Usage:
         @app.get("/protected", dependencies=[Depends(require_api_key(manager))])

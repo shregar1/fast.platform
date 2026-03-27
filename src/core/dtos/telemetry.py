@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class TelemetryConfigurationDTO(IDTO):
+    """Represents the TelemetryConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     service_name: str = "fastmvc"

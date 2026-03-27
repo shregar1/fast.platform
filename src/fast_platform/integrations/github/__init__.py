@@ -1,5 +1,4 @@
-"""
-GitHub Integration
+"""GitHub Integration.
 
 GitHub API.
 """

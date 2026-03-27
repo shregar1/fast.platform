@@ -14,6 +14,8 @@ from .scheduler_jobs import SchedulerJobsDTO
 
 
 class JobsConfigurationDTO(IDTO):
+    """Represents the JobsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     celery: CeleryJobsDTO = Field(default_factory=CeleryJobsDTO)
     rq: RqJobsDTO = Field(default_factory=RqJobsDTO)

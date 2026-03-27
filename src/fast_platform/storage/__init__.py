@@ -1,5 +1,4 @@
-"""
-FastMVC Storage Module
+"""FastMVC Storage Module.
 
 Object storage integrations (S3, GCS, Azure Blob).
 """

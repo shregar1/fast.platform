@@ -9,6 +9,13 @@ class TokenBudgetExceeded(IError):
     """Raised when cumulative token usage exceeds a configured limit."""
 
     def __init__(self, limit: int, cumulative: int, message: str = "") -> None:
+        """Execute __init__ operation.
+
+        Args:
+            limit: The limit parameter.
+            cumulative: The cumulative parameter.
+            message: The message parameter.
+        """
         self.limit = limit
         self.cumulative = cumulative
         m = message or f"token budget exceeded: cumulative={cumulative} > limit={limit}"

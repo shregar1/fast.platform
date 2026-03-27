@@ -1,5 +1,4 @@
-"""
-Generic FastAPI CRUD router from a SQLAlchemy 2.0 model and Pydantic v2 schemas.
+"""Generic FastAPI CRUD router from a SQLAlchemy 2.0 model and Pydantic v2 schemas.
 
 Requires SQLAlchemy (included with ``fast-platform``; install ``sqlalchemy`` if using a minimal env).
 
@@ -30,8 +29,7 @@ def crud_router_from_model(
     get_ip_from_request: Optional[Callable[[Request], Optional[str]]] = None,
     get_user_agent_from_request: Optional[Callable[[Request], Optional[str]]] = None,
 ) -> APIRouter:
-    """
-    Build an ``APIRouter`` with list/create/read/update/delete for a single table.
+    """Build an ``APIRouter`` with list/create/read/update/delete for a single table.
 
     **Requirements**
 
@@ -73,6 +71,14 @@ def crud_router_from_model(
     rtype = resource_type or getattr(model, "__tablename__", model.__name__).lower()
 
     def _parse_id(raw: str) -> Any:
+        """Execute _parse_id operation.
+
+        Args:
+            raw: The raw parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if pk_python is int:
             try:
                 return int(raw)
@@ -96,6 +102,17 @@ def crud_router_from_model(
         details: Optional[dict[str, Any]],
         request: Optional[Request],
     ) -> None:
+        """Execute _audit operation.
+
+        Args:
+            action: The action parameter.
+            resource_id: The resource_id parameter.
+            details: The details parameter.
+            request: The request parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if hook is None:
             return
         await hook(
@@ -115,6 +132,16 @@ def crud_router_from_model(
         limit: int = Query(50, ge=1, le=500),
         db: Any = Depends(session_dep),
     ) -> list[BaseModel]:
+        """Execute list_items operation.
+
+        Args:
+            skip: The skip parameter.
+            limit: The limit parameter.
+            db: The db parameter.
+
+        Returns:
+            The result of the operation.
+        """
         rows = db.scalars(select(model).offset(skip).limit(limit)).all()
         return [read_schema.model_validate(r) for r in rows]
 
@@ -124,6 +151,16 @@ def crud_router_from_model(
         request: Request,
         db: Any = Depends(session_dep),
     ) -> BaseModel:
+        """Execute create_item operation.
+
+        Args:
+            body: The body parameter.
+            request: The request parameter.
+            db: The db parameter.
+
+        Returns:
+            The result of the operation.
+        """
         data = body.model_dump(exclude_unset=True)
         if pk_name in data:
             del data[pk_name]
@@ -145,6 +182,15 @@ def crud_router_from_model(
         item_id: str,
         db: Any = Depends(session_dep),
     ) -> BaseModel:
+        """Execute get_item operation.
+
+        Args:
+            item_id: The item_id parameter.
+            db: The db parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:
@@ -158,6 +204,17 @@ def crud_router_from_model(
         request: Request,
         db: Any = Depends(session_dep),
     ) -> BaseModel:
+        """Execute update_item operation.
+
+        Args:
+            item_id: The item_id parameter.
+            body: The body parameter.
+            request: The request parameter.
+            db: The db parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:
@@ -182,6 +239,16 @@ def crud_router_from_model(
         request: Request,
         db: Any = Depends(session_dep),
     ) -> None:
+        """Execute delete_item operation.
+
+        Args:
+            item_id: The item_id parameter.
+            request: The request parameter.
+            db: The db parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pk = _parse_id(item_id)
         obj = db.get(model, pk)
         if obj is None:

@@ -1,5 +1,4 @@
-"""
-FastMVC Lifecycle Module
+"""FastMVC Lifecycle Module.
 
 Graceful shutdown, startup hooks, and lifecycle management.
 """

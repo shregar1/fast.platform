@@ -1,6 +1,4 @@
-"""
-fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama, Groq, Mistral, Gemini) for FastMVC.
-"""
+"""fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama, Groq, Mistral, Gemini) for FastMVC."""
 
 from core.errors import (
     LLMDependencyError,

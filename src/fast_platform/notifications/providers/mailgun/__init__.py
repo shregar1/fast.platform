@@ -1,5 +1,4 @@
-"""
-Mailgun Integration
+"""Mailgun Integration.
 
 Send emails via Mailgun API.
 """

@@ -1,5 +1,4 @@
-"""
-Normalized subscription / billing webhook event names (Stripe-style strings).
+"""Normalized subscription / billing webhook event names (Stripe-style strings).
 
 Use :func:`parse_subscription_lifecycle_event` to map raw provider ``type`` fields.
 """
@@ -28,9 +27,7 @@ class SubscriptionLifecycleEvent(str, Enum):
 
 
 def parse_subscription_lifecycle_event(raw_type: str) -> Optional[SubscriptionLifecycleEvent]:
-    """
-    Map a webhook ``type`` string to :class:`SubscriptionLifecycleEvent`, or ``None`` if unknown.
-    """
+    """Map a webhook ``type`` string to :class:`SubscriptionLifecycleEvent`, or ``None`` if unknown."""
     try:
         return SubscriptionLifecycleEvent(raw_type)
     except ValueError:

@@ -1,5 +1,4 @@
-"""
-Fast Platform Notifications
+"""Fast Platform Notifications.
 
 Unified notification system supporting 12+ channels:
 
@@ -33,7 +32,7 @@ Usage:
         TwilioClient,
         SlackClient
     )
-    
+
     email = SendGridClient(api_key="...")
     await email.send_email(to="user@example.com", subject="Hello")
 """
@@ -64,7 +63,6 @@ __all__ = [
     "DiscordClient",
     "DiscordEmbed",
     "TelegramClient",
-
     "TeamsClient",
     "TeamsCard",
     # Push providers

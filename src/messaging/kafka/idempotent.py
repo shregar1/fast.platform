@@ -1,5 +1,4 @@
-"""
-Idempotent consumption helpers: manual commits + pluggable dedupe by message key.
+"""Idempotent consumption helpers: manual commits + pluggable dedupe by message key.
 
 Use with ``KafkaConsumer.loop_idempotent`` and ``enable_auto_commit=False`` in config.
 """
@@ -24,21 +23,41 @@ class DedupeStore(Protocol):
 
 
 class InMemoryDedupeStore:
-    """
-    Bounded in-process dedupe set. Oldest keys are evicted when over ``max_keys``;
+    """Bounded in-process dedupe set. Oldest keys are evicted when over ``max_keys``;
     evicted keys may be processed again after restart or eviction.
     """
 
     def __init__(self, max_keys: int = 100_000) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            max_keys: The max_keys parameter.
+        """
         if max_keys < 1:
             raise ValueError("max_keys must be >= 1")
         self._max_keys = max_keys
         self._keys: OrderedDict[str, None] = OrderedDict()
 
     async def should_skip(self, key: str) -> bool:
+        """Execute should_skip operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return key in self._keys
 
     async def record_success(self, key: str) -> None:
+        """Execute record_success operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if key in self._keys:
             self._keys.move_to_end(key)
         else:

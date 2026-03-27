@@ -1,5 +1,4 @@
-"""
-Pusher Integration
+"""Pusher Integration.
 
 Real-time notifications via WebSockets.
 """

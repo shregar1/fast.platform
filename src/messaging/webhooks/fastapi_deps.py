@@ -1,5 +1,4 @@
-"""
-FastAPI dependencies for inbound webhook HMAC verification.
+"""FastAPI dependencies for inbound webhook HMAC verification.
 
 Requires FastAPI (``pip install fast_webhooks[fastapi]``).
 """
@@ -13,6 +12,14 @@ SecretSource = Union[str, Callable[[], str], Callable[[], Awaitable[str]]]
 
 
 async def _resolve_secret(secret: SecretSource) -> str:
+    """Execute _resolve_secret operation.
+
+    Args:
+        secret: The secret parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if isinstance(secret, str):
         return secret
     out = secret()
@@ -31,8 +38,7 @@ def require_webhook_signature(
     detail_missing: str = "Missing webhook signature",
     detail_invalid: str = "Invalid webhook signature",
 ) -> Any:
-    """
-    Build a FastAPI dependency that reads the raw request body, verifies the
+    """Build a FastAPI dependency that reads the raw request body, verifies the
     HMAC signature header (Stripe-style ``sha256=<hex>`` by default), and
     returns the verified body bytes.
 
@@ -62,6 +68,7 @@ def require_webhook_signature(
         HTTP status when the header is missing or invalid (default 401).
     detail_missing / detail_invalid
         Error detail strings for FastAPI ``HTTPException``.
+
     """
     try:
         from fastapi import HTTPException, Request
@@ -71,6 +78,14 @@ def require_webhook_signature(
         ) from e
 
     async def _verify(request: Request) -> bytes:
+        """Execute _verify operation.
+
+        Args:
+            request: The request parameter.
+
+        Returns:
+            The result of the operation.
+        """
         body = await request.body()
         resolved = await _resolve_secret(secret)
         sig = request.headers.get(header_name)

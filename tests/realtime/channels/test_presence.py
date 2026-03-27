@@ -1,3 +1,5 @@
+"""Module test_presence.py."""
+
 import asyncio
 import time
 from typing import Any, Dict, Set
@@ -9,24 +11,68 @@ class FakeRedisClient:
     """Tiny fake redis.asyncio client for PresenceBackend tests."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._data: Dict[str, Set[bytes]] = {}
         self._expirations: Dict[str, int] = {}
 
     async def sadd(self, key: str, value: str):
+        """Execute sadd operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._data.setdefault(key, set()).add(value.encode("utf-8"))
 
     async def expire(self, key: str, ttl_seconds: int):
+        """Execute expire operation.
+
+        Args:
+            key: The key parameter.
+            ttl_seconds: The ttl_seconds parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._expirations[key] = ttl_seconds
 
     async def srem(self, key: str, value: str):
+        """Execute srem operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         members = self._data.get(key, set())
         members.discard(value.encode("utf-8"))
 
     async def smembers(self, key: str):
+        """Execute smembers operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._data.get(key, set())
 
 
 async def _collect(aiter):
+    """Execute _collect operation.
+
+    Args:
+        aiter: The aiter parameter.
+
+    Returns:
+        The result of the operation.
+    """
     out = []
     async for x in aiter:
         out.append(x)
@@ -34,7 +80,14 @@ async def _collect(aiter):
 
 
 class TestPresence(IChannelTests):
+    """Represents the TestPresence class."""
+
     def test_inmemory_presence_mark_list_and_eviction(self):
+        """Execute test_inmemory_presence_mark_list_and_eviction operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
@@ -63,6 +116,11 @@ class TestPresence(IChannelTests):
         asyncio.run(backend.mark_absent("unknown_room", "u1"))
 
     def test_inmemory_presence_mark_absent_and_room_cleanup(self):
+        """Execute test_inmemory_presence_mark_absent_and_room_cleanup operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
@@ -77,6 +135,11 @@ class TestPresence(IChannelTests):
         assert asyncio.run(backend.list_rooms_for_user("u2")) == []
 
     def test_presence_service_delegates_to_backend(self):
+        """Execute test_presence_service_delegates_to_backend operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.presence import PresenceService
 
         calls: dict[str, list[Any]] = {
@@ -87,17 +150,53 @@ class TestPresence(IChannelTests):
         }
 
         class FakeBackend:
+            """Represents the FakeBackend class."""
+
             async def mark_present(self, room_id: str, user_id: str) -> None:
+                """Execute mark_present operation.
+
+                Args:
+                    room_id: The room_id parameter.
+                    user_id: The user_id parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["present"].append((room_id, user_id))
 
             async def mark_absent(self, room_id: str, user_id: str) -> None:
+                """Execute mark_absent operation.
+
+                Args:
+                    room_id: The room_id parameter.
+                    user_id: The user_id parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["absent"].append((room_id, user_id))
 
             async def list_present(self, room_id: str):
+                """Execute list_present operation.
+
+                Args:
+                    room_id: The room_id parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["list_present"].append(room_id)
                 return ["u1"]
 
             async def list_rooms_for_user(self, user_id: str):
+                """Execute list_rooms_for_user operation.
+
+                Args:
+                    user_id: The user_id parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["list_rooms"].append(user_id)
                 return ["room1"]
 
@@ -112,6 +211,11 @@ class TestPresence(IChannelTests):
         assert calls["list_rooms"] == ["u1"]
 
     def test_redis_presence_backend_mark_and_list(self):
+        """Execute test_redis_presence_backend_mark_and_list operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.presence import RedisPresenceBackend
 
         client = FakeRedisClient()

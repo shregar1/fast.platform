@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class EventsConfiguration(ConfigurationSingletonBase[EventsConfigurationDTO]):
+    """Represents the EventsConfiguration class."""
+
     _instance: Optional["EventsConfiguration"] = None
     _section: str = "events"
     _env_key: str = "EVENTS"

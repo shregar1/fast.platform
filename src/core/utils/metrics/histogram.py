@@ -20,9 +20,22 @@ class Histogram(IMetricsUtility):
     _lock: Lock = field(default_factory=Lock, repr=False)
 
     def observe(self, value: float) -> None:
+        """Execute observe operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             self._observations.append(value)
 
     def snapshot(self) -> List[float]:
+        """Execute snapshot operation.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             return list(self._observations)

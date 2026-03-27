@@ -10,6 +10,8 @@ from .abstraction import IDTO
 
 
 class WebRtcIceServerDTO(IDTO):
+    """Represents the WebRtcIceServerDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     urls: Union[str, List[str]] = ""
     username: str = ""

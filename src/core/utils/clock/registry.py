@@ -26,8 +26,7 @@ class ClockRegistry(IClockUtility):
 
     @staticmethod
     def set(clock: Clock | None) -> None:
-        """
-        Replace the global clock (``None`` restores :class:`~utils.clock.system_clock.SystemClock`).
+        """Replace the global clock (``None`` restores :class:`~utils.clock.system_clock.SystemClock`).
 
         Use in tests::
 

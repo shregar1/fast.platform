@@ -1,6 +1,4 @@
-"""
-OpenAI / Anthropic LLM services with optional per-completion token usage callbacks.
-"""
+"""OpenAI / Anthropic LLM services with optional per-completion token usage callbacks."""
 
 from __future__ import annotations
 
@@ -13,6 +11,14 @@ from .token_usage import TokenUsage, TokenUsageCallback
 
 
 async def _maybe_await(coro_or_none: Any) -> None:
+    """Execute _maybe_await operation.
+
+    Args:
+        coro_or_none: The coro_or_none parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if coro_or_none is None:
         return
     if inspect.isawaitable(coro_or_none):
@@ -31,11 +37,29 @@ class InstrumentedOpenAILLMService(OpenAILLMService):
         on_token_usage: Optional[TokenUsageCallback] = None,
         usage_provider: str = "openai",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+            on_token_usage: The on_token_usage parameter.
+            usage_provider: The usage_provider parameter.
+        """
         super().__init__(api_key, base_url, model)
         self._on_token_usage = on_token_usage
         self._usage_provider = usage_provider
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._client.chat.completions.create(
             model=self._model,
             messages=[{"role": "user", "content": prompt}],
@@ -63,6 +87,14 @@ class InstrumentedGroqLLMService(InstrumentedOpenAILLMService):
         *,
         on_token_usage: Optional[TokenUsageCallback] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+            on_token_usage: The on_token_usage parameter.
+        """
         super().__init__(
             api_key,
             base_url or GROQ_DEFAULT_BASE_URL,
@@ -83,6 +115,14 @@ class InstrumentedMistralLLMService(InstrumentedOpenAILLMService):
         *,
         on_token_usage: Optional[TokenUsageCallback] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+            on_token_usage: The on_token_usage parameter.
+        """
         super().__init__(
             api_key,
             base_url or MISTRAL_DEFAULT_BASE_URL,
@@ -103,10 +143,27 @@ class InstrumentedGeminiLLMService(GeminiLLMService):
         *,
         on_token_usage: Optional[TokenUsageCallback] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            model: The model parameter.
+            base_url: The base_url parameter.
+            on_token_usage: The on_token_usage parameter.
+        """
         super().__init__(api_key, model, base_url)
         self._on_token_usage = on_token_usage
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._generate_response(prompt, max_tokens=max_tokens)
         text = self._extract_text(resp)
         if self._on_token_usage:
@@ -126,10 +183,27 @@ class InstrumentedAnthropicLLMService(AnthropicLLMService):
         *,
         on_token_usage: Optional[TokenUsageCallback] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+            on_token_usage: The on_token_usage parameter.
+        """
         super().__init__(api_key, base_url, model)
         self._on_token_usage = on_token_usage
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._client.messages.create(
             model=self._model,
             max_tokens=max_tokens,

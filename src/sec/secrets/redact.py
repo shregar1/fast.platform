@@ -1,6 +1,4 @@
-"""
-Mask secret material in strings and nested structures (e.g. before logging config dumps).
-"""
+"""Mask secret material in strings and nested structures (e.g. before logging config dumps)."""
 
 from __future__ import annotations
 
@@ -10,8 +8,7 @@ from typing import Any, Callable, Iterable, Mapping, MutableMapping, Optional, S
 
 
 def redact_text(text: str, *secret_values: str, mask: str = "***") -> str:
-    """
-    Replace occurrences of each non-empty ``secret_values`` substring with ``mask``.
+    """Replace occurrences of each non-empty ``secret_values`` substring with ``mask``.
 
     Longest secrets are applied first so shorter tokens nested inside longer ones do not
     leave partial leaks.
@@ -34,8 +31,7 @@ def redact_mapping(
     mask: str = "***",
     key_predicate: Optional[Callable[[str], bool]] = None,
 ) -> Any:
-    """
-    Deep-copy ``data`` (dict / list / tuple / primitives) and replace values whose key
+    """Deep-copy ``data`` (dict / list / tuple / primitives) and replace values whose key
     matches ``secret_keys`` (case-sensitive) or ``key_predicate(name)`` is True.
 
     Keys are compared at each dict level only (not full JSON paths).
@@ -43,6 +39,14 @@ def redact_mapping(
     keys = set(secret_keys) if not isinstance(secret_keys, set) else secret_keys
 
     def _redact(obj: Any) -> Any:
+        """Execute _redact operation.
+
+        Args:
+            obj: The obj parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if isinstance(obj, Mapping):
             out: MutableMapping[str, Any] = {}
             for k, v in obj.items():

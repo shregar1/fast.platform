@@ -1,6 +1,4 @@
-"""
-fast_admin – CRUD API for admin resources (users, roles, audit log) for FastMVC.
-"""
+"""fast_admin – CRUD API for admin resources (users, roles, audit log) for FastMVC."""
 
 from .audit_hooks import (
     AuditLogHook,

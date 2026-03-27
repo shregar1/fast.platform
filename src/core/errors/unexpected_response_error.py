@@ -1,18 +1,16 @@
-"""
-Unexpected failures (:class:`UnexpectedResponseError`).
-"""
+"""Unexpected failures (:class:`UnexpectedResponseError`)."""
 
 from .abstraction import IError
 
 
 class UnexpectedResponseError(IError):
-    """
-    Exception for unexpected conditions (5xx, 502, etc.).
+    """Exception for unexpected conditions (5xx, 502, etc.).
 
     Attributes:
         responseMessage: Human-readable description.
         responseKey: Machine-readable key (e.g. for i18n).
         httpStatusCode: HTTP status to return.
+
     """
 
     def __init__(
@@ -21,6 +19,13 @@ class UnexpectedResponseError(IError):
         responseKey: str,
         httpStatusCode: int,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            responseMessage: The responseMessage parameter.
+            responseKey: The responseKey parameter.
+            httpStatusCode: The httpStatusCode parameter.
+        """
         super().__init__()
         self.responseMessage = responseMessage
         self.responseKey = responseKey

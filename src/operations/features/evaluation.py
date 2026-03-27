@@ -1,6 +1,4 @@
-"""
-Structured flag evaluation with a ``reason`` for debugging / admin UIs.
-"""
+"""Structured flag evaluation with a ``reason`` for debugging / admin UIs."""
 
 from __future__ import annotations
 

@@ -1,3 +1,5 @@
+"""Module test_backends_opensearch.py."""
+
 import types
 from typing import Any
 
@@ -6,21 +8,54 @@ from tests.data_platform.search.backends._install import install_module
 
 
 class TestBackendsOpensearch(ISearchTests):
+    """Represents the TestBackendsOpensearch class."""
+
     def test_opensearch_backend_index_search_delete_and_filter(self, monkeypatch) -> None:
+        """Execute test_opensearch_backend_index_search_delete_and_filter operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.search.opensearch_backend import OpenSearchBackend
 
         calls: dict[str, Any] = {}
 
         class FakeClient:
+            """Represents the FakeClient class."""
+
             def __init__(self, **kwargs):
+                """Execute __init__ operation."""
                 calls["init_kwargs"] = kwargs
 
             def index(self, *, index: str, body: dict[str, Any], id: str, refresh: bool):
+                """Execute index operation.
+
+                Args:
+                    index: The index parameter.
+                    body: The body parameter.
+                    id: The id parameter.
+                    refresh: The refresh parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls.setdefault("index_calls", []).append(
                     {"index": index, "body": body, "id": id, "refresh": refresh}
                 )
 
             def search(self, *, index: str, body: dict[str, Any]):
+                """Execute search operation.
+
+                Args:
+                    index: The index parameter.
+                    body: The body parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["last_search_body"] = body
                 q = body.get("query") or {}
                 if "match_phrase_prefix" in q:
@@ -48,8 +83,18 @@ class TestBackendsOpensearch(ISearchTests):
                 return out
 
             class indices:
+                """Represents the indices class."""
+
                 @staticmethod
                 def delete(*, index: str):
+                    """Execute delete operation.
+
+                    Args:
+                        index: The index parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     calls["deleted_index"] = index
 
         fake_mod = types.ModuleType("opensearchpy")

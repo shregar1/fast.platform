@@ -1,6 +1,4 @@
-"""
-GitHub API client
-"""
+"""GitHub API client."""
 
 from typing import Optional, Dict, Any, List
 from dataclasses import dataclass
@@ -8,7 +6,8 @@ from dataclasses import dataclass
 
 @dataclass
 class GitHubIssue:
-    """GitHub issue"""
+    """GitHub issue."""
+
     number: int
     title: str
     state: str
@@ -19,7 +18,8 @@ class GitHubIssue:
 
 @dataclass
 class GitHubPR:
-    """GitHub pull request"""
+    """GitHub pull request."""
+
     number: int
     title: str
     state: str
@@ -29,24 +29,33 @@ class GitHubPR:
 
 
 class GitHubClient:
-    """
-    GitHub API client
-    """
-    
+    """GitHub API client."""
+
     def __init__(self, token: str):
+        """Execute __init__ operation.
+
+        Args:
+            token: The token parameter.
+        """
         self.token = token
         self._headers = {
             "Authorization": f"token {token}",
-            "Accept": "application/vnd.github.v3+json"
+            "Accept": "application/vnd.github.v3+json",
         }
         self._session = None
-    
+
     def _get_session(self):
+        """Execute _get_session operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._session is None:
             import aiohttp
+
             self._session = aiohttp.ClientSession(headers=self._headers)
         return self._session
-    
+
     async def create_issue(
         self,
         owner: str,
@@ -54,13 +63,13 @@ class GitHubClient:
         title: str,
         body: Optional[str] = None,
         labels: Optional[List[str]] = None,
-        assignees: Optional[List[str]] = None
+        assignees: Optional[List[str]] = None,
     ) -> GitHubIssue:
-        """Create an issue"""
+        """Create an issue."""
         import aiohttp
-        
+
         session = self._get_session()
-        
+
         payload = {"title": title}
         if body:
             payload["body"] = body
@@ -68,10 +77,9 @@ class GitHubClient:
             payload["labels"] = labels
         if assignees:
             payload["assignees"] = assignees
-        
+
         async with session.post(
-            f"https://api.github.com/repos/{owner}/{repo}/issues",
-            json=payload
+            f"https://api.github.com/repos/{owner}/{repo}/issues", json=payload
         ) as response:
             data = await response.json()
             return GitHubIssue(
@@ -80,34 +88,23 @@ class GitHubClient:
                 state=data["state"],
                 body=data.get("body"),
                 labels=[l["name"] for l in data.get("labels", [])],
-                assignees=[a["login"] for a in data.get("assignees", [])]
+                assignees=[a["login"] for a in data.get("assignees", [])],
             )
-    
+
     async def create_pull_request(
-        self,
-        owner: str,
-        repo: str,
-        title: str,
-        head: str,
-        base: str,
-        body: Optional[str] = None
+        self, owner: str, repo: str, title: str, head: str, base: str, body: Optional[str] = None
     ) -> GitHubPR:
-        """Create a pull request"""
+        """Create a pull request."""
         import aiohttp
-        
+
         session = self._get_session()
-        
-        payload = {
-            "title": title,
-            "head": head,
-            "base": base
-        }
+
+        payload = {"title": title, "head": head, "base": base}
         if body:
             payload["body"] = body
-        
+
         async with session.post(
-            f"https://api.github.com/repos/{owner}/{repo}/pulls",
-            json=payload
+            f"https://api.github.com/repos/{owner}/{repo}/pulls", json=payload
         ) as response:
             data = await response.json()
             return GitHubPR(
@@ -116,33 +113,29 @@ class GitHubClient:
                 state=data["state"],
                 body=data.get("body"),
                 branch=head,
-                base_branch=base
+                base_branch=base,
             )
-    
+
     async def get_file_content(
-        self,
-        owner: str,
-        repo: str,
-        path: str,
-        ref: Optional[str] = None
+        self, owner: str, repo: str, path: str, ref: Optional[str] = None
     ) -> Optional[str]:
-        """Get file content from repository"""
+        """Get file content from repository."""
         import aiohttp
         import base64
-        
+
         session = self._get_session()
-        
+
         url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
         if ref:
             url += f"?ref={ref}"
-        
+
         async with session.get(url) as response:
             if response.status == 200:
                 data = await response.json()
                 content = base64.b64decode(data["content"]).decode("utf-8")
                 return content
             return None
-    
+
     async def create_or_update_file(
         self,
         owner: str,
@@ -151,46 +144,35 @@ class GitHubClient:
         content: str,
         message: str,
         branch: str = "main",
-        sha: Optional[str] = None
+        sha: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """Create or update a file"""
+        """Create or update a file."""
         import aiohttp
         import base64
-        
+
         session = self._get_session()
-        
+
         encoded_content = base64.b64encode(content.encode()).decode()
-        
-        payload = {
-            "message": message,
-            "content": encoded_content,
-            "branch": branch
-        }
-        
+
+        payload = {"message": message, "content": encoded_content, "branch": branch}
+
         if sha:
             payload["sha"] = sha
-        
+
         async with session.put(
-            f"https://api.github.com/repos/{owner}/{repo}/contents/{path}",
-            json=payload
+            f"https://api.github.com/repos/{owner}/{repo}/contents/{path}", json=payload
         ) as response:
             return await response.json()
-    
-    async def list_releases(
-        self,
-        owner: str,
-        repo: str
-    ) -> List[Dict[str, Any]]:
-        """List repository releases"""
+
+    async def list_releases(self, owner: str, repo: str) -> List[Dict[str, Any]]:
+        """List repository releases."""
         import aiohttp
-        
+
         session = self._get_session()
-        
-        async with session.get(
-            f"https://api.github.com/repos/{owner}/{repo}/releases"
-        ) as response:
+
+        async with session.get(f"https://api.github.com/repos/{owner}/{repo}/releases") as response:
             return await response.json()
-    
+
     async def create_release(
         self,
         owner: str,
@@ -199,31 +181,25 @@ class GitHubClient:
         name: str,
         body: Optional[str] = None,
         draft: bool = False,
-        prerelease: bool = False
+        prerelease: bool = False,
     ) -> Dict[str, Any]:
-        """Create a release"""
+        """Create a release."""
         import aiohttp
-        
+
         session = self._get_session()
-        
-        payload = {
-            "tag_name": tag_name,
-            "name": name,
-            "draft": draft,
-            "prerelease": prerelease
-        }
-        
+
+        payload = {"tag_name": tag_name, "name": name, "draft": draft, "prerelease": prerelease}
+
         if body:
             payload["body"] = body
-        
+
         async with session.post(
-            f"https://api.github.com/repos/{owner}/{repo}/releases",
-            json=payload
+            f"https://api.github.com/repos/{owner}/{repo}/releases", json=payload
         ) as response:
             return await response.json()
-    
+
     async def close(self):
-        """Close the HTTP session"""
+        """Close the HTTP session."""
         if self._session:
             await self._session.close()
             self._session = None

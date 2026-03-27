@@ -15,6 +15,13 @@ class LLMFeatureNotAvailableError(IError):
         responseKey: str = "llm.feature_not_available",
         httpStatusCode: int = 501,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            responseMessage: The responseMessage parameter.
+            responseKey: The responseKey parameter.
+            httpStatusCode: The httpStatusCode parameter.
+        """
         super().__init__()
         self.responseMessage = responseMessage
         self.responseKey = responseKey

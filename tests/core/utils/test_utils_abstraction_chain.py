@@ -6,7 +6,14 @@ from tests.core.utils.abstraction import IUtilsTests
 
 
 class TestUtilsAbstractionChain(IUtilsTests):
+    """Represents the TestUtilsAbstractionChain class."""
+
     def test_subfolder_markers_subclass_iutility(self) -> None:
+        """Execute test_subfolder_markers_subclass_iutility operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.utils.abstraction import IUtility
         from core.utils.archive import IArchiveUtility
         from core.utils.clock import IClockUtility
@@ -57,6 +64,11 @@ class TestUtilsAbstractionChain(IUtilsTests):
             assert issubclass(m, IUtility), m
 
     def test_concrete_classes_use_subfolder_base(self) -> None:
+        """Execute test_concrete_classes_use_subfolder_base operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.utils.archive import ArchiveUtility, IArchiveUtility
         from core.utils.crowdfunding import CrowdfundingUtility, ICrowdfundingUtility
         from core.utils.decimal import DecimalUtility, IDecimalUtility

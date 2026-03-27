@@ -1,5 +1,4 @@
-"""
-Normalize common JWT/OIDC claim shapes (Keycloak ``realm_access``, ``scope``, …)
+"""Normalize common JWT/OIDC claim shapes (Keycloak ``realm_access``, ``scope``, …)
 and step-up context (``amr``, ``acr``).
 """
 
@@ -10,8 +9,7 @@ from typing import Any, FrozenSet, Optional
 
 
 def parse_amr_claim(value: Any) -> FrozenSet[str]:
-    """
-    Parse Authentication Methods References (RFC 8176 / OIDC ``amr``).
+    """Parse Authentication Methods References (RFC 8176 / OIDC ``amr``).
 
     Accepts ``None``, a string (split on whitespace), or a sequence of strings.
     """
@@ -81,6 +79,14 @@ class NormalizedClaims:
 
 
 def _normalize_aud(aud: Any) -> Optional[str | tuple[str, ...]]:
+    """Execute _normalize_aud operation.
+
+    Args:
+        aud: The aud parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if aud is None:
         return None
     if isinstance(aud, str):

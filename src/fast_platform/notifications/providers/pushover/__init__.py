@@ -1,5 +1,4 @@
-"""
-Pushover Integration
+"""Pushover Integration.
 
 Send push notifications to mobile devices via Pushover.
 """

@@ -1,6 +1,4 @@
-"""
-Kafka consumer integration using aiokafka.
-"""
+"""Kafka consumer integration using aiokafka."""
 
 from __future__ import annotations
 
@@ -16,6 +14,14 @@ from .idempotent import DedupeStore, InMemoryDedupeStore, KafkaDedupeKeys
 
 
 def _message_bytes(value: bytes | None) -> bytes:
+    """Execute _message_bytes operation.
+
+    Args:
+        value: The value parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return b"" if value is None else value
 
 
@@ -23,11 +29,17 @@ class KafkaConsumer:
     """High-level Kafka consumer wrapper."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         cfg = KafkaConfiguration().get_config()
         self._cfg = cfg
         self._consumer: AIOKafkaConsumer | None = None
 
     async def start(self) -> None:
+        """Execute start operation.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._cfg.enabled:
             logger.info("Kafka consumer not started (disabled in config).")
             return
@@ -41,11 +53,24 @@ class KafkaConsumer:
         logger.info("Kafka consumer started.")
 
     async def stop(self) -> None:
+        """Execute stop operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._consumer:
             await self._consumer.stop()
             logger.info("Kafka consumer stopped.")
 
     async def loop(self, handler: Callable[[str, bytes], Awaitable[None]]) -> None:
+        """Execute loop operation.
+
+        Args:
+            handler: The handler parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._consumer:
             logger.warning("Kafka consumer is not running; loop exited.")
             return
@@ -59,8 +84,7 @@ class KafkaConsumer:
         dedupe_store: Optional[DedupeStore] = None,
         dedupe_key: Optional[Callable[[bytes], str]] = None,
     ) -> None:
-        """
-        Consume with **manual commits** after each successful handler, and optional **dedupe**
+        """Consume with **manual commits** after each successful handler, and optional **dedupe**
         by key so duplicate payloads can be skipped while still advancing offsets.
 
         Requires ``enable_auto_commit=False`` in Kafka config (otherwise offset commits may race).
@@ -88,6 +112,14 @@ class KafkaConsumer:
             await store.record_success(dkey)
 
     async def _commit_offset(self, msg: Any) -> None:
+        """Execute _commit_offset operation.
+
+        Args:
+            msg: The msg parameter.
+
+        Returns:
+            The result of the operation.
+        """
         assert self._consumer is not None
         tp = TopicPartition(msg.topic, msg.partition)
         await self._consumer.commit({tp: msg.offset + 1})

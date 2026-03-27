@@ -1,5 +1,4 @@
-"""
-Datadog integration helpers.
+"""Datadog integration helpers.
 
 This module configures environment variables for Datadog tracing / APM
 based on `config/datadog/config.json`. It is intentionally lightweight:
@@ -17,9 +16,7 @@ from fast_platform import DatadogConfiguration
 
 
 def configure_datadog() -> None:
-    """
-    Configure Datadog environment variables and, if available, enable ddtrace.
-    """
+    """Configure Datadog environment variables and, if available, enable ddtrace."""
     cfg = DatadogConfiguration().get_config()
     if not cfg.enabled:
         logger.info("Datadog is disabled in configuration.")

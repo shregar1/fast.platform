@@ -1,3 +1,5 @@
+"""Module test_instrumented.py."""
+
 from __future__ import annotations
 
 """Instrumented LLM services (requires openai / anthropic SDKs for full tests)."""
@@ -13,8 +15,15 @@ pytest.importorskip("openai")
 
 
 class TestInstrumented(ILLMTests):
+    """Represents the TestInstrumented class."""
+
     @pytest.mark.asyncio
     async def test_instrumented_openai_emits_usage(self) -> None:
+        """Execute test_instrumented_openai_emits_usage operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm.instrumented import InstrumentedOpenAILLMService
         from integrations.llm.token_usage import TokenUsage
 
@@ -28,6 +37,14 @@ class TestInstrumented(ILLMTests):
         received: List[TokenUsage] = []
 
         async def cb(u: TokenUsage) -> None:
+            """Execute cb operation.
+
+            Args:
+                u: The u parameter.
+
+            Returns:
+                The result of the operation.
+            """
             received.append(u)
 
         def fake_init(
@@ -39,6 +56,18 @@ class TestInstrumented(ILLMTests):
             on_token_usage: Any = None,
             usage_provider: str = "openai",
         ) -> None:
+            """Execute fake_init operation.
+
+            Args:
+                api_key: The api_key parameter.
+                base_url: The base_url parameter.
+                model: The model parameter.
+                on_token_usage: The on_token_usage parameter.
+                usage_provider: The usage_provider parameter.
+
+            Returns:
+                The result of the operation.
+            """
             self._model = model
             self._client = mock_client
             self._on_token_usage = on_token_usage

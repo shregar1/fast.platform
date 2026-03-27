@@ -11,6 +11,11 @@ from operations.tenancy.context import InMemoryTenantStore, Tenant, TenantConfig
 
 @pytest.fixture
 async def store_with_acme() -> InMemoryTenantStore:
+    """Execute store_with_acme operation.
+
+    Returns:
+        The result of the operation.
+    """
     store = InMemoryTenantStore()
     t = Tenant(
         id="tid-acme",

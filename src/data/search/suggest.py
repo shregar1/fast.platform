@@ -16,8 +16,7 @@ def suggest_autocomplete(
     field: str = "title",
     limit: int = 10,
 ) -> List[str]:
-    """
-    Return distinct string completions for ``prefix`` using the backend's :meth:`~ISearchBackend.suggest`.
+    """Return distinct string completions for ``prefix`` using the backend's :meth:`~ISearchBackend.suggest`.
 
     Backends may use native prefix queries (e.g. OpenSearch) or the default
     :meth:`~ISearchBackend.suggest` implementation (search + dedupe).

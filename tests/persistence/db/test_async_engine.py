@@ -19,7 +19,14 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestAsyncEngine(IDatabaseTests):
+    """Represents the TestAsyncEngine class."""
+
     def test_async_database_url_postgres_derives_asyncpg(self):
+        """Execute test_async_database_url_postgres_derives_asyncpg operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -33,6 +40,11 @@ class TestAsyncEngine(IDatabaseTests):
         assert "u" in url and "d" in url
 
     def test_async_database_url_explicit_override(self):
+        """Execute test_async_database_url_explicit_override operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -46,18 +58,39 @@ class TestAsyncEngine(IDatabaseTests):
         assert url.startswith("postgresql+asyncpg://")
 
     async def test_check_database_async_sqlite(self):
+        """Execute test_check_database_async_sqlite operation.
+
+        Returns:
+            The result of the operation.
+        """
         eng = create_async_engine("sqlite+aiosqlite:///:memory:")
         assert await check_database_async(eng) is True
         await eng.dispose()
 
     @patch("persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_incomplete_raises(self, mock_create):
+        """Execute test_get_async_engine_incomplete_raises operation.
+
+        Args:
+            mock_create: The mock_create parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(RuntimeError, match="incomplete"):
             get_async_engine(DBConfigurationDTO())
         mock_create.assert_not_called()
 
     @patch("persistence.db.async_engine.DBConfiguration")
     def test_get_async_engine_uses_default_config(self, mock_db_cls):
+        """Execute test_get_async_engine_uses_default_config operation.
+
+        Args:
+            mock_db_cls: The mock_db_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_conf = MagicMock()
         mock_conf.get_config.return_value = DBConfigurationDTO(
             user_name="u",
@@ -77,6 +110,15 @@ class TestAsyncEngine(IDatabaseTests):
     def test_create_and_set_async_session_factory_none_config_uses_singleton(
         self, mock_get_eng, mock_create_fac
     ):
+        """Execute test_create_and_set_async_session_factory_none_config_uses_singleton operation.
+
+        Args:
+            mock_get_eng: The mock_get_eng parameter.
+            mock_create_fac: The mock_create_fac parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_conf = MagicMock()
         mock_conf.get_config.return_value = DBConfigurationDTO(
             user_name="u",
@@ -99,6 +141,14 @@ class TestAsyncEngine(IDatabaseTests):
 
     @patch("persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_passes_pool_async(self, mock_create):
+        """Execute test_get_async_engine_passes_pool_async operation.
+
+        Args:
+            mock_create: The mock_create parameter.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -117,6 +167,14 @@ class TestAsyncEngine(IDatabaseTests):
 
     @patch("persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_passes_server_settings(self, mock_create):
+        """Execute test_get_async_engine_passes_server_settings operation.
+
+        Args:
+            mock_create: The mock_create parameter.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -134,6 +192,11 @@ class TestAsyncEngine(IDatabaseTests):
         assert ss["statement_timeout"] == "3000"
 
     def test_async_read_replica_url_from_config(self):
+        """Execute test_async_read_replica_url_from_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db.async_engine import async_read_replica_url_from_config
 
         cfg = DBConfigurationDTO(
@@ -150,6 +213,14 @@ class TestAsyncEngine(IDatabaseTests):
 
     @patch("persistence.db.async_engine.create_async_engine")
     def test_get_async_read_engine(self, mock_create):
+        """Execute test_get_async_read_engine operation.
+
+        Args:
+            mock_create: The mock_create parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db.async_engine import get_async_read_engine
 
         cfg = DBConfigurationDTO(
@@ -168,6 +239,11 @@ class TestAsyncEngine(IDatabaseTests):
         mock_create.assert_called_once()
 
     def test_get_async_read_engine_none(self):
+        """Execute test_get_async_read_engine_none operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db.async_engine import get_async_read_engine
 
         assert (
@@ -185,6 +261,11 @@ class TestAsyncEngine(IDatabaseTests):
         )
 
     def test_set_global_async_read_engine(self):
+        """Execute test_set_global_async_read_engine operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db import async_engine as m
 
         mock_eng = MagicMock()
@@ -195,6 +276,11 @@ class TestAsyncEngine(IDatabaseTests):
             m.set_global_async_read_engine(None)
 
     def test_async_database_url_sqlite_derived(self):
+        """Execute test_async_database_url_sqlite_derived operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -221,6 +307,11 @@ class TestAsyncEngine(IDatabaseTests):
         assert "sqlite+aiosqlite" in url
 
     def test_async_database_url_unknown_driver_raises(self):
+        """Execute test_async_database_url_unknown_driver_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
         config = DBConfigurationDTO(
             user_name="u",
             password="p",
@@ -233,11 +324,25 @@ class TestAsyncEngine(IDatabaseTests):
             async_database_url_from_config(config)
 
     def test_create_and_set_async_session_factory_returns_none_when_incomplete(self):
+        """Execute test_create_and_set_async_session_factory_returns_none_when_incomplete operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert create_and_set_async_session_factory(DBConfigurationDTO()) is None
 
     @patch("persistence.db.async_engine.create_async_session_factory")
     @patch("persistence.db.async_engine.get_async_engine")
     def test_create_and_set_async_session_factory_sets_globals(self, mock_get_eng, mock_create_fac):
+        """Execute test_create_and_set_async_session_factory_sets_globals operation.
+
+        Args:
+            mock_get_eng: The mock_get_eng parameter.
+            mock_create_fac: The mock_create_fac parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_eng = MagicMock()
         mock_get_eng.return_value = mock_eng
         mock_fac = MagicMock()
@@ -258,11 +363,29 @@ class TestAsyncEngine(IDatabaseTests):
 
     @pytest.mark.asyncio
     async def test_check_database_async_connection_error(self):
+        """Execute test_check_database_async_connection_error operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _CM:
+            """Represents the _CM class."""
+
             async def __aenter__(self):
+                """Execute __aenter__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 raise RuntimeError("down")
 
             async def __aexit__(self, *a):
+                """Execute __aexit__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return None
 
         eng = MagicMock()
@@ -270,6 +393,11 @@ class TestAsyncEngine(IDatabaseTests):
         assert await check_database_async(eng) is False
 
     def test_create_async_session_factory_returns_callable(self):
+        """Execute test_create_async_session_factory_returns_callable operation.
+
+        Returns:
+            The result of the operation.
+        """
         eng = create_async_engine("sqlite+aiosqlite:///:memory:")
         fac = create_async_session_factory(eng)
         assert callable(fac)

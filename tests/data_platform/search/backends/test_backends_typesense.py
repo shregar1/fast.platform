@@ -1,3 +1,5 @@
+"""Module test_backends_typesense.py."""
+
 import types
 from typing import Any
 
@@ -6,16 +8,44 @@ from tests.data_platform.search.backends._install import install_module
 
 
 class TestBackendsTypesense(ISearchTests):
+    """Represents the TestBackendsTypesense class."""
+
     def test_typesense_backend_index_search_delete_and_filter(self, monkeypatch) -> None:
+        """Execute test_typesense_backend_index_search_delete_and_filter operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.search.typesense_backend import TypesenseBackend, _filter_str
 
         calls: dict[str, Any] = {}
 
         class FakeDocuments:
+            """Represents the FakeDocuments class."""
+
             def upsert(self, d: dict[str, Any]):
+                """Execute upsert operation.
+
+                Args:
+                    d: The d parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls.setdefault("upserts", []).append(d)
 
             def search(self, body: dict[str, Any]):
+                """Execute search operation.
+
+                Args:
+                    body: The body parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["last_search_body"] = body
                 hits: list[dict[str, Any]] = [{"document": {"id": "a"}}, {"document": {"id": "b"}}]
                 if body.get("highlight_fields"):
@@ -30,23 +60,49 @@ class TestBackendsTypesense(ISearchTests):
                 return out
 
         class FakeCollection:
+            """Represents the FakeCollection class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.documents = FakeDocuments()
 
             def delete(self):
+                """Execute delete operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls["deleted_collection"] = True
 
         class FakeCollections:
+            """Represents the FakeCollections class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self._cols: dict[str, FakeCollection] = {}
 
             def __getitem__(self, name: str) -> FakeCollection:
+                """Execute __getitem__ operation.
+
+                Args:
+                    name: The name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 if name not in self._cols:
                     self._cols[name] = FakeCollection()
                 return self._cols[name]
 
         class FakeTypesenseClient:
+            """Represents the FakeTypesenseClient class."""
+
             def __init__(self, cfg):
+                """Execute __init__ operation.
+
+                Args:
+                    cfg: The cfg parameter.
+                """
                 calls["client_cfg"] = cfg
                 self.collections = FakeCollections()
 

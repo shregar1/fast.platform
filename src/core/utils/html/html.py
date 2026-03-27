@@ -1,5 +1,4 @@
-"""
-HTML escaping and lightweight tag stripping using the standard library.
+"""HTML escaping and lightweight tag stripping using the standard library.
 
 These helpers are suitable for **escaping** dynamic text before embedding it in
 HTML or attributes, and for **rough** conversion of HTML-ish strings to plain
@@ -22,8 +21,7 @@ __all__ = ["HtmlUtility"]
 
 
 class HtmlUtility(IHtmlUtility):
-    """
-    HTML escaping and plain-text extraction helpers.
+    """HTML escaping and plain-text extraction helpers.
 
     **Escaping:** use :meth:`escape` / :meth:`escape_attribute` whenever user or
     external data is interpolated into HTML documents or quoted attributes.
@@ -38,8 +36,7 @@ class HtmlUtility(IHtmlUtility):
 
     @staticmethod
     def escape(text: str) -> str:
-        """
-        Escape characters that are special in HTML text and in double-quoted attributes.
+        """Escape characters that are special in HTML text and in double-quoted attributes.
 
         Escapes ``&``, ``<``, ``>``, ``"``, and ``'`` so the result is safe to
         embed in HTML body text or inside ``"..."`` attributes when ``quote=True``
@@ -54,13 +51,13 @@ class HtmlUtility(IHtmlUtility):
         -------
         str
             Escaped string safe for HTML contexts described above.
+
         """
         return html.escape(text, quote=True)
 
     @staticmethod
     def escape_attribute(text: str) -> str:
-        """
-        Escape a value intended for a double-quoted HTML attribute.
+        """Escape a value intended for a double-quoted HTML attribute.
 
         Currently equivalent to :meth:`escape` (both use ``quote=True``). Kept
         as a named entry point so call sites document intent (attribute context).
@@ -74,13 +71,13 @@ class HtmlUtility(IHtmlUtility):
         -------
         str
             Escaped string suitable for ``attr="..."``.
+
         """
         return html.escape(text, quote=True)
 
     @staticmethod
     def strip_tags(html_fragment: str) -> str:
-        """
-        Remove HTML tags and return visible text with normalized whitespace.
+        """Remove HTML tags and return visible text with normalized whitespace.
 
         Uses :class:`~utils.html_strip_tags_parser.HtmlStripTagsParser` so character references are decoded to
         Unicode. After parsing, internal runs of whitespace are collapsed to a
@@ -96,6 +93,7 @@ class HtmlUtility(IHtmlUtility):
         -------
         str
             Plain text with tags removed and whitespace collapsed.
+
         """
         parser = HtmlStripTagsParser()
         parser.feed(html_fragment)
@@ -104,8 +102,7 @@ class HtmlUtility(IHtmlUtility):
 
     @staticmethod
     def strip_tags_regex(html_fragment: str) -> str:
-        """
-        Remove substrings that look like ``<...>`` using a regular expression.
+        """Remove substrings that look like ``<...>`` using a regular expression.
 
         Faster than :meth:`strip_tags` but **not** an HTML parser: edge cases
         such as ``<`` in text, comments, or malformed tags may produce surprising
@@ -120,6 +117,7 @@ class HtmlUtility(IHtmlUtility):
         -------
         str
             Text with regex-matched tag-like segments replaced by spaces, then collapsed.
+
         """
         text = HtmlUtility._TAG_RE.sub(" ", html_fragment)
         return " ".join(text.split())

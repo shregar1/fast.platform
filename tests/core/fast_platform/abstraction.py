@@ -1,3 +1,5 @@
+"""Module abstraction.py."""
+
 from __future__ import annotations
 
 """Test-suite markers for ``fast_platform`` (mirrors ``src/fast_platform/``)."""

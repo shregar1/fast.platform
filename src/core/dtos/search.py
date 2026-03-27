@@ -12,6 +12,8 @@ from .meilisearch import MeilisearchDTO
 
 
 class SearchConfigurationDTO(IDTO):
+    """Represents the SearchConfigurationDTO class."""
+
     default_backend: str = "meilisearch"
     meilisearch: MeilisearchDTO = Field(default_factory=MeilisearchDTO)
 
@@ -37,8 +39,7 @@ class FacetBucket:
 
 @dataclass(slots=True)
 class FacetedSearchResult:
-    """
-    Search hits plus facet distributions (when the backend supports them).
+    """Search hits plus facet distributions (when the backend supports them).
 
     ``facets`` maps a field name to ordered facet buckets (value + count).
     """

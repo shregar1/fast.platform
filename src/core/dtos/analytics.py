@@ -9,5 +9,7 @@ from .http_sink import HttpSinkDTO
 
 
 class AnalyticsConfigurationDTO(IDTO):
+    """Represents the AnalyticsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     http_sink: HttpSinkDTO = Field(default_factory=HttpSinkDTO)

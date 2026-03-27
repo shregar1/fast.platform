@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class ServiceBusConfigDTO(IDTO):
+    """Represents the ServiceBusConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     connection_string: str = ""

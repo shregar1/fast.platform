@@ -1,5 +1,4 @@
-"""
-Structured Logging Module.
+"""Structured Logging Module.
 
 Provides structured JSON logging with context propagation,
 request correlation, and log level management.
@@ -32,8 +31,7 @@ def set_log_context(
     trace_id: Optional[str] = None,
     **kwargs: Any,
 ) -> None:
-    """
-    Set logging context for the current request.
+    """Set logging context for the current request.
 
     Args:
         request_id: Request correlation ID.
@@ -41,6 +39,7 @@ def set_log_context(
         tenant_id: Current tenant ID.
         trace_id: Distributed trace ID.
         **kwargs: Additional context values.
+
     """
     if request_id:
         _request_id.set(request_id)
@@ -80,8 +79,7 @@ def clear_log_context() -> None:
 
 
 def json_formatter(record: dict) -> str:
-    """
-    Format log record as JSON.
+    """Format log record as JSON.
 
     Includes context from context variables and extra fields.
     """
@@ -116,8 +114,7 @@ def json_formatter(record: dict) -> str:
 
 
 class StructuredLogger:
-    """
-    Structured logger with context propagation.
+    """Structured logger with context propagation.
 
     Wraps loguru to provide structured JSON logging with
     automatic context inclusion.
@@ -138,14 +135,14 @@ class StructuredLogger:
         json_output: bool = True,
         include_caller: bool = True,
     ) -> None:
-        """
-        Initialize structured logger.
+        """Initialize structured logger.
 
         Args:
             name: Logger name (included in all log entries).
             level: Minimum log level.
             json_output: Output logs as JSON.
             include_caller: Include caller info (module, function, line).
+
         """
         self._name = name
         self._level = level
@@ -201,8 +198,7 @@ def configure_logging(
     rotation: str = "100 MB",
     retention: str = "7 days",
 ) -> None:
-    """
-    Configure global logging settings.
+    """Configure global logging settings.
 
     Args:
         level: Minimum log level.
@@ -210,6 +206,7 @@ def configure_logging(
         log_file: Optional file path for log output.
         rotation: Log rotation size/time.
         retention: Log retention period.
+
     """
     # Remove default handler
     logger.remove()

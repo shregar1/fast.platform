@@ -1,6 +1,4 @@
-"""
-Default :class:`~fast_media.abstractions.IImageVariantGenerator` using a bytes fetcher + store upload.
-"""
+"""Default :class:`~fast_media.abstractions.IImageVariantGenerator` using a bytes fetcher + store upload."""
 
 from __future__ import annotations
 
@@ -12,8 +10,7 @@ from .variants import generate_image_variant
 
 
 class DefaultImageVariantGenerator(IImageVariantGenerator):
-    """
-    Fetch original bytes by key, generate a variant, upload, return stored key.
+    """Fetch original bytes by key, generate a variant, upload, return stored key.
 
     **fetch_bytes** loads the source object (e.g. from ``InMemoryMediaStore.get_bytes``,
     S3 download, or DB blob).
@@ -26,6 +23,13 @@ class DefaultImageVariantGenerator(IImageVariantGenerator):
         *,
         defaults: dict[str, VariantSpec] | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            store: The store parameter.
+            fetch_bytes: The fetch_bytes parameter.
+            defaults: The defaults parameter.
+        """
         self._store = store
         self._fetch = fetch_bytes
         self._defaults = defaults or {
@@ -43,6 +47,19 @@ class DefaultImageVariantGenerator(IImageVariantGenerator):
         format: Optional[str] = None,
         quality: Optional[int] = None,
     ) -> str:
+        """Execute generate operation.
+
+        Args:
+            source_key: The source_key parameter.
+            variant_name: The variant_name parameter.
+            width: The width parameter.
+            height: The height parameter.
+            format: The format parameter.
+            quality: The quality parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raw = self._fetch(source_key)
         spec = self._defaults.get(variant_name)
         if spec is None:

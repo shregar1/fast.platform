@@ -1,6 +1,4 @@
-"""
-Unified enqueue entry point for Celery, RQ, and Dramatiq.
-"""
+"""Unified enqueue entry point for Celery, RQ, and Dramatiq."""
 
 from __future__ import annotations
 
@@ -14,6 +12,14 @@ from .timeout import resolve_job_timeout_seconds
 
 
 def _enabled_backends(cfg: Any) -> List[Literal["celery", "rq", "dramatiq"]]:
+    """Execute _enabled_backends operation.
+
+    Args:
+        cfg: The cfg parameter.
+
+    Returns:
+        The result of the operation.
+    """
     out: List[Literal["celery", "rq", "dramatiq"]] = []
     if getattr(cfg.celery, "enabled", False):
         out.append("celery")
@@ -27,6 +33,14 @@ def _enabled_backends(cfg: Any) -> List[Literal["celery", "rq", "dramatiq"]]:
 def _resolve_backend(
     requested: Literal["auto", "celery", "rq", "dramatiq"],
 ) -> Literal["celery", "rq", "dramatiq"]:
+    """Execute _resolve_backend operation.
+
+    Args:
+        requested: The requested parameter.
+
+    Returns:
+        The result of the operation.
+    """
     cfg = JobsConfiguration().get_config()
     enabled = _enabled_backends(cfg)
     if requested == "auto":
@@ -45,6 +59,14 @@ def _resolve_backend(
 
 
 def _timeouts_from_cfg(cfg: Any) -> Any:
+    """Execute _timeouts_from_cfg operation.
+
+    Args:
+        cfg: The cfg parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return getattr(cfg, "queue_timeouts", None) or {}
 
 
@@ -72,8 +94,7 @@ def enqueue(
     backend: Literal["auto", "celery", "rq", "dramatiq"] = "auto",
     timeout: Optional[int] = None,
 ) -> JobEnqueueResult:
-    """
-    Enqueue a task.
+    """Enqueue a task.
 
     - **Celery** — pass a **task** object with ``apply_async`` (``@app.task``) or a task name string
       for ``send_task``.
@@ -108,6 +129,18 @@ def _enqueue_celery(
     queue: Optional[str],
     timeout_override: Optional[int],
 ) -> JobEnqueueResult:
+    """Execute _enqueue_celery operation.
+
+    Args:
+        task_or_name: The task_or_name parameter.
+        args: The args parameter.
+        kw: The kw parameter.
+        queue: The queue parameter.
+        timeout_override: The timeout_override parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from messaging.jobs.celery_app import make_celery_app
     except ImportError as e:  # pragma: no cover
@@ -161,6 +194,18 @@ def _enqueue_rq(
     queue: Optional[str],
     timeout_override: Optional[int],
 ) -> JobEnqueueResult:
+    """Execute _enqueue_rq operation.
+
+    Args:
+        task_or_name: The task_or_name parameter.
+        args: The args parameter.
+        kw: The kw parameter.
+        queue: The queue parameter.
+        timeout_override: The timeout_override parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         from redis import Redis
         from rq import Queue
@@ -206,6 +251,18 @@ def _enqueue_dramatiq(
     queue: Optional[str],
     timeout_override: Optional[int],
 ) -> JobEnqueueResult:
+    """Execute _enqueue_dramatiq operation.
+
+    Args:
+        actor: The actor parameter.
+        args: The args parameter.
+        kw: The kw parameter.
+        queue: The queue parameter.
+        timeout_override: The timeout_override parameter.
+
+    Returns:
+        The result of the operation.
+    """
     try:
         import dramatiq
     except ImportError as e:  # pragma: no cover

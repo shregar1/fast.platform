@@ -9,8 +9,18 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestProducer(IKafkaTests):
+    """Represents the TestProducer class."""
+
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_when_disabled(self, mock_cfg_cls):
+        """Execute test_producer_start_when_disabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
@@ -24,6 +34,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_stop_no_producer(self, mock_cfg_cls):
+        """Execute test_producer_stop_no_producer operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
@@ -34,6 +52,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_running(self, mock_cfg_cls):
+        """Execute test_producer_send_when_running operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
@@ -52,6 +78,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_not_running(self, mock_cfg_cls):
+        """Execute test_producer_send_when_not_running operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
@@ -62,6 +96,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope(self, mock_cfg_cls):
+        """Execute test_producer_send_json_envelope operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
@@ -86,6 +128,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_from_dict(self, mock_cfg_cls):
+        """Execute test_producer_send_json_envelope_from_dict operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
@@ -108,6 +158,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_when_disabled(self, mock_cfg_cls):
+        """Execute test_producer_send_json_envelope_when_disabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from core.dtos.kafka import KafkaJsonEnvelope
 
         from messaging.kafka.producer import KafkaProducer
@@ -120,6 +178,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_bytes_with_headers(self, mock_cfg_cls):
+        """Execute test_producer_send_bytes_with_headers operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
@@ -142,6 +208,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq(self, mock_cfg_cls):
+        """Execute test_producer_send_json_envelope_to_dlq operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
@@ -172,6 +246,14 @@ class TestProducer(IKafkaTests):
 
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq_requires_topic(self, mock_cfg_cls):
+        """Execute test_producer_send_json_envelope_to_dlq_requires_topic operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
         from messaging.kafka.producer import KafkaProducer
@@ -193,6 +275,15 @@ class TestProducer(IKafkaTests):
     @patch("messaging.kafka.producer.AIOKafkaProducer")
     @patch("messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_stop_when_enabled(self, mock_cfg_cls, mock_aio_cls):
+        """Execute test_producer_start_stop_when_enabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+            mock_aio_cls: The mock_aio_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()

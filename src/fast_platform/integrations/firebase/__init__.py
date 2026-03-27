@@ -1,5 +1,4 @@
-"""
-Firebase Integration
+"""Firebase Integration.
 
 Firebase Cloud Messaging, Firestore, and Authentication.
 """

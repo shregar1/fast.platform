@@ -26,6 +26,16 @@ class TokenUsage:
         model: str = "",
         provider: str = "openai",
     ) -> "TokenUsage":
+        """Execute from_openai_completion operation.
+
+        Args:
+            resp: The resp parameter.
+            model: The model parameter.
+            provider: The provider parameter.
+
+        Returns:
+            The result of the operation.
+        """
         u = getattr(resp, "usage", None)
         if u is None:
             return cls(0, 0, 0, model=model, provider=provider)
@@ -36,6 +46,15 @@ class TokenUsage:
 
     @classmethod
     def from_anthropic_message(cls, resp: Any, *, model: str = "") -> "TokenUsage":
+        """Execute from_anthropic_message operation.
+
+        Args:
+            resp: The resp parameter.
+            model: The model parameter.
+
+        Returns:
+            The result of the operation.
+        """
         u = getattr(resp, "usage", None)
         if u is None:
             return cls(0, 0, 0, model=model, provider="anthropic")
@@ -45,6 +64,15 @@ class TokenUsage:
 
     @classmethod
     def from_gemini_response(cls, resp: Any, *, model: str = "") -> "TokenUsage":
+        """Execute from_gemini_response operation.
+
+        Args:
+            resp: The resp parameter.
+            model: The model parameter.
+
+        Returns:
+            The result of the operation.
+        """
         u = getattr(resp, "usage_metadata", None)
         if u is None:
             return cls(0, 0, 0, model=model, provider="gemini")

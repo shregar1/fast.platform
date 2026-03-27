@@ -27,7 +27,6 @@ class AsyncRetry(IAsyncRetryUtility):
         exceptions: Tuple[type[BaseException], ...] = (Exception,),
     ) -> T:
         """Retry an async function with exponential backoff + jitter."""
-
         if retries < 0:
             raise ValueError("retries must be >= 0")
         if base_delay < 0:

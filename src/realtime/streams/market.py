@@ -1,5 +1,4 @@
-"""
-Market data / event streaming hub.
+"""Market data / event streaming hub.
 
 Maintains in-memory tick history per symbol and order events per tenant,
 and provides snapshot + incremental streaming semantics that can be used
@@ -20,11 +19,10 @@ from .abstractions import OrderEvent, Tick
 
 
 class MarketDataHub:
-    """
-    Central hub for ticks and order events.
-    """
+    """Central hub for ticks and order events."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         cfg = StreamsConfiguration.instance().get_config()
         self._enabled = cfg.enabled
         self._tick_history = max(1, cfg.tick_history)
@@ -65,8 +63,7 @@ class MarketDataHub:
         event_payload: Dict[str, Any] | None = None,
         context_label: str = "streams",
     ) -> None:
-        """
-        Internal helper that appends to history, optionally fans out to a queue backend,
+        """Internal helper that appends to history, optionally fans out to a queue backend,
         and notifies all subscribers with backpressure.
         """
         dq = history_store.setdefault(key, deque(maxlen=self._tick_history))
@@ -95,6 +92,14 @@ class MarketDataHub:
             await self._push_with_backpressure(q, ("update", event))
 
     async def publish_tick(self, tick: Tick) -> None:
+        """Execute publish_tick operation.
+
+        Args:
+            tick: The tick parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._enabled:
             return
         queue_body: Dict[str, Any] | None = None
@@ -129,12 +134,18 @@ class MarketDataHub:
         )
 
     async def snapshot_ticks(self, symbol: str) -> List[Tick]:
+        """Execute snapshot_ticks operation.
+
+        Args:
+            symbol: The symbol parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return list(self._symbol_ticks.get(symbol, []))
 
     async def subscribe_ticks(self, symbol: str) -> AsyncGenerator[Tuple[str, Any], None]:
-        """
-        Yields a ("snapshot", [Tick...]) frame followed by ("update", Tick) frames.
-        """
+        """Yields a ("snapshot", [Tick...]) frame followed by ("update", Tick) frames."""
         q: asyncio.Queue = asyncio.Queue()
         subs = self._symbol_subscribers.setdefault(symbol, [])
         subs.append(q)
@@ -149,6 +160,14 @@ class MarketDataHub:
                 subs.remove(q)
 
     async def publish_order(self, event: OrderEvent) -> None:
+        """Execute publish_order operation.
+
+        Args:
+            event: The event parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._enabled:
             return
         queue_body: Dict[str, Any] | None = None
@@ -186,12 +205,18 @@ class MarketDataHub:
         )
 
     async def snapshot_orders(self, tenant_id: str) -> List[OrderEvent]:
+        """Execute snapshot_orders operation.
+
+        Args:
+            tenant_id: The tenant_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return list(self._tenant_orders.get(tenant_id, []))
 
     async def subscribe_orders(self, tenant_id: str) -> AsyncGenerator[Tuple[str, Any], None]:
-        """
-        Yields a ("snapshot", [OrderEvent...]) frame followed by ("update", OrderEvent) frames.
-        """
+        """Yields a ("snapshot", [OrderEvent...]) frame followed by ("update", OrderEvent) frames."""
         q: asyncio.Queue = asyncio.Queue()
         subs = self._tenant_subscribers.setdefault(tenant_id, [])
         subs.append(q)
@@ -206,6 +231,15 @@ class MarketDataHub:
                 subs.remove(q)
 
     async def _push_with_backpressure(self, q: asyncio.Queue, item: Any) -> None:
+        """Execute _push_with_backpressure operation.
+
+        Args:
+            q: The q parameter.
+            item: The item parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._backpressure_mode == "last_value":
             # Drop intermediate items and keep only the latest if queue is congested
             if not q.empty():
@@ -221,6 +255,11 @@ _hub: MarketDataHub | None = None
 
 
 def get_market_data_hub() -> MarketDataHub:
+    """Execute get_market_data_hub operation.
+
+    Returns:
+        The result of the operation.
+    """
     global _hub
     if _hub is None:
         _hub = MarketDataHub()

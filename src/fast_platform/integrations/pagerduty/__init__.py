@@ -1,5 +1,4 @@
-"""
-PagerDuty Integration
+"""PagerDuty Integration.
 
 Incident management.
 """

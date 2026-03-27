@@ -1,3 +1,5 @@
+"""Module test_backends_factory_local.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`data.storage.base.build_storage_backend` (local)."""
@@ -9,13 +11,27 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsFactoryLocal(IStorageTests):
+    """Represents the TestBackendsFactoryLocal class."""
+
     def test_storage_factory_selects_local_backend(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path
     ) -> None:
+        """Execute test_storage_factory_selects_local_backend operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.storage import base as storage_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.s3 = types.SimpleNamespace(enabled=False, bucket=None)
                 self.gcs = types.SimpleNamespace(enabled=False, bucket=None)
                 self.azure_blob = types.SimpleNamespace(enabled=False, container=None)

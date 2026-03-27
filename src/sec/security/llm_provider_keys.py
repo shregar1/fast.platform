@@ -1,5 +1,4 @@
-"""
-Fernet encryption for user LLM provider API keys at rest.
+"""Fernet encryption for user LLM provider API keys at rest.
 
 Uses ``LLM_PROVIDER_KEYS_SECRET`` (preferred) or falls back to ``SECRET_KEY``
 from the environment. The derived key is stable for the lifetime of those env vars.
@@ -17,6 +16,11 @@ from core.utils.digests import Digests
 
 
 def _fernet() -> Fernet:
+    """Execute _fernet operation.
+
+    Returns:
+        The result of the operation.
+    """
     raw = (os.getenv("LLM_PROVIDER_KEYS_SECRET") or os.getenv("SECRET_KEY") or "").strip()
     if not raw:
         raise RuntimeError(
@@ -27,19 +31,16 @@ def _fernet() -> Fernet:
 
 def encrypt_api_key(plaintext: str) -> str:
     """Return URL-safe base64 Fernet token (string) for storage in ``secret_ciphertext``."""
-
     return _fernet().encrypt(plaintext.encode("utf-8")).decode("ascii")
 
 
 def decrypt_api_key(ciphertext: str) -> str:
     """Decrypt a server-encrypted ``secret_ciphertext`` row."""
-
     return _fernet().decrypt(ciphertext.encode("ascii")).decode("utf-8")
 
 
 def safe_decrypt(ciphertext: str) -> str | None:
     """Decrypt or return None if token is invalid (wrong key / corrupt data)."""
-
     try:
         return decrypt_api_key(ciphertext)
     except (InvalidToken, ValueError, RuntimeError):
@@ -48,7 +49,6 @@ def safe_decrypt(ciphertext: str) -> str | None:
 
 def last_four(plaintext: str) -> str | None:
     """Last four characters for display (e.g. ``…sk-12ab``)."""
-
     s = (plaintext or "").strip()
     if len(s) < 4:
         return None

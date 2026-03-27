@@ -11,12 +11,34 @@ from tests.sec.identity.abstraction import IIdentityTests
 
 @pytest.fixture
 def sample_jwks():
+    """Execute sample_jwks operation.
+
+    Returns:
+        The result of the operation.
+    """
     return {"keys": [{"kty": "RSA", "kid": "a", "n": "x", "e": "AQAB"}]}
 
 
 class TestJwksCache(IIdentityTests):
+    """Represents the TestJwksCache class."""
+
     def test_jwks_cache_fetch_and_ttl(self, monkeypatch, sample_jwks):
+        """Execute test_jwks_cache_fetch_and_ttl operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+            sample_jwks: The sample_jwks parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             cache = JWKSCache("https://idp/.well-known/jwks.json", ttl_seconds=3600)
             mock_resp = MagicMock()
             mock_resp.json.return_value = sample_jwks
@@ -34,7 +56,21 @@ class TestJwksCache(IIdentityTests):
         asyncio.run(run())
 
     def test_jwks_refresh_forces_fetch(self, sample_jwks):
+        """Execute test_jwks_refresh_forces_fetch operation.
+
+        Args:
+            sample_jwks: The sample_jwks parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             cache = JWKSCache("https://idp/jwks", ttl_seconds=99999)
             mock_resp = MagicMock()
             mock_resp.json.return_value = sample_jwks
@@ -50,7 +86,18 @@ class TestJwksCache(IIdentityTests):
         asyncio.run(run())
 
     def test_jwks_non_object_json_raises(self):
+        """Execute test_jwks_non_object_json_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             cache = JWKSCache("https://idp/jwks", ttl_seconds=1)
             mock_resp = MagicMock()
             mock_resp.json.return_value = ["not", "dict"]

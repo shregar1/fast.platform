@@ -1,5 +1,4 @@
-"""
-Optional bridge to ``fast_webhooks.delivery.RetryPolicy``.
+"""Optional bridge to ``fast_webhooks.delivery.RetryPolicy``.
 
 Keeps :mod:`fast_notifications.retry_policy` free of ``fast_webhooks`` imports at module load.
 """
@@ -13,8 +12,7 @@ if TYPE_CHECKING:
 
 
 def as_webhook_retry_policy(policy: "NotificationRetryPolicy") -> Any:
-    """
-    Convert to :class:`fast_webhooks.delivery.RetryPolicy` for ``deliver_webhook`` and friends.
+    """Convert to :class:`fast_webhooks.delivery.RetryPolicy` for ``deliver_webhook`` and friends.
 
     Requires the ``fastmvc-webhooks`` package.
     """

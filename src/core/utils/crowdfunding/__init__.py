@@ -1,5 +1,4 @@
-"""
-Crowdfunding helpers (funding progress, slug normalization, tier matching).
+"""Crowdfunding helpers (funding progress, slug normalization, tier matching).
 
 Stateless utilities for backend services; persistence lives in ``fast-database`` models/repos.
 """
@@ -19,8 +18,7 @@ class CrowdfundingUtility(ICrowdfundingUtility):
 
     @staticmethod
     def percent_funded(funded_cents: int, goal_cents: int) -> float:
-        """
-        Return funding progress in ``[0.0, 100.0]``.
+        """Return funding progress in ``[0.0, 100.0]``.
 
         If ``goal_cents`` is zero or negative, returns ``0.0`` (avoid divide-by-zero).
         """
@@ -36,12 +34,20 @@ class CrowdfundingUtility(ICrowdfundingUtility):
 
     @staticmethod
     def is_goal_met(funded_cents: int, goal_cents: int) -> bool:
+        """Execute is_goal_met operation.
+
+        Args:
+            funded_cents: The funded_cents parameter.
+            goal_cents: The goal_cents parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return int(funded_cents) >= int(goal_cents) and int(goal_cents) > 0
 
     @staticmethod
     def normalize_campaign_slug(raw: str) -> str:
-        """
-        Lowercase URL slug: alphanumerics and hyphens, collapsed and stripped.
+        """Lowercase URL slug: alphanumerics and hyphens, collapsed and stripped.
 
         Empty input yields ``"project"`` as a safe fallback.
         """

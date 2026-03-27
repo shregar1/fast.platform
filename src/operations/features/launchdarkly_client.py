@@ -9,6 +9,14 @@ from .evaluation import FlagEvaluation, FlagEvaluationReason
 
 
 def _map_ld_reason(reason_obj: Any) -> FlagEvaluationReason:
+    """Execute _map_ld_reason operation.
+
+    Args:
+        reason_obj: The reason_obj parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if reason_obj is None:
         return FlagEvaluationReason.UNKNOWN
     s = str(reason_obj).lower()
@@ -25,6 +33,12 @@ class LaunchDarklyFeatureFlagsClient(IFeatureFlagsClient):
     """LaunchDarkly SDK wrapper."""
 
     def __init__(self, sdk_key: str, default_user_key: str = "anonymous") -> None:
+        """Execute __init__ operation.
+
+        Args:
+            sdk_key: The sdk_key parameter.
+            default_user_key: The default_user_key parameter.
+        """
         try:
             import launchdarkly.server_sdk as ld
         except ImportError as e:
@@ -37,20 +51,55 @@ class LaunchDarklyFeatureFlagsClient(IFeatureFlagsClient):
         self._client.wait_for_initialization()
 
     def _user(self, context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+        """Execute _user operation.
+
+        Args:
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not context:
             return {"key": self._default_key}
         key = context.get("key") or context.get("user_key") or self._default_key
         return {"key": key, **{k: v for k, v in context.items() if k not in ("key", "user_key")}}
 
     def is_enabled(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> bool:
+        """Execute is_enabled operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._client.variation(flag_key, self._user(context), False)
 
     def get_value(self, flag_key: str, context: Optional[dict[str, Any]] = None) -> Any:
+        """Execute get_value operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._client.variation(flag_key, self._user(context), None)
 
     def evaluate_with_reason(
         self, flag_key: str, context: Optional[dict[str, Any]] = None
     ) -> FlagEvaluation:
+        """Execute evaluate_with_reason operation.
+
+        Args:
+            flag_key: The flag_key parameter.
+            context: The context parameter.
+
+        Returns:
+            The result of the operation.
+        """
         user = self._user(context)
         try:
             detail = self._client.variation_detail(flag_key, user, False)

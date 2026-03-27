@@ -21,6 +21,15 @@ class RateLimitedAnalyticsBackend(IAnalyticsBackend):
         window_seconds: float = 60.0,
         clock: Optional[Callable[[], float]] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            inner: The inner parameter.
+            max_events_per_user_per_minute: The max_events_per_user_per_minute parameter.
+            max_events: The max_events parameter.
+            window_seconds: The window_seconds parameter.
+            clock: The clock parameter.
+        """
         self._inner = inner
         self._max = max_events if max_events is not None else max_events_per_user_per_minute
         self._window = window_seconds
@@ -28,6 +37,14 @@ class RateLimitedAnalyticsBackend(IAnalyticsBackend):
         self._hits: Dict[str, Deque[float]] = defaultdict(deque)
 
     def _allow(self, distinct_id: str) -> bool:
+        """Execute _allow operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if self._max <= 0:
             return True
         now = self._clock()
@@ -46,15 +63,42 @@ class RateLimitedAnalyticsBackend(IAnalyticsBackend):
         event_name: str,
         properties: Optional[dict[str, Any]] = None,
     ) -> None:
+        """Execute track operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            event_name: The event_name parameter.
+            properties: The properties parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._allow(distinct_id):
             return
         self._inner.track(distinct_id, event_name, properties)
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
+        """Execute identify operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            traits: The traits parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not self._allow(distinct_id):
             return
         self._inner.identify(distinct_id, traits)
 
     def delete_user(self, distinct_id: str) -> None:
+        """Execute delete_user operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._hits.pop(distinct_id, None)
         self._inner.delete_user(distinct_id)

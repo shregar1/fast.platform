@@ -24,8 +24,7 @@ class CheckoutSession:
 
 
 class IPaymentGateway(IPayments, ABC):
-    """
-    Base interface for payment gateway implementations.
+    """Base interface for payment gateway implementations.
 
     Amounts are in the smallest currency unit (cents, paisa, …) unless documented otherwise.
 
@@ -43,6 +42,17 @@ class IPaymentGateway(IPayments, ABC):
         customer: Dict[str, Any] | None = None,
         metadata: Dict[str, Any] | None = None,
     ) -> CheckoutSession:
+        """Execute create_checkout_session operation.
+
+        Args:
+            amount: The amount parameter.
+            currency: The currency parameter.
+            customer: The customer parameter.
+            metadata: The metadata parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
@@ -53,8 +63,7 @@ class IPaymentGateway(IPayments, ABC):
         *,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """
-        Capture a previously authorized charge.
+        """Capture a previously authorized charge.
 
         * ``amount`` — partial capture when set; ``None`` captures the remaining authorized amount.
         """
@@ -69,8 +78,7 @@ class IPaymentGateway(IPayments, ABC):
         *,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """
-        Refund a captured charge.
+        """Refund a captured charge.
 
         * ``amount`` — partial refund when set; ``None`` refunds the full captured amount.
         """
@@ -82,6 +90,15 @@ class IPaymentGateway(IPayments, ABC):
         payload: bytes,
         headers: Dict[str, str],
     ) -> Dict[str, Any]:
+        """Execute verify_webhook operation.
+
+        Args:
+            payload: The payload parameter.
+            headers: The headers parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 

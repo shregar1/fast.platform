@@ -9,8 +9,7 @@ from core.utils.abstraction import IUtility
 
 
 class IEncryptionUtility(IUtility):
-    """
-    Symmetric encrypt/decrypt helpers (Fernet, AES-GCM, etc.).
+    """Symmetric encrypt/decrypt helpers (Fernet, AES-GCM, etc.).
 
     Implementations that do not support AAD ignore ``associated_data``.
     """

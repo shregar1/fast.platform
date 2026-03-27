@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class IdentityProvidersConfiguration(ConfigurationSingletonBase[IdentityProvidersConfigurationDTO]):
+    """Represents the IdentityProvidersConfiguration class."""
+
     _instance: Optional["IdentityProvidersConfiguration"] = None
     _section: str = "identity"
     _env_key: str = "IDENTITY"

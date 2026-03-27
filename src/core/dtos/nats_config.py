@@ -10,6 +10,8 @@ from .abstraction import IDTO
 
 
 class NATSConfigDTO(IDTO):
+    """Represents the NATSConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     servers: List[str] = Field(default_factory=list)

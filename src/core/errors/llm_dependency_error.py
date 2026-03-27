@@ -6,8 +6,7 @@ from .abstraction import IError
 
 
 class LLMDependencyError(IError):
-    """
-    Raised when code paths require an optional dependency that is not installed
+    """Raised when code paths require an optional dependency that is not installed
     (e.g. ``openai``, ``anthropic`` extras).
     """
 
@@ -18,6 +17,13 @@ class LLMDependencyError(IError):
         pip_extra: str,
         cause: BaseException | None = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            provider: The provider parameter.
+            pip_extra: The pip_extra parameter.
+            cause: The cause parameter.
+        """
         super().__init__()
         self.provider = provider
         self.pip_extra = pip_extra

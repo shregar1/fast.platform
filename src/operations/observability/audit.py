@@ -1,5 +1,4 @@
-"""
-Audit Logging Module.
+"""Audit Logging Module.
 
 Provides audit logging for tracking user actions and data changes
 for compliance and security purposes.
@@ -31,8 +30,7 @@ class AuditAction(str, Enum):
 
 @dataclass
 class AuditEntry:
-    """
-    Audit log entry.
+    """Audit log entry.
 
     Contains all information about an audited action.
     """
@@ -107,6 +105,11 @@ class LogAuditStore(AuditStore):
     """Store audit entries using structured logging."""
 
     def __init__(self, logger_name: str = "audit") -> None:
+        """Execute __init__ operation.
+
+        Args:
+            logger_name: The logger_name parameter.
+        """
         self._logger = logger.bind(audit=True, logger_name=logger_name)
 
     async def store(self, entry: AuditEntry) -> None:
@@ -118,13 +121,18 @@ class LogAuditStore(AuditStore):
 
 
 class DatabaseAuditStore(AuditStore):
-    """
-    Store audit entries in database.
+    """Store audit entries in database.
 
     Requires a table with appropriate schema.
     """
 
     def __init__(self, session_factory: Any, table_name: str = "audit_logs") -> None:
+        """Execute __init__ operation.
+
+        Args:
+            session_factory: The session_factory parameter.
+            table_name: The table_name parameter.
+        """
         self._session_factory = session_factory
         self._table_name = table_name
 
@@ -135,8 +143,7 @@ class DatabaseAuditStore(AuditStore):
 
 
 class AuditLog:
-    """
-    Audit logger for tracking user actions.
+    """Audit logger for tracking user actions.
 
     Usage:
         audit = AuditLog(store=LogAuditStore())
@@ -153,11 +160,11 @@ class AuditLog:
     """
 
     def __init__(self, store: Optional[AuditStore] = None) -> None:
-        """
-        Initialize audit logger.
+        """Initialize audit logger.
 
         Args:
             store: AuditStore implementation for persistence.
+
         """
         self._store = store or LogAuditStore()
 
@@ -208,8 +215,7 @@ class AuditLog:
         include_diff: bool = True,
         **metadata: Any,
     ) -> AuditEntry:
-        """
-        Log an audit entry.
+        """Log an audit entry.
 
         Args:
             action: Action performed (e.g., "user.update").
@@ -230,6 +236,7 @@ class AuditLog:
 
         Returns:
             Created AuditEntry.
+
         """
         changes = None
         if include_diff and before_state and after_state:
@@ -284,8 +291,7 @@ def audit_log(
     include_result: bool = False,
     include_diff: bool = False,
 ) -> Callable:
-    """
-    Decorator to automatically audit function calls.
+    """Decorator to automatically audit function calls.
 
     Usage:
         @audit_log(action="user.update", include_diff=True)
@@ -294,8 +300,22 @@ def audit_log(
     """
 
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         @functools.wraps(func)
         async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             audit = get_audit_log()
             res_type = resource_type or func.__name__
 
@@ -329,6 +349,11 @@ def audit_log(
 
         @functools.wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             # For sync functions, we can't use await
             # Log would need to be async-compatible
             return func(*args, **kwargs)

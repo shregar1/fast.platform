@@ -1,5 +1,4 @@
-"""
-WebRTC configuration loader.
+"""WebRTC configuration loader.
 
 Reads from config/webrtc/config.json (or FASTMVC_WEBRTC_CONFIG_PATH).
 """
@@ -14,13 +13,16 @@ from .dto import WebRTCConfigurationDTO
 
 
 class WebRTCConfiguration:
-    """
-    Configuration manager for WebRTC signaling settings.
-    """
+    """Configuration manager for WebRTC signaling settings."""
 
     _instance: Optional["WebRTCConfiguration"] = None
 
     def __new__(cls) -> "WebRTCConfiguration":
+        """Execute __new__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.config = {}
@@ -28,6 +30,11 @@ class WebRTCConfiguration:
         return cls._instance
 
     def load_config(self) -> None:
+        """Execute load_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         path = os.getenv("FASTMVC_WEBRTC_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
@@ -46,6 +53,11 @@ class WebRTCConfiguration:
             self.config = {}
 
     def get_config(self) -> WebRTCConfigurationDTO:
+        """Execute get_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         return WebRTCConfigurationDTO(
             enabled=bool(self.config.get("enabled", False)),
             stun_servers=self.config.get("stun_servers", []),

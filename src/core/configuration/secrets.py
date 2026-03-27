@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class SecretsConfiguration(ConfigurationSingletonBase[SecretsConfigurationDTO]):
+    """Represents the SecretsConfiguration class."""
+
     _instance: Optional["SecretsConfiguration"] = None
     _section: str = "secrets"
     _env_key: str = "SECRETS"

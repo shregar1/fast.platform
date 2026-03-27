@@ -1,5 +1,4 @@
-"""
-FastMVC Payments Module
+"""FastMVC Payments Module.
 
 Payment gateway integrations.
 """

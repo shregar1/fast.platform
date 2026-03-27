@@ -1,5 +1,4 @@
-"""
-FastMVC Search Module
+"""FastMVC Search Module.
 
 Full-text search integration with Meilisearch, Typesense, and Elasticsearch.
 """

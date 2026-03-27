@@ -7,7 +7,14 @@ from tests.integrations.llm.abstraction import ILLMTests
 
 
 class TestTokenUsage(ILLMTests):
+    """Represents the TestTokenUsage class."""
+
     def test_from_openai_completion(self) -> None:
+        """Execute test_from_openai_completion operation.
+
+        Returns:
+            The result of the operation.
+        """
         u = SimpleNamespace(prompt_tokens=10, completion_tokens=20, total_tokens=30)
         resp = SimpleNamespace(usage=u)
         t = TokenUsage.from_openai_completion(resp, model="gpt-4o")
@@ -18,6 +25,11 @@ class TestTokenUsage(ILLMTests):
         assert t.provider == "openai"
 
     def test_from_anthropic_message(self) -> None:
+        """Execute test_from_anthropic_message operation.
+
+        Returns:
+            The result of the operation.
+        """
         u = SimpleNamespace(input_tokens=5, output_tokens=7)
         resp = SimpleNamespace(usage=u)
         t = TokenUsage.from_anthropic_message(resp, model="claude-3")

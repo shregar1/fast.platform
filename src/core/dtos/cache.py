@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class CacheConfigurationDTO(IDTO):
+    """Represents the CacheConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     backend: str = "memory"

@@ -1,5 +1,4 @@
-"""
-Optional audit hooks for CRUD and admin flows.
+"""Optional audit hooks for CRUD and admin flows.
 
 Use :class:`AuditLogHook` with :func:`crud_router_from_model`, or wrap
 :class:`~fast_admin.repositories.IAuditLogRepository` with
@@ -37,8 +36,7 @@ def audit_repository_hook(
     get_ip_address: Optional[Callable[[Any], Optional[str]]] = None,
     get_user_agent: Optional[Callable[[Any], Optional[str]]] = None,
 ) -> AuditLogHook:
-    """
-    Wrap an :class:`~fast_admin.repositories.IAuditLogRepository` as an
+    """Wrap an :class:`~fast_admin.repositories.IAuditLogRepository` as an
     :class:`AuditLogHook`, mapping ``request`` through optional extractors.
     """
 
@@ -73,8 +71,7 @@ def as_audit_hook(
     get_ip_address: Optional[Callable[[Any], Optional[str]]] = None,
     get_user_agent: Optional[Callable[[Any], Optional[str]]] = None,
 ) -> Optional[AuditLogHook]:
-    """
-    Normalize ``None``, a plain :class:`AuditLogHook`, or an
+    """Normalize ``None``, a plain :class:`AuditLogHook`, or an
     :class:`~fast_admin.repositories.IAuditLogRepository` into a single hook
     (or ``None``).
     """

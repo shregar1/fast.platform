@@ -1,5 +1,4 @@
-"""
-Database engine and session factory.
+"""Database engine and session factory.
 
 Creates SQLAlchemy engine and session from fast_platform DBConfiguration.
 The application should call create_and_set_session() at startup (or create_engine +
@@ -16,8 +15,7 @@ from fast_platform import DBConfiguration, DBConfigurationDTO
 
 
 def sync_connect_args_for_url(url: str, config: DBConfigurationDTO) -> dict:
-    """
-    PostgreSQL ``connect_args``: ``application_name`` and ``statement_timeout`` (via ``options``).
+    """PostgreSQL ``connect_args``: ``application_name`` and ``statement_timeout`` (via ``options``).
 
     No-op for non-PostgreSQL URLs.
     """
@@ -53,8 +51,7 @@ def _pool_kwargs(config: DBConfigurationDTO) -> dict:
 
 
 def get_engine(config: Optional[DBConfigurationDTO] = None) -> Engine:
-    """
-    Build a SQLAlchemy Engine from DB configuration.
+    """Build a SQLAlchemy Engine from DB configuration.
 
     Args:
         config: Database config DTO. If None, uses DBConfiguration().get_config().
@@ -64,6 +61,7 @@ def get_engine(config: Optional[DBConfigurationDTO] = None) -> Engine:
 
     Raises:
         RuntimeError: If config is incomplete.
+
     """
     if config is None:
         config = DBConfiguration().get_config()
@@ -116,8 +114,7 @@ def get_db_session() -> Optional[Session]:
 
 
 def check_database(engine: Engine) -> bool:
-    """
-    Return True if the database accepts a trivial query (``SELECT 1``).
+    """Return True if the database accepts a trivial query (``SELECT 1``).
 
     Use for readiness/liveness probes without raising from route handlers.
     """
@@ -130,8 +127,7 @@ def check_database(engine: Engine) -> bool:
 
 
 def create_and_set_session(config: Optional[DBConfigurationDTO] = None) -> Optional[Session]:
-    """
-    Create engine and session from config, set as global, and return the session.
+    """Create engine and session from config, set as global, and return the session.
     Returns None if config is incomplete (no session created).
     """
     if config is None:

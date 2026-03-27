@@ -11,6 +11,8 @@ from .vault_secrets import VaultSecretsDTO
 
 
 class SecretsConfigurationDTO(IDTO):
+    """Represents the SecretsConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     vault: VaultSecretsDTO = Field(default_factory=VaultSecretsDTO)
     aws: AwsSecretsDTO = Field(default_factory=AwsSecretsDTO)

@@ -1,3 +1,5 @@
+"""Module test_backends.py."""
+
 import builtins
 import sys
 import types
@@ -10,10 +12,19 @@ from tests.data_platform.vectors.abstraction import IVectorTests
 
 
 class TestBackends(IVectorTests):
+    """Represents the TestBackends class."""
+
     def test_is_vector_store_abstract_methods_raise_not_implemented(self):
+        """Execute test_is_vector_store_abstract_methods_raise_not_implemented operation.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.base import IVectorStore
 
         class DummyStore(IVectorStore):
+            """Represents the DummyStore class."""
+
             name = "dummy"
 
             def upsert(
@@ -21,6 +32,15 @@ class TestBackends(IVectorTests):
                 index_name: str,
                 vectors: List[Tuple[str, List[float], Optional[dict[str, Any]]]],
             ) -> None:
+                """Execute upsert operation.
+
+                Args:
+                    index_name: The index_name parameter.
+                    vectors: The vectors parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return super().upsert(index_name=index_name, vectors=vectors)
 
             def query(
@@ -31,11 +51,30 @@ class TestBackends(IVectorTests):
                 top_k: int = 10,
                 filter: Optional[dict[str, Any]] = None,
             ):
+                """Execute query operation.
+
+                Args:
+                    index_name: The index_name parameter.
+                    vector: The vector parameter.
+                    top_k: The top_k parameter.
+                    filter: The filter parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return super().query(
                     index_name=index_name, vector=vector, top_k=top_k, filter=filter
                 )
 
             def delete_index(self, index_name: str) -> None:
+                """Execute delete_index operation.
+
+                Args:
+                    index_name: The index_name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return super().delete_index(index_name=index_name)
 
         s = DummyStore()
@@ -47,10 +86,21 @@ class TestBackends(IVectorTests):
             s.delete_index("i")
 
     def test_build_vector_store_selection_and_import_error(self, monkeypatch):
+        """Execute test_build_vector_store_selection_and_import_error operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors import base as vector_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.pinecone = types.SimpleNamespace(
                     enabled=True, api_key="pc", environment=None, index_name="main-index"
                 )
@@ -78,36 +128,68 @@ class TestBackends(IVectorTests):
 
         @dataclass
         class PointStruct:
+            """Represents the PointStruct class."""
+
             id: str
             vector: List[float]
             payload: dict
 
         @dataclass
         class FieldCondition:
+            """Represents the FieldCondition class."""
+
             key: str
             match: Any
 
         @dataclass
         class MatchValue:
+            """Represents the MatchValue class."""
+
             value: Any
 
         @dataclass
         class Filter:
+            """Represents the Filter class."""
+
             must: list
 
         class FakeHit:
+            """Represents the FakeHit class."""
+
             def __init__(self, id: str):
+                """Execute __init__ operation.
+
+                Args:
+                    id: The id parameter.
+                """
                 self.id = id
                 self.score = 1.0
                 self.payload = {"k": "v"}
 
         class FakeQdrantClient:
+            """Represents the FakeQdrantClient class."""
+
             def __init__(self, url: str, api_key: Optional[str] = None):
+                """Execute __init__ operation.
+
+                Args:
+                    url: The url parameter.
+                    api_key: The api_key parameter.
+                """
                 self.url = url
                 self.api_key = api_key
                 self.upsert_calls: list[dict[str, Any]] = []
 
             def upsert(self, *, collection_name: str, points: list):
+                """Execute upsert operation.
+
+                Args:
+                    collection_name: The collection_name parameter.
+                    points: The points parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.upsert_calls.append({"collection_name": collection_name, "points": points})
 
             def search(
@@ -118,6 +200,17 @@ class TestBackends(IVectorTests):
                 limit: int,
                 query_filter: Any = None,
             ):
+                """Execute search operation.
+
+                Args:
+                    collection_name: The collection_name parameter.
+                    query_vector: The query_vector parameter.
+                    limit: The limit parameter.
+                    query_filter: The query_filter parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.last_search = {
                     "collection_name": collection_name,
                     "query_vector": query_vector,
@@ -127,6 +220,14 @@ class TestBackends(IVectorTests):
                 return [FakeHit("id1")]
 
             def delete_collection(self, collection_name: str):
+                """Execute delete_collection operation.
+
+                Args:
+                    collection_name: The collection_name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.deleted = collection_name
 
         fake_qdrant.QdrantClient = FakeQdrantClient
@@ -140,56 +241,132 @@ class TestBackends(IVectorTests):
         fake_weaviate = types.ModuleType("weaviate")
 
         class FakeObj:
+            """Represents the FakeObj class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.uuid = "uuid-1"
                 self.metadata = types.SimpleNamespace(distance=None)
                 self.properties = {"p": 1}
 
         class FakeQueryResult:
+            """Represents the FakeQueryResult class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.objects = [FakeObj()]
 
         class FakeCollectionQuery:
+            """Represents the FakeCollectionQuery class."""
+
             def near_vector(self, *, near_vector: list, limit: int):
+                """Execute near_vector operation.
+
+                Args:
+                    near_vector: The near_vector parameter.
+                    limit: The limit parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return FakeQueryResult()
 
         class FakeBatch:
+            """Represents the FakeBatch class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.added: list[dict[str, Any]] = []
 
             def add_object(self, *, properties: dict, vector: list):
+                """Execute add_object operation.
+
+                Args:
+                    properties: The properties parameter.
+                    vector: The vector parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.added.append({"properties": properties, "vector": vector})
 
             def __enter__(self):
+                """Execute __enter__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self
 
             def __exit__(self, exc_type, exc, tb):
+                """Execute __exit__ operation.
+
+                Args:
+                    exc_type: The exc_type parameter.
+                    exc: The exc parameter.
+                    tb: The tb parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return False
 
         class FakeBatchMgr:
+            """Represents the FakeBatchMgr class."""
+
             def dynamic(self):
+                """Execute dynamic operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return FakeBatch()
 
         class FakeCollection:
+            """Represents the FakeCollection class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.query = FakeCollectionQuery()
                 self.batch = FakeBatchMgr()
 
         class FakeCollections:
+            """Represents the FakeCollections class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self._cols: dict[str, FakeCollection] = {}
                 self.deleted: list[str] = []
 
             def get(self, name: str) -> FakeCollection:
+                """Execute get operation.
+
+                Args:
+                    name: The name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 if name not in self._cols:
                     self._cols[name] = FakeCollection()
                 return self._cols[name]
 
             def delete(self, name: str):
+                """Execute delete operation.
+
+                Args:
+                    name: The name parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.deleted.append(name)
 
         class FakeWeaviateClient:
+            """Represents the FakeWeaviateClient class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.collections = FakeCollections()
 
         fake_weaviate.connect_to_local = lambda host, port, grpc_port: FakeWeaviateClient()
@@ -204,6 +381,14 @@ class TestBackends(IVectorTests):
         real_import = builtins.__import__
 
         def _fail_backend_import(name, *args, **kwargs):
+            """Execute _fail_backend_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if "qdrant_backend" in name or "weaviate_backend" in name or "pinecone_backend" in name:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)
@@ -217,6 +402,14 @@ class TestBackends(IVectorTests):
         assert vector_base.build_vector_store("pinecone") is None
 
     def test_qdrant_backend_upsert_query_and_delete_with_filter(self, monkeypatch):
+        """Execute test_qdrant_backend_upsert_query_and_delete_with_filter operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.qdrant_backend import QdrantVectorStore
 
         if "qdrant_client" not in sys.modules:
@@ -225,35 +418,67 @@ class TestBackends(IVectorTests):
 
             @dataclass
             class PointStruct:
+                """Represents the PointStruct class."""
+
                 id: str
                 vector: List[float]
                 payload: dict
 
             @dataclass
             class FieldCondition:
+                """Represents the FieldCondition class."""
+
                 key: str
                 match: Any
 
             @dataclass
             class MatchValue:
+                """Represents the MatchValue class."""
+
                 value: Any
 
             @dataclass
             class Filter:
+                """Represents the Filter class."""
+
                 must: list
 
             class FakeHit:
+                """Represents the FakeHit class."""
+
                 def __init__(self, id: str):
+                    """Execute __init__ operation.
+
+                    Args:
+                        id: The id parameter.
+                    """
                     self.id = id
                     self.score = 1.0
                     self.payload = {"k": "v"}
 
             class FakeQdrantClient:
+                """Represents the FakeQdrantClient class."""
+
                 def __init__(self, url: str, api_key: Optional[str] = None):
+                    """Execute __init__ operation.
+
+                    Args:
+                        url: The url parameter.
+                        api_key: The api_key parameter.
+                    """
                     self.url = url
                     self.api_key = api_key
 
                 def upsert(self, *, collection_name: str, points: list):
+                    """Execute upsert operation.
+
+                    Args:
+                        collection_name: The collection_name parameter.
+                        points: The points parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     self.last_upsert = {"collection_name": collection_name, "points": points}
 
                 def search(
@@ -264,9 +489,28 @@ class TestBackends(IVectorTests):
                     limit: int,
                     query_filter: Any = None,
                 ):
+                    """Execute search operation.
+
+                    Args:
+                        collection_name: The collection_name parameter.
+                        query_vector: The query_vector parameter.
+                        limit: The limit parameter.
+                        query_filter: The query_filter parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     return [FakeHit("id1")]
 
                 def delete_collection(self, collection_name: str):
+                    """Execute delete_collection operation.
+
+                    Args:
+                        collection_name: The collection_name parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     self.deleted = collection_name
 
             fake_qdrant.QdrantClient = FakeQdrantClient
@@ -284,61 +528,144 @@ class TestBackends(IVectorTests):
         store.delete_index("idx")
 
     def test_weaviate_backend_upsert_query_and_delete(self, monkeypatch):
+        """Execute test_weaviate_backend_upsert_query_and_delete operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.weaviate_backend import WeaviateVectorStore
 
         if "weaviate" not in sys.modules:
             fake_weaviate = types.ModuleType("weaviate")
 
             class FakeObj:
+                """Represents the FakeObj class."""
+
                 def __init__(self):
+                    """Execute __init__ operation."""
                     self.uuid = "uuid-1"
                     self.metadata = types.SimpleNamespace(distance=None)
                     self.properties = {"p": 1}
 
             class FakeQueryResult:
+                """Represents the FakeQueryResult class."""
+
                 def __init__(self):
+                    """Execute __init__ operation."""
                     self.objects = [FakeObj()]
 
             class FakeCollectionQuery:
+                """Represents the FakeCollectionQuery class."""
+
                 def near_vector(self, *, near_vector: list, limit: int):
+                    """Execute near_vector operation.
+
+                    Args:
+                        near_vector: The near_vector parameter.
+                        limit: The limit parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     return FakeQueryResult()
 
             class FakeBatch:
+                """Represents the FakeBatch class."""
+
                 def add_object(self, *, properties: dict, vector: list):
+                    """Execute add_object operation.
+
+                    Args:
+                        properties: The properties parameter.
+                        vector: The vector parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     self.added.append({"properties": properties, "vector": vector})
 
                 def __enter__(self):
+                    """Execute __enter__ operation.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     return self
 
                 def __exit__(self, exc_type, exc, tb):
+                    """Execute __exit__ operation.
+
+                    Args:
+                        exc_type: The exc_type parameter.
+                        exc: The exc parameter.
+                        tb: The tb parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     return False
 
             class FakeBatchMgr:
+                """Represents the FakeBatchMgr class."""
+
                 def dynamic(self):
+                    """Execute dynamic operation.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     b = FakeBatch()
                     b.added = []
                     return b
 
             class FakeCollection:
+                """Represents the FakeCollection class."""
+
                 def __init__(self):
+                    """Execute __init__ operation."""
                     self.query = FakeCollectionQuery()
                     self.batch = FakeBatchMgr()
 
             class FakeCollections:
+                """Represents the FakeCollections class."""
+
                 def __init__(self):
+                    """Execute __init__ operation."""
                     self._cols: dict[str, FakeCollection] = {}
                     self.deleted: list[str] = []
 
                 def get(self, name: str) -> FakeCollection:
+                    """Execute get operation.
+
+                    Args:
+                        name: The name parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     if name not in self._cols:
                         self._cols[name] = FakeCollection()
                     return self._cols[name]
 
                 def delete(self, name: str):
+                    """Execute delete operation.
+
+                    Args:
+                        name: The name parameter.
+
+                    Returns:
+                        The result of the operation.
+                    """
                     self.deleted.append(name)
 
             class FakeWeaviateClient:
+                """Represents the FakeWeaviateClient class."""
+
                 def __init__(self):
+                    """Execute __init__ operation."""
                     self.collections = FakeCollections()
 
             fake_weaviate.connect_to_local = lambda host, port, grpc_port: FakeWeaviateClient()
@@ -355,6 +682,14 @@ class TestBackends(IVectorTests):
         store.delete_index("idx")
 
     def test_pinecone_backend_upsert_query_and_delete(self, monkeypatch):
+        """Execute test_pinecone_backend_upsert_query_and_delete operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.pinecone_backend import PineconeVectorStore
 
         if "pinecone" not in sys.modules:
@@ -374,10 +709,21 @@ class TestBackends(IVectorTests):
         store.delete_index("main-index")
 
     def test_build_vector_store_unknown_backend_returns_none(self, monkeypatch):
+        """Execute test_build_vector_store_unknown_backend_returns_none operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors import base as vector_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.pinecone = types.SimpleNamespace(
                     enabled=False, api_key=None, environment=None, index_name="idx"
                 )
@@ -395,6 +741,14 @@ class TestBackends(IVectorTests):
     def test_vector_backend_constructors_raise_runtime_error_when_dependency_missing(
         self, monkeypatch
     ):
+        """Execute test_vector_backend_constructors_raise_runtime_error_when_dependency_missing operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.pinecone_backend import PineconeVectorStore
         from data.vectors.qdrant_backend import QdrantVectorStore
         from data.vectors.weaviate_backend import WeaviateVectorStore
@@ -402,6 +756,14 @@ class TestBackends(IVectorTests):
         real_import = builtins.__import__
 
         def _deny_import(name, *args, **kwargs):
+            """Execute _deny_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if name in {"pinecone", "qdrant_client", "weaviate"}:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)
@@ -415,13 +777,21 @@ class TestBackends(IVectorTests):
             WeaviateVectorStore(url="http://weaviate", api_key="x")
 
     def test_weaviate_backend_api_key_uses_cloud_connection(self):
+        """Execute test_weaviate_backend_api_key_uses_cloud_connection operation.
+
+        Returns:
+            The result of the operation.
+        """
         from data.vectors.weaviate_backend import WeaviateVectorStore
 
         calls: dict[str, Any] = {}
         fake_weaviate = types.ModuleType("weaviate")
 
         class FakeWeaviateClient:
+            """Represents the FakeWeaviateClient class."""
+
             def __init__(self):
+                """Execute __init__ operation."""
                 self.collections = types.SimpleNamespace(
                     get=lambda name: types.SimpleNamespace(
                         batch=types.SimpleNamespace(dynamic=lambda: None),
@@ -433,11 +803,30 @@ class TestBackends(IVectorTests):
                 )
 
         class FakeAuth:
+            """Represents the FakeAuth class."""
+
             @staticmethod
             def AuthApiKey(api_key: str):
+                """Execute AuthApiKey operation.
+
+                Args:
+                    api_key: The api_key parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return api_key
 
         def connect_to_cloud(*, cluster_url: str, auth_credentials: Any):
+            """Execute connect_to_cloud operation.
+
+            Args:
+                cluster_url: The cluster_url parameter.
+                auth_credentials: The auth_credentials parameter.
+
+            Returns:
+                The result of the operation.
+            """
             calls["cluster_url"] = cluster_url
             calls["auth_credentials"] = auth_credentials
             return FakeWeaviateClient()

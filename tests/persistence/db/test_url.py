@@ -9,8 +9,18 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestUrl(IDatabaseTests):
+    """Represents the TestUrl class."""
+
     @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_formatted(self, mock_cls):
+        """Execute test_get_database_url_formatted operation.
+
+        Args:
+            mock_cls: The mock_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = MagicMock()
         cfg.connection_string = "postgresql://{user_name}@{host}:{port}/{database}"
         cfg.user_name = "u"
@@ -27,6 +37,14 @@ class TestUrl(IDatabaseTests):
 
     @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_fallback_when_format_fails(self, mock_cls):
+        """Execute test_get_database_url_fallback_when_format_fails operation.
+
+        Args:
+            mock_cls: The mock_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = MagicMock()
         cfg.connection_string = "postgresql://{bad_placeholder"
         cfg.user_name = "u"
@@ -41,6 +59,14 @@ class TestUrl(IDatabaseTests):
 
     @patch("persistence.db.url.DBConfiguration")
     def test_get_database_url_raises_when_empty(self, mock_cls):
+        """Execute test_get_database_url_raises_when_empty operation.
+
+        Args:
+            mock_cls: The mock_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = MagicMock()
         cfg.connection_string = ""
         mock_inst = MagicMock()

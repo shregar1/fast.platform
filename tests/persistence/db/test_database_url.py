@@ -8,7 +8,14 @@ from tests.persistence.db.abstraction import IDatabaseTests
 
 
 class TestDatabaseUrl(IDatabaseTests):
+    """Represents the TestDatabaseUrl class."""
+
     def test_get_database_url_from_formatted_connection_string(self):
+        """Execute test_get_database_url_from_formatted_connection_string operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db import get_database_url
 
         mock_cfg = MagicMock()
@@ -26,6 +33,11 @@ class TestDatabaseUrl(IDatabaseTests):
             assert "localhost" in url
 
     def test_get_database_url_raw_string_fallback(self):
+        """Execute test_get_database_url_raw_string_fallback operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db import get_database_url
 
         mock_cfg = MagicMock()
@@ -40,6 +52,11 @@ class TestDatabaseUrl(IDatabaseTests):
             assert get_database_url() == "sqlite:///./test.db"
 
     def test_get_database_url_raises_when_incomplete(self):
+        """Execute test_get_database_url_raises_when_incomplete operation.
+
+        Returns:
+            The result of the operation.
+        """
         from persistence.db import get_database_url
 
         mock_cfg = MagicMock()

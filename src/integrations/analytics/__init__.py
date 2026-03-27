@@ -1,6 +1,4 @@
-"""
-fast_analytics – Analytics and event tracking for FastMVC.
-"""
+"""fast_analytics – Analytics and event tracking for FastMVC."""
 
 from fast_platform import AnalyticsConfiguration, AnalyticsConfigurationDTO
 

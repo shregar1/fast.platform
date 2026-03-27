@@ -1,3 +1,5 @@
+"""Module test_tenant_context.py."""
+
 from __future__ import annotations
 
 """Tests for tenant context and :class:`operations.tenancy.Tenant`."""
@@ -17,13 +19,25 @@ from tests.operations.tenancy.abstraction import ITenancyTests
 
 @pytest.fixture(autouse=True)
 def clear_ctx() -> None:
+    """Execute clear_ctx operation.
+
+    Returns:
+        The result of the operation.
+    """
     clear_current_tenant()
     yield
     clear_current_tenant()
 
 
 class TestTenantContext(ITenancyTests):
+    """Represents the TestTenantContext class."""
+
     def test_tenant_to_dict_and_features(self) -> None:
+        """Execute test_tenant_to_dict_and_features operation.
+
+        Returns:
+            The result of the operation.
+        """
         t = Tenant(
             id="t1",
             name="Acme",
@@ -37,6 +51,11 @@ class TestTenantContext(ITenancyTests):
         assert not t.has_feature("other")
 
     def test_set_and_get_current_tenant(self) -> None:
+        """Execute test_set_and_get_current_tenant operation.
+
+        Returns:
+            The result of the operation.
+        """
         t = Tenant(id="x", name="X", slug="x")
         set_current_tenant(t)
         assert get_current_tenant() is t
@@ -45,6 +64,11 @@ class TestTenantContext(ITenancyTests):
         assert get_current_tenant() is None
 
     def test_tenant_context_manager(self) -> None:
+        """Execute test_tenant_context_manager operation.
+
+        Returns:
+            The result of the operation.
+        """
         t = Tenant(id="y", name="Y", slug="y")
         with TenantContext(t):
             assert get_current_tenant_id() == "y"

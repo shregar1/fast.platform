@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class EventHubsDTO(IDTO):
+    """Represents the EventHubsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     connection_string: str = ""

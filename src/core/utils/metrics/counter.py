@@ -19,6 +19,14 @@ class Counter(IMetricsUtility):
     _lock: Lock = field(default_factory=Lock, repr=False)
 
     def inc(self, amount: int = 1) -> None:
+        """Execute inc operation.
+
+        Args:
+            amount: The amount parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if amount < 0:
             raise ValueError("counter increment must be non-negative")
         with self._lock:
@@ -26,5 +34,10 @@ class Counter(IMetricsUtility):
 
     @property
     def value(self) -> int:
+        """Execute value operation.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             return self._value

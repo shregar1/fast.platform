@@ -1,3 +1,5 @@
+"""Module abstraction.py."""
+
 from __future__ import annotations
 
 """Test-suite markers for ``utils/html`` (mirrors ``src/utils/html/``)."""

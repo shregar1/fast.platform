@@ -1,3 +1,5 @@
+"""Module test_init.py."""
+
 from __future__ import annotations
 
 """Smoke tests for ``search`` package exports."""
@@ -5,7 +7,14 @@ from tests.data_platform.search.abstraction import ISearchTests
 
 
 class TestInit(ISearchTests):
+    """Represents the TestInit class."""
+
     def test_imports(self) -> None:
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from data.search import (
             BulkIndexResult,
             FacetedSearchResult,

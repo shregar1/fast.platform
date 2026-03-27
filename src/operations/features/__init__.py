@@ -1,6 +1,4 @@
-"""
-fast_feature_flags – Feature flags (LaunchDarkly, Unleash) for FastMVC.
-"""
+"""fast_feature_flags – Feature flags (LaunchDarkly, Unleash) for FastMVC."""
 
 from fast_platform import FeatureFlagsConfiguration, FeatureFlagsConfigurationDTO
 

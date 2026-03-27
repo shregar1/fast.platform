@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class FeatureFlagsConfiguration(ConfigurationSingletonBase[FeatureFlagsConfigurationDTO]):
+    """Represents the FeatureFlagsConfiguration class."""
+
     _instance: Optional["FeatureFlagsConfiguration"] = None
     _section: str = "feature_flags"
     _env_key: str = "FEATURE_FLAGS"

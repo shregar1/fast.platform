@@ -1,5 +1,4 @@
-"""
-Image format sniffing and optional Pillow-based decoding.
+"""Image format sniffing and optional Pillow-based decoding.
 
 **Sniffing** inspects only leading magic bytes and is cheap and dependency-free.
 **Dimensions** and **opening** images require Pillow (``pip install Pillow`` or
@@ -20,8 +19,7 @@ __all__ = ["ImageUtility"]
 
 
 class ImageUtility(IMedia):
-    """
-    Image container detection from magic bytes, plus optional Pillow helpers.
+    """Image container detection from magic bytes, plus optional Pillow helpers.
 
     Typical uses: pick a validator or transcoder after upload, set ``Content-Type``
     from a buffer, or read width/height for layout without shelling out to
@@ -35,8 +33,7 @@ class ImageUtility(IMedia):
 
     @staticmethod
     def detect_format(data: bytes) -> Optional[str]:
-        """
-        Infer a short format label from the first bytes of *data*.
+        """Infer a short format label from the first bytes of *data*.
 
         Examines roughly the first 12–16 bytes only; does not scan the full
         blob or verify checksums. Returns ``None`` if the buffer is too short or
@@ -56,6 +53,7 @@ class ImageUtility(IMedia):
         -------
         str or None
             A short label for known magic bytes, else ``None``.
+
         """
         if len(data) < 4:
             return None
@@ -75,8 +73,7 @@ class ImageUtility(IMedia):
 
     @staticmethod
     def mime_from_magic(data: bytes) -> Optional[str]:
-        """
-        Map detected format to a common ``image/*`` MIME type string.
+        """Map detected format to a common ``image/*`` MIME type string.
 
         Parameters
         ----------
@@ -87,6 +84,7 @@ class ImageUtility(IMedia):
         -------
         str or None
             e.g. ``image/png``, or ``None`` if :meth:`detect_format` returns ``None``.
+
         """
         fmt = ImageUtility.detect_format(data)
         if fmt is None:
@@ -102,8 +100,7 @@ class ImageUtility(IMedia):
 
     @staticmethod
     def dimensions(data: bytes) -> Optional[Tuple[int, int]]:
-        """
-        Decode *data* with Pillow and return ``(width, height)`` in pixels.
+        """Decode *data* with Pillow and return ``(width, height)`` in pixels.
 
         Opens the image long enough to read :attr:`~PIL.Image.Image.size`, then
         closes it. If Pillow is not installed, or the payload is not a decodable
@@ -119,6 +116,7 @@ class ImageUtility(IMedia):
         -------
         tuple[int, int] or None
             ``(width, height)`` if successful, else ``None``.
+
         """
         _, open_fn = OptionalImports.optional_import("PIL.Image", "open")
         if open_fn is None:
@@ -136,8 +134,7 @@ class ImageUtility(IMedia):
 
     @staticmethod
     def open_image(data: bytes) -> Any:
-        """
-        Open *data* as a Pillow :class:`~PIL.Image.Image` and return it.
+        """Open *data* as a Pillow :class:`~PIL.Image.Image` and return it.
 
         Prefer :meth:`dimensions` when you only need size. This method returns a
         live image object; the caller **must** close it (context manager or
@@ -152,6 +149,7 @@ class ImageUtility(IMedia):
         -------
         PIL.Image.Image or None
             An opened image, or ``None`` if Pillow is unavailable or opening fails.
+
         """
         _, open_fn = OptionalImports.optional_import("PIL.Image", "open")
         if open_fn is None:

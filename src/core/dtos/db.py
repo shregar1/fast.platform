@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class DBConfigurationDTO(IDTO):
+    """Represents the DBConfigurationDTO class."""
+
     user_name: str = ""
     password: str = ""
     host: str = ""

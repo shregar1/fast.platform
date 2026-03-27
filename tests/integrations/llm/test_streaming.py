@@ -1,3 +1,5 @@
+"""Module test_streaming.py."""
+
 from __future__ import annotations
 
 """Streaming iterators."""
@@ -11,6 +13,11 @@ from tests.integrations.llm.abstraction import ILLMTests
 
 
 async def _mock_openai_stream() -> AsyncIterator[Any]:
+    """Execute _mock_openai_stream operation.
+
+    Returns:
+        The result of the operation.
+    """
     ch = types.SimpleNamespace(
         choices=[
             types.SimpleNamespace(delta=types.SimpleNamespace(content="hello"), finish_reason=None)
@@ -25,8 +32,15 @@ async def _mock_openai_stream() -> AsyncIterator[Any]:
 
 
 class TestStreaming(ILLMTests):
+    """Represents the TestStreaming class."""
+
     @pytest.mark.asyncio
     async def test_iter_openai_chat_stream(self) -> None:
+        """Execute test_iter_openai_chat_stream operation.
+
+        Returns:
+            The result of the operation.
+        """
         chunks: list[StreamChunk] = []
         async for c in iter_openai_chat_stream(_mock_openai_stream()):
             chunks.append(c)
@@ -37,6 +51,11 @@ class TestStreaming(ILLMTests):
 
     @pytest.mark.asyncio
     async def test_iter_llm_stream_openai(self) -> None:
+        """Execute test_iter_llm_stream_openai operation.
+
+        Returns:
+            The result of the operation.
+        """
         n = 0
         async for _ in iter_llm_stream("openai", _mock_openai_stream()):
             n += 1

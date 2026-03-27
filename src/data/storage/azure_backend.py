@@ -19,6 +19,14 @@ class AzureBlobStorageBackend(IStorageBackend):
         account_url: Optional[str] = None,
         base_path: str = "",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            container: The container parameter.
+            connection_string: The connection_string parameter.
+            account_url: The account_url parameter.
+            base_path: The base_path parameter.
+        """
         try:
             from azure.storage.blob import BlobServiceClient
         except ImportError as e:
@@ -39,6 +47,14 @@ class AzureBlobStorageBackend(IStorageBackend):
         self._base = (base_path.rstrip("/") + "/") if base_path else ""
 
     def _key(self, key: str) -> str:
+        """Execute _key operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._base + key.lstrip("/")
 
     def upload(
@@ -49,6 +65,17 @@ class AzureBlobStorageBackend(IStorageBackend):
         content_type: Optional[str] = None,
         metadata: Optional[dict[str, str]] = None,
     ) -> str:
+        """Execute upload operation.
+
+        Args:
+            key: The key parameter.
+            body: The body parameter.
+            content_type: The content_type parameter.
+            metadata: The metadata parameter.
+
+        Returns:
+            The result of the operation.
+        """
         container_client = self._client.get_container_client(self._container)
         blob = container_client.get_blob_client(self._key(key))
         if isinstance(body, bytes):
@@ -62,20 +89,52 @@ class AzureBlobStorageBackend(IStorageBackend):
         return blob.url
 
     def download(self, key: str) -> bytes:
+        """Execute download operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         container_client = self._client.get_container_client(self._container)
         blob = container_client.get_blob_client(self._key(key))
         return blob.download_blob().readall()
 
     def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         container_client = self._client.get_container_client(self._container)
         container_client.delete_blob(self._key(key))
 
     def exists(self, key: str) -> bool:
+        """Execute exists operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         container_client = self._client.get_container_client(self._container)
         blob = container_client.get_blob_client(self._key(key))
         return blob.exists()
 
     def head(self, key: str) -> StorageObjectHead:
+        """Execute head operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         container_client = self._client.get_container_client(self._container)
         blob = container_client.get_blob_client(self._key(key))
         if not blob.exists():

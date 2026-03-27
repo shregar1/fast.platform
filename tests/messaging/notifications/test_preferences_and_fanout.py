@@ -12,7 +12,14 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestPreferencesAndFanout(INotificationTests):
+    """Represents the TestPreferencesAndFanout class."""
+
     def test_fanout_skips_muted_category(self):
+        """Execute test_fanout_skips_muted_category operation.
+
+        Returns:
+            The result of the operation.
+        """
         prefs = StaticMutedCategories({"u1": {"marketing"}})
         email = AsyncMock()
         with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
@@ -29,6 +36,11 @@ class TestPreferencesAndFanout(INotificationTests):
         email.send_email.assert_not_called()
 
     def test_fanout_idempotency_second_send_skipped(self):
+        """Execute test_fanout_idempotency_second_send_skipped operation.
+
+        Returns:
+            The result of the operation.
+        """
         store = InMemoryNotificationIdempotencyStore()
         email = AsyncMock()
         with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:

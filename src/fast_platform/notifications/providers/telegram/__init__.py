@@ -1,5 +1,4 @@
-"""
-Telegram Integration
+"""Telegram Integration.
 
 Send notifications via Telegram Bot API.
 """

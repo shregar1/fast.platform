@@ -16,26 +16,53 @@ class MetricsRegistry(IMetricsUtility):
     """Named counters and histograms (process-local)."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._counters: Dict[str, Counter] = {}
         self._histograms: Dict[str, Histogram] = {}
         self._lock = Lock()
 
     def counter(self, name: str) -> Counter:
+        """Execute counter operation.
+
+        Args:
+            name: The name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             if name not in self._counters:
                 self._counters[name] = Counter(name=name)
             return self._counters[name]
 
     def histogram(self, name: str) -> Histogram:
+        """Execute histogram operation.
+
+        Args:
+            name: The name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             if name not in self._histograms:
                 self._histograms[name] = Histogram(name=name)
             return self._histograms[name]
 
     def counters(self) -> Dict[str, Counter]:
+        """Execute counters operation.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             return dict(self._counters)
 
     def histograms(self) -> Dict[str, Histogram]:
+        """Execute histograms operation.
+
+        Returns:
+            The result of the operation.
+        """
         with self._lock:
             return dict(self._histograms)

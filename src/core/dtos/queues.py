@@ -12,6 +12,8 @@ from .sqs_config import SQSConfigDTO
 
 
 class QueuesConfigurationDTO(IDTO):
+    """Represents the QueuesConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     rabbitmq: RabbitMQConfigDTO = Field(default_factory=RabbitMQConfigDTO)
     sqs: SQSConfigDTO = Field(default_factory=SQSConfigDTO)

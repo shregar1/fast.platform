@@ -12,12 +12,27 @@ from realtime.webrtc.turn_twilio import fetch_twilio_turn_ice_servers, twilio_to
 
 
 class TestTurnTwilio(IWebRTCTests):
+    """Represents the TestTurnTwilio class."""
+
     def test_twilio_tokens_url_contains_account(self):
+        """Execute test_twilio_tokens_url_contains_account operation.
+
+        Returns:
+            The result of the operation.
+        """
         assert "ACtest" in twilio_tokens_url("ACtest")
         assert "Tokens.json" in twilio_tokens_url("ACtest")
 
     @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_ice_servers_parses_response(self, mock_urlopen):
+        """Execute test_fetch_twilio_turn_ice_servers_parses_response operation.
+
+        Args:
+            mock_urlopen: The mock_urlopen parameter.
+
+        Returns:
+            The result of the operation.
+        """
         payload = {
             "ice_servers": [
                 {"urls": "stun:global.stun.twilio.com:3478"},
@@ -30,13 +45,30 @@ class TestTurnTwilio(IWebRTCTests):
         }
 
         class _Resp:
+            """Represents the _Resp class."""
+
             def __enter__(self):
+                """Execute __enter__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self
 
             def __exit__(self, *a):
+                """Execute __exit__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return False
 
             def read(self):
+                """Execute read operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return json.dumps(payload).encode()
 
         mock_urlopen.return_value = _Resp()
@@ -49,14 +81,40 @@ class TestTurnTwilio(IWebRTCTests):
 
     @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_raises_on_bad_json(self, mock_urlopen):
+        """Execute test_fetch_twilio_raises_on_bad_json operation.
+
+        Args:
+            mock_urlopen: The mock_urlopen parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Resp:
+            """Represents the _Resp class."""
+
             def __enter__(self):
+                """Execute __enter__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self
 
             def __exit__(self, *a):
+                """Execute __exit__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return False
 
             def read(self):
+                """Execute read operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return b"{}"
 
         mock_urlopen.return_value = _Resp()
@@ -65,14 +123,40 @@ class TestTurnTwilio(IWebRTCTests):
 
     @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_normalize_rejects_missing_urls(self, mock_urlopen):
+        """Execute test_normalize_rejects_missing_urls operation.
+
+        Args:
+            mock_urlopen: The mock_urlopen parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Resp:
+            """Represents the _Resp class."""
+
             def __enter__(self):
+                """Execute __enter__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return self
 
             def __exit__(self, *a):
+                """Execute __exit__ operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return False
 
             def read(self):
+                """Execute read operation.
+
+                Returns:
+                    The result of the operation.
+                """
                 return json.dumps({"ice_servers": [{}]}).encode()
 
         mock_urlopen.return_value = _Resp()
@@ -81,6 +165,14 @@ class TestTurnTwilio(IWebRTCTests):
 
     @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_http_error(self, mock_urlopen):
+        """Execute test_fetch_twilio_turn_http_error operation.
+
+        Args:
+            mock_urlopen: The mock_urlopen parameter.
+
+        Returns:
+            The result of the operation.
+        """
         fp = io.BytesIO(b"auth failed")
         mock_urlopen.side_effect = HTTPError(
             "https://api.twilio.com/x", 401, "Unauthorized", {}, fp
@@ -90,6 +182,14 @@ class TestTurnTwilio(IWebRTCTests):
 
     @patch("realtime.webrtc.turn_twilio.urlrequest.urlopen")
     def test_fetch_twilio_turn_url_error(self, mock_urlopen):
+        """Execute test_fetch_twilio_turn_url_error operation.
+
+        Args:
+            mock_urlopen: The mock_urlopen parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_urlopen.side_effect = URLError("network down")
         with pytest.raises(RuntimeError, match="request failed"):
             fetch_twilio_turn_ice_servers("ACx", "t")

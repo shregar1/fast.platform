@@ -1,5 +1,4 @@
-"""
-Channels configuration loader.
+"""Channels configuration loader.
 
 Reads from config/channels/config.json (or FASTMVC_CHANNELS_CONFIG_PATH).
 """
@@ -19,6 +18,11 @@ class ChannelsConfiguration:
     _instance: Optional["ChannelsConfiguration"] = None
 
     def __new__(cls) -> "ChannelsConfiguration":
+        """Execute __new__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.config = {}
@@ -26,6 +30,11 @@ class ChannelsConfiguration:
         return cls._instance
 
     def load_config(self) -> None:
+        """Execute load_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         path = os.getenv("FASTMVC_CHANNELS_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
@@ -46,6 +55,11 @@ class ChannelsConfiguration:
             self.config = {}
 
     def get_config(self) -> ChannelsConfigurationDTO:
+        """Execute get_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         return ChannelsConfigurationDTO(
             backend=self.config.get("backend", "none"),
             topics=self.config.get("topics", []),

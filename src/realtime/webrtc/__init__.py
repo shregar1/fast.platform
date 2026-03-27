@@ -1,6 +1,4 @@
-"""
-fast_webrtc – WebRTC signaling extension for FastMVC.
-"""
+"""fast_webrtc – WebRTC signaling extension for FastMVC."""
 
 from __future__ import annotations
 

@@ -11,6 +11,13 @@ class AnthropicLLMService:
     """Thin async wrapper around Anthropic Messages API."""
 
     def __init__(self, api_key: str, base_url: Optional[str], model: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            api_key: The api_key parameter.
+            base_url: The base_url parameter.
+            model: The model parameter.
+        """
         try:
             from anthropic import AsyncAnthropic
         except ImportError as e:  # pragma: no cover
@@ -26,6 +33,15 @@ class AnthropicLLMService:
         self._model = model
 
     async def generate(self, prompt: str, *, max_tokens: int = 256) -> str:
+        """Execute generate operation.
+
+        Args:
+            prompt: The prompt parameter.
+            max_tokens: The max_tokens parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = await self._client.messages.create(
             model=self._model,
             max_tokens=max_tokens,

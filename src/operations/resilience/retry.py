@@ -1,5 +1,4 @@
-"""
-Retry Pattern.
+"""Retry Pattern.
 
 Provides automatic retry with configurable backoff strategies
 for handling transient failures.
@@ -27,8 +26,7 @@ class BackoffStrategy(str, Enum):
 
 @dataclass
 class RetryPolicy:
-    """
-    Configuration for retry behavior.
+    """Configuration for retry behavior.
 
     Attributes:
         max_attempts: Maximum number of attempts.
@@ -39,6 +37,7 @@ class RetryPolicy:
         jitter: Add random jitter to delays.
         retryable_exceptions: Exceptions that trigger retry.
         non_retryable_exceptions: Exceptions that should not be retried.
+
     """
 
     max_attempts: int = 3
@@ -51,14 +50,14 @@ class RetryPolicy:
     non_retryable_exceptions: tuple[Type[Exception], ...] = ()
 
     def calculate_delay(self, attempt: int) -> float:
-        """
-        Calculate delay for given attempt number.
+        """Calculate delay for given attempt number.
 
         Args:
             attempt: Current attempt number (0-indexed).
 
         Returns:
             Delay in seconds.
+
         """
         if self.backoff_strategy == BackoffStrategy.FIXED:
             delay = self.base_delay
@@ -80,14 +79,14 @@ class RetryPolicy:
         return min(delay, self.max_delay)
 
     def should_retry(self, exception: Exception) -> bool:
-        """
-        Check if exception should be retried.
+        """Check if exception should be retried.
 
         Args:
             exception: The exception that occurred.
 
         Returns:
             True if should retry.
+
         """
         if isinstance(exception, self.non_retryable_exceptions):
             return False
@@ -103,6 +102,13 @@ class RetryExhausted(Exception):
         last_exception: Exception,
         attempts: int,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            message: The message parameter.
+            last_exception: The last_exception parameter.
+            attempts: The attempts parameter.
+        """
         self.last_exception = last_exception
         self.attempts = attempts
         super().__init__(f"{message} after {attempts} attempts: {last_exception}")
@@ -114,8 +120,7 @@ async def retry_async(
     *args: Any,
     **kwargs: Any,
 ) -> Any:
-    """
-    Execute async function with retry.
+    """Execute async function with retry.
 
     Args:
         func: Async function to call.
@@ -128,6 +133,7 @@ async def retry_async(
 
     Raises:
         RetryExhausted: If all attempts fail.
+
     """
     last_exception: Optional[Exception] = None
 
@@ -161,8 +167,7 @@ def retry_sync(
     *args: Any,
     **kwargs: Any,
 ) -> Any:
-    """
-    Execute sync function with retry.
+    """Execute sync function with retry.
 
     Args:
         func: Function to call.
@@ -175,6 +180,7 @@ def retry_sync(
 
     Raises:
         RetryExhausted: If all attempts fail.
+
     """
     last_exception: Optional[Exception] = None
 
@@ -211,8 +217,7 @@ def retry(
     retryable_exceptions: tuple[Type[Exception], ...] = (Exception,),
     non_retryable_exceptions: tuple[Type[Exception], ...] = (),
 ) -> Callable:
-    """
-    Decorator to add retry behavior to a function.
+    """Decorator to add retry behavior to a function.
 
     Usage:
         @retry(max_attempts=3, backoff=2.0)
@@ -237,12 +242,31 @@ def retry(
     )
 
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         @functools.wraps(func)
         async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             return await retry_async(func, policy, *args, **kwargs)
 
         @functools.wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             return retry_sync(func, policy, *args, **kwargs)
 
         if asyncio.iscoroutinefunction(func):

@@ -1,6 +1,4 @@
-"""
-fast_notifications – Notifications extension for FastMVC.
-"""
+"""fast_notifications – Notifications extension for FastMVC."""
 
 from __future__ import annotations
 

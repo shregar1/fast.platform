@@ -1,5 +1,4 @@
-"""
-Datadog Integration
+"""Datadog Integration.
 
 APM, metrics, and monitoring.
 """

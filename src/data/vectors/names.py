@@ -1,5 +1,4 @@
-"""
-Helpers for namespace- or tenant-scoped collection / index names.
+"""Helpers for namespace- or tenant-scoped collection / index names.
 
 Backends differ in allowed characters and length; these helpers produce a
 portable, deterministic string suitable for Pinecone indexes, Qdrant collections,
@@ -21,8 +20,7 @@ class VectorCollectionNamesUtility:
 
     @staticmethod
     def sanitize_collection_segment(segment: str, *, fallback: str = "default") -> str:
-        """
-        Normalize one path component for use in a collection name.
+        """Normalize one path component for use in a collection name.
 
         Lowercases, strips, replaces disallowed characters with a single hyphen,
         and trims leading/trailing separators. Empty or invalid input becomes
@@ -41,8 +39,7 @@ class VectorCollectionNamesUtility:
         separator: str = "__",
         max_length: int = 255,
     ) -> str:
-        """
-        Build a stable collection (or index) name with a namespace / tenant prefix.
+        """Build a stable collection (or index) name with a namespace / tenant prefix.
 
         ``namespace`` is typically a tenant id, org slug, or environment key;
         ``name`` is the logical index or collection (e.g. ``"documents"``).

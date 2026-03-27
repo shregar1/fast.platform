@@ -1,5 +1,4 @@
-"""
-Prompt-cache control helpers for OpenAI and Anthropic APIs.
+"""Prompt-cache control helpers for OpenAI and Anthropic APIs.
 
 Both providers support ``cache_control`` on **content blocks** (e.g. long static prompts).
 Pass the returned dicts through unchanged in your ``messages`` / ``system`` payloads.
@@ -22,8 +21,7 @@ def openai_content_part_text(
     *,
     cache_control: Optional[Union[CacheControl, Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
-    """
-    OpenAI Responses / Chat **content part** with optional ``cache_control``.
+    """OpenAI Responses / Chat **content part** with optional ``cache_control``.
 
     When using providers that support prompt caching, attach ``cache_control`` to large
     static segments (system prompt, tool definitions, RAG context).
@@ -51,8 +49,7 @@ def anthropic_cached_text(
     *,
     ttl: Literal["5m", "1h"] = "5m",
 ) -> Dict[str, Any]:
-    """
-    Anthropic prompt cache with explicit TTL (``cache_control`` ``type: ephemeral`` + ``ttl``).
+    """Anthropic prompt cache with explicit TTL (``cache_control`` ``type: ephemeral`` + ``ttl``).
 
     Older SDKs may only support ``{"type": "ephemeral"}``; use :func:`ephemeral_cache_control` then.
     """
@@ -65,8 +62,7 @@ def openai_system_message_cached(
     *,
     use_ephemeral_cache: bool = True,
 ) -> Dict[str, Any]:
-    """
-    Build a **system** message whose content uses cache control (OpenAI-compatible structure).
+    """Build a **system** message whose content uses cache control (OpenAI-compatible structure).
 
     Shape: ``{"role": "system", "content": [ openai_content_part_text(...) ] }``
     """

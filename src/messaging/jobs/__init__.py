@@ -1,6 +1,4 @@
-"""
-fast_jobs – Background jobs (Celery, RQ, Dramatiq) for FastMVC.
-"""
+"""fast_jobs – Background jobs (Celery, RQ, Dramatiq) for FastMVC."""
 
 from fast_platform import JobsConfiguration, JobsConfigurationDTO
 

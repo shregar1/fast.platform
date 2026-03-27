@@ -1,6 +1,4 @@
-"""
-Storage backend interface and factory.
-"""
+"""Storage backend interface and factory."""
 
 from __future__ import annotations
 
@@ -69,8 +67,7 @@ class IStorageBackend(IStorage, ABC):
 
 
 def build_storage_backend(backend: str = "s3") -> Optional[IStorageBackend]:
-    """
-    Build a storage backend from StorageConfiguration (config/storage/config.json).
+    """Build a storage backend from StorageConfiguration (config/storage/config.json).
 
     backend: "s3" | "gcs" | "azure_blob" | "local"
     """

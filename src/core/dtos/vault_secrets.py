@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class VaultSecretsDTO(IDTO):
+    """Represents the VaultSecretsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     url: str = ""

@@ -1,5 +1,4 @@
-"""
-Normalized tool / function definitions for OpenAI (chat tools) and Anthropic (tools).
+"""Normalized tool / function definitions for OpenAI (chat tools) and Anthropic (tools).
 
 Use :class:`ToolDefinition` as the single in-app DTO, then convert at the provider boundary.
 """
@@ -12,8 +11,7 @@ from typing import Any, Dict, List
 
 @dataclass(slots=True)
 class ToolDefinition:
-    """
-    Provider-neutral tool: JSON Schema ``parameters`` matches OpenAI ``parameters``
+    """Provider-neutral tool: JSON Schema ``parameters`` matches OpenAI ``parameters``
     and Anthropic ``input_schema``.
     """
 
@@ -42,10 +40,26 @@ class ToolDefinition:
 
 
 def tool_definitions_to_openai_tools(tools: List[ToolDefinition]) -> List[Dict[str, Any]]:
+    """Execute tool_definitions_to_openai_tools operation.
+
+    Args:
+        tools: The tools parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return [t.to_openai_tool() for t in tools]
 
 
 def tool_definitions_to_anthropic_tools(tools: List[ToolDefinition]) -> List[Dict[str, Any]]:
+    """Execute tool_definitions_to_anthropic_tools operation.
+
+    Args:
+        tools: The tools parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return [t.to_anthropic_tool() for t in tools]
 
 

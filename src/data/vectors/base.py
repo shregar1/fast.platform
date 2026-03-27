@@ -1,6 +1,4 @@
-"""
-Vector store interface and factory.
-"""
+"""Vector store interface and factory."""
 
 from __future__ import annotations
 
@@ -43,9 +41,8 @@ class IVectorStore(IVector, ABC):
 
 
 def build_vector_store(backend: str = "pinecone") -> Optional[IVectorStore]:
-    """
-    Build a vector store from VectorsConfiguration (config/vectors/config.json).
-    backend: "pinecone" | "qdrant" | "weaviate"
+    """Build a vector store from VectorsConfiguration (config/vectors/config.json).
+    backend: "pinecone" | "qdrant" | "weaviate".
     """
     cfg = VectorsConfiguration().get_config()
 

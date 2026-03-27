@@ -1,5 +1,4 @@
-"""
-Optional hooks for compliance (e.g. recording / media consent before joining a room).
+"""Optional hooks for compliance (e.g. recording / media consent before joining a room).
 
 Wire :class:`AllowAllMediaConsent` or a custom check into
 :class:`~fast_webrtc.signaling.WebRTCSignalingService` via ``before_peer_join``.
@@ -12,8 +11,7 @@ from typing import Protocol, runtime_checkable
 
 @runtime_checkable
 class BeforeMediaConsentCallback(Protocol):
-    """
-    Return ``True`` if *peer_id* may join *room_id* and use media (camera/mic/screen).
+    """Return ``True`` if *peer_id* may join *room_id* and use media (camera/mic/screen).
 
     Use for recording consent, terms acceptance, or parental gates — **before** SDP exchange.
     """

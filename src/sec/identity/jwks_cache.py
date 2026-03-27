@@ -1,5 +1,4 @@
-"""
-TTL cache for OIDC JWKS documents (JSON Web Key Sets).
+"""TTL cache for OIDC JWKS documents (JSON Web Key Sets).
 
 Requires ``httpx`` — install ``fast_identity[oauth]``.
 """
@@ -16,14 +15,19 @@ except Exception:  # pragma: no cover - optional
 
 
 class JWKSCache:
-    """
-    Fetch and cache JWKS from a fixed URI with TTL.
+    """Fetch and cache JWKS from a fixed URI with TTL.
 
     Thread-safe enough for typical async single-threaded event loop usage;
     concurrent refreshes may duplicate fetches briefly.
     """
 
     def __init__(self, jwks_uri: str, ttl_seconds: int = 3600) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            jwks_uri: The jwks_uri parameter.
+            ttl_seconds: The ttl_seconds parameter.
+        """
         self._jwks_uri = jwks_uri
         self._ttl = max(0, int(ttl_seconds))
         self._keys: Dict[str, Any] | None = None
@@ -31,12 +35,27 @@ class JWKSCache:
 
     @property
     def jwks_uri(self) -> str:
+        """Execute jwks_uri operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._jwks_uri
 
     def _stale(self) -> bool:
+        """Execute _stale operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self._keys is None or time.monotonic() >= self._expires_at
 
     async def _fetch(self) -> Dict[str, Any]:
+        """Execute _fetch operation.
+
+        Returns:
+            The result of the operation.
+        """
         if httpx is None:
             raise RuntimeError("httpx is required for JWKS. Install fast_identity[oauth].")
         async with httpx.AsyncClient() as client:

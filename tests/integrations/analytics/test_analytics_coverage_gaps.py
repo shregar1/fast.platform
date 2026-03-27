@@ -1,3 +1,5 @@
+"""Module test_analytics_coverage_gaps.py."""
+
 from __future__ import annotations
 
 """Cover remaining branches for high coverage."""
@@ -16,13 +18,25 @@ from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
 class TestAnalyticsCoverageGaps(IAnalyticsTests):
+    """Represents the TestAnalyticsCoverageGaps class."""
+
     def test_buffer_property_alias(self) -> None:
+        """Execute test_buffer_property_alias operation.
+
+        Returns:
+            The result of the operation.
+        """
         b = BufferedAnalyticsBackend()
         b.track("u", "e")
         assert len(b.buffer) == 1
         assert b.buffer is b._buffer
 
     def test_http_sink_swallows_errors(self) -> None:
+        """Execute test_http_sink_swallows_errors operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("nope")):
@@ -30,30 +44,52 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
             b.track("a", "b")
 
     def test_default_analytics_user_key_variants(self) -> None:
+        """Execute test_default_analytics_user_key_variants operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         class R:
+            """Represents the R class."""
+
             headers = {"x-user-id": "h"}
             state = SimpleNamespace()
 
         assert default_analytics_user_key(R()) == "h"
 
         class R2:
+            """Represents the R2 class."""
+
             headers = {}
 
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.state = SimpleNamespace(user_id=42)
 
         r2 = R2()
         assert default_analytics_user_key(r2) == "42"
 
         class R3:
+            """Represents the R3 class."""
+
             headers = {}
 
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.state = SimpleNamespace()
 
         assert default_analytics_user_key(R3()) == "anonymous"
 
     def test_middleware_requires_starlette(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        """Execute test_middleware_requires_starlette operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         import integrations.analytics.middleware as mw
 
         monkeypatch.setattr(mw, "_STARLETTE", False)
@@ -62,6 +98,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
 
     @pytest.mark.asyncio
     async def test_middleware_dispatch_skips_when_random_high(self) -> None:
+        """Execute test_middleware_dispatch_skips_when_random_high operation.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("starlette")
         from starlette.applications import Starlette
         from starlette.responses import PlainTextResponse
@@ -73,6 +114,14 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         backend = MagicMock()
 
         async def home(_: object) -> PlainTextResponse:
+            """Execute home operation.
+
+            Args:
+                _: The _ parameter.
+
+            Returns:
+                The result of the operation.
+            """
             return PlainTextResponse("ok")
 
         app = Starlette(routes=[Route("/", home)])
@@ -83,6 +132,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         assert backend.track.call_count == 0
 
     def test_rate_limit_unlimited_and_delete(self) -> None:
+        """Execute test_rate_limit_unlimited_and_delete operation.
+
+        Returns:
+            The result of the operation.
+        """
         inner = MagicMock()
         rl = RateLimitedAnalyticsBackend(inner, max_events_per_user_per_minute=0)
         for _ in range(3):
@@ -92,6 +146,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         inner.delete_user.assert_called_once_with("u")
 
     def test_schema_register_versioned_and_require(self) -> None:
+        """Execute test_schema_register_versioned_and_require operation.
+
+        Returns:
+            The result of the operation.
+        """
         reg = EventSchemaRegistry(require_registration=True)
         reg.register_versioned("x@1", {"type": "object", "properties": {"a": {"type": "integer"}}})
         reg.validate_properties("x@1", {"a": 1})
@@ -99,6 +158,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
             parse_versioned_event_name("bad")
 
     def test_validating_identify_and_delete(self) -> None:
+        """Execute test_validating_identify_and_delete operation.
+
+        Returns:
+            The result of the operation.
+        """
         inner = MagicMock()
         reg = EventSchemaRegistry()
         v = ValidatingAnalyticsBackend(inner, reg)
@@ -108,10 +172,20 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         inner.delete_user.assert_called_once()
 
     def test_scrub_nested_non_dict_value(self) -> None:
+        """Execute test_scrub_nested_non_dict_value operation.
+
+        Returns:
+            The result of the operation.
+        """
         d = scrub_pii_properties({"nested": {"email": "a@b.com"}})
         assert d["nested"]["email"] == "[REDACTED]"
 
     def test_scrubbing_backend_nested(self) -> None:
+        """Execute test_scrubbing_backend_nested operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.analytics.pii import ScrubbingAnalyticsBackend
 
         inner = MagicMock()
@@ -120,6 +194,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         inner.identify.assert_called_once()
 
     def test_buffer_forward_identify_and_delete(self) -> None:
+        """Execute test_buffer_forward_identify_and_delete operation.
+
+        Returns:
+            The result of the operation.
+        """
         inner = MagicMock()
         buf = BufferedAnalyticsBackend(inner=inner, dry_run=False)
         buf.identify("u", {"t": 1})
@@ -128,21 +207,41 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         inner.delete_user.assert_called_once_with("u")
 
     def test_http_sink_delete_error_swallowed(self) -> None:
+        """Execute test_http_sink_delete_error_swallowed operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("down")):
             HttpSinkAnalyticsBackend("http://x").delete_user("u")
 
     def test_schema_validate_unknown_versioned_when_required(self) -> None:
+        """Execute test_schema_validate_unknown_versioned_when_required operation.
+
+        Returns:
+            The result of the operation.
+        """
         reg = EventSchemaRegistry(require_registration=True)
         with pytest.raises(ValueError):
             reg.validate_properties("missing@1", {})
 
     def test_rate_limit_clock_prune(self) -> None:
+        """Execute test_rate_limit_clock_prune operation.
+
+        Returns:
+            The result of the operation.
+        """
         inner = MagicMock()
         times = {"t": 0.0}
 
         def fake_clock() -> float:
+            """Execute fake_clock operation.
+
+            Returns:
+                The result of the operation.
+            """
             return times["t"]
 
         rl = RateLimitedAnalyticsBackend(
@@ -155,6 +254,11 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
 
     @pytest.mark.asyncio
     async def test_middleware_sample_rate_zero_skips_track(self) -> None:
+        """Execute test_middleware_sample_rate_zero_skips_track operation.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("starlette")
         from starlette.applications import Starlette
         from starlette.responses import PlainTextResponse
@@ -166,6 +270,14 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         backend = MagicMock()
 
         async def home(_: object) -> PlainTextResponse:
+            """Execute home operation.
+
+            Args:
+                _: The _ parameter.
+
+            Returns:
+                The result of the operation.
+            """
             return PlainTextResponse("ok")
 
         app = Starlette(routes=[Route("/", home)])

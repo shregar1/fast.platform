@@ -1,3 +1,5 @@
+"""Module test_backends_factory_success.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`data.storage.base.build_storage_backend` (S3, GCS, Azure)."""
@@ -10,9 +12,20 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestBackendsFactorySuccess(IStorageTests):
+    """Represents the TestBackendsFactorySuccess class."""
+
     def test_storage_factory_success_builds_s3_gcs_and_azure(
         self, monkeypatch: pytest.MonkeyPatch, tmp_path
     ) -> None:
+        """Execute test_storage_factory_success_builds_s3_gcs_and_azure operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.storage import base as storage_base
         from data.storage.azure_backend import AzureBlobStorageBackend
         from data.storage.gcs_backend import GCSStorageBackend
@@ -21,7 +34,14 @@ class TestBackendsFactorySuccess(IStorageTests):
         fake_botocore_config = types.ModuleType("botocore.config")
 
         class FakeConfig:
+            """Represents the FakeConfig class."""
+
             def __init__(self, signature_version: str) -> None:
+                """Execute __init__ operation.
+
+                Args:
+                    signature_version: The signature_version parameter.
+                """
                 self.signature_version = signature_version
 
         fake_botocore_config.Config = FakeConfig
@@ -33,11 +53,22 @@ class TestBackendsFactorySuccess(IStorageTests):
         fake_storage_mod = types.ModuleType("google.cloud.storage")
 
         class FakeStorageClient:
+            """Represents the FakeStorageClient class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 pass
 
             @staticmethod
             def from_service_account_json(credentials_path: str):
+                """Execute from_service_account_json operation.
+
+                Args:
+                    credentials_path: The credentials_path parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return FakeStorageClient()
 
         fake_storage_mod.Client = FakeStorageClient
@@ -58,7 +89,10 @@ class TestBackendsFactorySuccess(IStorageTests):
         sys.modules["azure.identity"] = fake_azure_identity
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.s3 = types.SimpleNamespace(
                     enabled=True,
                     bucket="b",

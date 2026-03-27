@@ -1,3 +1,5 @@
+"""Module abstraction.py."""
+
 from __future__ import annotations
 
 from tests.integrations.abstraction import IIntegrationsSuite

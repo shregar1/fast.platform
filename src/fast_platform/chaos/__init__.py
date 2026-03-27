@@ -1,5 +1,4 @@
-"""
-FastMVC Chaos Engineering Module
+"""FastMVC Chaos Engineering Module.
 
 Build confidence in system resilience through controlled fault injection.
 """

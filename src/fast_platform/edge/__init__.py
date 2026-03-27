@@ -1,5 +1,4 @@
-"""
-FastMVC Edge Functions Module
+"""FastMVC Edge Functions Module.
 
 Deploy and run Python functions at the edge across 200+ global locations.
 """

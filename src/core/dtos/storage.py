@@ -9,6 +9,8 @@ from .s3_storage import S3StorageDTO
 
 
 class StorageConfigurationDTO(IDTO):
+    """Represents the StorageConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     default_backend: str = "local"
     s3: S3StorageDTO = Field(default_factory=S3StorageDTO)

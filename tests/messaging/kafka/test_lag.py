@@ -9,9 +9,20 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestLag(IKafkaTests):
+    """Represents the TestLag class."""
+
     @patch("messaging.kafka.lag.AIOKafkaAdminClient")
     @patch("messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_computes_lag(self, mock_consumer_cls, mock_admin_cls):
+        """Execute test_poll_consumer_lag_computes_lag operation.
+
+        Args:
+            mock_consumer_cls: The mock_consumer_cls parameter.
+            mock_admin_cls: The mock_admin_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.lag import poll_consumer_lag
 
         tp = TopicPartition("orders", 0)
@@ -36,6 +47,14 @@ class TestLag(IKafkaTests):
 
     @patch("messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_no_partitions(self, mock_consumer_cls):
+        """Execute test_poll_consumer_lag_no_partitions operation.
+
+        Args:
+            mock_consumer_cls: The mock_consumer_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.kafka.lag import poll_consumer_lag
 
         cons = MagicMock()

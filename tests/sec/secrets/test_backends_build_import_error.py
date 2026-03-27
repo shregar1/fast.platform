@@ -1,3 +1,5 @@
+"""Module test_backends_build_import_error.py."""
+
 from __future__ import annotations
 
 """Tests for :func:`sec.secrets.base.build_secrets_backend` when backend modules fail to import."""
@@ -11,13 +13,26 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestBackendsBuildImportError(ISecretsTests):
+    """Represents the TestBackendsBuildImportError class."""
+
     def test_build_secrets_backend_import_error_returns_none(
         self, monkeypatch: pytest.MonkeyPatch
     ) -> None:
+        """Execute test_build_secrets_backend_import_error_returns_none operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from sec.secrets import base as secrets_base
 
         class FakeCfg:
+            """Represents the FakeCfg class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.vault = types.SimpleNamespace(
                     enabled=True, url="http://vault", token="t", mount_point=None
                 )
@@ -41,6 +56,14 @@ class TestBackendsBuildImportError(ISecretsTests):
         real_import = builtins.__import__
 
         def _fail_backend_import(name: str, *args: object, **kwargs: object):
+            """Execute _fail_backend_import operation.
+
+            Args:
+                name: The name parameter.
+
+            Returns:
+                The result of the operation.
+            """
             if "vault_backend" in name or "aws_backend" in name or "gcp_backend" in name:
                 raise ImportError(name)
             return real_import(name, *args, **kwargs)

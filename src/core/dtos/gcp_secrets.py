@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class GcpSecretsDTO(IDTO):
+    """Represents the GcpSecretsDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     project_id: str = ""

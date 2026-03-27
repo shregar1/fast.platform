@@ -1,6 +1,4 @@
-"""
-fast_kafka – Kafka integration for FastMVC.
-"""
+"""fast_kafka – Kafka integration for FastMVC."""
 
 from __future__ import annotations
 

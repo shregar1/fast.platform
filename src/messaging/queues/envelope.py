@@ -1,5 +1,4 @@
-"""
-Versioned JSON envelope for ``QueueMessage.body`` with optional priority,
+"""Versioned JSON envelope for ``QueueMessage.body`` with optional priority,
 visibility delay, and poison-message (retry) metadata.
 """
 
@@ -19,8 +18,7 @@ LAST_ERROR_KEY = "last_error"
 
 @dataclass
 class QueueMessageEnvelope:
-    """
-    Structured payload for queue bodies.
+    """Structured payload for queue bodies.
 
     - **priority** — optional integer; higher values are processed first when workers
       sort by priority (backend-specific; see README).
@@ -38,6 +36,11 @@ class QueueMessageEnvelope:
     last_error: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
+        """Execute to_dict operation.
+
+        Returns:
+            The result of the operation.
+        """
         out: Dict[str, Any] = {
             ENVELOPE_VERSION_KEY: self.envelope_version,
             PAYLOAD_KEY: self.payload,
@@ -53,6 +56,14 @@ class QueueMessageEnvelope:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> QueueMessageEnvelope:
+        """Execute from_dict operation.
+
+        Args:
+            data: The data parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not isinstance(data, dict):
             raise ValueError("envelope root must be a JSON object")
         ver = int(data.get(ENVELOPE_VERSION_KEY, 1))
@@ -81,10 +92,23 @@ class QueueMessageEnvelope:
         )
 
     def to_json_bytes(self) -> bytes:
+        """Execute to_json_bytes operation.
+
+        Returns:
+            The result of the operation.
+        """
         return json.dumps(self.to_dict(), separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
     @classmethod
     def from_json_bytes(cls, raw: bytes) -> QueueMessageEnvelope:
+        """Execute from_json_bytes operation.
+
+        Args:
+            raw: The raw parameter.
+
+        Returns:
+            The result of the operation.
+        """
         data = json.loads(raw.decode("utf-8"))
         return cls.from_dict(data)
 
@@ -97,8 +121,7 @@ class QueueMessageEnvelope:
         )
 
     def should_quarantine(self, max_failures: int) -> bool:
-        """
-        Return True when ``failure_count`` has reached ``max_failures``.
+        """Return True when ``failure_count`` has reached ``max_failures``.
 
         Typical use: after each failed attempt, call ``with_processing_failure``;
         if ``should_quarantine(N)``, route to the quarantine queue instead of retry/DLQ.

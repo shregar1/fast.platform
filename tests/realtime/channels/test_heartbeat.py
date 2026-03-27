@@ -1,22 +1,47 @@
+"""Module test_heartbeat.py."""
+
 import asyncio
 
 from tests.realtime.channels.abstraction import IChannelTests
 
 
 class FakeWebSocket:
+    """Represents the FakeWebSocket class."""
+
     def __init__(self):
+        """Execute __init__ operation."""
         self.accepted = False
         self.sent: list[str] = []
 
     async def accept(self):
+        """Execute accept operation.
+
+        Returns:
+            The result of the operation.
+        """
         self.accepted = True
 
     async def send_text(self, message: str):
+        """Execute send_text operation.
+
+        Args:
+            message: The message parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self.sent.append(message)
 
 
 class TestHeartbeat(IChannelTests):
+    """Represents the TestHeartbeat class."""
+
     def test_run_heartbeat_loop_stops_via_event(self):
+        """Execute test_run_heartbeat_loop_stops_via_event operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.heartbeat import run_heartbeat_loop
         from realtime.channels.hub import ChannelsHub
 
@@ -24,6 +49,11 @@ class TestHeartbeat(IChannelTests):
         stop = asyncio.Event()
 
         async def main():
+            """Execute main operation.
+
+            Returns:
+                The result of the operation.
+            """
             t = asyncio.create_task(
                 run_heartbeat_loop(
                     hub,
@@ -40,6 +70,11 @@ class TestHeartbeat(IChannelTests):
         asyncio.run(main())
 
     def test_run_heartbeat_loop_sends_ping_and_can_sweep(self):
+        """Execute test_run_heartbeat_loop_sends_ping_and_can_sweep operation.
+
+        Returns:
+            The result of the operation.
+        """
         from realtime.channels.heartbeat import run_heartbeat_loop
         from realtime.channels.hub import ChannelsHub
 
@@ -51,6 +86,11 @@ class TestHeartbeat(IChannelTests):
         stop = asyncio.Event()
 
         async def main():
+            """Execute main operation.
+
+            Returns:
+                The result of the operation.
+            """
             t = asyncio.create_task(
                 run_heartbeat_loop(
                     hub,

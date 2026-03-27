@@ -11,6 +11,8 @@ from .webrtc_ice_server import WebRtcIceServerDTO
 
 
 class WebRtcIceConfigDTO(IDTO):
+    """Represents the WebRtcIceConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     ice_servers: List[WebRtcIceServerDTO] = Field(default_factory=list)

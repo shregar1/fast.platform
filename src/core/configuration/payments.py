@@ -9,8 +9,7 @@ from core.dtos.payments import PaymentsConfigurationDTO
 
 
 class PaymentsConfiguration(ConfigurationSingletonBase[PaymentsConfigurationDTO]):
-    """
-    Singleton configuration for payment providers.
+    """Singleton configuration for payment providers.
 
     Reads from ``config/payments/config.json``
     (or ``FASTMVC_PAYMENTS_CONFIG_PATH`` / ``FASTMVC_CONFIG_BASE`` env vars).
@@ -23,6 +22,7 @@ class PaymentsConfiguration(ConfigurationSingletonBase[PaymentsConfigurationDTO]
         >>> cfg = PaymentsConfiguration().get_config()
         >>> cfg.stripe.enabled
         False
+
     """
 
     _instance: Optional["PaymentsConfiguration"] = None

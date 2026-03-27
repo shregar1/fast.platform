@@ -1,5 +1,4 @@
-"""
-FastAPI dependency for async SQLAlchemy sessions.
+"""FastAPI dependency for async SQLAlchemy sessions.
 
 Requires :func:`fast_db.async_engine.create_and_set_async_session_factory` at startup.
 """
@@ -17,8 +16,7 @@ if TYPE_CHECKING:
 
 
 class AsyncDBDependency:
-    """
-    FastAPI dependency that yields an :class:`AsyncSession` per request.
+    """FastAPI dependency that yields an :class:`AsyncSession` per request.
 
     Usage::
 
@@ -29,6 +27,11 @@ class AsyncDBDependency:
 
     @staticmethod
     async def session() -> AsyncGenerator[AsyncSession, None]:
+        """Execute session operation.
+
+        Returns:
+            The result of the operation.
+        """
         factory = get_async_session_factory()
         if factory is None:
             raise RuntimeError(

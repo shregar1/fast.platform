@@ -1,6 +1,4 @@
-"""
-DTOs for Kafka configuration settings.
-"""
+"""DTOs for Kafka configuration settings."""
 
 from typing import Any, List, Optional
 
@@ -24,8 +22,7 @@ class KafkaConfigurationDTO(IDTO):
 
 
 class KafkaJsonEnvelope(IDTO):
-    """
-    Versioned JSON envelope for producer payloads (``Content-Type: application/json``).
+    """Versioned JSON envelope for producer payloads (``Content-Type: application/json``).
 
     Use :meth:`fast_kafka.producer.KafkaProducer.send_json_envelope` or serialize with
     :meth:`to_json_bytes`.

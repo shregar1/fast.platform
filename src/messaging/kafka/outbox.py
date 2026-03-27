@@ -1,5 +1,4 @@
-"""
-Transactional outbox: portable DDL + publisher loop helpers (no ORM required).
+"""Transactional outbox: portable DDL + publisher loop helpers (no ORM required).
 
 Pair with your DB transaction: insert into ``kafka_outbox`` in the same transaction
 as business writes, then run :func:`run_outbox_publisher_loop` in a worker process.
@@ -48,8 +47,7 @@ async def publish_outbox_batch(
     messages: Sequence[OutboxMessage],
     mark_published: Callable[[int], Awaitable[None]],
 ) -> None:
-    """
-    Send each message with :meth:`~fast_kafka.producer.KafkaProducer.send_bytes`,
+    """Send each message with :meth:`~fast_kafka.producer.KafkaProducer.send_bytes`,
     then call ``mark_published(id)`` for that row. Stops on first send failure
     so the row stays pending for retry.
     """
@@ -67,8 +65,7 @@ async def run_outbox_publisher_loop(
     interval_seconds: float = 1.0,
     stop_event: Optional[asyncio.Event] = None,
 ) -> None:
-    """
-    Poll ``load_pending(limit)`` and publish until *stop_event* is set (or cancel the task).
+    """Poll ``load_pending(limit)`` and publish until *stop_event* is set (or cancel the task).
 
     * *load_pending* — e.g. ``SELECT ... FOR UPDATE SKIP LOCKED`` in your DB layer.
     * *mark_published* — e.g. ``UPDATE kafka_outbox SET status='sent' WHERE id=:id``.

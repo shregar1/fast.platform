@@ -10,6 +10,8 @@ from .abstraction import IDTO
 
 
 class OAuthProviderDTO(IDTO):
+    """Represents the OAuthProviderDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     client_id: str = ""

@@ -1,6 +1,4 @@
-"""
-fast_storage – Object storage (S3, GCS, Azure Blob, local) for FastMVC.
-"""
+"""fast_storage – Object storage (S3, GCS, Azure Blob, local) for FastMVC."""
 
 from fast_platform import StorageConfiguration, StorageConfigurationDTO
 

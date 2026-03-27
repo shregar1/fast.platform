@@ -7,8 +7,18 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestPush(INotificationTests):
+    """Represents the TestPush class."""
+
     @patch("messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_disabled(self, mock_cfg_cls):
+        """Execute test_push_service_apns_disabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()
@@ -23,6 +33,14 @@ class TestPush(INotificationTests):
 
     @patch("messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_enabled(self, mock_cfg_cls):
+        """Execute test_push_service_apns_enabled operation.
+
+        Args:
+            mock_cfg_cls: The mock_cfg_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()

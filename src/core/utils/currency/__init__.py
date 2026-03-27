@@ -26,7 +26,6 @@ class CurrencyUtility(ICurrencyUtility):
     @staticmethod
     def currency_exponent(currency_code: str) -> int:
         """Return the number of minor decimal places for a currency code."""
-
         if not currency_code:
             raise ValueError("currency_code is required")
         return _CURRENCY_EXPONENTS.get(currency_code.upper(), 2)
@@ -39,7 +38,6 @@ class CurrencyUtility(ICurrencyUtility):
         rounding: Union[str, Decimal] = ROUND_HALF_UP,
     ) -> int:
         """Convert major units to minor units (e.g. ``12.34`` USD -> ``1234``)."""
-
         exp = CurrencyUtility.currency_exponent(currency_code)
         rounded = DecimalUtility.round_money(amount_major, minor_units=exp, rounding=rounding)
         factor = Decimal("1").scaleb(exp)
@@ -53,7 +51,6 @@ class CurrencyUtility(ICurrencyUtility):
         quantize: bool = True,
     ) -> Decimal:
         """Convert minor integer units to major decimal units."""
-
         exp = CurrencyUtility.currency_exponent(currency_code)
         dec_minor = Decimal(str(amount_minor))
         factor = Decimal("1").scaleb(exp)

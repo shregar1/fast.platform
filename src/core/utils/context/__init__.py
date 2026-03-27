@@ -1,5 +1,4 @@
-"""
-Context Mixin Module.
+"""Context Mixin Module.
 
 Provides shared context attributes and logger binding for framework components
 like repositories, services, controllers, and errors.
@@ -13,6 +12,7 @@ Example:
     ...     def __init__(self, **kwargs):
     ...         super().__init__(**kwargs)
     ...         # Context fields are automatically initialized
+
 """
 
 from __future__ import annotations
@@ -26,19 +26,18 @@ from .abstraction import IContext
 
 
 class ContextMixin(ABC):
-    """
-    Abstract mixin providing shared context attributes and structured logging.
-    
+    """Abstract mixin providing shared context attributes and structured logging.
+
     This mixin eliminates code duplication across framework components that need
     request context tracking (repositories, services, controllers, errors, etc.).
-    
+
     Attributes:
         urn (str): Unique Request Number for tracing.
         user_urn (str): User's unique resource name.
         api_name (str): Name of the API endpoint.
         user_id (str): Database identifier of the user.
         logger: Structured logger bound with request context.
-    
+
     Example:
         >>> class MyRepository(ContextMixin):
         ...     def __init__(self, session, **kwargs):
@@ -46,6 +45,7 @@ class ContextMixin(ABC):
         ...         self.session = session
         ...         # logger is automatically bound with context
         ...         self.logger.info("Repository initialized")
+
     """
 
     def __init__(
@@ -56,15 +56,15 @@ class ContextMixin(ABC):
         user_id: str | None = None,
         **kwargs: Any,
     ) -> None:
-        """
-        Initialize context fields and structured logger.
-        
+        """Initialize context fields and structured logger.
+
         Args:
             urn: Unique Request Number for tracing.
             user_urn: User's unique resource name.
             api_name: Name of the API endpoint.
             user_id: Database ID of the user.
             **kwargs: Additional arguments passed to parent classes.
+
         """
         super().__init__(**kwargs)
         self._urn = urn
@@ -85,6 +85,14 @@ class ContextMixin(ABC):
 
     @urn.setter
     def urn(self, value: str | None) -> None:
+        """Execute urn operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._urn = value
         self._rebind_logger()
 
@@ -95,6 +103,14 @@ class ContextMixin(ABC):
 
     @user_urn.setter
     def user_urn(self, value: str | None) -> None:
+        """Execute user_urn operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._user_urn = value
         self._rebind_logger()
 
@@ -105,6 +121,14 @@ class ContextMixin(ABC):
 
     @api_name.setter
     def api_name(self, value: str | None) -> None:
+        """Execute api_name operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._api_name = value
         self._rebind_logger()
 
@@ -115,6 +139,14 @@ class ContextMixin(ABC):
 
     @user_id.setter
     def user_id(self, value: str | None) -> None:
+        """Execute user_id operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._user_id = value
         self._rebind_logger()
 
@@ -125,6 +157,14 @@ class ContextMixin(ABC):
 
     @logger.setter
     def logger(self, value: Any) -> None:
+        """Execute logger operation.
+
+        Args:
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._logger = value
 
     def _rebind_logger(self) -> None:
@@ -137,15 +177,15 @@ class ContextMixin(ABC):
         )
 
     def get_context_dict(self) -> dict[str, Any]:
-        """
-        Get context fields as a dictionary.
-        
+        """Get context fields as a dictionary.
+
         Returns:
             Dictionary with urn, user_urn, api_name, user_id.
-            
+
         Example:
             >>> context = service.get_context_dict()
             >>> new_service = AnotherService(**context)
+
         """
         return {
             "urn": self._urn,
@@ -155,14 +195,14 @@ class ContextMixin(ABC):
         }
 
     def copy_context_to(self, target: ContextMixin) -> None:
-        """
-        Copy context fields to another ContextMixin instance.
-        
+        """Copy context fields to another ContextMixin instance.
+
         Args:
             target: Another instance to copy context to.
-            
+
         Example:
             >>> service.copy_context_to(repository)
+
         """
         target.urn = self._urn
         target.user_urn = self._user_urn

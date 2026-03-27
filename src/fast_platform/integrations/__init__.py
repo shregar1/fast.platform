@@ -1,5 +1,4 @@
-"""
-FastMVC Integrations Module
+"""FastMVC Integrations Module.
 
 Third-party service integrations.
 """

@@ -19,6 +19,14 @@ class AwsSecretsBackend(ISecretsBackend):
         secret_access_key: Optional[str] = None,
         prefix: str = "",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            region: The region parameter.
+            access_key_id: The access_key_id parameter.
+            secret_access_key: The secret_access_key parameter.
+            prefix: The prefix parameter.
+        """
         try:
             import boto3
         except ImportError as e:
@@ -33,9 +41,25 @@ class AwsSecretsBackend(ISecretsBackend):
         self._prefix = prefix.rstrip("/")
 
     def _secret_id(self, key: str) -> str:
+        """Execute _secret_id operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return f"{self._prefix}/{key}".strip("/") if self._prefix else key
 
     def get_secret(self, key: str, **kwargs: Any) -> Optional[str]:
+        """Execute get_secret operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             r = self._client.get_secret_value(SecretId=self._secret_id(key))
             return r.get("SecretString")
@@ -43,6 +67,15 @@ class AwsSecretsBackend(ISecretsBackend):
             return None
 
     def set_secret(self, key: str, value: str) -> None:
+        """Execute set_secret operation.
+
+        Args:
+            key: The key parameter.
+            value: The value parameter.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             self._client.create_secret(Name=self._secret_id(key), SecretString=value)
         except self._client.exceptions.ResourceExistsException:

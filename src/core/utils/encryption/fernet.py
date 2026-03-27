@@ -1,5 +1,4 @@
-"""
-Fernet (AES-128-CBC + HMAC) symmetric encryption.
+"""Fernet (AES-128-CBC + HMAC) symmetric encryption.
 
 Uses :class:`cryptography.fernet.Fernet` — token format is URL-safe base64.
 """
@@ -18,6 +17,11 @@ class FernetEncryption(IEncryptionUtility):
     """Encrypt/decrypt arbitrary bytes with a Fernet key."""
 
     def __init__(self, key: Union[str, bytes]) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            key: The key parameter.
+        """
         if isinstance(key, str):
             key = key.encode("ascii")
         self._fernet = Fernet(key)
@@ -25,20 +29,36 @@ class FernetEncryption(IEncryptionUtility):
     @staticmethod
     def generate_key() -> bytes:
         """Return a new 32-byte url-safe base64 key suitable for :class:`Fernet`."""
-
         return Fernet.generate_key()
 
     def encrypt(self, plaintext: bytes, *, associated_data: Optional[bytes] = None) -> bytes:
+        """Execute encrypt operation.
+
+        Args:
+            plaintext: The plaintext parameter.
+            associated_data: The associated_data parameter.
+
+        Returns:
+            The result of the operation.
+        """
         _ = associated_data
         return self._fernet.encrypt(plaintext)
 
     def decrypt(self, ciphertext: bytes, *, associated_data: Optional[bytes] = None) -> bytes:
+        """Execute decrypt operation.
+
+        Args:
+            ciphertext: The ciphertext parameter.
+            associated_data: The associated_data parameter.
+
+        Returns:
+            The result of the operation.
+        """
         _ = associated_data
         return self._fernet.decrypt(ciphertext)
 
     def decrypt_optional(self, ciphertext: bytes) -> bytes | None:
         """Decrypt or return ``None`` if the token is invalid or the key is wrong."""
-
         try:
             return self._fernet.decrypt(ciphertext)
         except InvalidToken:
@@ -47,7 +67,6 @@ class FernetEncryption(IEncryptionUtility):
     @staticmethod
     def random_key_string() -> str:
         """Human-storable Fernet key string (44 chars, url-safe base64)."""
-
         return Fernet.generate_key().decode("ascii")
 
     @staticmethod
@@ -58,12 +77,10 @@ class FernetEncryption(IEncryptionUtility):
         salt: bytes | None = None,
         iterations: int = 100_000,
     ) -> tuple[bytes, bytes]:
-        """
-        Derive a Fernet key from *password* with PBKDF2-HMAC-SHA256 and encrypt.
+        """Derive a Fernet key from *password* with PBKDF2-HMAC-SHA256 and encrypt.
 
         Returns ``(salt, fernet_ciphertext)`` — store *salt* alongside the ciphertext.
         """
-
         import base64
 
         from cryptography.hazmat.backends import default_backend
@@ -90,7 +107,6 @@ class FernetEncryption(IEncryptionUtility):
         iterations: int = 100_000,
     ) -> bytes:
         """Decrypt a blob produced by :meth:`encrypt_with_password`."""
-
         import base64
 
         from cryptography.hazmat.backends import default_backend

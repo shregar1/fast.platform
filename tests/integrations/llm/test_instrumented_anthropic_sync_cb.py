@@ -1,3 +1,5 @@
+"""Module test_instrumented_anthropic_sync_cb.py."""
+
 from __future__ import annotations
 
 """Instrumented Anthropic + sync token callback + _maybe_await path."""
@@ -13,8 +15,15 @@ pytest.importorskip("anthropic")
 
 
 class TestInstrumentedAnthropicSyncCb(ILLMTests):
+    """Represents the TestInstrumentedAnthropicSyncCb class."""
+
     @pytest.mark.asyncio
     async def test_instrumented_anthropic_emits_usage(self) -> None:
+        """Execute test_instrumented_anthropic_emits_usage operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm.instrumented import InstrumentedAnthropicLLMService
         from integrations.llm.token_usage import TokenUsage
 
@@ -27,11 +36,30 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
         received: List[TokenUsage] = []
 
         def cb_sync(u: TokenUsage) -> None:
+            """Execute cb_sync operation.
+
+            Args:
+                u: The u parameter.
+
+            Returns:
+                The result of the operation.
+            """
             received.append(u)
 
         def fake_init(
             self: Any, api_key: str, base_url: Any, model: str, *, on_token_usage: Any = None
         ) -> None:
+            """Execute fake_init operation.
+
+            Args:
+                api_key: The api_key parameter.
+                base_url: The base_url parameter.
+                model: The model parameter.
+                on_token_usage: The on_token_usage parameter.
+
+            Returns:
+                The result of the operation.
+            """
             self._model = model
             self._client = mock_client
             self._on_token_usage = on_token_usage
@@ -45,6 +73,11 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
 
     @pytest.mark.asyncio
     async def test_instrumented_openai_async_callback(self) -> None:
+        """Execute test_instrumented_openai_async_callback operation.
+
+        Returns:
+            The result of the operation.
+        """
         from integrations.llm.instrumented import InstrumentedOpenAILLMService
         from integrations.llm.token_usage import TokenUsage
 
@@ -58,6 +91,14 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
         received: List[TokenUsage] = []
 
         async def cb_async(u: TokenUsage) -> None:
+            """Execute cb_async operation.
+
+            Args:
+                u: The u parameter.
+
+            Returns:
+                The result of the operation.
+            """
             received.append(u)
 
         def fake_init(
@@ -69,6 +110,18 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
             on_token_usage: Any = None,
             usage_provider: str = "openai",
         ) -> None:
+            """Execute fake_init operation.
+
+            Args:
+                api_key: The api_key parameter.
+                base_url: The base_url parameter.
+                model: The model parameter.
+                on_token_usage: The on_token_usage parameter.
+                usage_provider: The usage_provider parameter.
+
+            Returns:
+                The result of the operation.
+            """
             self._model = model
             self._client = mock_client
             self._on_token_usage = on_token_usage

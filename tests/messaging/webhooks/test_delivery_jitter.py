@@ -9,11 +9,29 @@ from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
 
 class TestDeliveryJitter(IWebhookTests):
+    """Represents the TestDeliveryJitter class."""
+
     @pytest.mark.asyncio
     async def test_jitter_scales_sleep(self, monkeypatch):
+        """Execute test_jitter_scales_sleep operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
         sleeps: list[float] = []
 
         async def capture_sleep(seconds: float) -> None:
+            """Execute capture_sleep operation.
+
+            Args:
+                seconds: The seconds parameter.
+
+            Returns:
+                The result of the operation.
+            """
             sleeps.append(seconds)
 
         monkeypatch.setattr("messaging.webhooks.delivery.asyncio.sleep", capture_sleep)

@@ -1,5 +1,4 @@
-"""
-Database table name constants.
+"""Database table name constants.
 
 Use these instead of string literals for __tablename__ to avoid typos and
 centralize renames.

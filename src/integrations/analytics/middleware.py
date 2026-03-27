@@ -18,13 +18,24 @@ except ImportError:  # pragma: no cover - optional web extra
     _STARLETTE = False
 
     class _BaseHTTPMiddleware:  # type: ignore[no-redef]
+        """Represents the _BaseHTTPMiddleware class."""
+
         def __init__(self, app: Any) -> None:
+            """Execute __init__ operation.
+
+            Args:
+                app: The app parameter.
+            """
             self.app = app
 
     class Request:  # type: ignore[no-redef]
+        """Represents the Request class."""
+
         ...
 
     class Response:  # type: ignore[no-redef]
+        """Represents the Response class."""
+
         ...
 
 
@@ -43,9 +54,7 @@ BaseHTTPMiddleware = cast("Any", _BaseHTTPMiddleware)
 
 
 class AnalyticsSamplingMiddleware(BaseHTTPMiddleware):
-    """
-    After each response, with probability ``sample_rate``, track ``http.request`` with path, method, status.
-    """
+    """After each response, with probability ``sample_rate``, track ``http.request`` with path, method, status."""
 
     def __init__(
         self,
@@ -56,6 +65,15 @@ class AnalyticsSamplingMiddleware(BaseHTTPMiddleware):
         user_key: Callable[[Request], str] = default_analytics_user_key,
         max_events_per_user_per_minute: int = 0,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            app: The app parameter.
+            backend: The backend parameter.
+            sample_rate: The sample_rate parameter.
+            user_key: The user_key parameter.
+            max_events_per_user_per_minute: The max_events_per_user_per_minute parameter.
+        """
         if not _STARLETTE:  # pragma: no cover
             raise RuntimeError("starlette required: pip install fast_analytics[web]")
         super().__init__(app)
@@ -71,6 +89,15 @@ class AnalyticsSamplingMiddleware(BaseHTTPMiddleware):
         self._user_key = user_key
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Execute dispatch operation.
+
+        Args:
+            request: The request parameter.
+            call_next: The call_next parameter.
+
+        Returns:
+            The result of the operation.
+        """
         response = await call_next(request)
         if self._sample_rate <= 0:
             return response

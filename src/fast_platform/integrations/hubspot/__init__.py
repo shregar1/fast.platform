@@ -1,5 +1,4 @@
-"""
-HubSpot Integration
+"""HubSpot Integration.
 
 CRM platform.
 """

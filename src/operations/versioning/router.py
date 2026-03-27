@@ -1,5 +1,4 @@
-"""
-API Versioning Implementation.
+"""API Versioning Implementation.
 
 Provides versioned routing for FastAPI applications.
 """
@@ -29,14 +28,14 @@ class VersioningStrategy(str, Enum):
 
 @dataclass
 class APIVersion:
-    """
-    API Version representation.
+    """API Version representation.
 
     Attributes:
         version: Version string (e.g., "v1", "v2").
         deprecated: Whether this version is deprecated.
         sunset_date: Date when version will be removed.
         description: Version description.
+
     """
 
     version: str
@@ -51,6 +50,11 @@ class APIVersion:
         return int(match.group(1)) if match else 0
 
     def __str__(self) -> str:
+        """Execute __str__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         return self.version
 
 
@@ -65,8 +69,7 @@ def set_api_version(version: str) -> contextvars.Token:
 
 
 class VersionedAPIRouter(APIRouter):
-    """
-    FastAPI router with version support.
+    """FastAPI router with version support.
 
     Usage:
         router = VersionedAPIRouter(prefix="/users")
@@ -95,6 +98,12 @@ class VersionedAPIRouter(APIRouter):
         available_versions: Optional[list[str]] = None,
         **kwargs: Any,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            default_version: The default_version parameter.
+            available_versions: The available_versions parameter.
+        """
         super().__init__(*args, **kwargs)
         self._default_version = default_version
         self._available_versions = available_versions or ["v1"]
@@ -111,6 +120,14 @@ class VersionedAPIRouter(APIRouter):
         """Create a versioned route decorator."""
 
         def decorator(func: Callable) -> Callable:
+            """Execute decorator operation.
+
+            Args:
+                func: The func parameter.
+
+            Returns:
+                The result of the operation.
+            """
             route_versions = versions or ([version] if version else self._available_versions)
 
             for v in route_versions:
@@ -178,8 +195,7 @@ def versioned_router(
     versions: Optional[list[str]] = None,
     **kwargs: Any,
 ) -> VersionedAPIRouter:
-    """
-    Create a versioned API router.
+    """Create a versioned API router.
 
     Usage:
         router = versioned_router(prefix="/users", versions=["v1", "v2"])
@@ -193,8 +209,7 @@ def versioned_router(
 
 
 class VersioningMiddleware(BaseHTTPMiddleware):
-    """
-    Middleware for API version detection.
+    """Middleware for API version detection.
 
     Supports multiple versioning strategies:
     - URL path: /api/v1/users
@@ -212,6 +227,17 @@ class VersioningMiddleware(BaseHTTPMiddleware):
         query_param: str = "api_version",
         version_prefix: str = "v",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            app: The app parameter.
+            strategy: The strategy parameter.
+            default_version: The default_version parameter.
+            available_versions: The available_versions parameter.
+            header_name: The header_name parameter.
+            query_param: The query_param parameter.
+            version_prefix: The version_prefix parameter.
+        """
         super().__init__(app)
         self._strategy = strategy
         self._default = default_version
@@ -253,6 +279,15 @@ class VersioningMiddleware(BaseHTTPMiddleware):
         return None
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Execute dispatch operation.
+
+        Args:
+            request: The request parameter.
+            call_next: The call_next parameter.
+
+        Returns:
+            The result of the operation.
+        """
         version: Optional[str] = None
 
         # Extract version based on strategy
@@ -291,8 +326,7 @@ class VersioningMiddleware(BaseHTTPMiddleware):
 
 
 def require_version(*versions: str) -> Callable:
-    """
-    Dependency to require specific API versions.
+    """Dependency to require specific API versions.
 
     Usage:
         @router.get("/new-feature", dependencies=[Depends(require_version("v2", "v3"))])
@@ -301,6 +335,14 @@ def require_version(*versions: str) -> Callable:
     """
 
     async def check_version(request: Request) -> None:
+        """Execute check_version operation.
+
+        Args:
+            request: The request parameter.
+
+        Returns:
+            The result of the operation.
+        """
         current = get_api_version() or getattr(request.state, "api_version", None)
         if current not in versions:
             raise HTTPException(
@@ -316,8 +358,7 @@ def deprecated_in_version(
     sunset_date: Optional[str] = None,
     alternative: Optional[str] = None,
 ) -> Callable:
-    """
-    Dependency to mark endpoint as deprecated in specific version.
+    """Dependency to mark endpoint as deprecated in specific version.
 
     Usage:
         @router.get(
@@ -329,6 +370,15 @@ def deprecated_in_version(
     """
 
     async def add_deprecation_headers(request: Request, response: Response) -> None:
+        """Execute add_deprecation_headers operation.
+
+        Args:
+            request: The request parameter.
+            response: The response parameter.
+
+        Returns:
+            The result of the operation.
+        """
         current = get_api_version()
         if current == version:
             response.headers["Deprecation"] = "true"

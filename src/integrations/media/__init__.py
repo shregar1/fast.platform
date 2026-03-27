@@ -1,6 +1,4 @@
-"""
-fast_media – File upload, image variants, presigned URLs for FastMVC.
-"""
+"""fast_media – File upload, image variants, presigned URLs for FastMVC."""
 
 from .abstraction import IImageVariantGenerator, IMedia, IMediaStore, UploadResult
 from .generator import DefaultImageVariantGenerator

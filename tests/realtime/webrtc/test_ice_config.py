@@ -3,15 +3,30 @@
 from core.dtos import RealtimeConfigurationDTO, WebRtcIceConfigDTO, WebRtcIceServerDTO
 from tests.realtime.webrtc.abstraction import IWebRTCTests
 from realtime.webrtc.dto import WebRTCConfigurationDTO
-from realtime.webrtc.ice_config import ice_servers_from_legacy_webrtc_dto, rtc_ice_servers_for_client
+from realtime.webrtc.ice_config import (
+    ice_servers_from_legacy_webrtc_dto,
+    rtc_ice_servers_for_client,
+)
 
 
 class TestIceConfig(IWebRTCTests):
+    """Represents the TestIceConfig class."""
+
     def test_rtc_ice_servers_empty_when_disabled(self):
+        """Execute test_rtc_ice_servers_empty_when_disabled operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = RealtimeConfigurationDTO()
         assert rtc_ice_servers_for_client(cfg) == []
 
     def test_rtc_ice_servers_when_enabled(self):
+        """Execute test_rtc_ice_servers_when_enabled operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = RealtimeConfigurationDTO(
             webrtc=WebRtcIceConfigDTO(
                 enabled=True,
@@ -30,6 +45,11 @@ class TestIceConfig(IWebRTCTests):
         assert out[1]["credential"] == "p"
 
     def test_legacy_flat_urls(self):
+        """Execute test_legacy_flat_urls operation.
+
+        Returns:
+            The result of the operation.
+        """
         dto = WebRTCConfigurationDTO(stun_servers=["stun:a:1"], turn_servers=["turn:b:2"])
         assert ice_servers_from_legacy_webrtc_dto(dto) == [
             {"urls": "stun:a:1"},

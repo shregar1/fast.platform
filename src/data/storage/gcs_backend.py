@@ -18,6 +18,13 @@ class GCSStorageBackend(IStorageBackend):
         credentials_path: Optional[str] = None,
         base_path: str = "",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            bucket: The bucket parameter.
+            credentials_path: The credentials_path parameter.
+            base_path: The base_path parameter.
+        """
         try:
             from google.cloud import storage
         except ImportError as e:
@@ -32,6 +39,14 @@ class GCSStorageBackend(IStorageBackend):
         self._base = (base_path.rstrip("/") + "/") if base_path else ""
 
     def _key(self, key: str) -> str:
+        """Execute _key operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._base + key.lstrip("/")
 
     def upload(
@@ -42,6 +57,17 @@ class GCSStorageBackend(IStorageBackend):
         content_type: Optional[str] = None,
         metadata: Optional[dict[str, str]] = None,
     ) -> str:
+        """Execute upload operation.
+
+        Args:
+            key: The key parameter.
+            body: The body parameter.
+            content_type: The content_type parameter.
+            metadata: The metadata parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bucket = self._client.bucket(self._bucket_name)
         blob = bucket.blob(self._key(key))
         if isinstance(body, bytes):
@@ -51,19 +77,51 @@ class GCSStorageBackend(IStorageBackend):
         return f"gs://{self._bucket_name}/{self._key(key)}"
 
     def download(self, key: str) -> bytes:
+        """Execute download operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bucket = self._client.bucket(self._bucket_name)
         blob = bucket.blob(self._key(key))
         return blob.download_as_bytes()
 
     def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bucket = self._client.bucket(self._bucket_name)
         bucket.blob(self._key(key)).delete()
 
     def exists(self, key: str) -> bool:
+        """Execute exists operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bucket = self._client.bucket(self._bucket_name)
         return bucket.blob(self._key(key)).exists()
 
     def head(self, key: str) -> StorageObjectHead:
+        """Execute head operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         bucket = self._client.bucket(self._bucket_name)
         blob = bucket.blob(self._key(key))
         if not blob.exists():
@@ -78,6 +136,15 @@ class GCSStorageBackend(IStorageBackend):
         )
 
     def presigned_url(self, key: str, expires_in: int = 3600) -> Optional[str]:
+        """Execute presigned_url operation.
+
+        Args:
+            key: The key parameter.
+            expires_in: The expires_in parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from datetime import timedelta
 
         bucket = self._client.bucket(self._bucket_name)

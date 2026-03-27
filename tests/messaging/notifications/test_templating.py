@@ -8,7 +8,14 @@ pytest.importorskip("jinja2")
 
 
 class TestTemplating(INotificationTests):
+    """Represents the TestTemplating class."""
+
     def test_render_jinja_string(self):
+        """Execute test_render_jinja_string operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.notifications.templating import render_jinja_string
 
         out = render_jinja_string("Hello {{ name }}", context={"name": "World"})

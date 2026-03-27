@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class FeatureFlagsSnapshotDTO(IDTO):
+    """Represents the FeatureFlagsSnapshotDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     path: str = ""

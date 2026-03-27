@@ -20,6 +20,14 @@ class TypesenseBackend(ISearchBackend):
         protocol: str = "http",
         api_key: Optional[str] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            host: The host parameter.
+            port: The port parameter.
+            protocol: The protocol parameter.
+            api_key: The api_key parameter.
+        """
         try:
             from typesense import Client
         except ImportError as e:
@@ -35,6 +43,15 @@ class TypesenseBackend(ISearchBackend):
         )
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
+        """Execute index_documents operation.
+
+        Args:
+            index_name: The index_name parameter.
+            documents: The documents parameter.
+
+        Returns:
+            The result of the operation.
+        """
         for d in documents:
             self._client.collections[index_name].documents.upsert(d)
 
@@ -48,6 +65,19 @@ class TypesenseBackend(ISearchBackend):
         filter: Optional[dict[str, Any]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> List[dict[str, Any]]:
+        """Execute search operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         _ = highlight_fields
         r = self._client.collections[index_name].documents.search(
             {
@@ -70,6 +100,20 @@ class TypesenseBackend(ISearchBackend):
         facet_fields: Optional[List[str]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> FacetedSearchResult:
+        """Execute search_faceted operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            facet_fields: The facet_fields parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         body: dict[str, Any] = {
             "q": query,
             "per_page": limit,
@@ -114,8 +158,24 @@ class TypesenseBackend(ISearchBackend):
         )
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.collections[index_name].delete()
 
 
 def _filter_str(f: dict[str, Any]) -> str:
+    """Execute _filter_str operation.
+
+    Args:
+        f: The f parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return " && ".join(f"{k}:{v}" for k, v in f.items())

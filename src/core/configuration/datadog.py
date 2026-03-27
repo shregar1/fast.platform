@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class DatadogConfiguration(ConfigurationSingletonBase[DatadogConfigurationDTO]):
+    """Represents the DatadogConfiguration class."""
+
     _instance: Optional["DatadogConfiguration"] = None
     _section: str = "datadog"
     _env_key: str = "DATADOG"

@@ -1,6 +1,4 @@
-"""
-fast_secrets – Secrets backends (Vault, AWS, GCP) for FastMVC.
-"""
+"""fast_secrets – Secrets backends (Vault, AWS, GCP) for FastMVC."""
 
 from __future__ import annotations
 
@@ -20,11 +18,27 @@ if _stdlib_secrets_path.is_file():
     else:
 
         def token_hex(nbytes: int = 32) -> str:  # pragma: no cover
+            """Execute token_hex operation.
+
+            Args:
+                nbytes: The nbytes parameter.
+
+            Returns:
+                The result of the operation.
+            """
             raise RuntimeError("stdlib secrets could not be loaded")
 
 else:
 
     def token_hex(nbytes: int = 32) -> str:  # pragma: no cover
+        """Execute token_hex operation.
+
+        Args:
+            nbytes: The nbytes parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise RuntimeError("stdlib secrets.py not found")
 
 

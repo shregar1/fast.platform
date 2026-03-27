@@ -8,7 +8,14 @@ from tests.messaging.webhooks.abstraction import IWebhookTests
 
 
 class TestInit(IWebhookTests):
+    """Represents the TestInit class."""
+
     def test_imports(self):
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks import (
             compute_signature,
             require_webhook_signature,
@@ -18,6 +25,11 @@ class TestInit(IWebhookTests):
         assert require_webhook_signature(secret="x") is not None
 
     def test_verify_roundtrip(self):
+        """Execute test_verify_roundtrip operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks import signature_header_value, verify_signature
 
         payload = b'{"event":"test"}'
@@ -28,6 +40,11 @@ class TestInit(IWebhookTests):
         assert verify_signature(payload, "not-prefixed", secret) is False
 
     def test_compute_signature_rejects_unknown_digest(self):
+        """Execute test_compute_signature_rejects_unknown_digest operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks import compute_signature
 
         with pytest.raises(ValueError, match="Unsupported HMAC"):
@@ -35,6 +52,11 @@ class TestInit(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_deliver_webhook_success_with_signature_and_non_retryable_error(self):
+        """Execute test_deliver_webhook_success_with_signature_and_non_retryable_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
         mock_response_ok = MagicMock(status_code=200, text="ok")
@@ -58,6 +80,11 @@ class TestInit(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_deliver_webhook_records_transport_error(self):
+        """Execute test_deliver_webhook_records_transport_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
         with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
@@ -70,6 +97,11 @@ class TestInit(IWebhookTests):
             assert err is not None
 
     def test_deliver_webhook_sync(self):
+        """Execute test_deliver_webhook_sync operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks.delivery import deliver_webhook_sync
 
         mock_response = MagicMock(status_code=201, text="created")
@@ -82,9 +114,19 @@ class TestInit(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_resolve_secret_async_callable(self):
+        """Execute test_resolve_secret_async_callable operation.
+
+        Returns:
+            The result of the operation.
+        """
         from messaging.webhooks.fastapi_deps import _resolve_secret
 
         async def async_secret() -> str:
+            """Execute async_secret operation.
+
+            Returns:
+                The result of the operation.
+            """
             return "from-async"
 
         assert await _resolve_secret(async_secret) == "from-async"

@@ -1,3 +1,5 @@
+"""Module test_enqueue.py."""
+
 from __future__ import annotations
 
 """Tests for unified enqueue (mocked backends)."""
@@ -11,8 +13,15 @@ from tests.messaging.jobs.abstraction import IJobTests
 
 
 class TestEnqueue(IJobTests):
+    """Represents the TestEnqueue class."""
+
     @staticmethod
     def _cfg(**overrides: object) -> JobsConfigurationDTO:
+        """Execute _cfg operation.
+
+        Returns:
+            The result of the operation.
+        """
         raw = {
             "celery": {"enabled": False, "broker_url": "redis://x", "result_backend": "redis://x"},
             "rq": {
@@ -29,6 +38,14 @@ class TestEnqueue(IJobTests):
 
     @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_enqueue_celery_apply_async(self, mock_jobs: MagicMock) -> None:
+        """Execute test_enqueue_celery_apply_async operation.
+
+        Args:
+            mock_jobs: The mock_jobs parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = self._cfg(
             celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"}
         )
@@ -53,6 +70,16 @@ class TestEnqueue(IJobTests):
     def test_enqueue_rq_enqueue_call(
         self, _mock_redis: MagicMock, mock_queue_cls: MagicMock, mock_jobs: MagicMock
     ) -> None:
+        """Execute test_enqueue_rq_enqueue_call operation.
+
+        Args:
+            _mock_redis: The _mock_redis parameter.
+            mock_queue_cls: The mock_queue_cls parameter.
+            mock_jobs: The mock_jobs parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("redis")
         pytest.importorskip("rq")
         cfg = self._cfg(
@@ -63,6 +90,15 @@ class TestEnqueue(IJobTests):
         mock_queue_cls.return_value.enqueue_call.return_value = job
 
         def work(a: int, b: int) -> int:
+            """Execute work operation.
+
+            Args:
+                a: The a parameter.
+                b: The b parameter.
+
+            Returns:
+                The result of the operation.
+            """
             return a + b
 
         r = enqueue(work, 2, 3, backend="rq", queue="default")
@@ -76,6 +112,14 @@ class TestEnqueue(IJobTests):
 
     @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_enqueue_dramatiq_send_with_options(self, mock_jobs: MagicMock) -> None:
+        """Execute test_enqueue_dramatiq_send_with_options operation.
+
+        Args:
+            mock_jobs: The mock_jobs parameter.
+
+        Returns:
+            The result of the operation.
+        """
         pytest.importorskip("dramatiq")
         cfg = self._cfg(
             dramatiq={"enabled": True, "broker_url": "redis://x", "queue_name": "default"}
@@ -94,6 +138,14 @@ class TestEnqueue(IJobTests):
 
     @patch("messaging.jobs.enqueue.JobsConfiguration")
     def test_auto_infer_celery(self, mock_jobs: MagicMock) -> None:
+        """Execute test_auto_infer_celery operation.
+
+        Args:
+            mock_jobs: The mock_jobs parameter.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = self._cfg(
             celery={"enabled": True, "broker_url": "redis://x", "result_backend": "redis://x"}
         )

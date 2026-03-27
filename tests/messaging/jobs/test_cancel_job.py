@@ -1,3 +1,5 @@
+"""Module test_cancel_job.py."""
+
 from __future__ import annotations
 
 """Tests for :mod:`messaging.jobs.cancel` (mocked backends)."""
@@ -8,7 +10,14 @@ from tests.messaging.jobs.abstraction import IJobTests
 
 
 class TestCancelJob(IJobTests):
+    """Represents the TestCancelJob class."""
+
     def test_cancel_dramatiq_unsupported(self) -> None:
+        """Execute test_cancel_dramatiq_unsupported operation.
+
+        Returns:
+            The result of the operation.
+        """
         r = cancel_job("mid", "dramatiq")
         assert isinstance(r, CancelJobResult)
         assert r.cancelled is False
@@ -17,6 +26,15 @@ class TestCancelJob(IJobTests):
     @patch("celery.result.AsyncResult")
     @patch("messaging.jobs.celery_app.make_celery_app")
     def test_cancel_celery(self, _mock_make: MagicMock, mock_ar_cls: MagicMock) -> None:
+        """Execute test_cancel_celery operation.
+
+        Args:
+            _mock_make: The _mock_make parameter.
+            mock_ar_cls: The mock_ar_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_inst = MagicMock()
         mock_ar_cls.return_value = mock_inst
         r = cancel_job("jid", "celery")
@@ -25,6 +43,14 @@ class TestCancelJob(IJobTests):
 
     @patch("rq.job.Job")
     def test_cancel_rq(self, mock_job_cls: MagicMock) -> None:
+        """Execute test_cancel_rq operation.
+
+        Args:
+            mock_job_cls: The mock_job_cls parameter.
+
+        Returns:
+            The result of the operation.
+        """
         mock_job = MagicMock()
         mock_job_cls.fetch.return_value = mock_job
         conn = MagicMock()

@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class TelemetryConfiguration(ConfigurationSingletonBase[TelemetryConfigurationDTO]):
+    """Represents the TelemetryConfiguration class."""
+
     _instance: Optional["TelemetryConfiguration"] = None
     _section: str = "telemetry"
     _env_key: str = "TELEMETRY"

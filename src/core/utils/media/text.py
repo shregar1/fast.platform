@@ -1,5 +1,4 @@
-"""
-Plain-text helpers: URL slugs, whitespace normalization, and truncation.
+"""Plain-text helpers: URL slugs, whitespace normalization, and truncation.
 
 These are display- and routing-oriented string transforms. They do not implement
 full Unicode identifier rules or database collation; adjust for your locale and
@@ -17,8 +16,7 @@ __all__ = ["TextUtility"]
 
 
 class TextUtility(IMedia):
-    """
-    String shaping for URLs, UI previews, and log lines.
+    """String shaping for URLs, UI previews, and log lines.
 
     All methods are pure (no I/O) and operate on Unicode strings. :meth:`slugify`
     normalizes to ASCII-ish tokens; :meth:`collapse_whitespace` is useful before
@@ -30,8 +28,7 @@ class TextUtility(IMedia):
 
     @staticmethod
     def slugify(value: str, *, max_length: int | None = 64) -> str:
-        """
-        Produce a URL-friendly ASCII slug from arbitrary Unicode *value*.
+        """Produce a URL-friendly ASCII slug from arbitrary Unicode *value*.
 
         Steps: NFKD normalization, drop non-ASCII bytes, lowercase, replace runs
         of non-alphanumeric characters with a single hyphen, strip leading and
@@ -54,6 +51,7 @@ class TextUtility(IMedia):
         Example
         -------
         ``"Café Menu!"`` → ``"cafe-menu"``.
+
         """
         s = unicodedata.normalize("NFKD", value)
         s = s.encode("ascii", "ignore").decode("ascii")
@@ -66,8 +64,7 @@ class TextUtility(IMedia):
 
     @staticmethod
     def collapse_whitespace(text: str) -> str:
-        """
-        Replace all runs of Unicode whitespace with a single ASCII space.
+        """Replace all runs of Unicode whitespace with a single ASCII space.
 
         Leading and trailing whitespace are removed. Equivalent in effect to
         ``" ".join(text.split())``.
@@ -81,13 +78,13 @@ class TextUtility(IMedia):
         -------
         str
             Single-space–separated tokens with no outer whitespace.
+
         """
         return " ".join(text.split())
 
     @staticmethod
     def truncate(text: str, *, max_chars: int, suffix: str = "…") -> str:
-        """
-        Shorten *text* to at most *max_chars* characters, appending *suffix* when truncated.
+        """Shorten *text* to at most *max_chars* characters, appending *suffix* when truncated.
 
         The suffix counts toward *max_chars* when shortening: the visible prefix
         is ``text[0 : max_chars - len(suffix)]`` plus *suffix*. If *max_chars*
@@ -107,6 +104,7 @@ class TextUtility(IMedia):
         -------
         str
             Original *text* if short enough, otherwise a truncated string with *suffix*.
+
         """
         if max_chars <= 0:
             return ""

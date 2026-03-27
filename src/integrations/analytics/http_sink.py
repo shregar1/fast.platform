@@ -11,6 +11,12 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
     """Send events to an HTTP endpoint (e.g. webhook, custom collector)."""
 
     def __init__(self, endpoint: str, api_key: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            endpoint: The endpoint parameter.
+            api_key: The api_key parameter.
+        """
         self._endpoint = endpoint.rstrip("/")
         self._api_key = api_key
 
@@ -20,6 +26,16 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
         event_name: str,
         properties: Optional[dict[str, Any]] = None,
     ) -> None:
+        """Execute track operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            event_name: The event_name parameter.
+            properties: The properties parameter.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             import json
             import urllib.request
@@ -45,6 +61,15 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
             pass  # best-effort
 
     def identify(self, distinct_id: str, traits: Optional[dict[str, Any]] = None) -> None:
+        """Execute identify operation.
+
+        Args:
+            distinct_id: The distinct_id parameter.
+            traits: The traits parameter.
+
+        Returns:
+            The result of the operation.
+        """
         try:
             import json
             import urllib.request

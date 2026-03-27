@@ -1,5 +1,4 @@
-"""
-FastMVC Real-time Module
+"""FastMVC Real-time Module.
 
 WebSockets, Server-Sent Events (SSE), and real-time broadcasting.
 """

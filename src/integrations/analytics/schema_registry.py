@@ -10,8 +10,7 @@ SchemaDict = Dict[str, Any]
 
 
 def parse_versioned_event_name(full: str) -> Tuple[str, int]:
-    """
-    Parse ``name@<int>`` into ``(name, version)``.
+    """Parse ``name@<int>`` into ``(name, version)``.
 
     Example: ``checkout.completed@2`` → ``("checkout.completed", 2)``.
     """
@@ -28,14 +27,18 @@ def parse_versioned_event_name(full: str) -> Tuple[str, int]:
 
 
 class EventSchemaRegistry:
-    """
-    Register JSON Schemas per ``(event_base_name, version)``.
+    """Register JSON Schemas per ``(event_base_name, version)``.
 
     Use versioned strings ``{name}@{version}`` in :meth:`IAnalyticsBackend.track` together with
     :class:`fast_analytics.validating_backend.ValidatingAnalyticsBackend`.
     """
 
     def __init__(self, *, require_registration: bool = False) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            require_registration: The require_registration parameter.
+        """
         self._schemas: Dict[Tuple[str, int], SchemaDict] = {}
         self._require_registration = require_registration
 
@@ -49,13 +52,21 @@ class EventSchemaRegistry:
         self.register(base, ver, schema)
 
     def schema_for(self, event_base_name: str, version: int) -> Optional[SchemaDict]:
+        """Execute schema_for operation.
+
+        Args:
+            event_base_name: The event_base_name parameter.
+            version: The version parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._schemas.get((event_base_name, version))
 
     def validate_properties(
         self, versioned_event_name: str, properties: Optional[dict[str, Any]]
     ) -> None:
-        """
-        Validate ``properties`` against the registered schema for ``versioned_event_name``.
+        """Validate ``properties`` against the registered schema for ``versioned_event_name``.
 
         Raises ``jsonschema.ValidationError`` on mismatch, ``ValueError`` if registration is missing
         when :attr:`require_registration` is true.

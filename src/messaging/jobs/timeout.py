@@ -19,8 +19,7 @@ def resolve_job_timeout_seconds(
     explicit: Optional[int] = None,
     queue_timeouts: Optional[Dict[str, int]] = None,
 ) -> Optional[int]:
-    """
-    Return timeout in seconds: ``explicit`` if set, else ``queue_timeouts[queue]``,
+    r"""Return timeout in seconds: ``explicit`` if set, else ``queue_timeouts[queue]``,
     else ``queue_timeouts[\"default\"]``.
 
     If ``queue_timeouts`` is ``None``, uses ``JobsConfiguration.queue_timeouts``.

@@ -13,6 +13,12 @@ class QdrantVectorStore(IVectorStore):
     name = "qdrant"
 
     def __init__(self, url: str = "http://localhost:6333", api_key: Optional[str] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            url: The url parameter.
+            api_key: The api_key parameter.
+        """
         try:
             from qdrant_client import QdrantClient
         except ImportError as e:
@@ -24,6 +30,15 @@ class QdrantVectorStore(IVectorStore):
     def upsert(
         self, index_name: str, vectors: List[tuple[str, List[float], Optional[dict[str, Any]]]]
     ) -> None:
+        """Execute upsert operation.
+
+        Args:
+            index_name: The index_name parameter.
+            vectors: The vectors parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from qdrant_client.models import PointStruct
 
         points = [PointStruct(id=v[0], vector=v[1], payload=v[2] or {}) for v in vectors]
@@ -37,6 +52,17 @@ class QdrantVectorStore(IVectorStore):
         top_k: int = 10,
         filter: Optional[dict[str, Any]] = None,
     ) -> List[tuple[str, float, Optional[dict[str, Any]]]]:
+        """Execute query operation.
+
+        Args:
+            index_name: The index_name parameter.
+            vector: The vector parameter.
+            top_k: The top_k parameter.
+            filter: The filter parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from qdrant_client.models import FieldCondition, Filter, MatchValue
 
         q_filter = None
@@ -50,4 +76,12 @@ class QdrantVectorStore(IVectorStore):
         return [(h.id, h.score or 0.0, h.payload) for h in r]
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.delete_collection(index_name)

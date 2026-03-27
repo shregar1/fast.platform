@@ -7,7 +7,14 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestConfigLoader(INotificationTests):
+    """Represents the TestConfigLoader class."""
+
     def test_push_config_load_from_file(self):
+        """Execute test_push_config_load_from_file operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
@@ -21,6 +28,11 @@ class TestConfigLoader(INotificationTests):
         assert dto.apns.key_id == "k"
 
     def test_push_config_file_not_found(self):
+        """Execute test_push_config_file_not_found operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
@@ -30,6 +42,11 @@ class TestConfigLoader(INotificationTests):
         assert dto.apns.enabled is False
 
     def test_push_config_json_error(self):
+        """Execute test_push_config_json_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
@@ -43,6 +60,11 @@ class TestConfigLoader(INotificationTests):
         assert dto.fcm.enabled is False
 
     def test_push_config_env_overrides(self):
+        """Execute test_push_config_env_overrides operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
@@ -62,6 +84,11 @@ class TestConfigLoader(INotificationTests):
         assert dto.fcm.server_key == "sk"
 
     def test_push_config_singleton(self):
+        """Execute test_push_config_singleton operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None

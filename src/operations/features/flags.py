@@ -1,5 +1,4 @@
-"""
-Feature Flags Implementation.
+"""Feature Flags Implementation.
 
 Provides feature flag management with support for:
 - Boolean flags
@@ -30,8 +29,7 @@ class RolloutStrategy(str, Enum):
 
 @dataclass
 class FeatureFlagConfig:
-    """
-    Feature flag configuration.
+    """Feature flag configuration.
 
     Attributes:
         name: Flag name/key.
@@ -44,6 +42,7 @@ class FeatureFlagConfig:
         start_date: When flag becomes active.
         end_date: When flag expires.
         metadata: Additional metadata.
+
     """
 
     name: str
@@ -97,33 +96,75 @@ class InMemoryFeatureFlagStore(FeatureFlagStore):
     """In-memory feature flag store."""
 
     def __init__(self) -> None:
+        """Execute __init__ operation."""
         self._flags: dict[str, FeatureFlagConfig] = {}
 
     async def get(self, name: str) -> Optional[FeatureFlagConfig]:
+        """Execute get operation.
+
+        Args:
+            name: The name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._flags.get(name)
 
     async def set(self, config: FeatureFlagConfig) -> None:
+        """Execute set operation.
+
+        Args:
+            config: The config parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._flags[config.name] = config
 
     async def delete(self, name: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            name: The name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._flags.pop(name, None)
 
     async def list_all(self) -> list[FeatureFlagConfig]:
+        """Execute list_all operation.
+
+        Returns:
+            The result of the operation.
+        """
         return list(self._flags.values())
 
 
 class EnvironmentFeatureFlagStore(FeatureFlagStore):
-    """
-    Feature flag store using environment variables.
+    """Feature flag store using environment variables.
 
     Flags are read from environment variables with prefix.
     Example: FEATURE_NEW_CHECKOUT=true
     """
 
     def __init__(self, prefix: str = "FEATURE_") -> None:
+        """Execute __init__ operation.
+
+        Args:
+            prefix: The prefix parameter.
+        """
         self._prefix = prefix
 
     async def get(self, name: str) -> Optional[FeatureFlagConfig]:
+        """Execute get operation.
+
+        Args:
+            name: The name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         env_name = f"{self._prefix}{name.upper()}"
         value = os.environ.get(env_name)
 
@@ -153,10 +194,23 @@ class EnvironmentFeatureFlagStore(FeatureFlagStore):
         return FeatureFlagConfig(name=name, enabled=enabled)
 
     async def set(self, config: FeatureFlagConfig) -> None:
+        """Execute set operation.
+
+        Args:
+            config: The config parameter.
+
+        Returns:
+            The result of the operation.
+        """
         # Environment variables are read-only at runtime
         pass
 
     async def list_all(self) -> list[FeatureFlagConfig]:
+        """Execute list_all operation.
+
+        Returns:
+            The result of the operation.
+        """
         flags = []
         for key, value in os.environ.items():
             if key.startswith(self._prefix):
@@ -168,8 +222,7 @@ class EnvironmentFeatureFlagStore(FeatureFlagStore):
 
 
 class FeatureFlags:
-    """
-    Feature flag manager.
+    """Feature flag manager.
 
     Usage:
         flags = FeatureFlags()
@@ -190,20 +243,19 @@ class FeatureFlags:
         store: Optional[FeatureFlagStore] = None,
         environment: Optional[str] = None,
     ) -> None:
-        """
-        Initialize feature flags.
+        """Initialize feature flags.
 
         Args:
             store: Feature flag store implementation.
             environment: Current environment (e.g., "production").
+
         """
         self._store = store or InMemoryFeatureFlagStore()
         self._environment = environment or os.environ.get("ENVIRONMENT", "development")
         self._cache: dict[str, FeatureFlagConfig] = {}
 
     def _hash_user_id(self, user_id: str, flag_name: str) -> float:
-        """
-        Compute consistent hash for user targeting.
+        """Compute consistent hash for user targeting.
 
         Returns value between 0-100 for percentage rollouts.
         """
@@ -232,8 +284,7 @@ class FeatureFlags:
         environments: Optional[list[str]] = None,
         **metadata: Any,
     ) -> FeatureFlagConfig:
-        """
-        Set or update a feature flag.
+        """Set or update a feature flag.
 
         Args:
             name: Flag name.
@@ -247,6 +298,7 @@ class FeatureFlags:
 
         Returns:
             Created/updated flag configuration.
+
         """
         config = FeatureFlagConfig(
             name=name,
@@ -275,8 +327,7 @@ class FeatureFlags:
         group_id: Optional[str] = None,
         default: bool = False,
     ) -> bool:
-        """
-        Check if feature flag is enabled.
+        """Check if feature flag is enabled.
 
         Args:
             name: Flag name.
@@ -286,6 +337,7 @@ class FeatureFlags:
 
         Returns:
             True if feature is enabled.
+
         """
         config = await self.get(name)
 
@@ -334,8 +386,7 @@ class FeatureFlags:
         group_id: Optional[str] = None,
         default: bool = False,
     ) -> bool:
-        """
-        Synchronous version using cached values.
+        """Synchronous version using cached values.
 
         Only works if flag was previously loaded.
         """
@@ -379,8 +430,7 @@ def feature_flag(
     default: bool = False,
     fallback: Optional[Callable] = None,
 ) -> Callable:
-    """
-    Decorator to gate a function behind a feature flag.
+    """Decorator to gate a function behind a feature flag.
 
     Usage:
         @feature_flag("new_checkout", default=False)
@@ -394,8 +444,22 @@ def feature_flag(
     """
 
     def decorator(func: Callable) -> Callable:
+        """Execute decorator operation.
+
+        Args:
+            func: The func parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         @functools.wraps(func)
         async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute async_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             flags = get_feature_flags()
 
             # Try to get user_id from kwargs
@@ -414,6 +478,11 @@ def feature_flag(
 
         @functools.wraps(func)
         def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Execute sync_wrapper operation.
+
+            Returns:
+                The result of the operation.
+            """
             flags = get_feature_flags()
             user_id = kwargs.get("user_id")
 

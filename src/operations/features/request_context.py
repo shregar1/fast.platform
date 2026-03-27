@@ -1,6 +1,4 @@
-"""
-Build feature-flag evaluation context from a Starlette/FastAPI request.
-"""
+"""Build feature-flag evaluation context from a Starlette/FastAPI request."""
 
 from __future__ import annotations
 
@@ -13,8 +11,7 @@ def feature_flags_context_from_request(
     user_id_header: str = "x-user-id",
     tenant_id_header: str = "x-tenant-id",
 ) -> dict[str, Any]:
-    """
-    Build ``{"key", "user_key", ...}`` from ``request.state``, headers, and query params.
+    """Build ``{"key", "user_key", ...}`` from ``request.state``, headers, and query params.
 
     ``request`` may be a Starlette/FastAPI ``Request`` or any object with ``.headers``,
     ``.query_params``, and optional ``.state``.

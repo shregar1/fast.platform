@@ -1,6 +1,4 @@
-"""
-Multipart / streaming uploads for large objects (S3 multipart API; GCS resumable upload via ``upload_from_file``).
-"""
+"""Multipart / streaming uploads for large objects (S3 multipart API; GCS resumable upload via ``upload_from_file``)."""
 
 from __future__ import annotations
 
@@ -18,6 +16,14 @@ if TYPE_CHECKING:
 def _open_path_or_stream(
     path_or_file: Union[str, Path, BinaryIO],
 ) -> Iterator[BinaryIO]:
+    """Execute _open_path_or_stream operation.
+
+    Args:
+        path_or_file: The path_or_file parameter.
+
+    Returns:
+        The result of the operation.
+    """
     if isinstance(path_or_file, (str, Path)):
         with open(path_or_file, "rb") as f:
             yield f
@@ -34,8 +40,7 @@ def multipart_upload_large_file(
     content_type: Optional[str] = None,
     metadata: Optional[dict[str, str]] = None,
 ) -> str:
-    """
-    Upload a large object using S3 multipart (``create_multipart_upload`` / ``upload_part`` / ``complete``)
+    """Upload a large object using S3 multipart (``create_multipart_upload`` / ``upload_part`` / ``complete``)
     or GCS streaming upload (``Blob.upload_from_file``, resumable for large streams).
 
     ``part_size`` applies to S3 only (minimum 5 MiB per part except the last; default 8 MiB).
@@ -68,6 +73,19 @@ def _multipart_upload_s3(
     content_type: Optional[str],
     metadata: Optional[dict[str, str]],
 ) -> str:
+    """Execute _multipart_upload_s3 operation.
+
+    Args:
+        backend: The backend parameter.
+        key: The key parameter.
+        path_or_file: The path_or_file parameter.
+        part_size: The part_size parameter.
+        content_type: The content_type parameter.
+        metadata: The metadata parameter.
+
+    Returns:
+        The result of the operation.
+    """
     k = backend._key(key)
     client = backend._client
     bucket = backend._bucket
@@ -131,6 +149,17 @@ def _multipart_upload_gcs(
     *,
     content_type: Optional[str],
 ) -> str:
+    """Execute _multipart_upload_gcs operation.
+
+    Args:
+        backend: The backend parameter.
+        key: The key parameter.
+        path_or_file: The path_or_file parameter.
+        content_type: The content_type parameter.
+
+    Returns:
+        The result of the operation.
+    """
     bucket = backend._client.bucket(backend._bucket_name)
     blob = bucket.blob(backend._key(key))
     with _open_path_or_stream(path_or_file) as fp:

@@ -14,7 +14,14 @@ from tests.messaging.notifications.abstraction import INotificationTests
 
 
 class TestFanoutService(INotificationTests):
+    """Represents the TestFanoutService class."""
+
     def test_fanout_dispatch_email_only(self):
+        """Execute test_fanout_dispatch_email_only operation.
+
+        Returns:
+            The result of the operation.
+        """
         email = AsyncMock()
         with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
@@ -26,6 +33,11 @@ class TestFanoutService(INotificationTests):
         email.send_email.assert_awaited_once()
 
     def test_fanout_dispatch_push_only(self):
+        """Execute test_fanout_dispatch_push_only operation.
+
+        Returns:
+            The result of the operation.
+        """
         push = MagicMock()
         push.send_to_ios = AsyncMock()
         push.send_to_android = AsyncMock()
@@ -43,11 +55,21 @@ class TestFanoutService(INotificationTests):
         push.send_to_android.assert_awaited_once()
 
     def test_logging_email_sender(self):
+        """Execute test_logging_email_sender operation.
+
+        Returns:
+            The result of the operation.
+        """
         asyncio.run(
             LoggingEmailSender().send_email(to=["a@b.com"], subject="S", body_text="text", data={})
         )
 
     def test_fanout_dispatch_fcm_topic_only(self):
+        """Execute test_fanout_dispatch_fcm_topic_only operation.
+
+        Returns:
+            The result of the operation.
+        """
         push = MagicMock()
         push.send_to_ios = AsyncMock()
         push.send_to_android = AsyncMock()

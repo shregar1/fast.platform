@@ -21,6 +21,16 @@ class S3StorageBackend(IStorageBackend):
         secret_access_key: Optional[str] = None,
         base_path: str = "",
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            bucket: The bucket parameter.
+            region: The region parameter.
+            endpoint_url: The endpoint_url parameter.
+            access_key_id: The access_key_id parameter.
+            secret_access_key: The secret_access_key parameter.
+            base_path: The base_path parameter.
+        """
         try:
             import boto3
             from botocore.config import Config
@@ -39,6 +49,14 @@ class S3StorageBackend(IStorageBackend):
         self._base = (base_path.rstrip("/") + "/") if base_path else ""
 
     def _key(self, key: str) -> str:
+        """Execute _key operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._base + key.lstrip("/")
 
     def upload(
@@ -49,6 +67,17 @@ class S3StorageBackend(IStorageBackend):
         content_type: Optional[str] = None,
         metadata: Optional[dict[str, str]] = None,
     ) -> str:
+        """Execute upload operation.
+
+        Args:
+            key: The key parameter.
+            body: The body parameter.
+            content_type: The content_type parameter.
+            metadata: The metadata parameter.
+
+        Returns:
+            The result of the operation.
+        """
         k = self._key(key)
         extra: dict[str, Any] = {}
         if content_type:
@@ -60,13 +89,37 @@ class S3StorageBackend(IStorageBackend):
         return f"s3://{self._bucket}/{k}"
 
     def download(self, key: str) -> bytes:
+        """Execute download operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         resp = self._client.get_object(Bucket=self._bucket, Key=self._key(key))
         return resp["Body"].read()
 
     def delete(self, key: str) -> None:
+        """Execute delete operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.delete_object(Bucket=self._bucket, Key=self._key(key))
 
     def exists(self, key: str) -> bool:
+        """Execute exists operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from botocore.exceptions import ClientError
 
         k = self._key(key)
@@ -80,6 +133,14 @@ class S3StorageBackend(IStorageBackend):
             raise
 
     def head(self, key: str) -> StorageObjectHead:
+        """Execute head operation.
+
+        Args:
+            key: The key parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from botocore.exceptions import ClientError
 
         k = self._key(key)
@@ -101,6 +162,15 @@ class S3StorageBackend(IStorageBackend):
         )
 
     def presigned_url(self, key: str, expires_in: int = 3600) -> Optional[str]:
+        """Execute presigned_url operation.
+
+        Args:
+            key: The key parameter.
+            expires_in: The expires_in parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return self._client.generate_presigned_url(
             "get_object",
             Params={"Bucket": self._bucket, "Key": self._key(key)},

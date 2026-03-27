@@ -9,6 +9,8 @@ from .oauth_provider import OAuthProviderDTO
 
 
 class IdentityProvidersConfigurationDTO(IDTO):
+    """Represents the IdentityProvidersConfigurationDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     google: OAuthProviderDTO = Field(default_factory=OAuthProviderDTO)
     github: OAuthProviderDTO = Field(default_factory=OAuthProviderDTO)

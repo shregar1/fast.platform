@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class RabbitMQConfigDTO(IDTO):
+    """Represents the RabbitMQConfigDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     url: str = ""

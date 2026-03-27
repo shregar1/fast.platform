@@ -1,5 +1,4 @@
-"""
-FastMVC Cost Tracking Module
+"""FastMVC Cost Tracking Module.
 
 Comprehensive cost visibility, per-tenant attribution, budget alerts, and optimization recommendations.
 """

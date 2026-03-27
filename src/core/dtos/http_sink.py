@@ -8,6 +8,8 @@ from .abstraction import IDTO
 
 
 class HttpSinkDTO(IDTO):
+    """Represents the HttpSinkDTO class."""
+
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
     endpoint: str = ""

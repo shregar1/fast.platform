@@ -9,9 +9,22 @@ from messaging.webhooks import RetryPolicy, deliver_webhook
 
 
 class TestDelivery(IWebhookTests):
+    """Represents the TestDelivery class."""
+
     @pytest.mark.asyncio
     async def test_deliver_webhook_success(self, monkeypatch):
+        """Execute test_deliver_webhook_success operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Ok:
+            """Represents the _Ok class."""
+
             status_code = 200
             text = ""
 
@@ -29,7 +42,18 @@ class TestDelivery(IWebhookTests):
 
     @pytest.mark.asyncio
     async def test_deliver_webhook_nonretryable_400(self, monkeypatch):
+        """Execute test_deliver_webhook_nonretryable_400 operation.
+
+        Args:
+            monkeypatch: The monkeypatch parameter.
+
+        Returns:
+            The result of the operation.
+        """
+
         class _Bad:
+            """Represents the _Bad class."""
+
             status_code = 400
             text = "bad"
 

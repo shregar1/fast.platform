@@ -1,5 +1,4 @@
-"""
-Logical categorization of domain packages under ``fast_platform``'s ``src`` tree.
+"""Logical categorization of domain packages under ``fast_platform``'s ``src`` tree.
 
 Physical layout nests each domain package under a **section folder** (e.g.
 ``src/core/configuration``, ``src/sec/security``) matching :class:`PackageSection`.
@@ -115,6 +114,11 @@ SECTION_TEST_FOLDER: Final[dict[PackageSection, str]] = {
 
 
 def _build_section_to_packages() -> dict[PackageSection, frozenset[str]]:
+    """Execute _build_section_to_packages operation.
+
+    Returns:
+        The result of the operation.
+    """
     out: dict[PackageSection, set[str]] = {s: set() for s in PackageSection}
     for pkg, sec in PACKAGE_TO_SECTION.items():
         out[sec].add(pkg)
@@ -126,32 +130,27 @@ SECTION_TO_PACKAGES: Final[dict[PackageSection, frozenset[str]]] = _build_sectio
 
 def packages_in_section(section: PackageSection) -> frozenset[str]:
     """Return all top-level package names in *section*."""
-
     return SECTION_TO_PACKAGES[section]
 
 
 def section_of(package: str) -> PackageSection:
     """Return the section for *package* (must exist in :data:`PACKAGE_TO_SECTION`)."""
-
     return PACKAGE_TO_SECTION[package]
 
 
 def all_taxonomy_packages() -> frozenset[str]:
     """All packages registered in the taxonomy."""
-
     return frozenset(PACKAGE_TO_SECTION.keys())
 
 
 def discover_src_packages(src_root: Path | None = None) -> frozenset[str]:
-    """
-    Leaf package names under ``src`` (e.g. ``configuration``, ``kafka``): each is a
+    """Leaf package names under ``src`` (e.g. ``configuration``, ``kafka``): each is a
     directory containing ``__init__.py``, nested under its taxonomy section folder
     (see :data:`SECTION_TEST_FOLDER`). The :mod:`fast_platform` meta-package is a
     direct child of ``src`` and is included when present.
 
     Used by tests to ensure the taxonomy stays in sync with the tree.
     """
-
     root = src_root or Path(__file__).resolve().parents[1]
     names: set[str] = set()
     if not root.is_dir():

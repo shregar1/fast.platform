@@ -1,3 +1,5 @@
+"""Module test_multipart_s3_local.py."""
+
 from __future__ import annotations
 
 """Multipart upload: S3 path and rejection of local backend."""
@@ -13,42 +15,112 @@ from tests.data_platform.storage.abstraction import IStorageTests
 
 
 class TestMultipartS3Local(IStorageTests):
+    """Represents the TestMultipartS3Local class."""
+
     def test_multipart_upload_s3_and_rejects_local(self, tmp_path: Path) -> None:
+        """Execute test_multipart_upload_s3_and_rejects_local operation.
+
+        Args:
+            tmp_path: The tmp_path parameter.
+
+        Returns:
+            The result of the operation.
+        """
         from data.storage.local_backend import LocalStorageBackend
         from data.storage.s3_backend import S3StorageBackend
 
         class FakeS3Client:
+            """Represents the FakeS3Client class."""
+
             def __init__(self) -> None:
+                """Execute __init__ operation."""
                 self.parts: list[dict[str, Any]] = []
 
             def create_multipart_upload(self, *, Bucket: str, Key: str, **extra):
+                """Execute create_multipart_upload operation.
+
+                Args:
+                    Bucket: The Bucket parameter.
+                    Key: The Key parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 return {"UploadId": "u1"}
 
             def upload_part(
                 self, *, Bucket: str, Key: str, PartNumber: int, UploadId: str, Body: bytes
             ):
+                """Execute upload_part operation.
+
+                Args:
+                    Bucket: The Bucket parameter.
+                    Key: The Key parameter.
+                    PartNumber: The PartNumber parameter.
+                    UploadId: The UploadId parameter.
+                    Body: The Body parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.parts.append({"PartNumber": PartNumber, "len": len(Body)})
                 return {"ETag": f"e{PartNumber}"}
 
             def complete_multipart_upload(
                 self, *, Bucket: str, Key: str, UploadId: str, MultipartUpload: dict
             ):
+                """Execute complete_multipart_upload operation.
+
+                Args:
+                    Bucket: The Bucket parameter.
+                    Key: The Key parameter.
+                    UploadId: The UploadId parameter.
+                    MultipartUpload: The MultipartUpload parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 self.completed = MultipartUpload["Parts"]
 
             def abort_multipart_upload(self, *, Bucket: str, Key: str, UploadId: str) -> None:
+                """Execute abort_multipart_upload operation.
+
+                Args:
+                    Bucket: The Bucket parameter.
+                    Key: The Key parameter.
+                    UploadId: The UploadId parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 pass
 
         fake_botocore_config = types.ModuleType("botocore.config")
 
         class FakeConfig:
+            """Represents the FakeConfig class."""
+
             def __init__(self, signature_version: str) -> None:
+                """Execute __init__ operation.
+
+                Args:
+                    signature_version: The signature_version parameter.
+                """
                 self.signature_version = signature_version
 
         fake_botocore_config.Config = FakeConfig
         fake_botocore_exceptions = types.ModuleType("botocore.exceptions")
 
         class FakeClientError(Exception):
+            """Represents the FakeClientError class."""
+
             def __init__(self, response: dict | None = None, operation_name: str = "") -> None:
+                """Execute __init__ operation.
+
+                Args:
+                    response: The response parameter.
+                    operation_name: The operation_name parameter.
+                """
                 self.response = response or {}
 
         fake_botocore_exceptions.ClientError = FakeClientError

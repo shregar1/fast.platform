@@ -1,5 +1,4 @@
-"""
-Field-Level Encryption.
+"""Field-Level Encryption.
 
 Provides encryption for sensitive data fields in your models.
 """
@@ -26,6 +25,11 @@ class EncryptedValue:
     key_id: Optional[str] = None
 
     def to_dict(self) -> dict[str, Any]:
+        """Execute to_dict operation.
+
+        Returns:
+            The result of the operation.
+        """
         return {
             "ciphertext": self.ciphertext,
             "algorithm": self.algorithm,
@@ -34,8 +38,7 @@ class EncryptedValue:
 
 
 class FieldEncryption:
-    """
-    Field-level encryption utility.
+    """Field-level encryption utility.
 
     Uses Fernet symmetric encryption for secure field encryption.
     """
@@ -46,6 +49,13 @@ class FieldEncryption:
         key_bytes: Optional[bytes] = None,
         salt: Optional[bytes] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            key: The key parameter.
+            key_bytes: The key_bytes parameter.
+            salt: The salt parameter.
+        """
         if key_bytes:
             self._fernet = Fernet(base64.urlsafe_b64encode(key_bytes))
         elif key:
@@ -113,8 +123,7 @@ class FieldEncryption:
 
 
 class KeyRotation:
-    """
-    Key rotation manager for field encryption.
+    """Key rotation manager for field encryption.
 
     Supports encrypting with current key while decrypting
     with multiple keys during rotation period.
@@ -125,6 +134,12 @@ class KeyRotation:
         current_key: str,
         previous_keys: Optional[list[str]] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            current_key: The current_key parameter.
+            previous_keys: The previous_keys parameter.
+        """
         self._current = FieldEncryption(key=current_key)
         self._previous = [FieldEncryption(key=k) for k in (previous_keys or [])]
 
@@ -154,8 +169,7 @@ class KeyRotation:
 
 
 class HashingUtility:
-    """
-    Utility for hashing sensitive data (one-way).
+    """Utility for hashing sensitive data (one-way).
 
     Use for data that needs to be compared but not retrieved
     (e.g., lookup tokens, fingerprints).
@@ -169,6 +183,11 @@ class HashingUtility:
         salt: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            salt: The salt parameter.
+        """
         _ = kwargs
         self._salt = (salt or "").encode()
 

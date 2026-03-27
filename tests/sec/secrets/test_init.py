@@ -1,3 +1,5 @@
+"""Module test_init.py."""
+
 from __future__ import annotations
 
 """Smoke tests for ``secrets`` package exports."""
@@ -5,7 +7,14 @@ from tests.sec.secrets.abstraction import ISecretsTests
 
 
 class TestInit(ISecretsTests):
+    """Represents the TestInit class."""
+
     def test_imports(self) -> None:
+        """Execute test_imports operation.
+
+        Returns:
+            The result of the operation.
+        """
         from sec.secrets import (
             CachedSecretsBackend,
             LeasedSecretsBackend,
@@ -20,4 +29,5 @@ class TestInit(ISecretsTests):
         assert RotationCallback is not None
         assert redact_text("x", "x") == "***"
         import sec.secrets as sec_pkg
+
         assert sec_pkg.__version__ == "0.3.0"

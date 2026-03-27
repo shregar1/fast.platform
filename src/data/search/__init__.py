@@ -1,6 +1,4 @@
-"""
-fast_search – Search backends (Meilisearch, Typesense, OpenSearch) for FastMVC.
-"""
+"""fast_search – Search backends (Meilisearch, Typesense, OpenSearch) for FastMVC."""
 
 from fast_platform import SearchConfiguration, SearchConfigurationDTO
 

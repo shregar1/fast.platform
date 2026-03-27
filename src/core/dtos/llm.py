@@ -19,6 +19,8 @@ class LLMProviderBlock(IDTO):
 
 
 class OllamaProviderBlock(IDTO):
+    """Represents the OllamaProviderBlock class."""
+
     enabled: bool = False
     base_url: str = "http://localhost:11434"
     model: str = ""
@@ -34,6 +36,8 @@ class GeminiProviderBlock(IDTO):
 
 
 class LLMConfigurationDTO(IDTO):
+    """Represents the LLMConfigurationDTO class."""
+
     default_provider: str = "openai"
 
     openai: LLMProviderBlock = Field(default_factory=LLMProviderBlock)
@@ -51,11 +55,27 @@ class LLMConfigurationDTO(IDTO):
     @model_validator(mode="before")
     @classmethod
     def _merge_legacy_flat_keys(cls, data: Any) -> Any:
+        """Execute _merge_legacy_flat_keys operation.
+
+        Args:
+            data: The data parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not isinstance(data, dict):
             return data
         d = dict(data)
 
         def as_dict(key: str) -> dict[str, Any]:
+            """Execute as_dict operation.
+
+            Args:
+                key: The key parameter.
+
+            Returns:
+                The result of the operation.
+            """
             v = d.get(key)
             return dict(v) if isinstance(v, dict) else {}
 

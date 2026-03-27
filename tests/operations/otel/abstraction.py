@@ -1,3 +1,5 @@
+"""Module abstraction.py."""
+
 from __future__ import annotations
 
 from tests.operations.abstraction import IOperationsSuite

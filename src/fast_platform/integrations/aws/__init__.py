@@ -1,5 +1,4 @@
-"""
-AWS Integration
+"""AWS Integration.
 
 AWS services: SQS, SNS, Lambda.
 """

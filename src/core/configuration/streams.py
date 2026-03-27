@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class StreamsConfiguration(ConfigurationSingletonBase[StreamsConfigurationDTO]):
+    """Represents the StreamsConfiguration class."""
+
     _instance: Optional["StreamsConfiguration"] = None
     _section: str = "streams"
     _env_key: str = "STREAMS"

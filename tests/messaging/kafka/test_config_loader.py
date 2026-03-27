@@ -7,7 +7,14 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 
 
 class TestConfigLoader(IKafkaTests):
+    """Represents the TestConfigLoader class."""
+
     def test_kafka_config_dto_defaults(self):
+        """Execute test_kafka_config_dto_defaults operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.dtos.kafka import KafkaConfigurationDTO
 
         d = KafkaConfigurationDTO()
@@ -18,6 +25,11 @@ class TestConfigLoader(IKafkaTests):
         assert d.dlq_topic is None
 
     def test_kafka_config_load_from_file(self):
+        """Execute test_kafka_config_load_from_file operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
@@ -32,6 +44,11 @@ class TestConfigLoader(IKafkaTests):
         assert dto.topics == ["events"]
 
     def test_kafka_config_file_not_found(self):
+        """Execute test_kafka_config_file_not_found operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
@@ -43,6 +60,11 @@ class TestConfigLoader(IKafkaTests):
         assert dto.bootstrap_servers == "localhost:9092"
 
     def test_kafka_config_singleton(self):
+        """Execute test_kafka_config_singleton operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
@@ -53,12 +75,18 @@ class TestConfigLoader(IKafkaTests):
         assert a is b
 
     def test_kafka_config_json_decode_error(self):
+        """Execute test_kafka_config_json_decode_error operation.
+
+        Returns:
+            The result of the operation.
+        """
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
         with patch("core.configuration.kafka.open", mock_open(read_data="not-json")):
             with patch(
-                "core.configuration.kafka.json.load", side_effect=json.JSONDecodeError("bad", "doc", 0)
+                "core.configuration.kafka.json.load",
+                side_effect=json.JSONDecodeError("bad", "doc", 0),
             ):
                 with patch("core.configuration.kafka.os.getenv", return_value=None):
                     cfg = KafkaConfiguration()

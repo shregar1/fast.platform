@@ -6,6 +6,16 @@ from starlette.requests import Request
 
 
 def make_request(host: str, path: str = "/", extra_headers: dict | None = None) -> Request:
+    """Execute make_request operation.
+
+    Args:
+        host: The host parameter.
+        path: The path parameter.
+        extra_headers: The extra_headers parameter.
+
+    Returns:
+        The result of the operation.
+    """
     h = {"host": host}
     if extra_headers:
         h.update(extra_headers)

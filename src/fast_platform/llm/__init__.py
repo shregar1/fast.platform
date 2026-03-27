@@ -1,5 +1,4 @@
-"""
-FastMVC LLM & AI Agents Module
+"""FastMVC LLM & AI Agents Module.
 
 Large Language Model integrations, AI agents, and tools.
 """

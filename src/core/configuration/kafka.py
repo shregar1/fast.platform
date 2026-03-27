@@ -1,5 +1,4 @@
-"""
-Kafka configuration loader.
+"""Kafka configuration loader.
 
 Reads from config/kafka/config.json (or FASTMVC_KAFKA_CONFIG_PATH).
 """
@@ -19,6 +18,11 @@ class KafkaConfiguration:
     _instance: Optional["KafkaConfiguration"] = None
 
     def __new__(cls) -> "KafkaConfiguration":
+        """Execute __new__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.config = {}
@@ -26,6 +30,11 @@ class KafkaConfiguration:
         return cls._instance
 
     def load_config(self) -> None:
+        """Execute load_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         path = os.getenv("FASTMVC_KAFKA_CONFIG_PATH")
         if not path:
             base = os.getenv("FASTMVC_CONFIG_BASE")
@@ -44,6 +53,11 @@ class KafkaConfiguration:
             self.config = {}
 
     def get_config(self) -> KafkaConfigurationDTO:
+        """Execute get_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         return KafkaConfigurationDTO(
             enabled=self.config.get("enabled", False),
             bootstrap_servers=self.config.get("bootstrap_servers", "localhost:9092"),

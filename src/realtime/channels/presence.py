@@ -1,5 +1,4 @@
-"""
-Generic presence / rooms service.
+"""Generic presence / rooms service.
 
 Can use in-memory (per-process) or Redis for distributed presence tracking.
 Designed to work alongside the Channels hub and realtime providers.
@@ -21,6 +20,8 @@ except Exception:
 
 @dataclass
 class PresenceEntry:
+    """Represents the PresenceEntry class."""
+
     user_id: str
     last_seen: float
 
@@ -29,16 +30,39 @@ class InMemoryPresenceBackend:
     """In-memory presence backend for local/single-process use."""
 
     def __init__(self, ttl_seconds: int = 60) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            ttl_seconds: The ttl_seconds parameter.
+        """
         self._ttl_seconds = ttl_seconds
         self._rooms: Dict[str, Dict[str, PresenceEntry]] = {}
 
     async def mark_present(self, room_id: str, user_id: str) -> None:
+        """Execute mark_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         now = time.time()
         room = self._rooms.setdefault(room_id, {})
         room[user_id] = PresenceEntry(user_id=user_id, last_seen=now)
         logger.debug("User {} present in room {}", user_id, room_id)
 
     async def mark_absent(self, room_id: str, user_id: str) -> None:
+        """Execute mark_absent operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         room = self._rooms.get(room_id)
         if not room:
             return
@@ -48,14 +72,35 @@ class InMemoryPresenceBackend:
         logger.debug("User {} left room {}", user_id, room_id)
 
     async def list_present(self, room_id: str) -> List[str]:
+        """Execute list_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._evict_expired()
         return list(self._rooms.get(room_id, {}).keys())
 
     async def list_rooms_for_user(self, user_id: str) -> List[str]:
+        """Execute list_rooms_for_user operation.
+
+        Args:
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._evict_expired()
         return [r for r, members in self._rooms.items() if user_id in members]
 
     def _evict_expired(self) -> None:
+        """Execute _evict_expired operation.
+
+        Returns:
+            The result of the operation.
+        """
         now = time.time()
         to_delete: List[Tuple[str, str]] = []
         for room_id, members in self._rooms.items():
@@ -74,29 +119,77 @@ class RedisPresenceBackend:
     """Redis-backed presence backend using sets and key expiry."""
 
     def __init__(self, client: "aioredis.Redis", ttl_seconds: int = 60) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            client: The client parameter.
+            ttl_seconds: The ttl_seconds parameter.
+        """
         self._client = client
         self._ttl_seconds = ttl_seconds
 
     def _room_key(self, room_id: str) -> str:
+        """Execute _room_key operation.
+
+        Args:
+            room_id: The room_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return f"presence:{room_id}"
 
     async def mark_present(self, room_id: str, user_id: str) -> None:
+        """Execute mark_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._room_key(room_id)
         await self._client.sadd(key, user_id)
         await self._client.expire(key, self._ttl_seconds)
         logger.debug("[Redis] User {} present in room {}", user_id, room_id)
 
     async def mark_absent(self, room_id: str, user_id: str) -> None:
+        """Execute mark_absent operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._room_key(room_id)
         await self._client.srem(key, user_id)
         logger.debug("[Redis] User {} left room {}", user_id, room_id)
 
     async def list_present(self, room_id: str) -> List[str]:
+        """Execute list_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         key = self._room_key(room_id)
         members: Set[bytes] = await self._client.smembers(key)
         return [m.decode("utf-8") for m in members]
 
     async def list_rooms_for_user(self, user_id: str) -> List[str]:
+        """Execute list_rooms_for_user operation.
+
+        Args:
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         logger.debug(
             "RedisPresenceBackend.list_rooms_for_user is not optimized; "
             "consider a reverse index in your project."
@@ -108,16 +201,55 @@ class PresenceService:
     """High-level presence/rooms service delegating to a backend."""
 
     def __init__(self, backend: Optional[object] = None) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            backend: The backend parameter.
+        """
         self._backend = backend if backend is not None else InMemoryPresenceBackend()
 
     async def mark_present(self, room_id: str, user_id: str) -> None:
+        """Execute mark_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         await self._backend.mark_present(room_id, user_id)
 
     async def mark_absent(self, room_id: str, user_id: str) -> None:
+        """Execute mark_absent operation.
+
+        Args:
+            room_id: The room_id parameter.
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         await self._backend.mark_absent(room_id, user_id)
 
     async def list_present(self, room_id: str) -> List[str]:
+        """Execute list_present operation.
+
+        Args:
+            room_id: The room_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return await self._backend.list_present(room_id)
 
     async def list_rooms_for_user(self, user_id: str) -> List[str]:
+        """Execute list_rooms_for_user operation.
+
+        Args:
+            user_id: The user_id parameter.
+
+        Returns:
+            The result of the operation.
+        """
         return await self._backend.list_rooms_for_user(user_id)

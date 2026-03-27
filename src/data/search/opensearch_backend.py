@@ -19,6 +19,13 @@ class OpenSearchBackend(ISearchBackend):
         username: Optional[str] = None,
         password: Optional[str] = None,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            hosts: The hosts parameter.
+            username: The username parameter.
+            password: The password parameter.
+        """
         try:
             from opensearchpy import OpenSearch
         except ImportError as e:
@@ -33,6 +40,15 @@ class OpenSearchBackend(ISearchBackend):
         )
 
     def index_documents(self, index_name: str, documents: List[dict[str, Any]]) -> None:
+        """Execute index_documents operation.
+
+        Args:
+            index_name: The index_name parameter.
+            documents: The documents parameter.
+
+        Returns:
+            The result of the operation.
+        """
         for i, d in enumerate(documents):
             doc_id = d.get("id") or str(i)
             self._client.index(index=index_name, body=d, id=doc_id, refresh=True)
@@ -47,6 +63,19 @@ class OpenSearchBackend(ISearchBackend):
         filter: Optional[dict[str, Any]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> List[dict[str, Any]]:
+        """Execute search operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         _ = highlight_fields
         body: dict[str, Any] = {
             "query": {"simple_query_string": {"query": query}},
@@ -69,6 +98,20 @@ class OpenSearchBackend(ISearchBackend):
         facet_fields: Optional[List[str]] = None,
         highlight_fields: Optional[List[str]] = None,
     ) -> FacetedSearchResult:
+        """Execute search_faceted operation.
+
+        Args:
+            index_name: The index_name parameter.
+            query: The query parameter.
+            limit: The limit parameter.
+            offset: The offset parameter.
+            filter: The filter parameter.
+            facet_fields: The facet_fields parameter.
+            highlight_fields: The highlight_fields parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not facet_fields and not highlight_fields:
             hits_raw = self.search(index_name, query, limit=limit, offset=offset, filter=filter)
             return FacetedSearchResult(
@@ -132,6 +175,17 @@ class OpenSearchBackend(ISearchBackend):
         field: str = "title",
         limit: int = 10,
     ) -> List[str]:
+        """Execute suggest operation.
+
+        Args:
+            index_name: The index_name parameter.
+            prefix: The prefix parameter.
+            field: The field parameter.
+            limit: The limit parameter.
+
+        Returns:
+            The result of the operation.
+        """
         body: dict[str, Any] = {
             "query": {"match_phrase_prefix": {field: prefix}},
             "size": limit,
@@ -149,4 +203,12 @@ class OpenSearchBackend(ISearchBackend):
         return out[:limit]
 
     def delete_index(self, index_name: str) -> None:
+        """Execute delete_index operation.
+
+        Args:
+            index_name: The index_name parameter.
+
+        Returns:
+            The result of the operation.
+        """
         self._client.indices.delete(index=index_name)

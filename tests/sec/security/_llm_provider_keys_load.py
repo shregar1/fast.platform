@@ -1,5 +1,4 @@
-"""
-Load :mod:`sec.security.llm_provider_keys` without importing the ``security`` package.
+"""Load :mod:`sec.security.llm_provider_keys` without importing the ``security`` package.
 
 Avoids ``src/sec/secrets`` shadowing the stdlib ``secrets`` module under pytest.
 """

@@ -1,5 +1,4 @@
-"""
-Async SQLAlchemy engine and session factory (SQLAlchemy 2.x asyncio).
+"""Async SQLAlchemy engine and session factory (SQLAlchemy 2.x asyncio).
 
 Install a driver for your database, e.g.::
 
@@ -47,7 +46,7 @@ def sync_url_to_async_url(sync_url: str) -> str:
 
 
 def async_connect_args_for_url(url: str, config: DBConfigurationDTO) -> dict:
-    """asyncpg ``server_settings``: ``application_name`` and ``statement_timeout`` (ms)."""
+    """Asyncpg ``server_settings``: ``application_name`` and ``statement_timeout`` (ms)."""
     if "postgresql" not in url.lower():
         return {}
     settings: dict[str, str] = {}
@@ -65,6 +64,14 @@ _global_async_session_factory: Optional[async_sessionmaker[AsyncSession]] = None
 
 
 def _format_sync_url(config: DBConfigurationDTO) -> str:
+    """Execute _format_sync_url operation.
+
+    Args:
+        config: The config parameter.
+
+    Returns:
+        The result of the operation.
+    """
     return config.connection_string.format(
         user_name=config.user_name,
         password=config.password,
@@ -75,8 +82,7 @@ def _format_sync_url(config: DBConfigurationDTO) -> str:
 
 
 def async_database_url_from_config(config: DBConfigurationDTO) -> str:
-    """
-    Build the async SQLAlchemy URL: use ``async_connection_string`` when set,
+    """Build the async SQLAlchemy URL: use ``async_connection_string`` when set,
     otherwise derive from the sync URL (PostgreSQL → asyncpg, SQLite → aiosqlite).
     """
     if config.async_connection_string.strip():
@@ -92,12 +98,12 @@ def async_database_url_from_config(config: DBConfigurationDTO) -> str:
 
 
 def get_async_engine(config: Optional[DBConfigurationDTO] = None) -> AsyncEngine:
-    """
-    Build an async :class:`AsyncEngine` from DB configuration.
+    """Build an async :class:`AsyncEngine` from DB configuration.
 
     Raises:
         RuntimeError: If required fields are missing (same rules as sync :func:`get_engine`).
         ValueError: If async URL cannot be resolved.
+
     """
     if config is None:
         config = DBConfiguration().get_config()
@@ -135,6 +141,14 @@ def create_async_session_factory(
 
 
 def set_global_async_engine(engine: Optional[AsyncEngine]) -> None:
+    """Execute set_global_async_engine operation.
+
+    Args:
+        engine: The engine parameter.
+
+    Returns:
+        The result of the operation.
+    """
     global _global_async_engine
     _global_async_engine = engine
 
@@ -142,11 +156,24 @@ def set_global_async_engine(engine: Optional[AsyncEngine]) -> None:
 def set_global_async_session_factory(
     factory: Optional[async_sessionmaker[AsyncSession]],
 ) -> None:
+    """Execute set_global_async_session_factory operation.
+
+    Args:
+        factory: The factory parameter.
+
+    Returns:
+        The result of the operation.
+    """
     global _global_async_session_factory
     _global_async_session_factory = factory
 
 
 def get_async_session_factory() -> Optional[async_sessionmaker[AsyncSession]]:
+    """Execute get_async_session_factory operation.
+
+    Returns:
+        The result of the operation.
+    """
     return _global_async_session_factory
 
 
@@ -182,11 +209,24 @@ def get_async_read_engine(
 
 
 def set_global_async_read_engine(engine: Optional[AsyncEngine]) -> None:
+    """Execute set_global_async_read_engine operation.
+
+    Args:
+        engine: The engine parameter.
+
+    Returns:
+        The result of the operation.
+    """
     global _global_async_read_engine
     _global_async_read_engine = engine
 
 
 def get_async_read_engine_instance() -> Optional[AsyncEngine]:
+    """Execute get_async_read_engine_instance operation.
+
+    Returns:
+        The result of the operation.
+    """
     return _global_async_read_engine
 
 
@@ -195,8 +235,7 @@ def create_and_set_async_session_factory(
     *,
     expire_on_commit: bool = False,
 ) -> Optional[async_sessionmaker[AsyncSession]]:
-    """
-    Create async engine + session factory, store as globals, return the factory.
+    """Create async engine + session factory, store as globals, return the factory.
 
     Returns ``None`` if config is incomplete (same as sync session helper).
     """

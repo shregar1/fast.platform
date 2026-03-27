@@ -1,5 +1,4 @@
-"""
-Azure Cosmos DB document store implementation.
+"""Azure Cosmos DB document store implementation.
 
 Provides a minimal wrapper around the `azure-cosmos` client implementing
 the `IDocumentStore` interface.
@@ -18,11 +17,16 @@ except Exception:  # pragma: no cover - optional import
 
 
 class CosmosDocumentStore(IDocumentStore):
-    """
-    Cosmos DB-backed document store.
-    """
+    """Cosmos DB-backed document store."""
 
     def __init__(self, account_uri: str, account_key: str, database: str) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            account_uri: The account_uri parameter.
+            account_key: The account_key parameter.
+            database: The database parameter.
+        """
         self._account_uri = account_uri
         self._account_key = account_key
         self._database_name = database
@@ -30,6 +34,11 @@ class CosmosDocumentStore(IDocumentStore):
         self._database: Any = None
 
     def connect(self) -> None:
+        """Execute connect operation.
+
+        Returns:
+            The result of the operation.
+        """
         if CosmosClient is None:  # pragma: no cover - guarded by optional import
             raise RuntimeError(
                 "azure-cosmos is not installed. Install it with `pip install azure-cosmos`."
@@ -43,27 +52,34 @@ class CosmosDocumentStore(IDocumentStore):
         )
 
     def disconnect(self) -> None:
+        """Execute disconnect operation.
+
+        Returns:
+            The result of the operation.
+        """
         # azure-cosmos uses HTTP under the hood; closing the client is enough.
         self._client = None
         self._database = None
         logger.info("Disconnected CosmosDocumentStore")
 
     def get_database(self) -> Any:
+        """Execute get_database operation.
+
+        Returns:
+            The result of the operation.
+        """
         if self._database is None:
             raise RuntimeError("CosmosDocumentStore is not connected.")
         return self._database
 
     def insert_one(self, collection: str, document: Dict[str, Any]) -> Any:
-        """
-        Insert a document into the given container (collection).
-        """
+        """Insert a document into the given container (collection)."""
         database = self.get_database()
         container = database.create_container_if_not_exists(id=collection, partition_key="/pk")  # type: ignore[arg-type]
         return container.create_item(body=document)
 
     def find_one(self, collection: str, filter: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """
-        Find a single document using a simple equality-based filter.
+        """Find a single document using a simple equality-based filter.
 
         For more complex queries, callers should use the low-level Cosmos client.
         """
@@ -89,8 +105,7 @@ class CosmosDocumentStore(IDocumentStore):
         return items[0]
 
     def delete_one(self, collection: str, filter: Dict[str, Any]) -> None:
-        """
-        Delete a single document matching the filter.
+        """Delete a single document matching the filter.
 
         The filter must contain at least the `id` and partition key (`pk` by default)
         for this helper to work reliably.
@@ -107,8 +122,7 @@ class CosmosDocumentStore(IDocumentStore):
         container.delete_item(item=item_id, partition_key=pk)
 
     def find_many(self, collection: str, filter: Dict[str, Any]) -> list[Dict[str, Any]]:
-        """
-        Find all documents matching the filter.
+        """Find all documents matching the filter.
 
         This is implemented as a simple equality query on the first key in the filter.
         For more complex scenarios, use the low-level Cosmos SDK directly.
@@ -137,8 +151,7 @@ class CosmosDocumentStore(IDocumentStore):
         filter: Dict[str, Any],
         update: Dict[str, Any],
     ) -> None:
-        """
-        Apply a partial update to a single document.
+        """Apply a partial update to a single document.
 
         For simplicity, this implementation loads the document and applies the
         update dict as a shallow merge before replacing the item.
@@ -157,9 +170,7 @@ class CosmosDocumentStore(IDocumentStore):
         filter: Dict[str, Any],
         update: Dict[str, Any],
     ) -> None:
-        """
-        Apply the same shallow update to all documents matching the filter.
-        """
+        """Apply the same shallow update to all documents matching the filter."""
         database = self.get_database()
         container = database.create_container_if_not_exists(id=collection, partition_key="/pk")  # type: ignore[arg-type]
         items = self.find_many(collection, filter)

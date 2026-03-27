@@ -22,7 +22,6 @@ class Idempotency(IIdempotencyUtility):
     @staticmethod
     def stable_json_dumps(data: Any) -> str:
         """Serialize JSON with stable ordering for deterministic hashing."""
-
         return json.dumps(
             data,
             sort_keys=True,
@@ -34,7 +33,6 @@ class Idempotency(IIdempotencyUtility):
     @staticmethod
     def sha256_hex(text: str) -> str:
         """Same digest as :meth:`Digests.sha256_hex_utf8` (string input)."""
-
         return Digests.sha256_hex_utf8(text)
 
     @staticmethod
@@ -49,7 +47,6 @@ class Idempotency(IIdempotencyUtility):
         The key is namespaced so you can use the same hashing strategy across
         payment, onboarding, fulfillment, etc.
         """
-
         if not namespace:
             raise ValueError("namespace is required")
         if max_length <= 0:

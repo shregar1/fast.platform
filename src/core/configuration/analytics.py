@@ -10,6 +10,8 @@ from .abstraction import ConfigurationSingletonBase
 
 
 class AnalyticsConfiguration(ConfigurationSingletonBase[AnalyticsConfigurationDTO]):
+    """Represents the AnalyticsConfiguration class."""
+
     _instance: Optional["AnalyticsConfiguration"] = None
     _section: str = "analytics"
     _env_key: str = "ANALYTICS"

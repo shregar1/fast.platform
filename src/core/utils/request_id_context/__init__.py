@@ -1,5 +1,4 @@
-"""
-Request correlation ID stored in a ContextVar (async-safe per task).
+"""Request correlation ID stored in a ContextVar (async-safe per task).
 
 Set from HTTP middleware (e.g. fast_middleware.RequestIDMiddleware) and read
 in services or logging without threading request objects through every call.
@@ -27,11 +26,11 @@ class RequestIdContext(IRequestIdContextUtility):
 
     @staticmethod
     def set(request_id: Optional[str]) -> Token[Optional[str]]:
-        """
-        Bind *request_id* for the current async task.
+        """Bind *request_id* for the current async task.
 
         Returns:
             A token for use with :meth:`reset`.
+
         """
         return _request_id_ctx.set(request_id)
 

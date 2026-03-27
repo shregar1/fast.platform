@@ -4,8 +4,7 @@ from .abstraction import IError
 
 
 class UnauthorizedError(IError):
-    """
-    Exception for authentication failures (401).
+    """Exception for authentication failures (401).
 
     Raised when credentials are missing, invalid, or expired.
     """
@@ -16,6 +15,13 @@ class UnauthorizedError(IError):
         responseKey: str,
         httpStatusCode: int = 401,
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            responseMessage: The responseMessage parameter.
+            responseKey: The responseKey parameter.
+            httpStatusCode: The httpStatusCode parameter.
+        """
         super().__init__()
         self.responseMessage = responseMessage
         self.responseKey = responseKey

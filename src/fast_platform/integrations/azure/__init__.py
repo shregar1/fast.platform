@@ -1,5 +1,4 @@
-"""
-Azure Integration
+"""Azure Integration.
 
 Azure Service Bus.
 """

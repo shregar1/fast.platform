@@ -10,11 +10,23 @@ from tests.sec.identity.abstraction import IIdentityTests
 
 
 class TestMultiIssuerJwks(IIdentityTests):
+    """Represents the TestMultiIssuerJwks class."""
+
     def test_multi_issuer_routes(self):
+        """Execute test_multi_issuer_routes operation.
+
+        Returns:
+            The result of the operation.
+        """
         jwks_a = {"keys": [{"kid": "a"}]}
         jwks_b = {"keys": [{"kid": "b"}]}
 
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             reg = MultiIssuerJWKSCache(
                 {
                     "https://old-idp/": "https://old-idp/jwks.json",
@@ -27,6 +39,14 @@ class TestMultiIssuerJwks(IIdentityTests):
             calls = []
 
             def make_resp(data):
+                """Execute make_resp operation.
+
+                Args:
+                    data: The data parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 mock_resp = MagicMock()
                 mock_resp.json.return_value = data
                 mock_resp.raise_for_status = MagicMock()
@@ -35,6 +55,14 @@ class TestMultiIssuerJwks(IIdentityTests):
             mock_cm = AsyncMock()
 
             async def mock_get(url, **kwargs):
+                """Execute mock_get operation.
+
+                Args:
+                    url: The url parameter.
+
+                Returns:
+                    The result of the operation.
+                """
                 calls.append(url)
                 if "old-idp" in url:
                     return make_resp(jwks_a)
@@ -51,7 +79,18 @@ class TestMultiIssuerJwks(IIdentityTests):
         asyncio.run(run())
 
     def test_multi_issuer_unknown_raises(self):
+        """Execute test_multi_issuer_unknown_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             reg = MultiIssuerJWKSCache({"https://a/": "https://a/jwks.json"})
             with pytest.raises(KeyError):
                 await reg.get_jwks("https://other/")
@@ -59,11 +98,27 @@ class TestMultiIssuerJwks(IIdentityTests):
         asyncio.run(run())
 
     def test_multi_issuer_empty_map_rejected(self):
+        """Execute test_multi_issuer_empty_map_rejected operation.
+
+        Returns:
+            The result of the operation.
+        """
         with pytest.raises(ValueError):
             MultiIssuerJWKSCache({})
 
     def test_refresh_issuer_unknown_raises(self):
+        """Execute test_refresh_issuer_unknown_raises operation.
+
+        Returns:
+            The result of the operation.
+        """
+
         async def run():
+            """Execute run operation.
+
+            Returns:
+                The result of the operation.
+            """
             reg = MultiIssuerJWKSCache({"https://a/": "https://a/jwks.json"})
             with pytest.raises(KeyError):
                 await reg.refresh_issuer("https://other/")

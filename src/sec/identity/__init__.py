@@ -1,6 +1,4 @@
-"""
-fast_identity – Identity provider abstractions and builders for FastMVC.
-"""
+"""fast_identity – Identity provider abstractions and builders for FastMVC."""
 
 from fast_platform import IdentityProvidersConfiguration, IdentityProvidersConfigurationDTO
 

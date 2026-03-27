@@ -1,5 +1,4 @@
-"""
-Retry policy shape aligned with ``fast_webhooks.delivery.RetryPolicy`` (same fields/defaults).
+"""Retry policy shape aligned with ``fast_webhooks.delivery.RetryPolicy`` (same fields/defaults).
 
 Use :mod:`fast_notifications.webhook_retry_compat` for conversion to/from webhook types.
 """
@@ -11,6 +10,8 @@ from typing import Collection, Protocol, Set
 
 
 class _RetryPolicyLike(Protocol):
+    """Represents the _RetryPolicyLike class."""
+
     max_attempts: int
     initial_delay_seconds: float
     backoff_factor: float
@@ -20,8 +21,7 @@ class _RetryPolicyLike(Protocol):
 
 @dataclass
 class NotificationRetryPolicy:
-    """
-    Mirrors ``fast_webhooks.delivery.RetryPolicy`` so notification pipelines can share
+    """Mirrors ``fast_webhooks.delivery.RetryPolicy`` so notification pipelines can share
     retry configuration with webhook delivery or serialize the same shape in config.
     """
 

@@ -1,5 +1,4 @@
-"""
-fast_errors — structured exceptions for FastMVC-style APIs.
+"""fast_errors — structured exceptions for FastMVC-style APIs.
 
 Public API:
     - :class:`IError`

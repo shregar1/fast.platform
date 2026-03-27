@@ -1,6 +1,4 @@
-"""
-Batch indexing with configurable batch size and per-batch error aggregation.
-"""
+"""Batch indexing with configurable batch size and per-batch error aggregation."""
 
 from __future__ import annotations
 
@@ -41,8 +39,7 @@ def bulk_index_documents(
     batch_size: int = 100,
     stop_on_error: bool = False,
 ) -> BulkIndexResult:
-    """
-    Index ``documents`` in chunks of ``batch_size`` via :meth:`~fast_search.base.ISearchBackend.index_documents`.
+    """Index ``documents`` in chunks of ``batch_size`` via :meth:`~fast_search.base.ISearchBackend.index_documents`.
 
     On failure, the error is recorded and the next batch is attempted unless ``stop_on_error`` is True.
     """

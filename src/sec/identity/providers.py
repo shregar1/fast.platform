@@ -1,5 +1,4 @@
-"""
-Identity provider abstractions and OAuth2/OIDC builder.
+"""Identity provider abstractions and OAuth2/OIDC builder.
 
 Uses IdentityProvidersConfiguration from fast_platform. Optional: install
 fast_identity[oauth] for httpx-based token/userinfo requests.
@@ -45,16 +44,40 @@ class IIdentityProvider(IIdentity, ABC):
 
     @abstractmethod
     async def build_authorization_url(self, state: str) -> str:  # pragma: no cover
+        """Execute build_authorization_url operation.
+
+        Args:
+            state: The state parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def exchange_code_for_token(self, code: str) -> Dict[str, Any]:  # pragma: no cover
+        """Execute exchange_code_for_token operation.
+
+        Args:
+            code: The code parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
     @abstractmethod
     async def fetch_user_profile(
         self, access_token: str
     ) -> IdentityUserProfile:  # pragma: no cover
+        """Execute fetch_user_profile operation.
+
+        Args:
+            access_token: The access_token parameter.
+
+        Returns:
+            The result of the operation.
+        """
         raise NotImplementedError
 
 
@@ -72,6 +95,18 @@ class _OAuth2Provider(IIdentityProvider):
         redirect_uri: str,
         scopes: list[str],
     ) -> None:
+        """Execute __init__ operation.
+
+        Args:
+            name: The name parameter.
+            client_id: The client_id parameter.
+            client_secret: The client_secret parameter.
+            auth_url: The auth_url parameter.
+            token_url: The token_url parameter.
+            userinfo_url: The userinfo_url parameter.
+            redirect_uri: The redirect_uri parameter.
+            scopes: The scopes parameter.
+        """
         self.name = name
         self._client_id = client_id
         self._client_secret = client_secret
@@ -82,6 +117,14 @@ class _OAuth2Provider(IIdentityProvider):
         self._scopes = scopes
 
     async def build_authorization_url(self, state: str) -> str:
+        """Execute build_authorization_url operation.
+
+        Args:
+            state: The state parameter.
+
+        Returns:
+            The result of the operation.
+        """
         query = urlencode(
             {
                 "client_id": self._client_id,
@@ -94,6 +137,14 @@ class _OAuth2Provider(IIdentityProvider):
         return f"{self._auth_url}?{query}"
 
     async def exchange_code_for_token(self, code: str) -> Dict[str, Any]:
+        """Execute exchange_code_for_token operation.
+
+        Args:
+            code: The code parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if httpx is None:
             raise RuntimeError("httpx is required for OAuth2 flows. Install fast_identity[oauth].")
 
@@ -114,6 +165,14 @@ class _OAuth2Provider(IIdentityProvider):
             return resp.json()
 
     async def fetch_user_profile(self, access_token: str) -> IdentityUserProfile:
+        """Execute fetch_user_profile operation.
+
+        Args:
+            access_token: The access_token parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if httpx is None:
             raise RuntimeError("httpx is required for OAuth2 flows. Install fast_identity[oauth].")
 
@@ -137,8 +196,7 @@ class _OAuth2Provider(IIdentityProvider):
 
 
 def build_identity_providers() -> dict[str, IIdentityProvider]:
-    """
-    Construct provider instances from IdentityProvidersConfiguration.
+    """Construct provider instances from IdentityProvidersConfiguration.
 
     Only enabled providers with required minimal configuration are instantiated.
     """
@@ -152,6 +210,18 @@ def build_identity_providers() -> dict[str, IIdentityProvider]:
         default_token_url: str | None = None,
         default_userinfo_url: str | None = None,
     ) -> None:
+        """Execute _add_oauth2 operation.
+
+        Args:
+            key: The key parameter.
+            dto: The dto parameter.
+            default_auth_url: The default_auth_url parameter.
+            default_token_url: The default_token_url parameter.
+            default_userinfo_url: The default_userinfo_url parameter.
+
+        Returns:
+            The result of the operation.
+        """
         if not getattr(dto, "enabled", False):
             return
         auth_url = getattr(dto, "auth_url", None) or default_auth_url

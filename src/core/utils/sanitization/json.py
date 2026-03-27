@@ -1,5 +1,4 @@
-"""
-Response sanitization for the API.
+"""Response sanitization for the API.
 
 Removes internal identifiers from response payloads so the frontend never
 receives raw `id` or `*_id` fields; use `urn` (and `*_urn`) for resource
@@ -26,12 +25,10 @@ class SanitizationJsonUtility(ISanitization):
 
     @staticmethod
     def sanitize_for_api(data: dict) -> dict:
-        """
-        Remove `id` and any key ending with `_id` from a dict so API responses
+        """Remove `id` and any key ending with `_id` from a dict so API responses
         never expose internal IDs to the frontend. Callers should ensure `urn`
         (and optionally `*_urn`) are present where needed.
         """
-
         if not isinstance(data, dict):
             return data
 
@@ -44,7 +41,6 @@ class SanitizationJsonUtility(ISanitization):
     @staticmethod
     def _sanitize_value(value: Any) -> Any:
         """Recursively sanitize nested dicts and lists of dicts."""
-
         if isinstance(value, dict):
             return SanitizationJsonUtility.sanitize_for_api(value)
 

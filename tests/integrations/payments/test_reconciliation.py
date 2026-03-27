@@ -1,3 +1,5 @@
+"""Module test_reconciliation.py."""
+
 from __future__ import annotations
 
 """Tests for reconciliation DTOs and CSV export."""
@@ -13,7 +15,14 @@ from tests.integrations.payments.abstraction import IPaymentsTests
 
 
 class TestReconciliation(IPaymentsTests):
+    """Represents the TestReconciliation class."""
+
     def test_reconciliation_report_csv_roundtrip_shape(self) -> None:
+        """Execute test_reconciliation_report_csv_roundtrip_shape operation.
+
+        Returns:
+            The result of the operation.
+        """
         r = ReconciliationReport(
             report_date=date(2026, 3, 21),
             currency="usd",

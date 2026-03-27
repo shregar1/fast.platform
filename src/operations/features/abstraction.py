@@ -1,6 +1,4 @@
-"""
-Feature flags client interface and factory.
-"""
+"""Feature flags client interface and factory."""
 
 from __future__ import annotations
 
@@ -36,8 +34,7 @@ class IFeatureFlagsClient(IFeatures, ABC):
     def evaluate_with_reason(
         self, flag_key: str, context: Optional[dict[str, Any]] = None
     ) -> FlagEvaluation:
-        """
-        Return enabled state, value, and a coarse ``reason`` for debugging UIs.
+        """Return enabled state, value, and a coarse ``reason`` for debugging UIs.
 
         Default implementation uses :meth:`is_enabled` / :meth:`get_value` with
         :attr:`FlagEvaluationReason.DEFAULT`. Providers may override for richer reasons.
@@ -50,8 +47,7 @@ class IFeatureFlagsClient(IFeatures, ABC):
 
 
 def build_feature_flags_client() -> Optional[IFeatureFlagsClient]:
-    """
-    Build a feature flags client from FeatureFlagsConfiguration (config/feature_flags/config.json).
+    """Build a feature flags client from FeatureFlagsConfiguration (config/feature_flags/config.json).
 
     Resolution order:
 

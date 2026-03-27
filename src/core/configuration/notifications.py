@@ -1,5 +1,4 @@
-"""
-Push notification configuration loader.
+"""Push notification configuration loader.
 
 Reads from config/push/config.json (or FASTMVC_PUSH_CONFIG_PATH).
 """
@@ -19,6 +18,11 @@ class NotificationsConfiguration:
     _instance: Optional["NotificationsConfiguration"] = None
 
     def __new__(cls) -> "NotificationsConfiguration":
+        """Execute __new__ operation.
+
+        Returns:
+            The result of the operation.
+        """
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.config = {}
@@ -26,6 +30,11 @@ class NotificationsConfiguration:
         return cls._instance
 
     def load_config(self) -> None:
+        """Execute load_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         path = os.getenv("FASTMVC_PUSH_CONFIG_PATH", "config/push/config.json")
         cfg: dict = {}
         try:
@@ -62,6 +71,11 @@ class NotificationsConfiguration:
         self.config = cfg
 
     def get_config(self) -> PushConfigurationDTO:
+        """Execute get_config operation.
+
+        Returns:
+            The result of the operation.
+        """
         cfg = self.config
         return PushConfigurationDTO(
             apns=APNSConfigDTO(**(cfg.get("apns") or {})),

@@ -1,6 +1,4 @@
-"""
-Dead-letter topic helpers: standard metadata headers for DLQ messages.
-"""
+"""Dead-letter topic helpers: standard metadata headers for DLQ messages."""
 
 from __future__ import annotations
 
@@ -21,8 +19,7 @@ def make_dlq_headers(
     offset: Optional[int] = None,
     extra: Optional[list[tuple[str, bytes]]] = None,
 ) -> list[tuple[str, bytes]]:
-    """
-    Build Kafka producer headers for a dead-letter record.
+    """Build Kafka producer headers for a dead-letter record.
 
     * *original_topic* — topic the message came from (or was intended for).
     * *error* — short failure reason (truncate in your app if needed).
