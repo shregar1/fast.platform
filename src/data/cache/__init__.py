@@ -1,17 +1,15 @@
-"""Cache backends and decorator."""
+"""Cache package for Fast Platform.
 
-from .backend import (
-    ICache,
-    InMemoryCache,
-    RedisCache,
-    cache_result,
-    get_cache,
-)
+Provides caching decorators and backends.
+"""
+
+from data.cache.abstraction import ICaching
+from data.cache.decorator import cached, cache_evict, clear_cache, invalidate_pattern
 
 __all__ = [
-    "ICache",
-    "InMemoryCache",
-    "RedisCache",
-    "get_cache",
-    "cache_result",
+    "ICaching",
+    "cached",
+    "cache_evict", 
+    "clear_cache",
+    "invalidate_pattern",
 ]

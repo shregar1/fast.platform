@@ -35,6 +35,26 @@ from .retry import AsyncRetry, IAsyncRetryUtility
 from .sanitization import ISanitization, SanitizationJsonUtility
 from .structured_log import IStructuredLogUtility, StructuredLog, StructuredLogFields, StructuredLogSink
 from .time import ITimeUtility, TimeUtility
+from .validation import (
+    ValidationError,
+    RuleEngine,
+    rules,
+    parse_rule,
+    validate,
+    validate_json,
+    validate_data,
+    validate_field,
+    quick_validate,
+)
+from .versioning import (
+    APIVersion,
+    VersionManager,
+    VersionHeaderMiddleware,
+    deprecate,
+    get_versions_endpoint,
+    version,
+    versioned_router,
+)
 
 __all__ = [
     "IUtility",
@@ -87,4 +107,20 @@ __all__ = [
     "StructuredLog",
     "StructuredLogFields",
     "StructuredLogSink",
+    "ValidationError",
+    "RuleEngine",
+    "rules",
+    "parse_rule",
+    "validate",
+    "validate_json",
+    "validate_data",
+    "validate_field",
+    "quick_validate",
+    "APIVersion",
+    "VersionManager",
+    "VersionHeaderMiddleware",
+    "deprecate",
+    "get_versions_endpoint",
+    "version",
+    "versioned_router",
 ]
