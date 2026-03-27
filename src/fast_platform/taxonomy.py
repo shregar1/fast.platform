@@ -8,7 +8,7 @@ The **test suite** mirrors the same taxonomy under ``tests/<section>/`` where
 ``section`` is :data:`SECTION_TEST_FOLDER` (e.g. ``tests/core/utils/``,
 ``tests/sec/security/``). The ``SECURITY`` section uses folder name ``sec`` so package
 ``security`` can live at ``tests/sec/security/`` without path collision.
-are
+
 This module is the **canonical map** for docs, CI splits, and navigation.
 """
 
@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from enum import Enum
 from pathlib import Path
-from typing import Final
+from typing import Dict, Final, FrozenSet, Set
 
 __all__ = [
     "PackageSection",
@@ -52,7 +52,7 @@ class PackageSection(str, Enum):
 
 
 # Every key is the *leaf* import name (e.g. ``configuration`` → ``core.configuration``).
-PACKAGE_TO_SECTION: Final[dict[str, PackageSection]] = {
+PACKAGE_TO_SECTION: Final[Dict[str, PackageSection]] = {
     # --- core ---
     "configuration": PackageSection.CORE,
     "dtos": PackageSection.CORE,
@@ -71,7 +71,7 @@ PACKAGE_TO_SECTION: Final[dict[str, PackageSection]] = {
     "search": PackageSection.DATA,
     "vectors": PackageSection.DATA,
     "storage": PackageSection.DATA,
-    "cache": PackageSection.DATA,
+    "caching": PackageSection.DATA,
     # --- messaging ---
     "kafka": PackageSection.MESSAGING,
     "queues": PackageSection.MESSAGING,
@@ -101,7 +101,7 @@ PACKAGE_TO_SECTION: Final[dict[str, PackageSection]] = {
 # Directory name under ``tests/<section>/`` for each :class:`PackageSection`.
 # ``SECURITY`` uses ``sec`` so package ``security`` can live at ``tests/sec/security/``
 # without colliding with the section folder name.
-SECTION_TEST_FOLDER: Final[dict[PackageSection, str]] = {
+SECTION_TEST_FOLDER: Final[Dict[PackageSection, str]] = {
     PackageSection.CORE: "core",
     PackageSection.SECURITY: "sec",
     PackageSection.PERSISTENCE: "persistence",
@@ -113,22 +113,22 @@ SECTION_TEST_FOLDER: Final[dict[PackageSection, str]] = {
 }
 
 
-def _build_section_to_packages() -> dict[PackageSection, frozenset[str]]:
+def _build_section_to_packages() -> Dict[PackageSection, FrozenSet[str]]:
     """Execute _build_section_to_packages operation.
 
     Returns:
         The result of the operation.
     """
-    out: dict[PackageSection, set[str]] = {s: set() for s in PackageSection}
+    out: Dict[PackageSection, Set[str]] = {s: set() for s in PackageSection}
     for pkg, sec in PACKAGE_TO_SECTION.items():
         out[sec].add(pkg)
     return {s: frozenset(names) for s, names in out.items()}
 
 
-SECTION_TO_PACKAGES: Final[dict[PackageSection, frozenset[str]]] = _build_section_to_packages()
+SECTION_TO_PACKAGES: Final[Dict[PackageSection, FrozenSet[str]]] = _build_section_to_packages()
 
 
-def packages_in_section(section: PackageSection) -> frozenset[str]:
+def packages_in_section(section: PackageSection) -> FrozenSet[str]:
     """Return all top-level package names in *section*."""
     return SECTION_TO_PACKAGES[section]
 
@@ -138,12 +138,12 @@ def section_of(package: str) -> PackageSection:
     return PACKAGE_TO_SECTION[package]
 
 
-def all_taxonomy_packages() -> frozenset[str]:
+def all_taxonomy_packages() -> FrozenSet[str]:
     """All packages registered in the taxonomy."""
     return frozenset(PACKAGE_TO_SECTION.keys())
 
 
-def discover_src_packages(src_root: Path | None = None) -> frozenset[str]:
+def discover_src_packages(src_root: Path | None = None) -> FrozenSet[str]:
     """Leaf package names under ``src`` (e.g. ``configuration``, ``kafka``): each is a
     directory containing ``__init__.py``, nested under its taxonomy section folder
     (see :data:`SECTION_TEST_FOLDER`). The :mod:`fast_platform` meta-package is a
@@ -152,7 +152,7 @@ def discover_src_packages(src_root: Path | None = None) -> frozenset[str]:
     Used by tests to ensure the taxonomy stays in sync with the tree.
     """
     root = src_root or Path(__file__).resolve().parents[1]
-    names: set[str] = set()
+    names: Set[str] = set()
     if not root.is_dir():
         return frozenset()
     if (root / "fast_platform" / "__init__.py").is_file():

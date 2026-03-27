@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for :mod:`messaging.jobs.result.get_job_status` (mocked Celery)."""
 from unittest.mock import MagicMock, patch
 
-from messaging.jobs.result import JobStatus, get_job_status
+from fast_platform.messaging.jobs.result import JobStatus, get_job_status
 from tests.messaging.jobs.abstraction import IJobTests
 
 
@@ -13,7 +13,7 @@ class TestJobStatus(IJobTests):
     """Represents the TestJobStatus class."""
 
     @patch("celery.result.AsyncResult")
-    @patch("messaging.jobs.celery_app.make_celery_app")
+    @patch("fast_platform.messaging.jobs.celery_app.make_celery_app")
     def test_get_job_status_celery(self, _mock_make: MagicMock, mock_ar_cls: MagicMock) -> None:
         """Execute test_get_job_status_celery operation.
 

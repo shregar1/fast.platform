@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for ``operations.observability.tracing``."""
 from unittest.mock import MagicMock
 
-from operations.observability.tracing import Span, Tracer
+from fast_platform.operations.observability.tracing import Span, Tracer
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

@@ -14,7 +14,7 @@ import pytest
 
 from tests.messaging.notifications.abstraction import INotificationTests
 
-PACKAGE = "messaging.notifications"
+PACKAGE = "fast_platform.messaging.notifications"
 
 
 class TestPublicApi(INotificationTests):

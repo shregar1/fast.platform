@@ -1,6 +1,6 @@
 """Unit tests for :class:`NotificationRetryPolicy` (no webhooks required)."""
 
-from messaging.notifications.retry_policy import NotificationRetryPolicy
+from fast_platform.messaging.notifications.retry_policy import NotificationRetryPolicy
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

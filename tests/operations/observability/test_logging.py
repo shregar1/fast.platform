@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 from types import SimpleNamespace
 
-from operations.observability.logging import (
+from fast_platform.operations.observability.logging import (
     StructuredLogger,
     clear_log_context,
     get_log_context,

@@ -21,10 +21,10 @@ class TestConfigLoaderExtra(IChannelTests):
         payload = {"backend": "redis", "topics": ["alerts"]}
         env_path = "/tmp/channels/config.json"
         with patch(
-            "realtime.channels.config_loader.open", mock_open(read_data=json.dumps(payload))
+            "fast_platform.realtime.channels.config_loader.open", mock_open(read_data=json.dumps(payload))
         ):
             with patch(
-                "realtime.channels.config_loader.os.getenv",
+                "fast_platform.realtime.channels.config_loader.os.getenv",
                 side_effect=lambda k: env_path if k == "FASTMVC_CHANNELS_CONFIG_PATH" else None,
             ):
                 cfg = ChannelsConfiguration()
@@ -41,12 +41,12 @@ class TestConfigLoaderExtra(IChannelTests):
         from realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
-        with patch("realtime.channels.config_loader.open", mock_open(read_data="not-json")):
+        with patch("fast_platform.realtime.channels.config_loader.open", mock_open(read_data="not-json")):
             with patch(
-                "realtime.channels.config_loader.json.load",
+                "fast_platform.realtime.channels.config_loader.json.load",
                 side_effect=json.JSONDecodeError("bad", "doc", 0),
             ):
-                with patch("realtime.channels.config_loader.os.getenv", return_value=None):
+                with patch("fast_platform.realtime.channels.config_loader.os.getenv", return_value=None):
                     cfg = ChannelsConfiguration()
         dto = cfg.get_config()
         assert dto.backend == "none"

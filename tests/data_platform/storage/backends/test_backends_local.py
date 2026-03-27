@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for :class:`data.storage.local_backend.LocalStorageBackend`."""
 import pytest
 
-from data.storage.local_backend import LocalStorageBackend
+from fast_platform.data.storage.local_backend import LocalStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

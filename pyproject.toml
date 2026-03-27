@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fast-platform"
-version = "0.12.2"
+version = "1.5.0"
 description = "Umbrella package: fast_platform.configuration, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — merged fast_* modules under one install."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -118,7 +118,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 fast_platform = ["py.typed"]
-"core.configuration" = ["**/*.json"]
+"fast_platform.core.configuration" = ["**/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

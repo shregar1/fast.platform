@@ -1,9 +1,0 @@
-core
-data
-fast_platform
-integrations
-messaging
-operations
-persistence
-realtime
-sec

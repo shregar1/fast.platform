@@ -14,7 +14,7 @@ import pytest
 
 from tests.integrations.admin.abstraction import IAdminTests
 
-PACKAGE = "integrations.admin"
+PACKAGE = "fast_platform.integrations.admin"
 
 
 class TestPublicApi(IAdminTests):

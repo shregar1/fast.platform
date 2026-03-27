@@ -8,8 +8,8 @@ from typing import Any, cast
 
 import pytest
 
-from core.errors import UnsupportedLLMProviderError
-from integrations.llm.streaming import iter_anthropic_message_stream, iter_llm_stream
+from fast_platform.core.errors import UnsupportedLLMProviderError
+from fast_platform.integrations.llm.streaming import iter_anthropic_message_stream, iter_llm_stream
 from tests.integrations.llm.abstraction import ILLMTests
 
 

@@ -6,7 +6,7 @@ from __future__ import annotations
 import asyncio
 from typing import Any, Dict, Optional
 
-from integrations.payments.sca import IStrongCustomerAuthenticationGateway, SCAChallengeResult
+from fast_platform.integrations.payments.sca import IStrongCustomerAuthenticationGateway, SCAChallengeResult
 from tests.integrations.payments.abstraction import IPaymentsTests
 
 

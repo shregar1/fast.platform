@@ -4,7 +4,7 @@ from http import HTTPStatus
 
 import pytest
 
-from core.errors import UnexpectedResponseError
+from fast_platform.core.errors import UnexpectedResponseError
 from tests.core.errors.abstraction import IErrorsTests
 
 

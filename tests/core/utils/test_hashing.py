@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 from tests.core.utils.abstraction import IUtilsTests
-from core.utils.hashing import HashingUtility
+from fast_platform.core.utils.hashing import HashingUtility
 
 
 class TestHashingUtility(IUtilsTests):

@@ -3,13 +3,13 @@
 import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from core.dtos.notifications import (
+from fast_platform.core.dtos.notifications import (
     EmailNotificationTarget,
     NotificationFanoutRequest,
     PushNotificationTarget,
 )
 
-from messaging.notifications.fanout import LoggingEmailSender, NotificationFanoutService
+from fast_platform.messaging.notifications.fanout import LoggingEmailSender, NotificationFanoutService
 from tests.messaging.notifications.abstraction import INotificationTests
 
 
@@ -23,7 +23,7 @@ class TestFanoutService(INotificationTests):
             The result of the operation.
         """
         email = AsyncMock()
-        with patch("messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
+        with patch("fast_platform.messaging.notifications.fanout.PushNotificationService") as mock_push_cls:
             mock_push_cls.return_value = MagicMock()
             svc = NotificationFanoutService(email_sender=email)
             req = NotificationFanoutRequest(
@@ -41,7 +41,7 @@ class TestFanoutService(INotificationTests):
         push = MagicMock()
         push.send_to_ios = AsyncMock()
         push.send_to_android = AsyncMock()
-        with patch("messaging.notifications.fanout.PushNotificationService", return_value=push):
+        with patch("fast_platform.messaging.notifications.fanout.PushNotificationService", return_value=push):
             svc = NotificationFanoutService(push=push)
             req = NotificationFanoutRequest(
                 title="T",

@@ -3,7 +3,7 @@
 import time
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from realtime.webrtc.signaling import WebRTCSignalingService
+from fast_platform.realtime.webrtc.signaling import WebRTCSignalingService
 
 
 class TestSignalingTtl(IWebRTCTests):

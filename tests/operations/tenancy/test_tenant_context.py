@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for tenant context and :class:`operations.tenancy.Tenant`."""
 import pytest
 
-from operations.tenancy import (
+from fast_platform.operations.tenancy import (
     Tenant,
     TenantConfig,
     TenantContext,

@@ -69,9 +69,9 @@ class TestBackendsBuildImportError(ISecretsTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("sec.secrets.vault_backend", None)
-        sys.modules.pop("sec.secrets.aws_backend", None)
-        sys.modules.pop("sec.secrets.gcp_backend", None)
+        sys.modules.pop("fast_platform.sec.secrets.vault_backend", None)
+        sys.modules.pop("fast_platform.sec.secrets.aws_backend", None)
+        sys.modules.pop("fast_platform.sec.secrets.gcp_backend", None)
         assert secrets_base.build_secrets_backend("vault") is None
         assert secrets_base.build_secrets_backend("aws") is None
         assert secrets_base.build_secrets_backend("gcp") is None

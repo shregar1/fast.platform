@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from core.errors import ServiceUnavailableError
+from fast_platform.core.errors import ServiceUnavailableError
 from tests.core.errors.abstraction import IErrorsTests
 
 

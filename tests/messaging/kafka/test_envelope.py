@@ -1,6 +1,6 @@
 """Tests for JSON envelope DTO and schema helper."""
 
-from core.dtos.kafka import KafkaJsonEnvelope
+from fast_platform.core.dtos.kafka import KafkaJsonEnvelope
 
 from tests.messaging.kafka.abstraction import IKafkaTests
 

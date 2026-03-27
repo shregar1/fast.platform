@@ -4,7 +4,7 @@ from typing import Any, List, Optional
 
 import pytest
 
-from data.search.base import ISearchBackend
+from fast_platform.data.search.base import ISearchBackend
 from tests.data_platform.search.abstraction import ISearchTests
 
 

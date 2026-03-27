@@ -131,7 +131,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         svc = prov.build_llm_service("openai")
         assert svc is not None
         assert prov.build_llm_service("anthropic") is None
@@ -169,7 +169,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         svc = prov.build_llm_service("anthropic")
         assert svc is not None
 
@@ -205,7 +205,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         svc = prov.build_llm_service("ollama")
         assert svc is not None
 
@@ -319,7 +319,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         assert prov.build_llm_service("groq") is not None
 
     def test_build_llm_service_mistral(self, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -356,7 +356,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         assert prov.build_llm_service("mistral") is not None
 
     def test_build_llm_service_gemini(self, monkeypatch: pytest.MonkeyPatch) -> None:
@@ -393,5 +393,5 @@ class TestProvidersCoverage(ILLMProvidersTests):
                 """
                 return Cfg()
 
-        monkeypatch.setattr("integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
+        monkeypatch.setattr("fast_platform.integrations.llm.providers.factory.LLMConfiguration", LLMConfiguration)
         assert prov.build_llm_service("gemini") is not None

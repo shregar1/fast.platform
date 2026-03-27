@@ -4,7 +4,7 @@ import asyncio
 
 import pytest
 
-from messaging.kafka.idempotent import InMemoryDedupeStore
+from fast_platform.messaging.kafka.idempotent import InMemoryDedupeStore
 from tests.messaging.kafka.abstraction import IKafkaTests
 
 

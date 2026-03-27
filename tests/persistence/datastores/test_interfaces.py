@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for :mod:`persistence.datastores.interfaces` ABC contracts."""
 import pytest
 
-from persistence.datastores.interfaces import (
+from fast_platform.persistence.datastores.interfaces import (
     IDataStore,
     IDocumentStore,
     IKeyValueStore,

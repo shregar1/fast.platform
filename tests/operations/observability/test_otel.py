@@ -7,14 +7,14 @@ from unittest.mock import MagicMock, patch
 
 from fastapi import FastAPI
 
-from operations.observability.otel import configure_otel
+from fast_platform.operations.observability.otel import configure_otel
 from tests.operations.observability.abstraction import IObservabilityTests
 
 
 class TestConfigureOtel(IObservabilityTests):
     """Represents the TestConfigureOtel class."""
 
-    @patch("operations.observability.otel.TelemetryConfiguration")
+    @patch("fast_platform.operations.observability.otel.TelemetryConfiguration")
     def test_no_op_when_disabled(self, mock_tc: MagicMock) -> None:
         """Execute test_no_op_when_disabled operation.
 

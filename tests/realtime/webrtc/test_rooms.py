@@ -3,7 +3,7 @@
 import pytest
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from realtime.webrtc.rooms import InMemoryRoomRegistry
+from fast_platform.realtime.webrtc.rooms import InMemoryRoomRegistry
 
 
 class TestRooms(IWebRTCTests):

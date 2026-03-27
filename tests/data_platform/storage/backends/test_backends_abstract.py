@@ -7,7 +7,7 @@ from typing import BinaryIO, Optional
 
 import pytest
 
-from data.storage.base import IStorageBackend
+from fast_platform.data.storage.base import IStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

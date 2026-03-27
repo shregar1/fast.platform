@@ -8,7 +8,7 @@ import tarfile
 import zipfile
 
 from tests.core.utils.abstraction import IUtilsTests
-from core.utils.archive import ArchiveUtility
+from fast_platform.core.utils.archive import ArchiveUtility
 
 
 class TestArchiveUtility(IUtilsTests):

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 """Integration smoke tests for ``queues`` exports."""
-from messaging.queues import (
+from fast_platform.messaging.queues import (
     DEFAULT_DLQ_SUFFIX,
     ENVELOPE_VERSION_KEY,
     IQueueBackend,
@@ -14,13 +14,13 @@ from messaging.queues import (
     dlq_name,
     prepare_dlq_message,
 )
-from messaging.queues.broker import QueueMessage
-from messaging.queues.dlq import (
+from fast_platform.messaging.queues.broker import QueueMessage
+from fast_platform.messaging.queues.dlq import (
     prepare_quarantine_message,
     primary_queue_from_quarantine,
     quarantine_name,
 )
-from messaging.queues.envelope import should_quarantine as should_quarantine_fn
+from fast_platform.messaging.queues.envelope import should_quarantine as should_quarantine_fn
 from tests.messaging.queues.abstraction import IQueueTests
 
 

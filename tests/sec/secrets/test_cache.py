@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 """Tests for :class:`sec.secrets.cache.CachedSecretsBackend`."""
-from sec.secrets.base import ISecretsBackend
-from sec.secrets.cache import CachedSecretsBackend
+from fast_platform.sec.secrets.base import ISecretsBackend
+from fast_platform.sec.secrets.cache import CachedSecretsBackend
 from typing import Any, Optional
 
 from tests.sec.secrets.abstraction import ISecretsTests

@@ -26,7 +26,7 @@ class TestAsyncDependency(IDatabaseTests):
         ctx.__aexit__ = AsyncMock(return_value=None)
         factory.return_value = ctx
         with patch(
-            "persistence.db.async_dependency.get_async_session_factory", return_value=factory
+            "fast_platform.persistence.db.async_dependency.get_async_session_factory", return_value=factory
         ):
             async for s in AsyncDBDependency.session():
                 assert s is mock_session
@@ -41,7 +41,7 @@ class TestAsyncDependency(IDatabaseTests):
         """
         from persistence.db.async_dependency import AsyncDBDependency
 
-        with patch("persistence.db.async_dependency.get_async_session_factory", return_value=None):
+        with patch("fast_platform.persistence.db.async_dependency.get_async_session_factory", return_value=None):
             gen = AsyncDBDependency.session()
             with pytest.raises(RuntimeError, match="Async database"):
                 await gen.__anext__()

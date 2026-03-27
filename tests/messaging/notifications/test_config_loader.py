@@ -20,7 +20,7 @@ class TestConfigLoader(INotificationTests):
         NotificationsConfiguration._instance = None
         data = {"apns": {"enabled": True, "key_id": "k"}, "fcm": {"enabled": False}}
         m = mock_open(read_data=json.dumps(data))
-        with patch("core.configuration.notifications.open", m):
+        with patch("fast_platform.core.configuration.notifications.open", m):
             with patch.dict("os.environ", {}, clear=False):
                 cfg = NotificationsConfiguration()
         dto = cfg.get_config()
@@ -36,7 +36,7 @@ class TestConfigLoader(INotificationTests):
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
-        with patch("core.configuration.notifications.open", side_effect=FileNotFoundError()):
+        with patch("fast_platform.core.configuration.notifications.open", side_effect=FileNotFoundError()):
             cfg = NotificationsConfiguration()
         dto = cfg.get_config()
         assert dto.apns.enabled is False
@@ -50,9 +50,9 @@ class TestConfigLoader(INotificationTests):
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
-        with patch("core.configuration.notifications.open", mock_open(read_data="not-json")):
+        with patch("fast_platform.core.configuration.notifications.open", mock_open(read_data="not-json")):
             with patch(
-                "core.configuration.notifications.json.load",
+                "fast_platform.core.configuration.notifications.json.load",
                 side_effect=json.JSONDecodeError("bad", "doc", 0),
             ):
                 cfg = NotificationsConfiguration()
@@ -74,7 +74,7 @@ class TestConfigLoader(INotificationTests):
             "FCM_ENABLED": "1",
             "FCM_SERVER_KEY": "sk",
         }
-        with patch("core.configuration.notifications.open", side_effect=FileNotFoundError()):
+        with patch("fast_platform.core.configuration.notifications.open", side_effect=FileNotFoundError()):
             with patch.dict("os.environ", env, clear=False):
                 cfg = NotificationsConfiguration()
         dto = cfg.get_config()
@@ -92,7 +92,7 @@ class TestConfigLoader(INotificationTests):
         from core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
-        with patch("core.configuration.notifications.open", side_effect=FileNotFoundError()):
+        with patch("fast_platform.core.configuration.notifications.open", side_effect=FileNotFoundError()):
             a = NotificationsConfiguration()
             b = NotificationsConfiguration()
         assert a is b

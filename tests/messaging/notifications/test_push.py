@@ -9,7 +9,7 @@ from tests.messaging.notifications.abstraction import INotificationTests
 class TestPush(INotificationTests):
     """Represents the TestPush class."""
 
-    @patch("messaging.notifications.push.NotificationsConfiguration")
+    @patch("fast_platform.messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_disabled(self, mock_cfg_cls):
         """Execute test_push_service_apns_disabled operation.
 
@@ -31,7 +31,7 @@ class TestPush(INotificationTests):
         assert svc.fcm_enabled is False
         asyncio.run(svc.send_to_ios(["token"], "t", "b"))
 
-    @patch("messaging.notifications.push.NotificationsConfiguration")
+    @patch("fast_platform.messaging.notifications.push.NotificationsConfiguration")
     def test_push_service_apns_enabled(self, mock_cfg_cls):
         """Execute test_push_service_apns_enabled operation.
 

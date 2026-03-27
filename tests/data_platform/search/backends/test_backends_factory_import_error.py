@@ -62,9 +62,9 @@ class TestBackendsFactoryImportError(ISearchTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_specific_backend_import)
-        sys.modules.pop("data.search.meilisearch_backend", None)
-        sys.modules.pop("data.search.typesense_backend", None)
-        sys.modules.pop("data.search.opensearch_backend", None)
+        sys.modules.pop("fast_platform.data.search.meilisearch_backend", None)
+        sys.modules.pop("fast_platform.data.search.typesense_backend", None)
+        sys.modules.pop("fast_platform.data.search.opensearch_backend", None)
         assert search_base.build_search_backend("meilisearch") is None
         assert search_base.build_search_backend("typesense") is None
         assert search_base.build_search_backend("opensearch") is None

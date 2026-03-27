@@ -61,7 +61,7 @@ class TestInit(IWebhookTests):
 
         mock_response_ok = MagicMock(status_code=200, text="ok")
         mock_response_bad = MagicMock(status_code=400, text="bad request")
-        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(side_effect=[mock_response_ok])
             code, err = await deliver_webhook("http://example/hook", b"{}", secret="sec")
@@ -69,7 +69,7 @@ class TestInit(IWebhookTests):
             assert err is None
             call_kw = inst.post.call_args
             assert "X-Webhook-Signature" in call_kw[1]["headers"]
-        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(return_value=mock_response_bad)
             code, err = await deliver_webhook(
@@ -87,7 +87,7 @@ class TestInit(IWebhookTests):
         """
         from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
-        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(side_effect=OSError("down"))
             code, err = await deliver_webhook(
@@ -105,7 +105,7 @@ class TestInit(IWebhookTests):
         from messaging.webhooks.delivery import deliver_webhook_sync
 
         mock_response = MagicMock(status_code=201, text="created")
-        with patch("messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
+        with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
             inst.post = AsyncMock(return_value=mock_response)
             code, err = deliver_webhook_sync("http://example/hook", b"{}")

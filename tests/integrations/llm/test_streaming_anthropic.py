@@ -7,7 +7,7 @@ import types
 
 import pytest
 
-from integrations.llm.streaming import iter_anthropic_message_stream
+from fast_platform.integrations.llm.streaming import iter_anthropic_message_stream
 from tests.integrations.llm.abstraction import ILLMTests
 
 

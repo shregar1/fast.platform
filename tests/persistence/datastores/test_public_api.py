@@ -11,7 +11,7 @@ import importlib
 
 from tests.persistence.datastores.abstraction import IDatastoresTests
 
-PACKAGE = "persistence.datastores"
+PACKAGE = "fast_platform.persistence.datastores"
 
 
 class TestPublicApi(IDatastoresTests):

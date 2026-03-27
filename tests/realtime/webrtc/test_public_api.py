@@ -14,7 +14,7 @@ import pytest
 
 from tests.realtime.webrtc.abstraction import IWebRTCTests
 
-PACKAGE = "realtime.webrtc"
+PACKAGE = "fast_platform.realtime.webrtc"
 
 
 class TestPublicApi(IWebRTCTests):

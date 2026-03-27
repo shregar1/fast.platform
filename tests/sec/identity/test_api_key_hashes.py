@@ -1,6 +1,6 @@
 """Tests for :class:`sec.identity.api_key.ApiKeyHashes`."""
 
-from sec.identity.api_key import ApiKeyHashes
+from fast_platform.sec.identity.api_key import ApiKeyHashes
 from tests.sec.identity.abstraction import IIdentityTests
 
 

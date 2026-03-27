@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from core.errors import CryptoConfigurationError
+from fast_platform.core.errors import CryptoConfigurationError
 from tests.core.errors.abstraction import IErrorsTests
 
 

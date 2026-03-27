@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 """Tests for DLQ and quarantine helpers."""
-from messaging.queues.broker import QueueMessage
-from messaging.queues.dlq import (
+from fast_platform.messaging.queues.broker import QueueMessage
+from fast_platform.messaging.queues.dlq import (
     DEFAULT_QUARANTINE_SUFFIX,
     dlq_name,
     is_dlq_name,

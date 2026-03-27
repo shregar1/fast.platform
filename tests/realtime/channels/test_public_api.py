@@ -14,7 +14,7 @@ import pytest
 
 from tests.realtime.channels.abstraction import IChannelTests
 
-PACKAGE = "realtime.channels"
+PACKAGE = "fast_platform.realtime.channels"
 
 
 class TestPublicApi(IChannelTests):

@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from persistence.db.engine import create_and_set_session, get_engine, sync_connect_args_for_url
-from core.dtos import DBConfigurationDTO
+from fast_platform.persistence.db.engine import create_and_set_session, get_engine, sync_connect_args_for_url
+from fast_platform.core.dtos import DBConfigurationDTO
 from tests.persistence.db.abstraction import IDatabaseTests
 
 
@@ -31,7 +31,7 @@ class TestEnginePool(IDatabaseTests):
             pool_recycle=3600,
             pool_pre_ping=False,
         )
-        with patch("persistence.db.engine.create_engine") as mock_ce:
+        with patch("fast_platform.persistence.db.engine.create_engine") as mock_ce:
             get_engine(config)
             mock_ce.assert_called_once()
             _, kwargs = mock_ce.call_args
@@ -56,7 +56,7 @@ class TestEnginePool(IDatabaseTests):
             connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
             pool_recycle=None,
         )
-        with patch("persistence.db.engine.create_engine") as mock_ce:
+        with patch("fast_platform.persistence.db.engine.create_engine") as mock_ce:
             get_engine(config)
             _, kwargs = mock_ce.call_args
             assert "pool_recycle" not in kwargs
@@ -70,7 +70,7 @@ class TestEnginePool(IDatabaseTests):
         with pytest.raises(RuntimeError, match="incomplete"):
             get_engine(DBConfigurationDTO())
 
-    @patch("persistence.db.engine.DBConfiguration")
+    @patch("fast_platform.persistence.db.engine.DBConfiguration")
     def test_get_engine_uses_singleton_config(self, mock_db_cls):
         """Execute test_get_engine_uses_singleton_config operation.
 
@@ -90,14 +90,14 @@ class TestEnginePool(IDatabaseTests):
             connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
         )
         mock_db_cls.return_value = mock_conf
-        with patch("persistence.db.engine.create_engine"):
+        with patch("fast_platform.persistence.db.engine.create_engine"):
             get_engine(None)
         mock_db_cls.assert_called()
 
-    @patch("persistence.db.engine.set_global_session")
-    @patch("persistence.db.engine.set_global_engine")
-    @patch("persistence.db.engine.create_session_factory")
-    @patch("persistence.db.engine.get_engine")
+    @patch("fast_platform.persistence.db.engine.set_global_session")
+    @patch("fast_platform.persistence.db.engine.set_global_engine")
+    @patch("fast_platform.persistence.db.engine.create_session_factory")
+    @patch("fast_platform.persistence.db.engine.get_engine")
     def test_create_and_set_session(self, mock_ge, mock_csf, mock_sge, mock_sgs):
         """Execute test_create_and_set_session operation.
 
@@ -137,7 +137,7 @@ class TestEnginePool(IDatabaseTests):
         """
         assert create_and_set_session(DBConfigurationDTO()) is None
 
-    @patch("persistence.db.engine.create_engine")
+    @patch("fast_platform.persistence.db.engine.create_engine")
     def test_get_engine_passes_postgres_connect_args(self, mock_ce):
         """Execute test_get_engine_passes_postgres_connect_args operation.
 

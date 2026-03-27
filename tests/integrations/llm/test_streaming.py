@@ -8,7 +8,7 @@ from typing import Any, AsyncIterator
 
 import pytest
 
-from integrations.llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
+from fast_platform.integrations.llm.streaming import StreamChunk, iter_llm_stream, iter_openai_chat_stream
 from tests.integrations.llm.abstraction import ILLMTests
 
 

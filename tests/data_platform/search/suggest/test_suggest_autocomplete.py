@@ -5,8 +5,8 @@ from __future__ import annotations
 """Tests for :func:`data.search.suggest.suggest_autocomplete`."""
 from typing import Any, List, Optional
 
-from data.search.base import ISearchBackend
-from data.search.suggest import suggest_autocomplete
+from fast_platform.data.search.base import ISearchBackend
+from fast_platform.data.search.suggest import suggest_autocomplete
 from tests.data_platform.search.abstraction import ISearchTests
 
 

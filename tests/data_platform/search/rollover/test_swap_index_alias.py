@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for :func:`data.search.rollover.swap_index_alias`."""
 from typing import Any, Optional
 
-from data.search.rollover import swap_index_alias
+from fast_platform.data.search.rollover import swap_index_alias
 from tests.data_platform.search.abstraction import ISearchTests
 
 

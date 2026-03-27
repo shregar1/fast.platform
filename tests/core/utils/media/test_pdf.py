@@ -8,7 +8,7 @@ from io import BytesIO
 import pytest
 
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from core.utils.media.pdf import PdfUtility
+from fast_platform.core.utils.media.pdf import PdfUtility
 
 
 class TestPdfUtility(IMediaUtilsTests):

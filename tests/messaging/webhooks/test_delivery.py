@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from tests.messaging.webhooks.abstraction import IWebhookTests
-from messaging.webhooks import RetryPolicy, deliver_webhook
+from fast_platform.messaging.webhooks import RetryPolicy, deliver_webhook
 
 
 class TestDelivery(IWebhookTests):
@@ -33,7 +33,7 @@ class TestDelivery(IWebhookTests):
         cm = MagicMock()
         cm.__aenter__ = AsyncMock(return_value=inner)
         cm.__aexit__ = AsyncMock(return_value=None)
-        monkeypatch.setattr("messaging.webhooks.delivery.httpx.AsyncClient", lambda *a, **k: cm)
+        monkeypatch.setattr("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient", lambda *a, **k: cm)
         code, err = await deliver_webhook(
             "https://example.com/hook", b'{"ok":true}', retry_policy=RetryPolicy(max_attempts=1)
         )
@@ -62,7 +62,7 @@ class TestDelivery(IWebhookTests):
         cm = MagicMock()
         cm.__aenter__ = AsyncMock(return_value=inner)
         cm.__aexit__ = AsyncMock(return_value=None)
-        monkeypatch.setattr("messaging.webhooks.delivery.httpx.AsyncClient", lambda *a, **k: cm)
+        monkeypatch.setattr("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient", lambda *a, **k: cm)
         code, err = await deliver_webhook(
             "https://example.com/hook", b"{}", retry_policy=RetryPolicy(max_attempts=1)
         )

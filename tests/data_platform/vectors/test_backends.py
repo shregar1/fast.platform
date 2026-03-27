@@ -394,9 +394,9 @@ class TestBackends(IVectorTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("data.vectors.qdrant_backend", None)
-        sys.modules.pop("data.vectors.weaviate_backend", None)
-        sys.modules.pop("data.vectors.pinecone_backend", None)
+        sys.modules.pop("fast_platform.data.vectors.qdrant_backend", None)
+        sys.modules.pop("fast_platform.data.vectors.weaviate_backend", None)
+        sys.modules.pop("fast_platform.data.vectors.pinecone_backend", None)
         assert vector_base.build_vector_store("qdrant") is None
         assert vector_base.build_vector_store("weaviate") is None
         assert vector_base.build_vector_store("pinecone") is None

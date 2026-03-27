@@ -29,7 +29,7 @@ class TestHealth(IKafkaTests):
             Returns:
                 The result of the operation.
             """
-            with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
+            with patch("fast_platform.messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock()
                 admin.close = AsyncMock()
@@ -59,7 +59,7 @@ class TestHealth(IKafkaTests):
             Returns:
                 The result of the operation.
             """
-            with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
+            with patch("fast_platform.messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock(side_effect=RuntimeError("no broker"))
                 admin.close = AsyncMock()
@@ -87,7 +87,7 @@ class TestHealth(IKafkaTests):
             Returns:
                 The result of the operation.
             """
-            with patch("messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
+            with patch("fast_platform.messaging.kafka.health.AIOKafkaAdminClient") as mock_cls:
                 admin = MagicMock()
                 admin.start = AsyncMock()
                 admin.describe_cluster = AsyncMock(return_value=fake)

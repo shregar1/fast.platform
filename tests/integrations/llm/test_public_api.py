@@ -14,7 +14,7 @@ import pytest
 
 from tests.integrations.llm.abstraction import ILLMTests
 
-PACKAGE = "integrations.llm"
+PACKAGE = "fast_platform.integrations.llm"
 
 
 class TestPublicApi(ILLMTests):

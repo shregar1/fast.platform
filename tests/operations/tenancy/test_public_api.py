@@ -14,7 +14,7 @@ import pytest
 
 from tests.operations.tenancy.abstraction import ITenancyTests
 
-PACKAGE = "operations.tenancy"
+PACKAGE = "fast_platform.operations.tenancy"
 
 
 class TestPublicApi(ITenancyTests):

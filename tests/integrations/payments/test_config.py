@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for payments configuration singleton."""
 from unittest.mock import patch
 
-from core.configuration.payments import PaymentsConfiguration
+from fast_platform.core.configuration.payments import PaymentsConfiguration
 from tests.integrations.payments.abstraction import IPaymentsTests
 
 

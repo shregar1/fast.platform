@@ -4,7 +4,7 @@ import pytest
 
 pytest.importorskip("webhooks")
 
-from messaging.notifications import NotificationRetryPolicy, as_webhook_retry_policy
+from fast_platform.messaging.notifications import NotificationRetryPolicy, as_webhook_retry_policy
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

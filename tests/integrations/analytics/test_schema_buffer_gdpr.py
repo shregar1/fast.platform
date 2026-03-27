@@ -9,12 +9,12 @@ from unittest.mock import MagicMock, patch
 import jsonschema
 import pytest
 
-from integrations.analytics.buffer import BufferedAnalyticsBackend
-from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
-from integrations.analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
-from integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
-from integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from integrations.analytics.validating_backend import ValidatingAnalyticsBackend
+from fast_platform.integrations.analytics.buffer import BufferedAnalyticsBackend
+from fast_platform.integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+from fast_platform.integrations.analytics.pii import ScrubbingAnalyticsBackend, scrub_pii_properties
+from fast_platform.integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
+from fast_platform.integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from fast_platform.integrations.analytics.validating_backend import ValidatingAnalyticsBackend
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 

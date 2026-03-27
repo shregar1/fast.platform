@@ -4,14 +4,14 @@ from __future__ import annotations
 
 """Edge cases for tools, caching, budget, token_usage."""
 
-from integrations.llm.budget import estimate_tokens_from_text
-from integrations.llm.caching import (
+from fast_platform.integrations.llm.budget import estimate_tokens_from_text
+from fast_platform.integrations.llm.caching import (
     anthropic_cached_text,
     anthropic_text_block,
     openai_system_message_cached,
 )
-from integrations.llm.token_usage import TokenUsage
-from integrations.llm.tools import (
+from fast_platform.integrations.llm.token_usage import TokenUsage
+from fast_platform.integrations.llm.tools import (
     normalize_tools_to_anthropic,
     normalize_tools_to_openai,
     tool_definition_from_openai,

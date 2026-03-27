@@ -5,8 +5,8 @@ from __future__ import annotations
 """Rate-limited analytics backend."""
 from typing import Any, List, Optional
 
-from integrations.analytics.base import IAnalyticsBackend
-from integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
+from fast_platform.integrations.analytics.base import IAnalyticsBackend
+from fast_platform.integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 

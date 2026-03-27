@@ -11,7 +11,7 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 class TestProducer(IKafkaTests):
     """Represents the TestProducer class."""
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_when_disabled(self, mock_cfg_cls):
         """Execute test_producer_start_when_disabled operation.
 
@@ -32,7 +32,7 @@ class TestProducer(IKafkaTests):
         asyncio.run(p.start())
         assert p._producer is None
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_stop_no_producer(self, mock_cfg_cls):
         """Execute test_producer_stop_no_producer operation.
 
@@ -50,7 +50,7 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.stop())
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_running(self, mock_cfg_cls):
         """Execute test_producer_send_when_running operation.
 
@@ -76,7 +76,7 @@ class TestProducer(IKafkaTests):
         asyncio.run(p.send("topic", {"a": 1}))
         p._producer.send_and_wait.assert_awaited_once()
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_when_not_running(self, mock_cfg_cls):
         """Execute test_producer_send_when_not_running operation.
 
@@ -94,7 +94,7 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.send("topic", "msg"))
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope(self, mock_cfg_cls):
         """Execute test_producer_send_json_envelope operation.
 
@@ -126,7 +126,7 @@ class TestProducer(IKafkaTests):
         assert topic == "events"
         assert b"Ping" in payload
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_from_dict(self, mock_cfg_cls):
         """Execute test_producer_send_json_envelope_from_dict operation.
 
@@ -156,7 +156,7 @@ class TestProducer(IKafkaTests):
         )
         assert p._producer.send_and_wait.await_count == 1
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_when_disabled(self, mock_cfg_cls):
         """Execute test_producer_send_json_envelope_when_disabled operation.
 
@@ -176,7 +176,7 @@ class TestProducer(IKafkaTests):
         p = KafkaProducer()
         asyncio.run(p.send_json_envelope("t", KafkaJsonEnvelope(message_type="x", payload={})))
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_bytes_with_headers(self, mock_cfg_cls):
         """Execute test_producer_send_bytes_with_headers operation.
 
@@ -206,7 +206,7 @@ class TestProducer(IKafkaTests):
         assert ca.kwargs["key"] == b"k"
         assert ca.kwargs["headers"] == [("x", b"y")]
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq(self, mock_cfg_cls):
         """Execute test_producer_send_json_envelope_to_dlq operation.
 
@@ -244,7 +244,7 @@ class TestProducer(IKafkaTests):
         assert b"Err" in body
         assert ca.kwargs.get("headers")
 
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_send_json_envelope_to_dlq_requires_topic(self, mock_cfg_cls):
         """Execute test_producer_send_json_envelope_to_dlq_requires_topic operation.
 
@@ -272,8 +272,8 @@ class TestProducer(IKafkaTests):
                 )
             )
 
-    @patch("messaging.kafka.producer.AIOKafkaProducer")
-    @patch("messaging.kafka.producer.KafkaConfiguration")
+    @patch("fast_platform.messaging.kafka.producer.AIOKafkaProducer")
+    @patch("fast_platform.messaging.kafka.producer.KafkaConfiguration")
     def test_producer_start_stop_when_enabled(self, mock_cfg_cls, mock_aio_cls):
         """Execute test_producer_start_stop_when_enabled operation.
 

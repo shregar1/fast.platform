@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from core.errors import LLMFeatureNotAvailableError
+from fast_platform.core.errors import LLMFeatureNotAvailableError
 from tests.core.errors.abstraction import IErrorsTests
 
 

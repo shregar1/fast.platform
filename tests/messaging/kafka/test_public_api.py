@@ -14,7 +14,7 @@ import pytest
 
 from tests.messaging.kafka.abstraction import IKafkaTests
 
-PACKAGE = "messaging.kafka"
+PACKAGE = "fast_platform.messaging.kafka"
 
 
 class TestPublicApi(IKafkaTests):

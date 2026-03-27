@@ -25,7 +25,7 @@ class TestDatabaseUrl(IDatabaseTests):
         mock_cfg.host = "localhost"
         mock_cfg.port = 5432
         mock_cfg.database = "db"
-        with patch("persistence.db.url.DBConfiguration") as DC:
+        with patch("fast_platform.persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             url = get_database_url()
             assert "postgresql://" in url
@@ -47,7 +47,7 @@ class TestDatabaseUrl(IDatabaseTests):
         mock_cfg.host = None
         mock_cfg.port = None
         mock_cfg.database = None
-        with patch("persistence.db.url.DBConfiguration") as DC:
+        with patch("fast_platform.persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             assert get_database_url() == "sqlite:///./test.db"
 
@@ -62,7 +62,7 @@ class TestDatabaseUrl(IDatabaseTests):
         mock_cfg = MagicMock()
         mock_cfg.connection_string = ""
         mock_cfg.user_name = None
-        with patch("persistence.db.url.DBConfiguration") as DC:
+        with patch("fast_platform.persistence.db.url.DBConfiguration") as DC:
             DC.return_value.get_config.return_value = mock_cfg
             with pytest.raises(RuntimeError, match="incomplete"):
                 get_database_url()

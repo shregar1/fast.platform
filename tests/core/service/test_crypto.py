@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from core.errors import CryptoConfigurationError, ServiceUnavailableError
-from core.service.crypto import (
+from fast_platform.core.errors import CryptoConfigurationError, ServiceUnavailableError
+from fast_platform.core.service.crypto import (
     AesGcmCryptoService,
     CryptoService,
     HashingService,

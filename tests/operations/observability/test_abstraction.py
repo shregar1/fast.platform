@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for ``operations.observability.abstraction``."""
 from abc import ABC
 
-from operations.observability.abstraction import IObservability
+from fast_platform.operations.observability.abstraction import IObservability
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

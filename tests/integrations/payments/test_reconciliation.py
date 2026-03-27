@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for reconciliation DTOs and CSV export."""
 from datetime import date
 
-from integrations.payments.reconciliation import (
+from fast_platform.integrations.payments.reconciliation import (
     ReconciliationLineItem,
     ReconciliationMismatchKind,
     ReconciliationReport,

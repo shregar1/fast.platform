@@ -2,7 +2,7 @@
 
 from http import HTTPStatus
 
-from core.errors import RateLimitError
+from fast_platform.core.errors import RateLimitError
 from tests.core.errors.abstraction import IErrorsTests
 
 

@@ -1,16 +1,5 @@
-"""FastMVC Integrations Module.
+"""Taxonomy section package (see :mod:`fast_platform.taxonomy`)."""
 
-Third-party service integrations.
-"""
+from .abstraction import IIntegrations
 
-__all__ = [
-    "firebase",
-    "datadog",
-    "segment",
-    "hubspot",
-    "pagerduty",
-    "github",
-    "aws",
-    "gcp",
-    "azure",
-]
+__all__ = ["IIntegrations"]

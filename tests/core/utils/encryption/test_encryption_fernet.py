@@ -4,7 +4,7 @@ from __future__ import annotations
 
 """Tests for :class:`utils.encryption.FernetEncryption`."""
 from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
-from core.utils.encryption import FernetEncryption
+from fast_platform.core.utils.encryption import FernetEncryption
 
 
 class TestFernetEncryption(IEncryptionUtilsTests):

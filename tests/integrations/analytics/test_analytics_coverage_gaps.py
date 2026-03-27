@@ -8,12 +8,12 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from integrations.analytics.buffer import BufferedAnalyticsBackend
-from integrations.analytics.middleware import default_analytics_user_key
-from integrations.analytics.pii import scrub_pii_properties
-from integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
-from integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
-from integrations.analytics.validating_backend import ValidatingAnalyticsBackend
+from fast_platform.integrations.analytics.buffer import BufferedAnalyticsBackend
+from fast_platform.integrations.analytics.middleware import default_analytics_user_key
+from fast_platform.integrations.analytics.pii import scrub_pii_properties
+from fast_platform.integrations.analytics.rate_limit import RateLimitedAnalyticsBackend
+from fast_platform.integrations.analytics.schema_registry import EventSchemaRegistry, parse_versioned_event_name
+from fast_platform.integrations.analytics.validating_backend import ValidatingAnalyticsBackend
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
@@ -126,7 +126,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
 
         app = Starlette(routes=[Route("/", home)])
         app.add_middleware(AnalyticsSamplingMiddleware, backend=backend, sample_rate=0.5)
-        with patch("integrations.analytics.middleware.random.random", return_value=0.99):
+        with patch("fast_platform.integrations.analytics.middleware.random.random", return_value=0.99):
             client = TestClient(app)
             client.get("/")
         assert backend.track.call_count == 0

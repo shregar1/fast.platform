@@ -4,9 +4,9 @@ from __future__ import annotations
 
 """Tests for TTL cache, leased auto-refresh, and redaction helpers."""
 import time
-from sec.secrets.cache import CachedSecretsBackend
-from sec.secrets.lease import LeasedSecretsBackend
-from sec.secrets.redact import redact_json_for_log, redact_mapping, redact_text
+from fast_platform.sec.secrets.cache import CachedSecretsBackend
+from fast_platform.sec.secrets.lease import LeasedSecretsBackend
+from fast_platform.sec.secrets.redact import redact_json_for_log, redact_mapping, redact_text
 from typing import Any, Dict, Optional
 from unittest.mock import MagicMock
 

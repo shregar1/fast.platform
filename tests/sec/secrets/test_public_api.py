@@ -14,7 +14,7 @@ import pytest
 
 from tests.sec.secrets.abstraction import ISecretsTests
 
-PACKAGE = "sec.secrets"
+PACKAGE = "fast_platform.sec.secrets"
 
 
 class TestPublicApi(ISecretsTests):

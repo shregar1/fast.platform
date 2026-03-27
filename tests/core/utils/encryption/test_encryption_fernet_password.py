@@ -6,7 +6,7 @@ from __future__ import annotations
 import pytest
 
 from tests.core.utils.encryption.abstraction import IEncryptionUtilsTests
-from core.utils.encryption import FernetEncryption
+from fast_platform.core.utils.encryption import FernetEncryption
 
 
 class TestFernetPasswordBased(IEncryptionUtilsTests):

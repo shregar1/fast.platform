@@ -76,9 +76,9 @@ class TestBackendsFactoryImportError(IStorageTests):
             return real_import(name, *args, **kwargs)
 
         monkeypatch.setattr(builtins, "__import__", _fail_backend_import)
-        sys.modules.pop("data.storage.s3_backend", None)
-        sys.modules.pop("data.storage.gcs_backend", None)
-        sys.modules.pop("data.storage.azure_backend", None)
+        sys.modules.pop("fast_platform.data.storage.s3_backend", None)
+        sys.modules.pop("fast_platform.data.storage.gcs_backend", None)
+        sys.modules.pop("fast_platform.data.storage.azure_backend", None)
         assert storage_base.build_storage_backend("s3") is None
         assert storage_base.build_storage_backend("gcs") is None
         assert storage_base.build_storage_backend("azure_blob") is None

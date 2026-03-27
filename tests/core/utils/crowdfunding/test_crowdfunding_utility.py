@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from core.utils.crowdfunding import CrowdfundingUtility
+from fast_platform.core.utils.crowdfunding import CrowdfundingUtility
 
 
 def test_percent_funded_basic():

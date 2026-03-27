@@ -14,7 +14,7 @@ import pytest
 
 from tests.data_platform.storage.abstraction import IStorageTests
 
-PACKAGE = "data.storage"
+PACKAGE = "fast_platform.data.storage"
 
 
 class TestPublicApi(IStorageTests):

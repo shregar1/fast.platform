@@ -11,7 +11,7 @@ from typing import BinaryIO, Optional
 
 import pytest
 
-from data.storage.gcs_backend import GCSStorageBackend
+from fast_platform.data.storage.gcs_backend import GCSStorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

@@ -35,8 +35,8 @@ class TestConfigLoader(IKafkaTests):
         KafkaConfiguration._instance = None
         data = {"enabled": True, "bootstrap_servers": "kafka:9092", "topics": ["events"]}
         m = mock_open(read_data=json.dumps(data))
-        with patch("core.configuration.kafka.open", m):
-            with patch("core.configuration.kafka.os.getenv", return_value=None):
+        with patch("fast_platform.core.configuration.kafka.open", m):
+            with patch("fast_platform.core.configuration.kafka.os.getenv", return_value=None):
                 cfg = KafkaConfiguration()
         dto = cfg.get_config()
         assert dto.enabled is True
@@ -52,8 +52,8 @@ class TestConfigLoader(IKafkaTests):
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
-        with patch("core.configuration.kafka.open", side_effect=FileNotFoundError()):
-            with patch("core.configuration.kafka.os.getenv", return_value=None):
+        with patch("fast_platform.core.configuration.kafka.open", side_effect=FileNotFoundError()):
+            with patch("fast_platform.core.configuration.kafka.os.getenv", return_value=None):
                 cfg = KafkaConfiguration()
         dto = cfg.get_config()
         assert dto.enabled is False
@@ -68,8 +68,8 @@ class TestConfigLoader(IKafkaTests):
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
-        with patch("core.configuration.kafka.open", side_effect=FileNotFoundError()):
-            with patch("core.configuration.kafka.os.getenv", return_value=None):
+        with patch("fast_platform.core.configuration.kafka.open", side_effect=FileNotFoundError()):
+            with patch("fast_platform.core.configuration.kafka.os.getenv", return_value=None):
                 a = KafkaConfiguration()
                 b = KafkaConfiguration()
         assert a is b
@@ -83,12 +83,12 @@ class TestConfigLoader(IKafkaTests):
         from core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
-        with patch("core.configuration.kafka.open", mock_open(read_data="not-json")):
+        with patch("fast_platform.core.configuration.kafka.open", mock_open(read_data="not-json")):
             with patch(
-                "core.configuration.kafka.json.load",
+                "fast_platform.core.configuration.kafka.json.load",
                 side_effect=json.JSONDecodeError("bad", "doc", 0),
             ):
-                with patch("core.configuration.kafka.os.getenv", return_value=None):
+                with patch("fast_platform.core.configuration.kafka.os.getenv", return_value=None):
                     cfg = KafkaConfiguration()
         dto = cfg.get_config()
         assert dto.enabled is False

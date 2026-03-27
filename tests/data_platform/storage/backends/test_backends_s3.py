@@ -11,7 +11,7 @@ from typing import Any, BinaryIO, Optional
 
 import pytest
 
-from data.storage.s3_backend import S3StorageBackend
+from fast_platform.data.storage.s3_backend import S3StorageBackend
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

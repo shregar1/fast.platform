@@ -14,7 +14,7 @@ import pytest
 
 from tests.integrations.payments.abstraction import IPaymentsTests
 
-PACKAGE = "integrations.payments"
+PACKAGE = "fast_platform.integrations.payments"
 
 
 class TestPublicApi(IPaymentsTests):

@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 """Tests for ``operations.observability.audit``."""
-import operations.observability.audit as audit_module
-from operations.observability.audit import AuditEntry, AuditLog, AuditStore, audit_log
+import fast_platform.operations.observability.audit as audit_module
+from fast_platform.operations.observability.audit import AuditEntry, AuditLog, AuditStore, audit_log
 from tests.operations.observability.abstraction import IObservabilityTests
 
 

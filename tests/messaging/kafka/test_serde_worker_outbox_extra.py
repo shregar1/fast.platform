@@ -68,7 +68,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        with patch("messaging.kafka.worker.asyncio.run") as ar:
+        with patch("fast_platform.messaging.kafka.worker.asyncio.run") as ar:
             from messaging.kafka.worker import run
 
             run()
@@ -119,7 +119,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
             stop.set()
 
         with patch(
-            "messaging.kafka.outbox.publish_outbox_batch", side_effect=RuntimeError("send failed")
+            "fast_platform.messaging.kafka.outbox.publish_outbox_batch", side_effect=RuntimeError("send failed")
         ):
             asyncio.create_task(stop_soon())
             task = asyncio.create_task(

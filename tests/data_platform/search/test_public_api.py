@@ -14,7 +14,7 @@ import pytest
 
 from tests.data_platform.search.abstraction import ISearchTests
 
-PACKAGE = "data.search"
+PACKAGE = "fast_platform.data.search"
 
 
 class TestPublicApi(ISearchTests):

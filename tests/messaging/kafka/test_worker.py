@@ -8,7 +8,7 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 class TestWorker(IKafkaTests):
     """Represents the TestWorker class."""
 
-    @patch("messaging.kafka.worker.KafkaConsumer")
+    @patch("fast_platform.messaging.kafka.worker.KafkaConsumer")
     def test_worker_run(self, mock_consumer_cls):
         """Execute test_worker_run operation.
 

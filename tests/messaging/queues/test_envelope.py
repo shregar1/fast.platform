@@ -5,7 +5,7 @@ from __future__ import annotations
 """Tests for :class:`messaging.queues.envelope.QueueMessageEnvelope`."""
 import pytest
 
-from messaging.queues.envelope import (
+from fast_platform.messaging.queues.envelope import (
     ENVELOPE_VERSION_KEY,
     PRIORITY_KEY,
     QueueMessageEnvelope,

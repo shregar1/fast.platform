@@ -1,14 +1,14 @@
 """Tests for fan-out DTOs and validation."""
 
 import pytest
-from core.dtos.notifications import (
+from fast_platform.core.dtos.notifications import (
     EmailNotificationTarget,
     NotificationFanoutRequest,
     NotificationRetryPolicyDTO,
     PushNotificationTarget,
 )
 
-from messaging.notifications.retry_policy import NotificationRetryPolicy
+from fast_platform.messaging.notifications.retry_policy import NotificationRetryPolicy
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

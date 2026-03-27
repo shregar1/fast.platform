@@ -14,7 +14,7 @@ import pytest
 
 from tests.messaging.webhooks.abstraction import IWebhookTests
 
-PACKAGE = "messaging.webhooks"
+PACKAGE = "fast_platform.messaging.webhooks"
 
 
 class TestPublicApi(IWebhookTests):

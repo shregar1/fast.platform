@@ -31,8 +31,8 @@ class TestConfig(IChannelTests):
 
         ChannelsConfiguration._instance = None
         data = {"backend": "redis", "topics": ["alerts"]}
-        with patch("realtime.channels.config_loader.open", mock_open(read_data=json.dumps(data))):
-            with patch("realtime.channels.config_loader.os.getenv", return_value=None):
+        with patch("fast_platform.realtime.channels.config_loader.open", mock_open(read_data=json.dumps(data))):
+            with patch("fast_platform.realtime.channels.config_loader.os.getenv", return_value=None):
                 cfg = ChannelsConfiguration()
         dto = cfg.get_config()
         assert dto.backend == "redis"
@@ -47,8 +47,8 @@ class TestConfig(IChannelTests):
         from realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
-        with patch("realtime.channels.config_loader.open", side_effect=FileNotFoundError()):
-            with patch("realtime.channels.config_loader.os.getenv", return_value=None):
+        with patch("fast_platform.realtime.channels.config_loader.open", side_effect=FileNotFoundError()):
+            with patch("fast_platform.realtime.channels.config_loader.os.getenv", return_value=None):
                 cfg = ChannelsConfiguration()
         dto = cfg.get_config()
         assert dto.backend == "none"

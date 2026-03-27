@@ -2,7 +2,7 @@
 
 import asyncio
 
-from messaging.notifications.service import Notification, NotificationsService
+from fast_platform.messaging.notifications.service import Notification, NotificationsService
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

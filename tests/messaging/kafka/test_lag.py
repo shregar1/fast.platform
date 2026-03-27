@@ -11,8 +11,8 @@ from tests.messaging.kafka.abstraction import IKafkaTests
 class TestLag(IKafkaTests):
     """Represents the TestLag class."""
 
-    @patch("messaging.kafka.lag.AIOKafkaAdminClient")
-    @patch("messaging.kafka.lag.AIOKafkaConsumer")
+    @patch("fast_platform.messaging.kafka.lag.AIOKafkaAdminClient")
+    @patch("fast_platform.messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_computes_lag(self, mock_consumer_cls, mock_admin_cls):
         """Execute test_poll_consumer_lag_computes_lag operation.
 
@@ -45,7 +45,7 @@ class TestLag(IKafkaTests):
         assert out[0].end_offset == 100
         assert out[0].lag == 10
 
-    @patch("messaging.kafka.lag.AIOKafkaConsumer")
+    @patch("fast_platform.messaging.kafka.lag.AIOKafkaConsumer")
     def test_poll_consumer_lag_no_partitions(self, mock_consumer_cls):
         """Execute test_poll_consumer_lag_no_partitions operation.
 

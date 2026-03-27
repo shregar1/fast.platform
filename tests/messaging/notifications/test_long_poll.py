@@ -3,7 +3,7 @@
 import asyncio
 from unittest.mock import patch
 
-from messaging.notifications.service import NotificationsService
+from fast_platform.messaging.notifications.service import NotificationsService
 from tests.messaging.notifications.abstraction import INotificationTests
 
 

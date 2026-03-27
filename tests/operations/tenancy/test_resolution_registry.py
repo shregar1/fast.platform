@@ -5,8 +5,8 @@ from __future__ import annotations
 """Tests for :class:`operations.tenancy.resolution.TenantResolverRegistry`."""
 import pytest
 
-from operations.tenancy.context import InMemoryTenantStore
-from operations.tenancy.resolution import TenantResolverRegistry
+from fast_platform.operations.tenancy.context import InMemoryTenantStore
+from fast_platform.operations.tenancy.resolution import TenantResolverRegistry
 from tests.operations.tenancy.abstraction import ITenancyTests
 from tests.operations.tenancy.helpers import make_request
 

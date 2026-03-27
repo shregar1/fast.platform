@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from integrations.analytics.base import IAnalyticsBackend, build_analytics_client
+from fast_platform.integrations.analytics.base import IAnalyticsBackend, build_analytics_client
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
 
@@ -118,7 +118,7 @@ class TestHttpSinkAndBase(IAnalyticsTests):
                 return Cfg()
 
         monkeypatch.setattr(
-            "integrations.analytics.base.AnalyticsConfiguration", AnalyticsConfiguration
+            "fast_platform.integrations.analytics.base.AnalyticsConfiguration", AnalyticsConfiguration
         )
         c = build_analytics_client()
         assert c is not None

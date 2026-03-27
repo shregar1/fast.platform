@@ -4,7 +4,7 @@ from __future__ import annotations
 
 """Tests for :mod:`utils.media.audio`."""
 from tests.core.utils.media.abstraction import IMediaUtilsTests
-from core.utils.media.audio import AudioUtility
+from fast_platform.core.utils.media.audio import AudioUtility
 
 
 class TestAudioUtility(IMediaUtilsTests):

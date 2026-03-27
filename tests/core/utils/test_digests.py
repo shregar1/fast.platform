@@ -4,7 +4,7 @@ from __future__ import annotations
 
 """Tests for :mod:`utils.digests`."""
 from tests.core.utils.abstraction import IUtilsTests
-from core.utils.digests import Digests
+from fast_platform.core.utils.digests import Digests
 
 
 class TestDigests(IUtilsTests):

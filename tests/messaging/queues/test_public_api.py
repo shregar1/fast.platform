@@ -14,7 +14,7 @@ import pytest
 
 from tests.messaging.queues.abstraction import IQueueTests
 
-PACKAGE = "messaging.queues"
+PACKAGE = "fast_platform.messaging.queues"
 
 
 class TestPublicApi(IQueueTests):

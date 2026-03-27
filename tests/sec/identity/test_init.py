@@ -1,6 +1,6 @@
 """Smoke test package import."""
 
-import sec.identity as i
+import fast_platform.sec.identity as i
 
 from tests.sec.identity.abstraction import IIdentityTests
 

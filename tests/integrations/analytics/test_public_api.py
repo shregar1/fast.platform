@@ -14,7 +14,7 @@ import pytest
 
 from tests.integrations.analytics.abstraction import IAnalyticsTests
 
-PACKAGE = "integrations.analytics"
+PACKAGE = "fast_platform.integrations.analytics"
 
 
 class TestPublicApi(IAnalyticsTests):

@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from persistence.db.async_engine import (
+from fast_platform.persistence.db.async_engine import (
     async_database_url_from_config,
     check_database_async,
     create_and_set_async_session_factory,
@@ -14,7 +14,7 @@ from persistence.db.async_engine import (
     get_async_engine_instance,
     get_async_session_factory,
 )
-from core.dtos import DBConfigurationDTO
+from fast_platform.core.dtos import DBConfigurationDTO
 from tests.persistence.db.abstraction import IDatabaseTests
 
 
@@ -67,7 +67,7 @@ class TestAsyncEngine(IDatabaseTests):
         assert await check_database_async(eng) is True
         await eng.dispose()
 
-    @patch("persistence.db.async_engine.create_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_incomplete_raises(self, mock_create):
         """Execute test_get_async_engine_incomplete_raises operation.
 
@@ -81,7 +81,7 @@ class TestAsyncEngine(IDatabaseTests):
             get_async_engine(DBConfigurationDTO())
         mock_create.assert_not_called()
 
-    @patch("persistence.db.async_engine.DBConfiguration")
+    @patch("fast_platform.persistence.db.async_engine.DBConfiguration")
     def test_get_async_engine_uses_default_config(self, mock_db_cls):
         """Execute test_get_async_engine_uses_default_config operation.
 
@@ -101,12 +101,12 @@ class TestAsyncEngine(IDatabaseTests):
             connection_string="postgresql+psycopg2://{user_name}:{password}@{host}:{port}/{database}",
         )
         mock_db_cls.return_value = mock_conf
-        with patch("persistence.db.async_engine.create_async_engine"):
+        with patch("fast_platform.persistence.db.async_engine.create_async_engine"):
             get_async_engine(None)
         mock_db_cls.assert_called()
 
-    @patch("persistence.db.async_engine.create_async_session_factory")
-    @patch("persistence.db.async_engine.get_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_session_factory")
+    @patch("fast_platform.persistence.db.async_engine.get_async_engine")
     def test_create_and_set_async_session_factory_none_config_uses_singleton(
         self, mock_get_eng, mock_create_fac
     ):
@@ -134,12 +134,12 @@ class TestAsyncEngine(IDatabaseTests):
         mock_get_eng.return_value = mock_eng
         mock_fac = MagicMock()
         mock_create_fac.return_value = mock_fac
-        with patch("persistence.db.async_engine.DBConfiguration", return_value=mock_db):
+        with patch("fast_platform.persistence.db.async_engine.DBConfiguration", return_value=mock_db):
             out = create_and_set_async_session_factory(None)
         assert out is mock_fac
         mock_get_eng.assert_called_once_with(mock_conf)
 
-    @patch("persistence.db.async_engine.create_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_passes_pool_async(self, mock_create):
         """Execute test_get_async_engine_passes_pool_async operation.
 
@@ -165,7 +165,7 @@ class TestAsyncEngine(IDatabaseTests):
         assert kwargs["pool_size"] == 2
         assert kwargs["pool_recycle"] == 100
 
-    @patch("persistence.db.async_engine.create_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_engine")
     def test_get_async_engine_passes_server_settings(self, mock_create):
         """Execute test_get_async_engine_passes_server_settings operation.
 
@@ -211,7 +211,7 @@ class TestAsyncEngine(IDatabaseTests):
         url = async_read_replica_url_from_config(cfg)
         assert url and "postgresql+asyncpg" in url
 
-    @patch("persistence.db.async_engine.create_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_engine")
     def test_get_async_read_engine(self, mock_create):
         """Execute test_get_async_read_engine operation.
 
@@ -331,8 +331,8 @@ class TestAsyncEngine(IDatabaseTests):
         """
         assert create_and_set_async_session_factory(DBConfigurationDTO()) is None
 
-    @patch("persistence.db.async_engine.create_async_session_factory")
-    @patch("persistence.db.async_engine.get_async_engine")
+    @patch("fast_platform.persistence.db.async_engine.create_async_session_factory")
+    @patch("fast_platform.persistence.db.async_engine.get_async_engine")
     def test_create_and_set_async_session_factory_sets_globals(self, mock_get_eng, mock_create_fac):
         """Execute test_create_and_set_async_session_factory_sets_globals operation.
 

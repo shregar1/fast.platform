@@ -14,7 +14,7 @@ import pytest
 
 from tests.sec.identity.abstraction import IIdentityTests
 
-PACKAGE = "sec.identity"
+PACKAGE = "fast_platform.sec.identity"
 
 
 class TestPublicApi(IIdentityTests):

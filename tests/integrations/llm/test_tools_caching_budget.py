@@ -7,19 +7,19 @@ from typing import AsyncIterator, List
 
 import pytest
 
-from integrations.llm.budget import (
+from fast_platform.integrations.llm.budget import (
     TokenBudgetExceeded,
     check_usage_against_budget,
     iter_llm_stream_with_budget,
 )
-from integrations.llm.caching import (
+from fast_platform.integrations.llm.caching import (
     ephemeral_cache_control,
     openai_content_part_text,
     openai_system_message_cached,
 )
-from integrations.llm.streaming import StreamChunk
-from integrations.llm.token_usage import TokenUsage
-from integrations.llm.tools import (
+from fast_platform.integrations.llm.streaming import StreamChunk
+from fast_platform.integrations.llm.token_usage import TokenUsage
+from fast_platform.integrations.llm.tools import (
     ToolDefinition,
     normalize_tools_to_anthropic,
     normalize_tools_to_openai,

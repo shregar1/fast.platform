@@ -7,7 +7,7 @@ import io
 import sys
 import types
 
-from data.storage.multipart import multipart_upload_large_file
+from fast_platform.data.storage.multipart import multipart_upload_large_file
 from tests.data_platform.storage.abstraction import IStorageTests
 
 

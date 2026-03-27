@@ -4,8 +4,8 @@ import asyncio
 
 import pytest
 
-from realtime.channels.hub import ChannelsHub
-from realtime.channels.metrics import InMemoryChannelMetrics
+from fast_platform.realtime.channels.hub import ChannelsHub
+from fast_platform.realtime.channels.metrics import InMemoryChannelMetrics
 from tests.realtime.channels.abstraction import IChannelTests
 
 

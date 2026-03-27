@@ -5,7 +5,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from sec.identity.multi_issuer_jwks import MultiIssuerJWKSCache
+from fast_platform.sec.identity.multi_issuer_jwks import MultiIssuerJWKSCache
 from tests.sec.identity.abstraction import IIdentityTests
 
 
@@ -70,7 +70,7 @@ class TestMultiIssuerJwks(IIdentityTests):
 
             mock_cm.__aenter__.return_value.get = AsyncMock(side_effect=mock_get)
             mock_cm.__aexit__.return_value = None
-            with patch("sec.identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
+            with patch("fast_platform.sec.identity.jwks_cache.httpx.AsyncClient", return_value=mock_cm):
                 assert await reg.get_jwks("https://old-idp/") == jwks_a
                 assert await reg.get_jwks("https://new-idp/") == jwks_b
             assert "https://old-idp/jwks.json" in calls

@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 
-from integrations.llm.token_usage import TokenUsage
+from fast_platform.integrations.llm.token_usage import TokenUsage
 from tests.integrations.llm.abstraction import ILLMTests
 
 

@@ -1,9 +1,9 @@
 """Tests for ICE server helpers."""
 
-from core.dtos import RealtimeConfigurationDTO, WebRtcIceConfigDTO, WebRtcIceServerDTO
+from fast_platform.core.dtos import RealtimeConfigurationDTO, WebRtcIceConfigDTO, WebRtcIceServerDTO
 from tests.realtime.webrtc.abstraction import IWebRTCTests
-from realtime.webrtc.dto import WebRTCConfigurationDTO
-from realtime.webrtc.ice_config import (
+from fast_platform.realtime.webrtc.dto import WebRTCConfigurationDTO
+from fast_platform.realtime.webrtc.ice_config import (
     ice_servers_from_legacy_webrtc_dto,
     rtc_ice_servers_for_client,
 )
