@@ -9,7 +9,7 @@ from pydantic import Field, model_validator
 from .abstraction import IDTO
 
 if TYPE_CHECKING:
-    from messaging.notifications.retry_policy import NotificationRetryPolicy
+    from fast_platform.messaging.notifications.retry_policy import NotificationRetryPolicy
 
 
 class APNSConfigDTO(IDTO):
@@ -57,7 +57,7 @@ class NotificationRetryPolicyDTO(IDTO):
         Returns:
             The result of the operation.
         """
-        from messaging.notifications.retry_policy import NotificationRetryPolicy
+        from fast_platform.messaging.notifications.retry_policy import NotificationRetryPolicy
 
         return NotificationRetryPolicy(
             max_attempts=self.max_attempts,

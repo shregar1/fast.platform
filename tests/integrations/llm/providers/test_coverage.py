@@ -31,7 +31,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_client = MagicMock()
         mock_client.chat.completions.create = AsyncMock(return_value=mock_resp)
         with patch("openai.AsyncOpenAI", return_value=mock_client):
-            from integrations.llm.providers import OpenAILLMService
+            from fast_platform.integrations.llm.providers import OpenAILLMService
 
             svc = OpenAILLMService("k", None, "m")
             assert await svc.generate("p", max_tokens=10) == "hello"
@@ -49,7 +49,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_client = MagicMock()
         mock_client.messages.create = AsyncMock(return_value=mock_resp)
         with patch("anthropic.AsyncAnthropic", return_value=mock_client):
-            from integrations.llm.providers import AnthropicLLMService
+            from fast_platform.integrations.llm.providers import AnthropicLLMService
 
             svc = AnthropicLLMService("k", "http://localhost", "claude")
             assert await svc.generate("p") == "a"
@@ -65,7 +65,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_client = MagicMock()
         mock_client.messages.create = AsyncMock(return_value=mock_resp)
         with patch("anthropic.AsyncAnthropic", return_value=mock_client):
-            from integrations.llm.providers import AnthropicLLMService
+            from fast_platform.integrations.llm.providers import AnthropicLLMService
 
             svc = AnthropicLLMService("k", None, "claude")
             assert await svc.generate("p") == ""
@@ -86,7 +86,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_cm.post = AsyncMock(return_value=mock_response)
         mock_async_client = MagicMock(return_value=mock_cm)
         with patch("httpx.AsyncClient", mock_async_client):
-            from integrations.llm.providers import OllamaLLMService
+            from fast_platform.integrations.llm.providers import OllamaLLMService
 
             svc = OllamaLLMService("http://127.0.0.1:11434", "llama")
             assert await svc.generate("hi") == "ollama-out"
@@ -100,7 +100,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class OpenAIStub:
             """Represents the OpenAIStub class."""
@@ -146,7 +146,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
             """Represents the Cfg class."""
@@ -182,7 +182,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
             """Represents the Cfg class."""
@@ -215,7 +215,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm.providers import ILLMService, OpenAILLMService
+        from fast_platform.integrations.llm.providers import ILLMService, OpenAILLMService
 
         with patch("openai.AsyncOpenAI", return_value=MagicMock()):
             s = OpenAILLMService("k", None, "m")
@@ -233,7 +233,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_client = MagicMock()
         mock_client.chat.completions.create = AsyncMock(return_value=mock_resp)
         with patch("openai.AsyncOpenAI", return_value=mock_client):
-            from integrations.llm.providers import GroqLLMService
+            from fast_platform.integrations.llm.providers import GroqLLMService
 
             svc = GroqLLMService("k", None, "llama-3")
             assert await svc.generate("p") == "groq"
@@ -250,7 +250,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         mock_client = MagicMock()
         mock_client.chat.completions.create = AsyncMock(return_value=mock_resp)
         with patch("openai.AsyncOpenAI", return_value=mock_client):
-            from integrations.llm.providers import MistralLLMService
+            from fast_platform.integrations.llm.providers import MistralLLMService
 
             svc = MistralLLMService("k", None, "mistral-small")
             assert await svc.generate("p") == "mistral-out"
@@ -275,7 +275,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         sys.modules.setdefault("google", types.ModuleType("google"))
         sys.modules["google.generativeai"] = mock_genai
         try:
-            from integrations.llm.providers import GeminiLLMService
+            from fast_platform.integrations.llm.providers import GeminiLLMService
 
             svc = GeminiLLMService("k", "gemini-1.5-flash")
             assert await svc.generate("hi") == "gemini-text"
@@ -296,7 +296,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
             """Represents the Cfg class."""
@@ -331,7 +331,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
             """Represents the Cfg class."""
@@ -370,7 +370,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         """
         pytest.importorskip("google.generativeai")
 
-        from integrations.llm import providers as prov
+        from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
             """Represents the Cfg class."""

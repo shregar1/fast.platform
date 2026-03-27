@@ -12,7 +12,7 @@ class TestInit(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics import (
+        from fast_platform.integrations.analytics import (
             AnalyticsConfiguration,
             AnalyticsConfigurationDTO,
             AnalyticsSamplingMiddleware,

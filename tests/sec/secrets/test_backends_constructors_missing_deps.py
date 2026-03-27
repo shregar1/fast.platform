@@ -24,9 +24,9 @@ class TestBackendsConstructorsMissingDeps(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.aws_backend import AwsSecretsBackend
-        from sec.secrets.gcp_backend import GcpSecretsBackend
-        from sec.secrets.vault_backend import VaultSecretsBackend
+        from fast_platform.sec.secrets.aws_backend import AwsSecretsBackend
+        from fast_platform.sec.secrets.gcp_backend import GcpSecretsBackend
+        from fast_platform.sec.secrets.vault_backend import VaultSecretsBackend
 
         real_import = builtins.__import__
 

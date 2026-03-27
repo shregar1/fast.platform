@@ -13,7 +13,7 @@ from .preferences import AllowAllNotificationPreferences, INotificationPreferenc
 from .push import PushNotificationService
 
 if TYPE_CHECKING:
-    from core.dtos.notifications import NotificationFanoutRequest
+    from fast_platform.core.dtos.notifications import NotificationFanoutRequest
 
 
 class EmailSender(Protocol):

@@ -7,8 +7,8 @@ from typing import Any, Optional, Union
 from aiokafka import AIOKafkaProducer  # pyright: ignore[reportMissingTypeStubs]
 from loguru import logger
 
-from core.configuration.kafka import KafkaConfiguration
-from core.dtos.kafka import KafkaJsonEnvelope
+from ...core.configuration.kafka import KafkaConfiguration
+from ...core.dtos.kafka import KafkaJsonEnvelope
 
 from .dlq import make_dlq_headers
 

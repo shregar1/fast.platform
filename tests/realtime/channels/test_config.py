@@ -15,7 +15,7 @@ class TestConfig(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.dto import ChannelsConfigurationDTO
+        from fast_platform.realtime.channels.dto import ChannelsConfigurationDTO
 
         d = ChannelsConfigurationDTO()
         assert d.backend == "none"
@@ -27,7 +27,7 @@ class TestConfig(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.config_loader import ChannelsConfiguration
+        from fast_platform.realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
         data = {"backend": "redis", "topics": ["alerts"]}
@@ -44,7 +44,7 @@ class TestConfig(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.config_loader import ChannelsConfiguration
+        from fast_platform.realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
         with patch("fast_platform.realtime.channels.config_loader.open", side_effect=FileNotFoundError()):

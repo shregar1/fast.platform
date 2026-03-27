@@ -3,7 +3,7 @@
 Lightweight pub/sub using Redis or in-memory fallback.
 
 Usage:
-    from core.events import event, on, emit
+    from fast_platform.core.events import event, on, emit
 
     # Define event handler
     @on("user.created")

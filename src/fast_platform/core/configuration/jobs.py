@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Optional, Type
 
-from core.dtos import JobsConfigurationDTO
+from ..dtos import JobsConfigurationDTO
 
 from .abstraction import ConfigurationSingletonBase
 

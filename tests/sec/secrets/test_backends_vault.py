@@ -26,8 +26,8 @@ class TestBackendsVault(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets import base as secrets_base
-        from sec.secrets.vault_backend import VaultSecretsBackend
+        from fast_platform.sec.secrets import base as secrets_base
+        from fast_platform.sec.secrets.vault_backend import VaultSecretsBackend
 
         class FakeKVv2:
             """Represents the FakeKVv2 class."""
@@ -128,7 +128,7 @@ class TestBackendsVault(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.vault_backend import VaultSecretsBackend
+        from fast_platform.sec.secrets.vault_backend import VaultSecretsBackend
 
         class FakeKVv2:
             """Represents the FakeKVv2 class."""

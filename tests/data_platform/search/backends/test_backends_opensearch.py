@@ -19,7 +19,7 @@ class TestBackendsOpensearch(ISearchTests):
         Returns:
             The result of the operation.
         """
-        from data.search.opensearch_backend import OpenSearchBackend
+        from fast_platform.data.search.opensearch_backend import OpenSearchBackend
 
         calls: dict[str, Any] = {}
 

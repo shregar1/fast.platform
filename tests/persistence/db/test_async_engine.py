@@ -197,7 +197,7 @@ class TestAsyncEngine(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.async_engine import async_read_replica_url_from_config
+        from fast_platform.persistence.db.async_engine import async_read_replica_url_from_config
 
         cfg = DBConfigurationDTO(
             user_name="u",
@@ -221,7 +221,7 @@ class TestAsyncEngine(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.async_engine import get_async_read_engine
+        from fast_platform.persistence.db.async_engine import get_async_read_engine
 
         cfg = DBConfigurationDTO(
             user_name="u",
@@ -244,7 +244,7 @@ class TestAsyncEngine(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.async_engine import get_async_read_engine
+        from fast_platform.persistence.db.async_engine import get_async_read_engine
 
         assert (
             get_async_read_engine(
@@ -266,7 +266,7 @@ class TestAsyncEngine(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db import async_engine as m
+        from fast_platform.persistence.db import async_engine as m
 
         mock_eng = MagicMock()
         try:

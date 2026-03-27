@@ -15,7 +15,7 @@ class TestInit(ITenancyTests):
         Returns:
             The result of the operation.
         """
-        from operations.tenancy import (
+        from fast_platform.operations.tenancy import (
             HeaderTenantResolver,
             InMemoryTenantStore,
             ResolutionStrategy,

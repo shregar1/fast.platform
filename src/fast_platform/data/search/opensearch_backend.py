@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
-from core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
+from ...core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
 
 
 class OpenSearchBackend(ISearchBackend):

@@ -17,7 +17,7 @@ class TestRetryPolicyWebhookAlign(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.delivery import RetryPolicy as W
+        from fast_platform.messaging.webhooks.delivery import RetryPolicy as W
 
         n = NotificationRetryPolicy()
         w = W()
@@ -33,7 +33,7 @@ class TestRetryPolicyWebhookAlign(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.delivery import RetryPolicy as W
+        from fast_platform.messaging.webhooks.delivery import RetryPolicy as W
 
         w = W(max_attempts=5, jitter_ratio=0.1)
         n = NotificationRetryPolicy.from_webhook_retry_policy(w)

@@ -8,7 +8,7 @@ from typing import Any, List, Optional
 from fast_platform import SearchConfiguration
 
 from .abstraction import ISearch
-from core.dtos.search import FacetedSearchResult, SearchHit
+from ...core.dtos.search import FacetedSearchResult, SearchHit
 
 
 class ISearchBackend(ISearch, ABC):

@@ -83,7 +83,7 @@ class TestSubscriberCounters(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.subscriber_counters import InMemorySubscriberCounters
+        from fast_platform.realtime.channels.subscriber_counters import InMemorySubscriberCounters
 
         c = InMemorySubscriberCounters()
         assert asyncio.run(c.count("x")) == 0
@@ -99,7 +99,7 @@ class TestSubscriberCounters(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.subscriber_counters import RedisSubscriberCounters
+        from fast_platform.realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = FakeRedisForCounters()
         c = RedisSubscriberCounters(client, key_prefix="t:")

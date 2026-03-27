@@ -12,7 +12,7 @@ import os
 
 from cryptography.fernet import Fernet, InvalidToken
 
-from core.utils.digests import Digests
+from ...core.utils.digests import Digests
 
 
 def _fernet() -> Fernet:

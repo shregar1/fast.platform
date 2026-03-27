@@ -30,15 +30,20 @@ class ConfigurationSingletonBase(Generic[TConfigurationDTO]):
     _section: str
     _env_key: str
     _dto: Type[BaseModel]
+    _instance: Optional[Any] = None
 
     def __new__(cls, *args: Any, **kwargs: Any) -> ConfigurationSingletonBase[TConfigurationDTO]:
         if cls._instance is None:
-            inst = super().__new__(cls)
+            inst: ConfigurationSingletonBase[TConfigurationDTO] = super().__new__(cls)
             dto_cls = cls._dto
             raw = cls.load_config_json(cls._section, cls._env_key)
             inst._dto = cls.validate_config(dto_cls, raw)
             cls._instance = inst
         return cls._instance  # type: ignore[return-value,assignment]
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """No-op __init__ to avoid object.__init__ failures with arguments."""
+        pass
 
     @classmethod
     def load_config_json(cls, section: str, env_key: str) -> Optional[Dict[str, Any]]:

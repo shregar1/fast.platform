@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from core.configuration.kafka import KafkaConfiguration
-from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
+from ...core.configuration.kafka import KafkaConfiguration
+from ...core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
 from .consumer import KafkaConsumer
 from .dlq import (

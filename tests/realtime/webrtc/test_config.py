@@ -28,7 +28,7 @@ class TestConfig(IWebRTCTests):
         Returns:
             The result of the operation.
         """
-        from realtime.webrtc.config_loader import WebRTCConfiguration
+        from fast_platform.realtime.webrtc.config_loader import WebRTCConfiguration
 
         WebRTCConfiguration._instance = None
         data = {
@@ -50,7 +50,7 @@ class TestConfig(IWebRTCTests):
         Returns:
             The result of the operation.
         """
-        from realtime.webrtc.config_loader import WebRTCConfiguration
+        from fast_platform.realtime.webrtc.config_loader import WebRTCConfiguration
 
         WebRTCConfiguration._instance = None
         with patch("fast_platform.realtime.webrtc.config_loader.open", side_effect=FileNotFoundError()):
@@ -66,7 +66,7 @@ class TestConfig(IWebRTCTests):
         Returns:
             The result of the operation.
         """
-        from realtime.webrtc.config_loader import WebRTCConfiguration
+        from fast_platform.realtime.webrtc.config_loader import WebRTCConfiguration
 
         WebRTCConfiguration._instance = None
         with patch("fast_platform.realtime.webrtc.config_loader.open", mock_open(read_data="{not valid json")):

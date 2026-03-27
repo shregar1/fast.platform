@@ -15,7 +15,7 @@ class TestInit(IPaymentsTests):
         Returns:
             The result of the operation.
         """
-        import integrations.payments as p
+        import fast_platform.integrations.payments as p
 
         assert p.PaymentsConfiguration is not None
         assert p.PaymentsConfigurationDTO is not None

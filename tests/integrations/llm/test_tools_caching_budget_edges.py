@@ -98,7 +98,7 @@ class TestToolsCachingBudgetEdges(ILLMTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm.tools import tool_definition_from_anthropic
+        from fast_platform.integrations.llm.tools import tool_definition_from_anthropic
 
         t = tool_definition_from_anthropic(
             {"name": "n", "description": "d", "input_schema": "not-a-dict"}

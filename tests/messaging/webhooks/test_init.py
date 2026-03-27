@@ -16,7 +16,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks import (
+        from fast_platform.messaging.webhooks import (
             compute_signature,
             require_webhook_signature,
         )
@@ -30,7 +30,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks import signature_header_value, verify_signature
+        from fast_platform.messaging.webhooks import signature_header_value, verify_signature
 
         payload = b'{"event":"test"}'
         secret = "sk_test"
@@ -45,7 +45,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks import compute_signature
+        from fast_platform.messaging.webhooks import compute_signature
 
         with pytest.raises(ValueError, match="Unsupported HMAC"):
             compute_signature(b"x", "s", algorithm="not_a_real_digest")
@@ -57,7 +57,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
+        from fast_platform.messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
         mock_response_ok = MagicMock(status_code=200, text="ok")
         mock_response_bad = MagicMock(status_code=400, text="bad request")
@@ -85,7 +85,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.delivery import RetryPolicy, deliver_webhook
+        from fast_platform.messaging.webhooks.delivery import RetryPolicy, deliver_webhook
 
         with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
             inst = mock_client.return_value.__aenter__.return_value
@@ -102,7 +102,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.delivery import deliver_webhook_sync
+        from fast_platform.messaging.webhooks.delivery import deliver_webhook_sync
 
         mock_response = MagicMock(status_code=201, text="created")
         with patch("fast_platform.messaging.webhooks.delivery.httpx.AsyncClient") as mock_client:
@@ -119,7 +119,7 @@ class TestInit(IWebhookTests):
         Returns:
             The result of the operation.
         """
-        from messaging.webhooks.fastapi_deps import _resolve_secret
+        from fast_platform.messaging.webhooks.fastapi_deps import _resolve_secret
 
         async def async_secret() -> str:
             """Execute async_secret operation.

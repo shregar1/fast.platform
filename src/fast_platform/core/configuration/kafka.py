@@ -9,7 +9,7 @@ from typing import Optional
 
 from loguru import logger
 
-from core.dtos.kafka import KafkaConfigurationDTO
+from ..dtos.kafka import KafkaConfigurationDTO
 
 
 class KafkaConfiguration:

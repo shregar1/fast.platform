@@ -23,7 +23,7 @@ class TestLag(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.lag import poll_consumer_lag
+        from fast_platform.messaging.kafka.lag import poll_consumer_lag
 
         tp = TopicPartition("orders", 0)
         cons = MagicMock()
@@ -55,7 +55,7 @@ class TestLag(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.lag import poll_consumer_lag
+        from fast_platform.messaging.kafka.lag import poll_consumer_lag
 
         cons = MagicMock()
         cons.start = AsyncMock()

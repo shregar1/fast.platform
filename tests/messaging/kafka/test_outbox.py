@@ -15,7 +15,7 @@ class TestOutbox(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.outbox import OutboxMessage, publish_outbox_batch
+        from fast_platform.messaging.kafka.outbox import OutboxMessage, publish_outbox_batch
 
         marks: list[int] = []
         producer = MagicMock()
@@ -54,7 +54,7 @@ class TestOutbox(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.outbox import POSTGRES_OUTBOX_DDL
+        from fast_platform.messaging.kafka.outbox import POSTGRES_OUTBOX_DDL
 
         assert "kafka_outbox" in POSTGRES_OUTBOX_DDL
         assert "CREATE TABLE" in POSTGRES_OUTBOX_DDL
@@ -65,7 +65,7 @@ class TestOutbox(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.outbox import run_outbox_publisher_loop
+        from fast_platform.messaging.kafka.outbox import run_outbox_publisher_loop
 
         stop = asyncio.Event()
         stop.set()
@@ -83,7 +83,7 @@ class TestOutbox(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
+        from fast_platform.messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
 
         stop = asyncio.Event()
         seen: list[int] = []

@@ -19,7 +19,7 @@ class TestBackendsTypesense(ISearchTests):
         Returns:
             The result of the operation.
         """
-        from data.search.typesense_backend import TypesenseBackend, _filter_str
+        from fast_platform.data.search.typesense_backend import TypesenseBackend, _filter_str
 
         calls: dict[str, Any] = {}
 

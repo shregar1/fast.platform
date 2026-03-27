@@ -26,7 +26,7 @@ class TestBackendsBuildImportError(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets import base as secrets_base
+        from fast_platform.sec.secrets import base as secrets_base
 
         class FakeCfg:
             """Represents the FakeCfg class."""

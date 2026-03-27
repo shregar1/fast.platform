@@ -7,8 +7,8 @@ from __future__ import annotations
 
 from typing import Any, Mapping, MutableMapping, Optional
 
-from core.utils.optional_imports import OptionalImports
-from core.utils.request_id_context import RequestIdContext
+from ...core.utils.optional_imports import OptionalImports
+from ...core.utils.request_id_context import RequestIdContext
 
 _REQUEST_ID_ATTR = "fastmvc.request_id"
 

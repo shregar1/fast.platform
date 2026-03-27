@@ -19,7 +19,7 @@ class TestBackendsFactoryImportError(ISearchTests):
         Returns:
             The result of the operation.
         """
-        from data.search import base as search_base
+        from fast_platform.data.search import base as search_base
 
         class FakeCfg:
             """Represents the FakeCfg class."""

@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 from fast_platform import QueuesConfiguration
-from core.utils.optional_imports import OptionalImports
+from ...core.utils.optional_imports import OptionalImports
 
 from .abstraction import IQueue
 
@@ -265,7 +265,7 @@ class AzureServiceBusBackend(IQueueBackend):
 class QueueBroker:
     """High-level facade over multiple queue backends.
 
-    It instantiates enabled backends from core.configuration and lets callers
+    It instantiates enabled backends from fast_platform.core.configuration and lets callers
     publish messages by backend name.
     """
 

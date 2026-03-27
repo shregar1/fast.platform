@@ -8,7 +8,7 @@ from __future__ import annotations
 import hmac
 from typing import Dict, Optional
 
-from core.utils.digests import Digests
+from ...core.utils.digests import Digests
 
 
 class ApiKeyHashes:

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from core.dtos.notifications import (
+from ...core.dtos.notifications import (
     APNSConfigDTO,
     EmailNotificationTarget,
     FCMConfigDTO,

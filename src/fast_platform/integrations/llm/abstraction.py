@@ -9,7 +9,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from core.errors.llm_dependency_error import LLMDependencyError
+from fast_platform.core.errors.llmdependencyerror import LLMDependencyError
 from fast_platform import LLMConfiguration
 
 try:
@@ -173,7 +173,7 @@ class OllamaLLMService(ILLMService):
 
 
 def build_llm_service() -> Optional[ILLMService]:
-    """Build an LLM service instance from core.configuration.
+    """Build an LLM service instance from fast_platform.core.configuration.
 
     Priority:
       - OpenAI

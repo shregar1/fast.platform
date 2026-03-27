@@ -13,7 +13,7 @@ from typing import Any, Optional
 from fastapi import HTTPException, Request
 from fastapi.security import APIKeyHeader, APIKeyQuery
 
-from core.utils.digests import Digests
+from ...core.utils.digests import Digests
 
 from .abstraction import ISecurity
 

@@ -147,7 +147,7 @@ class TestEnginePool(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.engine import get_engine
+        from fast_platform.persistence.db.engine import get_engine
 
         config = DBConfigurationDTO(
             user_name="u",

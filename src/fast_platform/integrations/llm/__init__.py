@@ -1,11 +1,11 @@
 """fast_llm – LLM provider abstraction (OpenAI, Anthropic, Ollama, Groq, Mistral, Gemini) for FastMVC."""
 
-from core.errors import (
+from fast_platform import LLMConfiguration, LLMConfigurationDTO
+from fast_platform.core.errors import (
     LLMDependencyError,
     LLMFeatureNotAvailableError,
     UnsupportedLLMProviderError,
 )
-from fast_platform import LLMConfiguration, LLMConfigurationDTO
 
 from .budget import (
     TokenBudgetExceeded,

@@ -24,8 +24,8 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm.instrumented import InstrumentedAnthropicLLMService
-        from integrations.llm.token_usage import TokenUsage
+        from fast_platform.integrations.llm.instrumented import InstrumentedAnthropicLLMService
+        from fast_platform.integrations.llm.token_usage import TokenUsage
 
         usage_obj = types.SimpleNamespace(input_tokens=1, output_tokens=2)
         text_block = types.SimpleNamespace(type="text", text="ok")
@@ -78,8 +78,8 @@ class TestInstrumentedAnthropicSyncCb(ILLMTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm.instrumented import InstrumentedOpenAILLMService
-        from integrations.llm.token_usage import TokenUsage
+        from fast_platform.integrations.llm.instrumented import InstrumentedOpenAILLMService
+        from fast_platform.integrations.llm.token_usage import TokenUsage
 
         usage_obj = types.SimpleNamespace(prompt_tokens=1, completion_tokens=1, total_tokens=2)
         msg = types.SimpleNamespace(content="x")

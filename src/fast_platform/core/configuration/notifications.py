@@ -9,7 +9,7 @@ from typing import Optional
 
 from loguru import logger
 
-from core.dtos.notifications import APNSConfigDTO, FCMConfigDTO, PushConfigurationDTO
+from ..dtos.notifications import APNSConfigDTO, FCMConfigDTO, PushConfigurationDTO
 
 
 class NotificationsConfiguration:

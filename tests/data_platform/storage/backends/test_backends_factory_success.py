@@ -26,10 +26,10 @@ class TestBackendsFactorySuccess(IStorageTests):
         Returns:
             The result of the operation.
         """
-        from data.storage import base as storage_base
-        from data.storage.azure_backend import AzureBlobStorageBackend
-        from data.storage.gcs_backend import GCSStorageBackend
-        from data.storage.s3_backend import S3StorageBackend
+        from fast_platform.data.storage import base as storage_base
+        from fast_platform.data.storage.azure_backend import AzureBlobStorageBackend
+        from fast_platform.data.storage.gcs_backend import GCSStorageBackend
+        from fast_platform.data.storage.s3_backend import S3StorageBackend
 
         fake_botocore_config = types.ModuleType("botocore.config")
 

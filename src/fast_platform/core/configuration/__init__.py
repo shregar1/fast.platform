@@ -1,6 +1,6 @@
 """Configuration DTOs and loaders for fast-platform."""
 
-from core.dtos import (
+from ..dtos import (
     AnalyticsConfigurationDTO,
     CacheConfigurationDTO,
     DatadogConfigurationDTO,

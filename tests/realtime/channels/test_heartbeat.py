@@ -42,8 +42,8 @@ class TestHeartbeat(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.heartbeat import run_heartbeat_loop
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.heartbeat import run_heartbeat_loop
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         stop = asyncio.Event()
@@ -75,8 +75,8 @@ class TestHeartbeat(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.heartbeat import run_heartbeat_loop
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.heartbeat import run_heartbeat_loop
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws = FakeWebSocket()

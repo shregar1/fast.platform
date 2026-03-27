@@ -12,7 +12,7 @@ class TestInit(ILLMTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm import (
+        from fast_platform.integrations.llm import (
             ILLMService,
             InstrumentedOpenAILLMService,
             LLMConfiguration,

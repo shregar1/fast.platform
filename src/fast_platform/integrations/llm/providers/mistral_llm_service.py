@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from integrations.llm.constants import MISTRAL_DEFAULT_BASE_URL
+from fast_platform.integrations.llm.constants import MISTRAL_DEFAULT_BASE_URL
 
 from .openai_llm_service import OpenAILLMService
 

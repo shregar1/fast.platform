@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Optional, Type
 
-from core.dtos import RealtimeConfigurationDTO
+from ..dtos import RealtimeConfigurationDTO
 
 from .abstraction import ConfigurationSingletonBase
 

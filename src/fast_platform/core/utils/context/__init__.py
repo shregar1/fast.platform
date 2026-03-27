@@ -7,7 +7,7 @@ This eliminates duplication of context fields (urn, user_urn, api_name, user_id)
 across the codebase.
 
 Example:
-    >>> from core.utils.context import ContextMixin
+    >>> from fast_platform.core.utils.context import ContextMixin
     >>> class MyService(ContextMixin):
     ...     def __init__(self, **kwargs):
     ...         super().__init__(**kwargs)

@@ -37,7 +37,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+        from fast_platform.integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("nope")):
             b = HttpSinkAnalyticsBackend("http://x")
@@ -90,7 +90,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        import integrations.analytics.middleware as mw
+        import fast_platform.integrations.analytics.middleware as mw
 
         monkeypatch.setattr(mw, "_STARLETTE", False)
         with pytest.raises(RuntimeError, match="starlette"):
@@ -109,7 +109,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         from starlette.routing import Route
         from starlette.testclient import TestClient
 
-        from integrations.analytics.middleware import AnalyticsSamplingMiddleware
+        from fast_platform.integrations.analytics.middleware import AnalyticsSamplingMiddleware
 
         backend = MagicMock()
 
@@ -186,7 +186,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics.pii import ScrubbingAnalyticsBackend
+        from fast_platform.integrations.analytics.pii import ScrubbingAnalyticsBackend
 
         inner = MagicMock()
         b = ScrubbingAnalyticsBackend(inner)
@@ -212,7 +212,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+        from fast_platform.integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", side_effect=OSError("down")):
             HttpSinkAnalyticsBackend("http://x").delete_user("u")
@@ -265,7 +265,7 @@ class TestAnalyticsCoverageGaps(IAnalyticsTests):
         from starlette.routing import Route
         from starlette.testclient import TestClient
 
-        from integrations.analytics.middleware import AnalyticsSamplingMiddleware
+        from fast_platform.integrations.analytics.middleware import AnalyticsSamplingMiddleware
 
         backend = MagicMock()
 

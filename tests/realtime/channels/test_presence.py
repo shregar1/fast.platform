@@ -88,7 +88,7 @@ class TestPresence(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.presence import InMemoryPresenceBackend
+        from fast_platform.realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         times = [1000.0, 1000.0, 1050.0, 1062.0]
@@ -107,7 +107,7 @@ class TestPresence(IChannelTests):
 
     def test_inmemory_mark_absent_noop_when_room_missing_or_empty(self):
         """Cover early return when ``room_id`` maps to a missing or empty room dict."""
-        from realtime.channels.presence import InMemoryPresenceBackend
+        from fast_platform.realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         backend._rooms["room1"] = {}
@@ -121,7 +121,7 @@ class TestPresence(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.presence import InMemoryPresenceBackend
+        from fast_platform.realtime.channels.presence import InMemoryPresenceBackend
 
         backend = InMemoryPresenceBackend(ttl_seconds=60)
         asyncio.run(backend.mark_present("room1", "u1"))
@@ -140,7 +140,7 @@ class TestPresence(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.presence import PresenceService
+        from fast_platform.realtime.channels.presence import PresenceService
 
         calls: dict[str, list[Any]] = {
             "present": [],
@@ -216,7 +216,7 @@ class TestPresence(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.presence import RedisPresenceBackend
+        from fast_platform.realtime.channels.presence import RedisPresenceBackend
 
         client = FakeRedisClient()
         backend = RedisPresenceBackend(client=client, ttl_seconds=60)

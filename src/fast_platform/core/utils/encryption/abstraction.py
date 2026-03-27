@@ -5,7 +5,7 @@ from __future__ import annotations
 from abc import abstractmethod
 from typing import Optional
 
-from core.utils.abstraction import IUtility
+from ..abstraction import IUtility
 
 
 class IEncryptionUtility(IUtility):

@@ -125,7 +125,7 @@ class TestReplica(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.replica import get_read_engine_instance, set_global_read_engine
+        from fast_platform.persistence.db.replica import get_read_engine_instance, set_global_read_engine
 
         mock_eng = MagicMock()
         try:

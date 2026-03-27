@@ -13,7 +13,7 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any, Optional, Type, Union
 
-from core.utils.optional_imports import OptionalImports
+from ..optional_imports import OptionalImports
 
 from .abstraction import IMedia
 

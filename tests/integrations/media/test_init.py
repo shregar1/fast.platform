@@ -12,7 +12,7 @@ class TestInit(IFastMediaTests):
         Returns:
             The result of the operation.
         """
-        from integrations.media import (
+        from fast_platform.integrations.media import (
             ImageVariantPipeline,
             IMediaStore,
             UploadResult,

@@ -18,7 +18,7 @@ class TestWorker(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.worker import run
+        from fast_platform.messaging.kafka.worker import run
 
         mock_consumer = MagicMock()
         mock_consumer.start = AsyncMock(return_value=None)

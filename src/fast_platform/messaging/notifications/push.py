@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 
 from loguru import logger
 
-from core.configuration.notifications import NotificationsConfiguration
+from ...core.configuration.notifications import NotificationsConfiguration
 
 
 class PushNotificationService:

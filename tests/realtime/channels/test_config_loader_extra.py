@@ -15,7 +15,7 @@ class TestConfigLoaderExtra(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.config_loader import ChannelsConfiguration
+        from fast_platform.realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
         payload = {"backend": "redis", "topics": ["alerts"]}
@@ -38,7 +38,7 @@ class TestConfigLoaderExtra(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.config_loader import ChannelsConfiguration
+        from fast_platform.realtime.channels.config_loader import ChannelsConfiguration
 
         ChannelsConfiguration._instance = None
         with patch("fast_platform.realtime.channels.config_loader.open", mock_open(read_data="not-json")):

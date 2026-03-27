@@ -15,7 +15,7 @@ class TestInit(IStorageTests):
         Returns:
             The result of the operation.
         """
-        from data.storage import (
+        from fast_platform.data.storage import (
             IStorageBackend,
             LocalStorageBackend,
             StorageConfiguration,

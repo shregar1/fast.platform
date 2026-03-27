@@ -21,9 +21,9 @@ class TestBackendsConstructorsMissing(ISearchTests):
         Returns:
             The result of the operation.
         """
-        from data.search.meilisearch_backend import MeilisearchBackend
-        from data.search.opensearch_backend import OpenSearchBackend
-        from data.search.typesense_backend import TypesenseBackend
+        from fast_platform.data.search.meilisearch_backend import MeilisearchBackend
+        from fast_platform.data.search.opensearch_backend import OpenSearchBackend
+        from fast_platform.data.search.typesense_backend import TypesenseBackend
 
         real_import = builtins.__import__
 

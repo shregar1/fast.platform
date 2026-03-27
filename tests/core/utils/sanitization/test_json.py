@@ -12,7 +12,7 @@ class TestSanitizationJsonUtility(IUtilsTests):
         Returns:
             The result of the operation.
         """
-        from core.utils.sanitization import SanitizationJsonUtility
+        from fast_platform.core.utils.sanitization import SanitizationJsonUtility
 
         data = {
             "id": 1,

@@ -15,7 +15,7 @@ class TestInit(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets import (
+        from fast_platform.sec.secrets import (
             CachedSecretsBackend,
             LeasedSecretsBackend,
             RotationCallback,
@@ -28,6 +28,6 @@ class TestInit(ISecretsTests):
         assert LeasedSecretsBackend is not None
         assert RotationCallback is not None
         assert redact_text("x", "x") == "***"
-        import sec.secrets as sec_pkg
+        import fast_platform.sec.secrets as sec_pkg
 
         assert sec_pkg.__version__ == "0.3.0"

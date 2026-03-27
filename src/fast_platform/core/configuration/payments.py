@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Optional
 
-from core.configuration.abstraction import ConfigurationSingletonBase
-from core.dtos.payments import PaymentsConfigurationDTO
+from ..configuration.abstraction import ConfigurationSingletonBase
+from ..dtos.payments import PaymentsConfigurationDTO
 
 
 class PaymentsConfiguration(ConfigurationSingletonBase[PaymentsConfigurationDTO]):

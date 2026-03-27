@@ -19,7 +19,7 @@ class TestBackendsGcp(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.gcp_backend import GcpSecretsBackend
+        from fast_platform.sec.secrets.gcp_backend import GcpSecretsBackend
 
         class FakePayload:
             """Represents the FakePayload class."""
@@ -93,7 +93,7 @@ class TestBackendsGcp(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.gcp_backend import GcpSecretsBackend
+        from fast_platform.sec.secrets.gcp_backend import GcpSecretsBackend
 
         class FakeSecretManagerClient:
             """Represents the FakeSecretManagerClient class."""

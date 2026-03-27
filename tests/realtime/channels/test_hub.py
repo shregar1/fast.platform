@@ -49,7 +49,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws1 = FakeWebSocket()
@@ -73,7 +73,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         good = FakeWebSocket()
@@ -91,7 +91,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws1 = FakeWebSocket()
@@ -110,7 +110,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws = FakeWebSocket()
@@ -133,7 +133,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         hub = ChannelsHub()
         ws = FakeWebSocket()
@@ -150,7 +150,7 @@ class TestHub(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.hub import ChannelsHub
+        from fast_platform.realtime.channels.hub import ChannelsHub
 
         async def run():
             """Execute run operation.

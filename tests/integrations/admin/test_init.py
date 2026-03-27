@@ -12,7 +12,7 @@ class TestInit(IAdminTests):
         Returns:
             The result of the operation.
         """
-        from integrations.admin import (
+        from fast_platform.integrations.admin import (
             AdminUserSummary,
             AuditLogEntry,
             AuditLogHook,

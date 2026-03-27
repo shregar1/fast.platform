@@ -7,7 +7,7 @@ from .crypto import (
     HashingService,
     KeyRotationService,
 )
-from .caching import CachingPlatformService
+from .caching import CachingService as CachingService
 from .tasks import TasksPlatformService
 
 __all__ = [
@@ -15,7 +15,7 @@ __all__ = [
     "CryptoService",
     "HashingService",
     "KeyRotationService",
-    "CachingPlatformService",
+    "CachingService",
     "TasksPlatformService",
     "IService",
 ]

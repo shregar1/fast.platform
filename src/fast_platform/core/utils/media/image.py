@@ -11,7 +11,7 @@ from __future__ import annotations
 from io import BytesIO
 from typing import Any, Optional, Tuple
 
-from core.utils.optional_imports import OptionalImports
+from ..optional_imports import OptionalImports
 
 from .abstraction import IMedia
 

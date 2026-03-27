@@ -4,7 +4,7 @@ from fast_platform import SearchConfiguration, SearchConfigurationDTO
 
 from .base import ISearchBackend, build_search_backend
 from .bulk import BulkIndexError, BulkIndexResult, bulk_index_documents
-from core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
+from ...core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
 from .rollover import swap_index_alias
 from .suggest import suggest_autocomplete
 

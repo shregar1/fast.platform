@@ -142,7 +142,7 @@ def _enqueue_celery(
         The result of the operation.
     """
     try:
-        from messaging.jobs.celery_app import make_celery_app
+        from fast_platform.messaging.jobs.celery_app import make_celery_app
     except ImportError as e:  # pragma: no cover
         raise RuntimeError("celery is not installed. pip install fast_jobs[celery]") from e
 

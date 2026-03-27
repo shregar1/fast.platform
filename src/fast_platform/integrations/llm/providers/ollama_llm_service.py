@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from core.errors.llm_dependency_error import LLMDependencyError
+from fast_platform.core.errors.llmdependencyerror import LLMDependencyError
 
 
 class OllamaLLMService:

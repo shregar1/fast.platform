@@ -57,7 +57,7 @@ class TestHttpSinkAndBase(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+        from fast_platform.integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", return_value=MagicMock()) as m:
             b = HttpSinkAnalyticsBackend("http://example.com/collect", api_key="k")
@@ -72,7 +72,7 @@ class TestHttpSinkAndBase(IAnalyticsTests):
         Returns:
             The result of the operation.
         """
-        from integrations.analytics.http_sink import HttpSinkAnalyticsBackend
+        from fast_platform.integrations.analytics.http_sink import HttpSinkAnalyticsBackend
 
         with patch("urllib.request.urlopen", return_value=MagicMock()):
             b = HttpSinkAnalyticsBackend("", api_key=None)

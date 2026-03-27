@@ -15,7 +15,7 @@ class TestConfigLoader(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
         data = {"apns": {"enabled": True, "key_id": "k"}, "fcm": {"enabled": False}}
@@ -33,7 +33,7 @@ class TestConfigLoader(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
         with patch("fast_platform.core.configuration.notifications.open", side_effect=FileNotFoundError()):
@@ -47,7 +47,7 @@ class TestConfigLoader(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
         with patch("fast_platform.core.configuration.notifications.open", mock_open(read_data="not-json")):
@@ -65,7 +65,7 @@ class TestConfigLoader(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
         env = {
@@ -89,7 +89,7 @@ class TestConfigLoader(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
 
         NotificationsConfiguration._instance = None
         with patch("fast_platform.core.configuration.notifications.open", side_effect=FileNotFoundError()):

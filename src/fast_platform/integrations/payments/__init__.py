@@ -1,7 +1,7 @@
 """fast_payments – Payments config and base abstractions for FastMVC."""
 
-from core.configuration.payments import PaymentsConfiguration
-from core.dtos.payments import (
+from ...core.configuration.payments import PaymentsConfiguration
+from ...core.dtos.payments import (
     LinkConfigDTO,
     PaymentsConfigurationDTO,
     PaypalConfigDTO,

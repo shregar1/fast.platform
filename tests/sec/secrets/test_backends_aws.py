@@ -18,7 +18,7 @@ class TestBackendsAws(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.aws_backend import AwsSecretsBackend
+        from fast_platform.sec.secrets.aws_backend import AwsSecretsBackend
 
         class FakeResourceExistsException(Exception):
             """Represents the FakeResourceExistsException class."""
@@ -92,7 +92,7 @@ class TestBackendsAws(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.aws_backend import AwsSecretsBackend
+        from fast_platform.sec.secrets.aws_backend import AwsSecretsBackend
 
         class FakeSecretsManagerClient:
             """Represents the FakeSecretsManagerClient class."""

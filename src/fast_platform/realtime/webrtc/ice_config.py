@@ -8,7 +8,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from core.dtos import RealtimeConfigurationDTO
+    from fast_platform.core.dtos import RealtimeConfigurationDTO
 
     from .dto import WebRTCConfigurationDTO
 

@@ -15,7 +15,7 @@ class TestHealth(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.health import describe_cluster_health
+        from fast_platform.messaging.kafka.health import describe_cluster_health
 
         fake = {
             "cluster_id": "cid-1",
@@ -51,7 +51,7 @@ class TestHealth(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.health import describe_cluster_health
+        from fast_platform.messaging.kafka.health import describe_cluster_health
 
         async def run():
             """Execute run operation.
@@ -77,7 +77,7 @@ class TestHealth(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.health import describe_cluster_health
+        from fast_platform.messaging.kafka.health import describe_cluster_health
 
         fake = {"cluster_id": "x", "brokers": [], "controller_id": 0}
 

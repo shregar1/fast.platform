@@ -9,7 +9,7 @@ from functools import wraps
 from typing import Any, Awaitable, Callable, Dict, Hashable, Optional, Tuple, TypeVar, Union, cast
 
 from fast_platform import CacheConfiguration
-from core.utils.optional_imports import OptionalImports
+from ...core.utils.optional_imports import OptionalImports
 
 from .abstraction import ICaching
 

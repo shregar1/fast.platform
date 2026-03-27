@@ -21,7 +21,7 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -42,7 +42,7 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -63,7 +63,7 @@ class TestProducer(IKafkaTests):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -86,7 +86,7 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -107,9 +107,9 @@ class TestProducer(IKafkaTests):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from core.dtos.kafka import KafkaJsonEnvelope
+        from fast_platform.core.dtos.kafka import KafkaJsonEnvelope
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -139,7 +139,7 @@ class TestProducer(IKafkaTests):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -166,9 +166,9 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.dtos.kafka import KafkaJsonEnvelope
+        from fast_platform.core.dtos.kafka import KafkaJsonEnvelope
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -189,7 +189,7 @@ class TestProducer(IKafkaTests):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MM(
@@ -219,9 +219,9 @@ class TestProducer(IKafkaTests):
         from unittest.mock import AsyncMock
         from unittest.mock import MagicMock as MM
 
-        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from fast_platform.core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = KafkaConfigurationDTO(
@@ -254,9 +254,9 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from fast_platform.core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
 
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = KafkaConfigurationDTO(
@@ -284,7 +284,7 @@ class TestProducer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.producer import KafkaProducer
+        from fast_platform.messaging.kafka.producer import KafkaProducer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(

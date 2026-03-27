@@ -3,7 +3,7 @@
 Lightweight caching with Redis support.
 
 Usage:
-    from core.cache_decorator import cached
+    from fast_platform.core.cache_decorator import cached
 
     @cached(ttl=300)
     async def get_user(user_id: str) -> User:
@@ -14,7 +14,7 @@ Usage:
         return await db.query(Post).filter_by(category=category).offset((page-1)*10).limit(10).all()
 
     # Invalidate cache
-    from core.cache_decorator import invalidate
+    from fast_platform.core.cache_decorator import invalidate
     invalidate("posts:{category}:*", category="tech")
 
     # Or use the decorator's invalidate method

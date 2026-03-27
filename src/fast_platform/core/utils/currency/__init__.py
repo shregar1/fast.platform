@@ -5,7 +5,7 @@ from __future__ import annotations
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Any, Union
 
-from core.utils.decimal import DecimalUtility
+from ..decimal import DecimalUtility
 
 from .abstraction import ICurrencyUtility
 

@@ -15,7 +15,7 @@ from typing import Any, Dict, Optional
 from loguru import logger
 
 from fast_platform import EventsConfiguration
-from core.utils.optional_imports import OptionalImports
+from ...core.utils.optional_imports import OptionalImports
 
 from .abstraction import IEvents
 
@@ -26,7 +26,7 @@ _eventhub_mod, EventHubProducerClient = OptionalImports.optional_import(
 _eventhub_data_mod, EventData = OptionalImports.optional_import("azure.eventhub", "EventData")
 
 try:
-    from messaging.kafka import KafkaProducer
+    from fast_platform.messaging.kafka import KafkaProducer
 except Exception:  # pragma: no cover - optional
     KafkaProducer = None  # type: ignore[assignment]
 

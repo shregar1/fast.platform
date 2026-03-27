@@ -20,7 +20,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.base import IVectorStore
+        from fast_platform.data.vectors.base import IVectorStore
 
         class DummyStore(IVectorStore):
             """Represents the DummyStore class."""
@@ -94,7 +94,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors import base as vector_base
+        from fast_platform.data.vectors import base as vector_base
 
         class FakeCfg:
             """Represents the FakeCfg class."""
@@ -410,7 +410,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.qdrant_backend import QdrantVectorStore
+        from fast_platform.data.vectors.qdrant_backend import QdrantVectorStore
 
         if "qdrant_client" not in sys.modules:
             fake_qdrant = types.ModuleType("qdrant_client")
@@ -536,7 +536,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.weaviate_backend import WeaviateVectorStore
+        from fast_platform.data.vectors.weaviate_backend import WeaviateVectorStore
 
         if "weaviate" not in sys.modules:
             fake_weaviate = types.ModuleType("weaviate")
@@ -690,7 +690,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.pinecone_backend import PineconeVectorStore
+        from fast_platform.data.vectors.pinecone_backend import PineconeVectorStore
 
         if "pinecone" not in sys.modules:
             fake_pinecone = types.ModuleType("pinecone")
@@ -717,7 +717,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors import base as vector_base
+        from fast_platform.data.vectors import base as vector_base
 
         class FakeCfg:
             """Represents the FakeCfg class."""
@@ -749,9 +749,9 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.pinecone_backend import PineconeVectorStore
-        from data.vectors.qdrant_backend import QdrantVectorStore
-        from data.vectors.weaviate_backend import WeaviateVectorStore
+        from fast_platform.data.vectors.pinecone_backend import PineconeVectorStore
+        from fast_platform.data.vectors.qdrant_backend import QdrantVectorStore
+        from fast_platform.data.vectors.weaviate_backend import WeaviateVectorStore
 
         real_import = builtins.__import__
 
@@ -782,7 +782,7 @@ class TestBackends(IVectorTests):
         Returns:
             The result of the operation.
         """
-        from data.vectors.weaviate_backend import WeaviateVectorStore
+        from fast_platform.data.vectors.weaviate_backend import WeaviateVectorStore
 
         calls: dict[str, Any] = {}
         fake_weaviate = types.ModuleType("weaviate")

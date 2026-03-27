@@ -12,6 +12,6 @@ class TestInit(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        import persistence.db as db
+        import fast_platform.persistence.db as db
 
         assert db.__version__ == "0.1.0"

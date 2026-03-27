@@ -26,8 +26,8 @@ class TestMultipartS3Local(IStorageTests):
         Returns:
             The result of the operation.
         """
-        from data.storage.local_backend import LocalStorageBackend
-        from data.storage.s3_backend import S3StorageBackend
+        from fast_platform.data.storage.local_backend import LocalStorageBackend
+        from fast_platform.data.storage.s3_backend import S3StorageBackend
 
         class FakeS3Client:
             """Represents the FakeS3Client class."""

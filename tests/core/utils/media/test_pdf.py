@@ -41,7 +41,7 @@ class TestPdfUtility(IMediaUtilsTests):
         Returns:
             The result of the operation.
         """
-        import core.utils.media.pdf as pu
+        import fast_platform.core.utils.media.pdf as pu
 
         monkeypatch.setattr(pu.OptionalImports, "optional_import", lambda m, a=None: (None, None))
         assert PdfUtility.page_count(b"%PDF") is None

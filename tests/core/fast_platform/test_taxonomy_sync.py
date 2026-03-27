@@ -50,11 +50,11 @@ class TestTaxonomySync(IFastPlatformTests):
 
     def test_canonical_core_imports_resolve(self) -> None:
         """DTOs and configuration live under ``core.*``, not messaging shims."""
-        from core.configuration.kafka import KafkaConfiguration
-        from core.configuration.notifications import NotificationsConfiguration
-        from core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
-        from core.dtos.notifications import NotificationFanoutRequest
-        from core.dtos.search import SearchConfigurationDTO
+        from fast_platform.core.configuration.kafka import KafkaConfiguration
+        from fast_platform.core.configuration.notifications import NotificationsConfiguration
+        from fast_platform.core.dtos.kafka import KafkaConfigurationDTO, KafkaJsonEnvelope
+        from fast_platform.core.dtos.notifications import NotificationFanoutRequest
+        from fast_platform.core.dtos.search import SearchConfigurationDTO
 
         assert KafkaConfiguration is not None
         assert NotificationsConfiguration is not None

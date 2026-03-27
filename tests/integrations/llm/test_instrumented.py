@@ -24,8 +24,8 @@ class TestInstrumented(ILLMTests):
         Returns:
             The result of the operation.
         """
-        from integrations.llm.instrumented import InstrumentedOpenAILLMService
-        from integrations.llm.token_usage import TokenUsage
+        from fast_platform.integrations.llm.instrumented import InstrumentedOpenAILLMService
+        from fast_platform.integrations.llm.token_usage import TokenUsage
 
         usage_obj = types.SimpleNamespace(prompt_tokens=1, completion_tokens=2, total_tokens=3)
         msg = types.SimpleNamespace(content="ok")

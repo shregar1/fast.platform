@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, AsyncIterator
 
-from core.errors.token_budget_exceeded_error import TokenBudgetExceeded
+from fast_platform.core.errors.tokenbudgetexceedederror import TokenBudgetExceeded
 
 if TYPE_CHECKING:
     from .streaming import StreamChunk

@@ -20,7 +20,7 @@ class TestTemplatingJinja(INotificationTests):
             The result of the operation.
         """
         pytest.importorskip("jinja2")
-        from messaging.notifications.templating import render_jinja_string
+        from fast_platform.messaging.notifications.templating import render_jinja_string
 
         assert render_jinja_string("Hello {{ name }}", context={"name": "x"}) == "Hello x"
 
@@ -32,7 +32,7 @@ class TestTemplatingJinja(INotificationTests):
         """
         import builtins
 
-        import messaging.notifications.templating as t
+        import fast_platform.messaging.notifications.templating as t
 
         real_import = builtins.__import__
 

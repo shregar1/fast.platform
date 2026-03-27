@@ -4,7 +4,7 @@ Simple URL-based API versioning.
 
 Usage:
     from fastapi import FastAPI
-    from core.utils.versioning import versioned_router, APIVersion
+    from fast_platform.core.utils.versioning import versioned_router, APIVersion
 
     app = FastAPI()
 
@@ -142,7 +142,7 @@ class VersionHeaderMiddleware:
 
     Usage:
         from fastapi import FastAPI
-        from core.utils.versioning import VersionHeaderMiddleware
+        from fast_platform.core.utils.versioning import VersionHeaderMiddleware
 
         app = FastAPI()
         app.add_middleware(VersionHeaderMiddleware)

@@ -19,7 +19,7 @@ class TestBackendsAbstract(ISecretsTests):
         Returns:
             The result of the operation.
         """
-        from sec.secrets.base import ISecretsBackend
+        from fast_platform.sec.secrets.base import ISecretsBackend
 
         class DummyBackend(ISecretsBackend):
             """Represents the DummyBackend class."""

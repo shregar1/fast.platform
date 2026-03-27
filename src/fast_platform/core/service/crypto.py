@@ -14,7 +14,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-from core.errors import CryptoConfigurationError, ServiceUnavailableError
+from ..errors import CryptoConfigurationError, ServiceUnavailableError
 
 
 class CryptoService:

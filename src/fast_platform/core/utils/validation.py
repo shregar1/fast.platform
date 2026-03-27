@@ -3,7 +3,7 @@
 Lightweight validation before Pydantic models.
 
 Usage:
-    from core.validation import validate, validate_json, ValidationError
+    from fast_platform.core.validation import validate, validate_json, ValidationError
 
     # Simple validation
     @validate({
@@ -27,7 +27,7 @@ Usage:
         raise ValidationError(errors)
 
     # Individual rules
-    from core.validation import rules
+    from fast_platform.core.validation import rules
 
     rules.email("test@example.com")  # True
     rules.email("invalid")           # False

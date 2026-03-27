@@ -35,7 +35,7 @@ class MarketDataHub:
         self._queue_broker = None
         if self._fanout_backend:
             try:
-                from messaging.queues import QueueBroker
+                from fast_platform.messaging.queues import QueueBroker
 
                 self._queue_broker = QueueBroker()
             except Exception as exc:  # pragma: no cover - defensive
@@ -45,7 +45,7 @@ class MarketDataHub:
         # Optional event bus fan-out (SNS/EventBridge/Event Hubs/Kafka)
         self._event_bus = None
         try:
-            from messaging.events.bus import build_event_bus
+            from fast_platform.messaging.events.bus import build_event_bus
 
             self._event_bus = build_event_bus()
         except Exception as exc:  # pragma: no cover - defensive

@@ -16,7 +16,7 @@ class TestTemplating(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from messaging.notifications.templating import render_jinja_string
+        from fast_platform.messaging.notifications.templating import render_jinja_string
 
         out = render_jinja_string("Hello {{ name }}", context={"name": "World"})
         assert out == "Hello World"

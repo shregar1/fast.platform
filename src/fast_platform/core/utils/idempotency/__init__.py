@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from core.utils.digests import Digests
+from ..digests import Digests
 
 from .abstraction import IIdempotencyUtility
 

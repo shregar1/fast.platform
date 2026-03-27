@@ -72,6 +72,7 @@ PACKAGE_TO_SECTION: Final[Dict[str, PackageSection]] = {
     "vectors": PackageSection.DATA,
     "storage": PackageSection.DATA,
     "caching": PackageSection.DATA,
+    "cache": PackageSection.DATA,
     # --- messaging ---
     "kafka": PackageSection.MESSAGING,
     "queues": PackageSection.MESSAGING,
@@ -79,6 +80,7 @@ PACKAGE_TO_SECTION: Final[Dict[str, PackageSection]] = {
     "jobs": PackageSection.MESSAGING,
     "notifications": PackageSection.MESSAGING,
     "webhooks": PackageSection.MESSAGING,
+    "task": PackageSection.MESSAGING,
     # --- realtime ---
     "channels": PackageSection.REALTIME,
     "streams": PackageSection.REALTIME,
@@ -149,13 +151,16 @@ def discover_src_packages(src_root: Path | None = None) -> FrozenSet[str]:
     (see :data:`SECTION_TEST_FOLDER`). The :mod:`fast_platform` meta-package is a
     direct child of ``src`` and is included when present.
 
+    Also discovers nested packages (e.g., ``messaging/notifications`` → ``notifications``).
+
     Used by tests to ensure the taxonomy stays in sync with the tree.
     """
-    root = src_root or Path(__file__).resolve().parents[1]
+    root = src_root or Path(__file__).resolve().parent
     names: Set[str] = set()
     if not root.is_dir():
         return frozenset()
-    if (root / "fast_platform" / "__init__.py").is_file():
+    # The fast_platform meta-package is always present at this root
+    if (root / "__init__.py").is_file():
         names.add("fast_platform")
     section_dirs = frozenset(SECTION_TEST_FOLDER.values())
     for p in root.iterdir():
@@ -163,13 +168,15 @@ def discover_src_packages(src_root: Path | None = None) -> FrozenSet[str]:
             continue
         if p.name == "fast_platform":
             continue
-        if p.name not in section_dirs:
-            continue
-        if not (p / "__init__.py").is_file():
-            continue
-        for q in p.iterdir():
-            if not q.is_dir() or q.name.startswith(("_", ".")):
-                continue
-            if (q / "__init__.py").is_file():
-                names.add(q.name)
+        if p.name in section_dirs:
+            # Look for packages at top level of section only
+            for q in p.iterdir():
+                if not q.is_dir() or q.name.startswith(("_", ".")):
+                    continue
+                if (q / "__init__.py").is_file():
+                    names.add(q.name)
+        elif (p / "__init__.py").is_file() and p.name in PACKAGE_TO_SECTION:
+            # Top-level standalone packages (e.g. caching, notifications)
+            names.add(p.name)
     return frozenset(names)
+

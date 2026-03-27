@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, DefaultDict, Dict, List, Optional, Tuple
 
-from core.dtos.notifications import (
+from ...core.dtos.notifications import (
     EmailNotificationTarget,
     NotificationFanoutRequest,
     PushNotificationTarget,

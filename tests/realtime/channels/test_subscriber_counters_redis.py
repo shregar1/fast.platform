@@ -20,7 +20,7 @@ class TestSubscriberCountersRedis(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.subscriber_counters import RedisSubscriberCounters
+        from fast_platform.realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
         client.incr = AsyncMock(return_value=1)
@@ -41,7 +41,7 @@ class TestSubscriberCountersRedis(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.subscriber_counters import RedisSubscriberCounters
+        from fast_platform.realtime.channels.subscriber_counters import RedisSubscriberCounters
 
         client = MagicMock()
         client.incr = AsyncMock(return_value=1)
@@ -60,10 +60,10 @@ class TestSubscriberCountersRedis(IChannelTests):
         Returns:
             The result of the operation.
         """
-        import realtime.channels.subscriber_counters as sc
+        import fast_platform.realtime.channels.subscriber_counters as sc
 
         with patch.object(sc, "aioredis", None):
-            from realtime.channels.subscriber_counters import RedisSubscriberCounters
+            from fast_platform.realtime.channels.subscriber_counters import RedisSubscriberCounters
 
             with pytest.raises(RuntimeError, match="redis"):
                 RedisSubscriberCounters(MagicMock())

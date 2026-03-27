@@ -26,7 +26,7 @@ class TestBackendsFactoryImportError(IStorageTests):
         Returns:
             The result of the operation.
         """
-        from data.storage import base as storage_base
+        from fast_platform.data.storage import base as storage_base
 
         class FakeCfg:
             """Represents the FakeCfg class."""

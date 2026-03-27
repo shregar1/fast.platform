@@ -16,7 +16,7 @@ class TestAcl(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.acl import AllowAllChannelACL
+        from fast_platform.realtime.channels.acl import AllowAllChannelACL
 
         acl = AllowAllChannelACL()
         assert asyncio.run(acl.may_subscribe("u", "c")) is True
@@ -27,7 +27,7 @@ class TestAcl(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.acl import StaticChannelACL
+        from fast_platform.realtime.channels.acl import StaticChannelACL
 
         acl = StaticChannelACL({"u1": {"a", "b"}})
         assert asyncio.run(acl.may_subscribe("u1", "a")) is True
@@ -42,7 +42,7 @@ class TestAcl(IChannelTests):
         """
         from starlette.exceptions import WebSocketException
 
-        from realtime.channels.acl import StaticChannelACL, make_subscribe_acl_checker
+        from fast_platform.realtime.channels.acl import StaticChannelACL, make_subscribe_acl_checker
 
         acl = StaticChannelACL({"u1": {"ok"}})
         check = make_subscribe_acl_checker(acl, user_id="u1")

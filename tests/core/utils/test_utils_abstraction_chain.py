@@ -14,28 +14,28 @@ class TestUtilsAbstractionChain(IUtilsTests):
         Returns:
             The result of the operation.
         """
-        from core.utils.abstraction import IUtility
-        from core.utils.archive import IArchiveUtility
-        from core.utils.clock import IClockUtility
-        from core.utils.crowdfunding import ICrowdfundingUtility
-        from core.utils.currency import ICurrencyUtility
-        from core.utils.datatype import IDatatype
-        from core.utils.decimal import IDecimalUtility
-        from core.utils.digests import IDigestsUtility
-        from core.utils.encryption.abstraction import IEncryptionUtility
-        from core.utils.hashing import IHashingUtility
-        from core.utils.html import IHtmlUtility
-        from core.utils.idempotency import IIdempotencyUtility
-        from core.utils.media.abstraction import IMedia
-        from core.utils.metrics import IMetricsUtility
-        from core.utils.nutrition import INutritionUtility
-        from core.utils.optional_imports import IOptionalImportsUtility
-        from core.utils.request_id_context import IRequestIdContextUtility
-        from core.utils.retry import IAsyncRetryUtility
-        from core.utils.sanitization import SanitizationJsonUtility
-        from core.utils.sanitization.abstraction import ISanitization
-        from core.utils.structured_log import IStructuredLogUtility
-        from core.utils.time import ITimeUtility
+        from fast_platform.core.utils.abstraction import IUtility
+        from fast_platform.core.utils.archive import IArchiveUtility
+        from fast_platform.core.utils.clock import IClockUtility
+        from fast_platform.core.utils.crowdfunding import ICrowdfundingUtility
+        from fast_platform.core.utils.currency import ICurrencyUtility
+        from fast_platform.core.utils.datatype import IDatatype
+        from fast_platform.core.utils.decimal import IDecimalUtility
+        from fast_platform.core.utils.digests import IDigestsUtility
+        from fast_platform.core.utils.encryption.abstraction import IEncryptionUtility
+        from fast_platform.core.utils.hashing import IHashingUtility
+        from fast_platform.core.utils.html import IHtmlUtility
+        from fast_platform.core.utils.idempotency import IIdempotencyUtility
+        from fast_platform.core.utils.media.abstraction import IMedia
+        from fast_platform.core.utils.metrics import IMetricsUtility
+        from fast_platform.core.utils.nutrition import INutritionUtility
+        from fast_platform.core.utils.optional_imports import IOptionalImportsUtility
+        from fast_platform.core.utils.request_id_context import IRequestIdContextUtility
+        from fast_platform.core.utils.retry import IAsyncRetryUtility
+        from fast_platform.core.utils.sanitization import SanitizationJsonUtility
+        from fast_platform.core.utils.sanitization.abstraction import ISanitization
+        from fast_platform.core.utils.structured_log import IStructuredLogUtility
+        from fast_platform.core.utils.time import ITimeUtility
 
         markers = (
             IArchiveUtility,
@@ -69,14 +69,14 @@ class TestUtilsAbstractionChain(IUtilsTests):
         Returns:
             The result of the operation.
         """
-        from core.utils.archive import ArchiveUtility, IArchiveUtility
-        from core.utils.crowdfunding import CrowdfundingUtility, ICrowdfundingUtility
-        from core.utils.decimal import DecimalUtility, IDecimalUtility
-        from core.utils.digests import Digests, IDigestsUtility
-        from core.utils.hashing import HashingUtility, IHashingUtility
-        from core.utils.optional_imports import OptionalImports, IOptionalImportsUtility
-        from core.utils.sanitization import SanitizationJsonUtility
-        from core.utils.sanitization.abstraction import ISanitization
+        from fast_platform.core.utils.archive import ArchiveUtility, IArchiveUtility
+        from fast_platform.core.utils.crowdfunding import CrowdfundingUtility, ICrowdfundingUtility
+        from fast_platform.core.utils.decimal import DecimalUtility, IDecimalUtility
+        from fast_platform.core.utils.digests import Digests, IDigestsUtility
+        from fast_platform.core.utils.hashing import HashingUtility, IHashingUtility
+        from fast_platform.core.utils.optional_imports import OptionalImports, IOptionalImportsUtility
+        from fast_platform.core.utils.sanitization import SanitizationJsonUtility
+        from fast_platform.core.utils.sanitization.abstraction import ISanitization
 
         assert issubclass(ArchiveUtility, IArchiveUtility)
         assert issubclass(CrowdfundingUtility, ICrowdfundingUtility)

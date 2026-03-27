@@ -16,7 +16,7 @@ class TestSerde(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.serde import serialize_protobuf
+        from fast_platform.messaging.kafka.serde import serialize_protobuf
 
         class Msg:
             """Represents the Msg class."""
@@ -37,7 +37,7 @@ class TestSerde(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.serde import serialize_protobuf
+        from fast_platform.messaging.kafka.serde import serialize_protobuf
 
         with pytest.raises(TypeError):
             serialize_protobuf(object())
@@ -48,7 +48,7 @@ class TestSerde(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.serde import serialize_avro_record
+        from fast_platform.messaging.kafka.serde import serialize_avro_record
 
         if importlib.util.find_spec("fastavro") is None:
             pytest.skip("fastavro not installed")
@@ -70,7 +70,7 @@ class TestSerde(IKafkaTests):
         """
         if importlib.util.find_spec("fastavro") is not None:
             pytest.skip("fastavro is installed")
-        from messaging.kafka.serde import serialize_avro_record
+        from fast_platform.messaging.kafka.serde import serialize_avro_record
 
         with pytest.raises(RuntimeError, match="fastavro"):
             serialize_avro_record({"x": 1}, {"type": "record", "name": "E", "fields": []})

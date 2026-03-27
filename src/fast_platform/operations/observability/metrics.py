@@ -313,7 +313,6 @@ class Metrics:
                 self._histograms[name] = Histogram(name, description, labels, buckets)
             return self._histograms[name]
 
-    @cache(ttl=5, tags=["platform", "metrics"])
     def export(self) -> str:
         """Export all metrics in Prometheus format."""
         lines = []

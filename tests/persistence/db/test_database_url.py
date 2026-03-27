@@ -16,7 +16,7 @@ class TestDatabaseUrl(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db import get_database_url
+        from fast_platform.persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = "postgresql://{user_name}:{password}@{host}:{port}/{database}"
@@ -38,7 +38,7 @@ class TestDatabaseUrl(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db import get_database_url
+        from fast_platform.persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = "sqlite:///./test.db"
@@ -57,7 +57,7 @@ class TestDatabaseUrl(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db import get_database_url
+        from fast_platform.persistence.db import get_database_url
 
         mock_cfg = MagicMock()
         mock_cfg.connection_string = ""

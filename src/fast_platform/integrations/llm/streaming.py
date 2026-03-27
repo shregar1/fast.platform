@@ -6,8 +6,8 @@ import inspect
 from dataclasses import dataclass
 from typing import Any, AsyncIterator, Literal, Optional
 
-from core.errors.llm_feature_not_available_error import LLMFeatureNotAvailableError
-from core.errors.unsupported_llm_provider_error import UnsupportedLLMProviderError
+from fast_platform.core.errors.llmfeaturenotavailableerror import LLMFeatureNotAvailableError
+from fast_platform.core.errors.unsupportedllmprovidererror import UnsupportedLLMProviderError
 
 from .token_usage import TokenUsage
 
@@ -83,7 +83,8 @@ async def iter_llm_stream(
 ) -> AsyncIterator[StreamChunk]:
     """Dispatch to OpenAI-compatible, Anthropic, or (future) Gemini stream helpers."""
     if provider in ("openai", "groq", "mistral"):
-        async for c in iter_openai_chat_stream(stream, stream_provider=provider):
+        oai_provider: OpenAICompatibleStreamProvider = provider  # type: ignore[assignment]
+        async for c in iter_openai_chat_stream(stream, stream_provider=oai_provider):
             yield c
     elif provider == "anthropic":
         async for c in iter_anthropic_message_stream(stream):

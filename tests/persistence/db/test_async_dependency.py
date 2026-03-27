@@ -17,7 +17,7 @@ class TestAsyncDependency(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.async_dependency import AsyncDBDependency
+        from fast_platform.persistence.db.async_dependency import AsyncDBDependency
 
         mock_session = MagicMock()
         factory = MagicMock()
@@ -39,7 +39,7 @@ class TestAsyncDependency(IDatabaseTests):
         Returns:
             The result of the operation.
         """
-        from persistence.db.async_dependency import AsyncDBDependency
+        from fast_platform.persistence.db.async_dependency import AsyncDBDependency
 
         with patch("fast_platform.persistence.db.async_dependency.get_async_session_factory", return_value=None):
             gen = AsyncDBDependency.session()

@@ -19,7 +19,7 @@ class TestPush(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from messaging.notifications.push import PushNotificationService
+        from fast_platform.messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -41,7 +41,7 @@ class TestPush(INotificationTests):
         Returns:
             The result of the operation.
         """
-        from messaging.notifications.push import PushNotificationService
+        from fast_platform.messaging.notifications.push import PushNotificationService
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(

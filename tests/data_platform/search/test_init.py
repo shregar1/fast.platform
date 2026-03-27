@@ -15,7 +15,7 @@ class TestInit(ISearchTests):
         Returns:
             The result of the operation.
         """
-        from data.search import (
+        from fast_platform.data.search import (
             BulkIndexResult,
             FacetedSearchResult,
             ISearchBackend,

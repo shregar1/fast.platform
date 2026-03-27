@@ -22,7 +22,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.serde import serialize_protobuf
+        from fast_platform.messaging.kafka.serde import serialize_protobuf
 
         with pytest.raises(TypeError, match="SerializeToString"):
             serialize_protobuf(object())
@@ -33,7 +33,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.serde import serialize_protobuf
+        from fast_platform.messaging.kafka.serde import serialize_protobuf
 
         m = SimpleNamespace(SerializeToString=lambda: b"\x01\x02")
         assert serialize_protobuf(m) == b"\x01\x02"
@@ -45,7 +45,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
             The result of the operation.
         """
         pytest.importorskip("fastavro")
-        from messaging.kafka.serde import serialize_avro_record
+        from fast_platform.messaging.kafka.serde import serialize_avro_record
 
         schema = {"type": "record", "name": "R", "fields": [{"name": "n", "type": "int"}]}
         out = serialize_avro_record({"n": 1}, schema)
@@ -58,7 +58,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.worker import handle_message
+        from fast_platform.messaging.kafka.worker import handle_message
 
         await handle_message("topic", b"hello")
 
@@ -69,7 +69,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
             The result of the operation.
         """
         with patch("fast_platform.messaging.kafka.worker.asyncio.run") as ar:
-            from messaging.kafka.worker import run
+            from fast_platform.messaging.kafka.worker import run
 
             run()
             ar.assert_called_once()
@@ -81,7 +81,7 @@ class TestSerdeWorkerOutboxExtra(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
+        from fast_platform.messaging.kafka.outbox import OutboxMessage, run_outbox_publisher_loop
 
         stop = asyncio.Event()
 

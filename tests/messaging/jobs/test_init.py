@@ -12,7 +12,7 @@ class TestInit(IJobTests):
         Returns:
             The result of the operation.
         """
-        from messaging.jobs import (
+        from fast_platform.messaging.jobs import (
             JobEnqueueResult,
             JobsConfiguration,
             enqueue,
@@ -25,6 +25,6 @@ class TestInit(IJobTests):
         assert JobEnqueueResult is not None
         assert enqueue is not None
         assert resolve_job_timeout_seconds("q", explicit=1) == 1
-        import messaging.jobs as fj
+        import fast_platform.messaging.jobs as fj
 
         assert fj.__version__ == "0.3.0"

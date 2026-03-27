@@ -107,6 +107,6 @@ class TestInit(IQueueTests):
         Returns:
             The result of the operation.
         """
-        import messaging.queues as q
+        import fast_platform.messaging.queues as q
 
         assert q.__version__ == "0.3.0"

@@ -8,7 +8,7 @@ from __future__ import annotations
 from collections import OrderedDict
 from typing import Protocol, runtime_checkable
 
-from core.utils.digests import Digests
+from ...core.utils.digests import Digests
 
 
 @runtime_checkable

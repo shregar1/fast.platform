@@ -104,7 +104,7 @@ class TestBackends(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.redis_backend import RedisChannelBackend
+        from fast_platform.realtime.channels.redis_backend import RedisChannelBackend
 
         pubsub = FakePubSub([])
         client = FakeRedisChannelClient(pubsub)
@@ -118,7 +118,7 @@ class TestBackends(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.redis_backend import RedisChannelBackend
+        from fast_platform.realtime.channels.redis_backend import RedisChannelBackend
 
         pubsub = FakePubSub(
             [
@@ -153,7 +153,7 @@ class TestBackends(IChannelTests):
         Returns:
             The result of the operation.
         """
-        from realtime.channels.kafka_backend import KafkaChannelBackend
+        from fast_platform.realtime.channels.kafka_backend import KafkaChannelBackend
 
         backend = KafkaChannelBackend()
         with pytest.raises(NotImplementedError):

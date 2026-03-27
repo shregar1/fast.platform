@@ -8,7 +8,7 @@ from aiokafka import AIOKafkaConsumer  # pyright: ignore[reportMissingTypeStubs]
 from aiokafka.structs import TopicPartition  # pyright: ignore[reportMissingTypeStubs]
 from loguru import logger
 
-from core.configuration.kafka import KafkaConfiguration
+from ...core.configuration.kafka import KafkaConfiguration
 
 from .idempotent import DedupeStore, InMemoryDedupeStore, KafkaDedupeKeys
 

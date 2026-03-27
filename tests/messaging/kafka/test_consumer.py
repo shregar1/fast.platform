@@ -67,7 +67,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -88,7 +88,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -106,7 +106,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -137,7 +137,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -181,7 +181,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(
@@ -225,7 +225,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(enabled=False)
@@ -258,7 +258,7 @@ class TestConsumer(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from messaging.kafka.consumer import KafkaConsumer
+        from fast_platform.messaging.kafka.consumer import KafkaConsumer
 
         mock_cfg = MagicMock()
         mock_cfg.get_config.return_value = MagicMock(

@@ -15,7 +15,7 @@ class TestConfigLoader(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.dtos.kafka import KafkaConfigurationDTO
+        from fast_platform.core.dtos.kafka import KafkaConfigurationDTO
 
         d = KafkaConfigurationDTO()
         assert d.enabled is False
@@ -30,7 +30,7 @@ class TestConfigLoader(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.kafka import KafkaConfiguration
+        from fast_platform.core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
         data = {"enabled": True, "bootstrap_servers": "kafka:9092", "topics": ["events"]}
@@ -49,7 +49,7 @@ class TestConfigLoader(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.kafka import KafkaConfiguration
+        from fast_platform.core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
         with patch("fast_platform.core.configuration.kafka.open", side_effect=FileNotFoundError()):
@@ -65,7 +65,7 @@ class TestConfigLoader(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.kafka import KafkaConfiguration
+        from fast_platform.core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
         with patch("fast_platform.core.configuration.kafka.open", side_effect=FileNotFoundError()):
@@ -80,7 +80,7 @@ class TestConfigLoader(IKafkaTests):
         Returns:
             The result of the operation.
         """
-        from core.configuration.kafka import KafkaConfiguration
+        from fast_platform.core.configuration.kafka import KafkaConfiguration
 
         KafkaConfiguration._instance = None
         with patch("fast_platform.core.configuration.kafka.open", mock_open(read_data="not-json")):

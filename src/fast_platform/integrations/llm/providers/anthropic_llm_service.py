@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any, Optional
 
-from core.errors.llm_dependency_error import LLMDependencyError
+from fast_platform.core.errors.llmdependencyerror import LLMDependencyError
 
 
 class AnthropicLLMService:

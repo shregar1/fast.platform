@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from core.utils.abstraction import IUtility
+from ..abstraction import IUtility
 
 
 class IDigestsUtility(IUtility):

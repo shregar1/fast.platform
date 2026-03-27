@@ -20,7 +20,7 @@ class TestMultipartGcs(IStorageTests):
         Returns:
             The result of the operation.
         """
-        from data.storage.gcs_backend import GCSStorageBackend
+        from fast_platform.data.storage.gcs_backend import GCSStorageBackend
 
         class FakeBlob:
             """Represents the FakeBlob class."""
