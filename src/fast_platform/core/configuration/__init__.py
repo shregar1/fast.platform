@@ -3,8 +3,10 @@
 from ..dtos import (
     AnalyticsConfigurationDTO,
     CacheConfigurationDTO,
+    ClickHouseConfigurationDTO,
     DatadogConfigurationDTO,
     DBConfigurationDTO,
+    EmailConfigurationDTO,
     EventsConfigurationDTO,
     FeatureFlagsConfigurationDTO,
     FeatureFlagsSnapshotDTO,
@@ -12,11 +14,13 @@ from ..dtos import (
     JobsConfigurationDTO,
     LaunchDarklyFeatureFlagsDTO,
     LLMConfigurationDTO,
+    MongoDBConfigurationDTO,
     PineconeConfigDTO,
     QdrantConfigDTO,
     QueuesConfigurationDTO,
     RealtimeConfigurationDTO,
     SearchConfigurationDTO,
+    SentryConfigurationDTO,
     SecretsConfigurationDTO,
     StorageConfigurationDTO,
     StreamsConfigurationDTO,
@@ -29,17 +33,21 @@ from ..dtos import (
 )
 
 from .analytics import AnalyticsConfiguration
+from .clickhouse import ClickHouseConfiguration
 from .cache import CacheConfiguration
 from .datadog import DatadogConfiguration
 from .db import DBConfiguration
+from .email import EmailConfiguration
 from .events import EventsConfiguration
 from .feature_flags import FeatureFlagsConfiguration
 from .identity_providers import IdentityProvidersConfiguration
 from .jobs import JobsConfiguration
 from .llm import LLMConfiguration
+from .mongodb import MongoDBConfiguration
 from .queues import QueuesConfiguration
 from .realtime import RealtimeConfiguration
 from .search import SearchConfiguration
+from .sentry import SentryConfiguration
 from .secrets import SecretsConfiguration
 from .storage import StorageConfiguration
 from .streams import StreamsConfiguration
@@ -49,10 +57,14 @@ from .vectors import VectorsConfiguration
 __all__ = [
     "AnalyticsConfiguration",
     "AnalyticsConfigurationDTO",
+    "ClickHouseConfiguration",
+    "ClickHouseConfigurationDTO",
     "CacheConfiguration",
     "CacheConfigurationDTO",
     "DBConfiguration",
     "DBConfigurationDTO",
+    "EmailConfiguration",
+    "EmailConfigurationDTO",
     "DatadogConfiguration",
     "DatadogConfigurationDTO",
     "EventsConfiguration",
@@ -67,6 +79,8 @@ __all__ = [
     "LaunchDarklyFeatureFlagsDTO",
     "LLMConfiguration",
     "LLMConfigurationDTO",
+    "MongoDBConfiguration",
+    "MongoDBConfigurationDTO",
     "PineconeConfigDTO",
     "QdrantConfigDTO",
     "QueuesConfiguration",
@@ -75,6 +89,8 @@ __all__ = [
     "RealtimeConfigurationDTO",
     "SearchConfiguration",
     "SearchConfigurationDTO",
+    "SentryConfiguration",
+    "SentryConfigurationDTO",
     "SecretsConfiguration",
     "SecretsConfigurationDTO",
     "StorageConfiguration",

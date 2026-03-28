@@ -23,6 +23,7 @@ from .tokenbudgetexceedederror import TokenBudgetExceeded
 from .unauthorizederror import UnauthorizedError
 from .unexpectedresponseerror import UnexpectedResponseError
 from .unsupportedllmprovidererror import UnsupportedLLMProviderError
+from .validationerror import ValidationError
 
 __all__ = [
     "IError",
@@ -39,5 +40,6 @@ __all__ = [
     "UnauthorizedError",
     "UnexpectedResponseError",
     "UnsupportedLLMProviderError",
+    "ValidationError",
 ]
 __version__ = "0.2.0"

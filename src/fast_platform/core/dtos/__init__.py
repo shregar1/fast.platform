@@ -7,8 +7,10 @@ from .analytics import AnalyticsConfigurationDTO
 from .aws_secrets import AwsSecretsDTO
 from .cache import CacheConfigurationDTO
 from .celery_jobs import CeleryJobsDTO
+from .clickhouse import ClickHouseConfigurationDTO
 from .datadog import DatadogConfigurationDTO
 from .db import DBConfigurationDTO
+from .email import EmailConfigurationDTO
 from .dramatiq_jobs import DramatiqJobsDTO
 from .event_bridge import EventBridgeDTO
 from .event_hubs import EventHubsDTO
@@ -23,6 +25,7 @@ from .kafka_event import KafkaEventDTO
 from .launchdarkly_feature_flags import LaunchDarklyFeatureFlagsDTO
 from .llm import LLMConfigurationDTO
 from .meilisearch import MeilisearchDTO
+from .mongodb import MongoDBConfigurationDTO
 from .nats_config import NATSConfigDTO
 from .oauth_provider import OAuthProviderDTO
 from .pinecone_config import PineconeConfigDTO
@@ -32,6 +35,7 @@ from .rabbit_mq_config import RabbitMQConfigDTO
 from .realtime import RealtimeConfigurationDTO
 from .rq_jobs import RqJobsDTO
 from .s3_storage import S3StorageDTO
+from .sentry import SentryConfigurationDTO
 from .scheduler_jobs import SchedulerJobsDTO
 from .search import SearchConfigurationDTO
 from .secrets import SecretsConfigurationDTO
@@ -56,6 +60,8 @@ __all__ = [
     "CeleryJobsDTO",
     "DatadogConfigurationDTO",
     "DBConfigurationDTO",
+    "ClickHouseConfigurationDTO",
+    "EmailConfigurationDTO",
     "DramatiqJobsDTO",
     "EventBridgeDTO",
     "EventHubsDTO",
@@ -69,6 +75,7 @@ __all__ = [
     "KafkaEventDTO",
     "LaunchDarklyFeatureFlagsDTO",
     "LLMConfigurationDTO",
+    "MongoDBConfigurationDTO",
     "MeilisearchDTO",
     "NATSConfigDTO",
     "OAuthProviderDTO",
@@ -88,6 +95,7 @@ __all__ = [
     "StorageConfigurationDTO",
     "StreamsConfigurationDTO",
     "TelemetryConfigurationDTO",
+    "SentryConfigurationDTO",
     "UnleashFeatureFlagsDTO",
     "VaultSecretsDTO",
     "VectorsConfigurationDTO",

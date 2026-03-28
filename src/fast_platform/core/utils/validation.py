@@ -1,102 +1,25 @@
-"""Simple Validation Helpers for FastMVC.
+"""Validation Utility for FastPlatform.
 
-Lightweight validation before Pydantic models.
-
-Usage:
-    from fast_platform.core.validation import validate, validate_json, ValidationError
-
-    # Simple validation
-    @validate({
-        "email": "required|email",
-        "age": "required|integer|min:18|max:120"
-    })
-    async def create_user(data: dict):
-        # data is validated here
-        return {"message": "User created"}
-
-    # Manual validation
-    errors = validate_data({
-        "email": "test@example.com",
-        "age": 25
-    }, {
-        "email": "required|email",
-        "age": "required|integer|min:18"
-    })
-
-    if errors:
-        raise ValidationError(errors)
-
-    # Individual rules
-    from fast_platform.core.validation import rules
-
-    rules.email("test@example.com")  # True
-    rules.email("invalid")           # False
-
-    rules.min_length("hello", 3)     # True
-    rules.min_length("hi", 3)        # False
-
-Available Rules:
-    - required      - Field must be present and not empty
-    - email         - Valid email format
-    - url           - Valid URL format
-    - integer       - Integer value
-    - number        - Numeric value (int or float)
-    - boolean       - Boolean value
-    - string        - String value
-    - min:n         - Minimum length (strings) or value (numbers)
-    - max:n         - Maximum length (strings) or value (numbers)
-    - between:n,m   - Between n and m (inclusive)
-    - regex:pattern - Match regex pattern
-    - in:a,b,c      - Value in list
-    - uuid          - Valid UUID format
-    - json          - Valid JSON string
-    - alpha         - Alphabetic characters only
-    - alphanumeric  - Alphanumeric characters only
-    - slug          - URL-friendly slug format
-    - phone         - Phone number format
+Concrete implementation of validation helpers (rules, decorators, and data validation)
+inheriting from IUtility.
 """
+
+from __future__ import annotations
 
 import re
 import json
+import inspect
 from typing import Any, Callable, Dict, List, Optional, Union
 from functools import wraps
 
-
-class ValidationError(Exception):
-    """Exception raised when validation fails."""
-
-    def __init__(self, errors: Dict[str, List[str]]):
-        """Execute __init__ operation.
-
-        Args:
-            errors: The errors parameter.
-        """
-        self.errors = errors
-        self.message = self._format_errors(errors)
-        super().__init__(self.message)
-
-    def _format_errors(self, errors: Dict[str, List[str]]) -> str:
-        """Execute _format_errors operation.
-
-        Args:
-            errors: The errors parameter.
-
-        Returns:
-            The result of the operation.
-        """
-        messages = []
-        for field, field_errors in errors.items():
-            for error in field_errors:
-                messages.append(f"{field}: {error}")
-        return "; ".join(messages)
-
-    def to_dict(self) -> dict:
-        """Convert to dictionary for API responses."""
-        return {"error": "Validation failed", "errors": self.errors}
+from ..errors.validationerror import ValidationError
+from .abstraction import IUtility
 
 
-class RuleEngine:
-    """Validation rule engine."""
+class ValidationUtility(IUtility):
+    """Validation utility providing rules, data validation, and decorators."""
+
+    # --- Rule Engine (Internal static methods) ---
 
     @staticmethod
     def required(value: Any) -> bool:
@@ -254,278 +177,168 @@ class RuleEngine:
         """Check if value is valid phone number."""
         if not isinstance(value, str):
             return False
-        # Simple international phone validation
         pattern = r"^[\+]?[1-9][\d\s\-\(\)]{8,}$"
         return bool(re.match(pattern, value))
 
+    # --- Logic Helpers ---
 
-# Global rule engine instance
-rules = RuleEngine()
+    @classmethod
+    def parse_rule(cls, rule_string: str) -> tuple[str, list]:
+        """Parse a rule string into rule name and parameters."""
+        if ":" in rule_string:
+            name, params = rule_string.split(":", 1)
+            params = [p.strip() for p in params.split(",")]
 
+            converted_params = []
+            for p in params:
+                try:
+                    if "." in p:
+                        converted_params.append(float(p))
+                    else:
+                        converted_params.append(int(p))
+                except ValueError:
+                    converted_params.append(p)
 
-def parse_rule(rule_string: str) -> tuple:
-    """Parse a rule string into rule name and parameters.
+            return name, converted_params
 
-    Examples:
-        "min:18" -> ("min", [18])
-        "between:18,65" -> ("between", [18, 65])
-        "required" -> ("required", [])
+        return rule_string, []
 
-    """
-    if ":" in rule_string:
-        name, params = rule_string.split(":", 1)
-        params = [p.strip() for p in params.split(",")]
+    @classmethod
+    def validate_field(cls, value: Any, rules_string: str) -> List[str]:
+        """Validate a single field against rule string."""
+        errors = []
+        rule_list = [r.strip() for r in rules_string.split("|")]
 
-        # Convert numeric parameters
-        converted_params = []
-        for p in params:
+        for rule_str in rule_list:
+            if not rule_str:
+                continue
+
+            rule_name, params = cls.parse_rule(rule_str)
+
+            if rule_name != "required" and not cls.required(value):
+                continue
+
+            method = getattr(cls, rule_name, None)
+            if not method:
+                errors.append(f"Unknown rule: {rule_name}")
+                continue
+
             try:
-                if "." in p:
-                    converted_params.append(float(p))
-                else:
-                    converted_params.append(int(p))
-            except ValueError:
-                converted_params.append(p)
+                is_valid = method(value, *params) if params else method(value)
+                if not is_valid:
+                    if params:
+                        errors.append(f"Failed {rule_name} validation ({', '.join(map(str, params))})")
+                    else:
+                        errors.append(f"Failed {rule_name} validation")
+            except Exception as e:
+                errors.append(f"Validation error: {e}")
 
-        return name, converted_params
+        return errors
 
-    return rule_string, []
+    @classmethod
+    def validate_data(cls, data: dict, rules: dict) -> Dict[str, List[str]]:
+        """Validate data against rules dictionary."""
+        errors = {}
+        for field, field_rules in rules.items():
+            value = data.get(field)
+            field_errors = cls.validate_field(value, field_rules)
+            if field_errors:
+                errors[field] = field_errors
+        return errors
 
+    @classmethod
+    def quick_validate(cls, data: dict, **field_rules) -> Optional[List[str]]:
+        """Quick validation for simple cases returning flattened list of errors."""
+        errors = cls.validate_data(data, field_rules)
+        if not errors:
+            return None
 
-def validate_field(value: Any, rules_string: str) -> List[str]:
-    """Validate a single field against rule string.
+        flat_errors = []
+        for field, field_errors in errors.items():
+            for error in field_errors:
+                flat_errors.append(f"{field}: {error}")
+        return flat_errors
 
-    Args:
-        value: Value to validate
-        rules_string: Pipe-separated rules (e.g., "required|email|min:5")
+    # --- Decorators ---
 
-    Returns:
-        List of error messages (empty if valid)
+    @classmethod
+    def validate(cls, rules: dict):
+        """Decorator to validate request data."""
+        def decorator(func: Callable) -> Callable:
+            @wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                data = None
+                for arg in args:
+                    if hasattr(arg, "json"):
+                        try:
+                            data = await arg.json()
+                        except:
+                            pass
+                        break
+                    elif hasattr(arg, "body"):
+                        try:
+                            body = await arg.body()
+                            data = json.loads(body)
+                        except:
+                            pass
+                        break
+                    elif isinstance(arg, dict):
+                        data = arg
+                        break
 
-    """
-    errors = []
-    rule_list = [r.strip() for r in rules_string.split("|")]
+                if data is None:
+                    data = kwargs.get("data") or kwargs.get("body") or kwargs.get("request")
 
-    for rule_str in rule_list:
-        if not rule_str:
-            continue
+                if data is None:
+                    raise ValidationError({"_general": ["Could not extract data for validation"]})
 
-        rule_name, params = parse_rule(rule_str)
+                errors = cls.validate_data(data, rules)
+                if errors:
+                    raise ValidationError(errors)
 
-        # Skip other rules if value is empty and not required
-        if rule_name != "required" and not RuleEngine.required(value):
-            continue
+                return await func(*args, **kwargs)
 
-        # Get validation method
-        method = getattr(rules, rule_name, None)
-        if not method:
-            errors.append(f"Unknown rule: {rule_name}")
-            continue
+            @wraps(func)
+            def sync_wrapper(*args, **kwargs):
+                data = None
+                for arg in args:
+                    if isinstance(arg, dict):
+                        data = arg
+                        break
 
-        # Validate
-        try:
-            if params:
-                is_valid = method(value, *params)
-            else:
-                is_valid = method(value)
+                if data is None:
+                    data = kwargs.get("data") or kwargs.get("body")
 
-            if not is_valid:
-                # Generate error message
-                if params:
-                    errors.append(f"Failed {rule_name} validation ({', '.join(map(str, params))})")
-                else:
-                    errors.append(f"Failed {rule_name} validation")
-        except Exception as e:
-            errors.append(f"Validation error: {e}")
+                if data is None:
+                    raise ValidationError({"_general": ["Could not extract data for validation"]})
 
-    return errors
+                errors = cls.validate_data(data, rules)
+                if errors:
+                    raise ValidationError(errors)
 
+                return func(*args, **kwargs)
 
-def validate_data(data: dict, rules: dict) -> Dict[str, List[str]]:
-    """Validate data against rules.
+            if inspect.iscoroutinefunction(func):
+                return async_wrapper
+            return sync_wrapper
 
-    Args:
-        data: Dictionary of data to validate
-        rules: Dictionary of field -> rule strings
+        return decorator
 
-    Returns:
-        Dictionary of field -> error messages (empty if all valid)
-
-    Example:
-        errors = validate_data(
-            {"email": "test@example.com", "age": 25},
-            {"email": "required|email", "age": "required|integer|min:18"}
-        )
-        if errors:
-            print(errors)  # {"age": ["Failed integer validation"]}
-
-    """
-    errors = {}
-
-    for field, field_rules in rules.items():
-        value = data.get(field)
-        field_errors = validate_field(value, field_rules)
-
-        if field_errors:
-            errors[field] = field_errors
-
-    return errors
-
-
-def validate(rules: dict):
-    """Decorator to validate request data.
-
-    Usage:
-        @validate({
-            "email": "required|email",
-            "password": "required|min:8"
-        })
-        async def create_user(request):
-            data = await request.json()
-            # Data is validated here
-            return {"message": "Created"}
-
-    Args:
-        rules: Dictionary of field -> validation rules
-
-    """
-
-    def decorator(func: Callable) -> Callable:
-        """Execute decorator operation.
-
-        Args:
-            func: The func parameter.
-
-        Returns:
-            The result of the operation.
-        """
-
-        @wraps(func)
-        async def async_wrapper(*args, **kwargs):
-            """Execute async_wrapper operation.
-
-            Returns:
-                The result of the operation.
-            """
-            # Try to extract data from various sources
-            data = None
-
-            # Check for request object in args
-            for arg in args:
-                if hasattr(arg, "json"):
-                    try:
-                        data = await arg.json()
-                    except:
-                        pass
-                    break
-                elif hasattr(arg, "body"):
-                    try:
-                        import json
-
-                        body = await arg.body()
-                        data = json.loads(body)
-                    except:
-                        pass
-                    break
-                elif isinstance(arg, dict):
-                    data = arg
-                    break
-
-            # Check kwargs
-            if data is None:
-                data = kwargs.get("data") or kwargs.get("body") or kwargs.get("request")
-
-            if data is None:
-                raise ValidationError({"_general": ["Could not extract data for validation"]})
-
-            # Validate
-            errors = validate_data(data, rules)
-            if errors:
-                raise ValidationError(errors)
-
-            return await func(*args, **kwargs)
-
-        @wraps(func)
-        def sync_wrapper(*args, **kwargs):
-            """Execute sync_wrapper operation.
-
-            Returns:
-                The result of the operation.
-            """
-            data = None
-
-            for arg in args:
-                if isinstance(arg, dict):
-                    data = arg
-                    break
-
-            if data is None:
-                data = kwargs.get("data") or kwargs.get("body")
-
-            if data is None:
-                raise ValidationError({"_general": ["Could not extract data for validation"]})
-
-            errors = validate_data(data, rules)
-            if errors:
-                raise ValidationError(errors)
-
-            return func(*args, **kwargs)
-
-        import inspect
-
-        if inspect.iscoroutinefunction(func):
-            return async_wrapper
-        return sync_wrapper
-
-    return decorator
+    @classmethod
+    def validate_json(cls, rules: dict):
+        """Decorator for FastAPI endpoints that validates JSON body."""
+        return cls.validate(rules)
 
 
-# FastAPI-specific validation decorator
-def validate_json(rules: dict):
-    """Decorator for FastAPI endpoints that validates JSON body.
+# --- Backward Compatible Aliases ---
 
-    Usage:
-        from fastapi import FastAPI, Request
+# Regional/Global instance for easy access
+rules = ValidationUtility  # All methods are static or class methods
 
-        app = FastAPI()
-
-        @app.post("/users")
-        @validate_json({
-            "email": "required|email",
-            "age": "required|integer|min:18"
-        })
-        async def create_user(request: Request):
-            data = await request.json()
-            return {"message": f"Created user with email {data['email']}"}
-    """
-    return validate(rules)
-
-
-# Helper for quick validation
-def quick_validate(data: dict, **field_rules) -> Optional[List[str]]:
-    """Quick validation for simple cases.
-
-    Usage:
-        errors = quick_validate(
-            {"email": "test@example.com"},
-            email="required|email"
-        )
-        if errors:
-            print(errors)
-
-    Returns:
-        List of error strings or None if valid
-
-    """
-    errors = validate_data(data, field_rules)
-
-    if not errors:
-        return None
-
-    # Flatten errors to list
-    flat_errors = []
-    for field, field_errors in errors.items():
-        for error in field_errors:
-            flat_errors.append(f"{field}: {error}")
-
-    return flat_errors
+validate = ValidationUtility.validate
+validate_json = ValidationUtility.validate_json
+validate_data = ValidationUtility.validate_data
+validate_field = ValidationUtility.validate_field
+quick_validate = ValidationUtility.quick_validate
+parse_rule = ValidationUtility.parse_rule
+RuleEngine = ValidationUtility

@@ -18,17 +18,22 @@ from .currency import CurrencyUtility, ICurrencyUtility
 from .datatype import BooleanUtility, IDatatype, IntegerUtility, StringUtility
 from .decimal import DecimalUtility, IDecimalUtility
 from .digests import Digests, IDigestsUtility
+from .geo import GeoUtility, IGeoUtility
 from .hashing import HashingUtility, IHashingUtility
 from .html import HtmlUtility, IHtmlUtility
 from .idempotency import Idempotency, IIdempotencyUtility
+from .jwt import JWTUtility
 from .media.audio import AudioUtility
 from .media.image import ImageUtility
 from .media.pdf import PdfUtility
 from .media.text import TextUtility
 from .media.video import VideoUtility
 from .metrics import Counter, Histogram, IMetricsUtility, MetricsRegistry
+from .network import INetworkUtility, NetworkUtility
 from .nutrition import INutritionUtility, NutritionUtility
 from .optional_imports import IOptionalImportsUtility, OptionalImports
+from .phone import IPhoneUtility, PhoneUtility
+from .qr import IQRUtility, QRUtility
 from .request_id_context import IRequestIdContextUtility, RequestIdContext
 from .retry import AsyncRetry, IAsyncRetryUtility
 from .sanitization import ISanitization, SanitizationJsonUtility
@@ -38,7 +43,10 @@ from .structured_log import (
     StructuredLogFields,
     StructuredLogSink,
 )
+from .system import ISystemUtility, SystemUtility
+from .temperature import ITemperatureUtility, TemperatureUtility
 from .time import ITimeUtility, TimeUtility
+from .uuid import IUUIDUtility, UUIDUtility
 from .validation import (
     ValidationError,
     RuleEngine,
@@ -49,15 +57,7 @@ from .validation import (
     validate_data,
     validate_field,
     quick_validate,
-)
-from .versioning import (
-    APIVersion,
-    VersionManager,
-    VersionHeaderMiddleware,
-    deprecate,
-    get_versions_endpoint,
-    version,
-    versioned_router,
+    ValidationUtility,
 )
 
 __all__ = [
@@ -70,15 +70,22 @@ __all__ = [
     "IDatatype",
     "IDecimalUtility",
     "IDigestsUtility",
+    "IGeoUtility",
     "IHashingUtility",
     "IHtmlUtility",
     "IIdempotencyUtility",
     "IMetricsUtility",
+    "INetworkUtility",
     "INutritionUtility",
     "IOptionalImportsUtility",
+    "IPhoneUtility",
+    "IQRUtility",
     "IRequestIdContextUtility",
     "IStructuredLogUtility",
+    "ISystemUtility",
+    "ITemperatureUtility",
     "ITimeUtility",
+    "IUUIDUtility",
     "BooleanUtility",
     "CurrencyUtility",
     "IntegerUtility",
@@ -88,14 +95,21 @@ __all__ = [
     "AudioUtility",
     "Digests",
     "DecimalUtility",
+    "GeoUtility",
     "HashingUtility",
     "HtmlUtility",
     "Idempotency",
     "ImageUtility",
+    "NetworkUtility",
     "OptionalImports",
     "PdfUtility",
+    "PhoneUtility",
+    "QRUtility",
     "RequestIdContext",
     "SanitizationJsonUtility",
+    "SystemUtility",
+    "TemperatureUtility",
+    "UUIDUtility",
     "Clock",
     "ClockRegistry",
     "CrowdfundingUtility",
@@ -120,11 +134,6 @@ __all__ = [
     "validate_data",
     "validate_field",
     "quick_validate",
-    "APIVersion",
-    "VersionManager",
-    "VersionHeaderMiddleware",
-    "deprecate",
-    "get_versions_endpoint",
-    "version",
-    "versioned_router",
+    "ValidationUtility",
+    "JWTUtility",
 ]
