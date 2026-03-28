@@ -5,6 +5,9 @@ from __future__ import annotations
 """Tests for :mod:`messaging.jobs.cancel` (mocked backends)."""
 from unittest.mock import MagicMock, patch
 
+import pytest
+
+
 from fast_platform.messaging.jobs.cancel import CancelJobResult, cancel_job
 from tests.messaging.jobs.abstraction import IJobTests
 
@@ -23,37 +26,32 @@ class TestCancelJob(IJobTests):
         assert r.cancelled is False
         assert r.backend == "dramatiq"
 
-    @patch("celery.result.AsyncResult")
-    @patch("fast_platform.messaging.jobs.celery_app.make_celery_app")
-    def test_cancel_celery(self, _mock_make: MagicMock, mock_ar_cls: MagicMock) -> None:
+    def test_cancel_celery(self) -> None:
         """Execute test_cancel_celery operation.
 
-        Args:
-            _mock_make: The _mock_make parameter.
-            mock_ar_cls: The mock_ar_cls parameter.
-
         Returns:
             The result of the operation.
         """
-        mock_inst = MagicMock()
-        mock_ar_cls.return_value = mock_inst
-        r = cancel_job("jid", "celery")
-        assert r.cancelled is True
-        mock_inst.revoke.assert_called_once()
+        pytest.importorskip("celery")
+        with patch("celery.result.AsyncResult") as mock_ar_cls, \
+             patch("fast_platform.messaging.jobs.celery_app.make_celery_app"):
+            mock_inst = MagicMock()
+            mock_ar_cls.return_value = mock_inst
+            r = cancel_job("jid", "celery")
+            assert r.cancelled is True
+            mock_inst.revoke.assert_called_once()
 
-    @patch("rq.job.Job")
-    def test_cancel_rq(self, mock_job_cls: MagicMock) -> None:
+    def test_cancel_rq(self) -> None:
         """Execute test_cancel_rq operation.
 
-        Args:
-            mock_job_cls: The mock_job_cls parameter.
-
         Returns:
             The result of the operation.
         """
-        mock_job = MagicMock()
-        mock_job_cls.fetch.return_value = mock_job
-        conn = MagicMock()
-        r = cancel_job("jid", "rq", rq_connection=conn)
-        assert r.cancelled is True
-        mock_job.cancel.assert_called_once()
+        pytest.importorskip("rq")
+        with patch("rq.job.Job") as mock_job_cls:
+            mock_job = MagicMock()
+            mock_job_cls.fetch.return_value = mock_job
+            conn = MagicMock()
+            r = cancel_job("jid", "rq", rq_connection=conn)
+            assert r.cancelled is True
+            mock_job.cancel.assert_called_once()

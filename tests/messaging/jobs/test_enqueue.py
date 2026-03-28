@@ -65,50 +65,49 @@ class TestEnqueue(IJobTests):
         assert r.timeout_seconds == 120
 
     @patch("fast_platform.messaging.jobs.enqueue.JobsConfiguration")
-    @patch("rq.Queue")
-    @patch("redis.Redis")
     def test_enqueue_rq_enqueue_call(
-        self, _mock_redis: MagicMock, mock_queue_cls: MagicMock, mock_jobs: MagicMock
+        self, mock_jobs: MagicMock
     ) -> None:
         """Execute test_enqueue_rq_enqueue_call operation.
 
         Args:
-            _mock_redis: The _mock_redis parameter.
-            mock_queue_cls: The mock_queue_cls parameter.
             mock_jobs: The mock_jobs parameter.
 
         Returns:
             The result of the operation.
         """
-        pytest.importorskip("redis")
         pytest.importorskip("rq")
+        import redis as _redis_mod
+        import rq as _rq_mod
         cfg = self._cfg(
             rq={"enabled": True, "redis_url": "redis://localhost:9/0", "queue_name": "default"}
         )
         mock_jobs.return_value.get_config.return_value = cfg
         job = MagicMock(id="rq-job-1")
-        mock_queue_cls.return_value.enqueue_call.return_value = job
 
-        def work(a: int, b: int) -> int:
-            """Execute work operation.
+        with patch("rq.Queue") as mock_queue_cls, patch("redis.Redis"):
+            mock_queue_cls.return_value.enqueue_call.return_value = job
 
-            Args:
-                a: The a parameter.
-                b: The b parameter.
+            def work(a: int, b: int) -> int:
+                """Execute work operation.
 
-            Returns:
-                The result of the operation.
-            """
-            return a + b
+                Args:
+                    a: The a parameter.
+                    b: The b parameter.
 
-        r = enqueue(work, 2, 3, backend="rq", queue="default")
-        mock_queue_cls.return_value.enqueue_call.assert_called_once()
-        ec_kw = mock_queue_cls.return_value.enqueue_call.call_args[1]
-        assert ec_kw["func"] is work
-        assert ec_kw["args"] == (2, 3)
-        assert ec_kw["timeout"] == 60
-        assert r.backend == "rq"
-        assert r.job_id == "rq-job-1"
+                Returns:
+                    The result of the operation.
+                """
+                return a + b
+
+            r = enqueue(work, 2, 3, backend="rq", queue="default")
+            mock_queue_cls.return_value.enqueue_call.assert_called_once()
+            ec_kw = mock_queue_cls.return_value.enqueue_call.call_args[1]
+            assert ec_kw["func"] is work
+            assert ec_kw["args"] == (2, 3)
+            assert ec_kw["timeout"] == 60
+            assert r.backend == "rq"
+            assert r.job_id == "rq-job-1"
 
     @patch("fast_platform.messaging.jobs.enqueue.JobsConfiguration")
     def test_enqueue_dramatiq_send_with_options(self, mock_jobs: MagicMock) -> None:

@@ -63,6 +63,7 @@ class TestAsyncEngine(IDatabaseTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("greenlet")
         eng = create_async_engine("sqlite+aiosqlite:///:memory:")
         assert await check_database_async(eng) is True
         await eng.dispose()

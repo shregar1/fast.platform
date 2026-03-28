@@ -26,6 +26,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="hello"))]
         mock_client = MagicMock()
@@ -43,6 +44,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("anthropic")
         t1 = SimpleNamespace(type="text", text="a")
         t2 = SimpleNamespace(type="image", text="x")
         mock_resp = MagicMock(content=[t1, t2])
@@ -61,6 +63,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("anthropic")
         mock_resp = MagicMock(content=[])
         mock_client = MagicMock()
         mock_client.messages.create = AsyncMock(return_value=mock_resp)
@@ -100,6 +103,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         from fast_platform.integrations.llm import providers as prov
 
         class OpenAIStub:
@@ -146,6 +150,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("anthropic")
         from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
@@ -215,6 +220,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         from fast_platform.integrations.llm.providers import ILLMService, OpenAILLMService
 
         with patch("openai.AsyncOpenAI", return_value=MagicMock()):
@@ -228,6 +234,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="groq"))]
         mock_client = MagicMock()
@@ -245,6 +252,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         mock_resp = MagicMock()
         mock_resp.choices = [MagicMock(message=MagicMock(content="mistral-out"))]
         mock_client = MagicMock()
@@ -296,6 +304,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
@@ -331,6 +340,7 @@ class TestProvidersCoverage(ILLMProvidersTests):
         Returns:
             The result of the operation.
         """
+        pytest.importorskip("openai")
         from fast_platform.integrations.llm import providers as prov
 
         class Cfg:
