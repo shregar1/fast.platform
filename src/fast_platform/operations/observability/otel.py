@@ -7,6 +7,7 @@ when enabled in configuration.
 
 from __future__ import annotations
 
+from ...core.constants import SERVICE_NAME
 from typing import TYPE_CHECKING, Any
 
 from loguru import logger

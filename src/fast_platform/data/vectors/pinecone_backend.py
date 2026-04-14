@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import PINECONE_BACKEND
 from typing import Any, List, Optional
 
 from .base import IVectorStore
@@ -10,7 +11,7 @@ from .base import IVectorStore
 class PineconeVectorStore(IVectorStore):
     """Pinecone client wrapper."""
 
-    name = "pinecone"
+    name = PINECONE_BACKEND
 
     def __init__(
         self,

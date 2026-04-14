@@ -1,5 +1,6 @@
 """AWS SES email provider client."""
 
+from ...core.constants import DEFAULT_AWS_REGION
 from typing import Any
 
 
@@ -10,7 +11,7 @@ class SESClient:
         self,
         aws_access_key_id: str | None = None,
         aws_secret_access_key: str | None = None,
-        region_name: str = "us-east-1",
+        region_name: str = DEFAULT_AWS_REGION,
     ):
         """Initialize SES client.
         

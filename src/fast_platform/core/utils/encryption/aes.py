@@ -1,10 +1,11 @@
+from __future__ import annotations
 """AES symmetric encryption (AES-GCM — authenticated).
 
-Format for :meth:`AesGcmEncryption.encrypt` output: ``nonce (12 bytes) || ciphertext``,
+Format for :meth:`AesGcmEncryption.encrypt` output: ``nonce (AES_GCM_NONCE_LENGTH bytes) || ciphertext``,
 where *ciphertext* includes the GCM authentication tag (as produced by ``AESGCM``).
 """
 
-from __future__ import annotations
+from .constants import AES_256_KEY_LENGTH_BYTES, AES_GCM_NONCE_LENGTH
 
 import os
 from typing import Optional
@@ -13,13 +14,13 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from .abstraction import IEncryptionUtility
 
-_NONCE_LEN = 12
+_NONCE_LEN = AES_GCM_NONCE_LENGTH
 
 
 class AesGcmEncryption(IEncryptionUtility):
-    """AES-GCM with a random 12-byte nonce per encryption.
+    """AES-GCM with a random AES_GCM_NONCE_LENGTH-byte nonce per encryption.
 
-    *key* must be 16, 24, or 32 bytes (AES-128 / AES-192 / AES-256).
+    *key* must be 16, 24, or AES_256_KEY_LENGTH_BYTES bytes (AES-128 / AES-192 / AES-256).
     """
 
     def __init__(self, key: bytes) -> None:
@@ -29,8 +30,8 @@ class AesGcmEncryption(IEncryptionUtility):
             key: The key parameter.
         """
         self._key = key
-        if len(key) not in (16, 24, 32):
-            raise ValueError("AES key must be 16, 24, or 32 bytes")
+        if len(key) not in (16, 24, AES_256_KEY_LENGTH_BYTES):
+            raise ValueError(f"AES key must be 16, 24, or {AES_256_KEY_LENGTH_BYTES} bytes")
         self._aes = AESGCM(key)
 
     @staticmethod

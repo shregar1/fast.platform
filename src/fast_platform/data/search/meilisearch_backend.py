@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import MEILISEARCH_BACKEND
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
@@ -42,7 +43,7 @@ def _meili_highlights(hit: dict[str, Any]) -> Optional[dict[str, List[str]]]:
 class MeilisearchBackend(ISearchBackend):
     """Meilisearch client wrapper."""
 
-    name = "meilisearch"
+    name = MEILISEARCH_BACKEND
 
     def __init__(self, url: str, api_key: Optional[str] = None) -> None:
         """Execute __init__ operation.

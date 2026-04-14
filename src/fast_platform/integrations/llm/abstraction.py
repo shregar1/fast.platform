@@ -6,6 +6,7 @@ Supports OpenAI, Anthropic, and local/Ollama-style models via a common
 
 from __future__ import annotations
 
+from .constants import OPENAI_PROVIDER
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
@@ -70,7 +71,7 @@ class OpenAILLMService(ILLMService):
             model: The model parameter.
         """
         if openai is None:  # pragma: no cover - optional
-            raise LLMDependencyError(provider="openai", pip_extra="fast_llm[openai]")
+            raise LLMDependencyError(provider=OPENAI_PROVIDER, pip_extra="fast_llm[openai]")
         client_kwargs: Dict[str, Any] = {"api_key": api_key}
         if base_url:
             client_kwargs["base_url"] = base_url

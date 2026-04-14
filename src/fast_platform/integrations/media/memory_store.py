@@ -1,6 +1,7 @@
+from __future__ import annotations
 """In-memory :class:`~fast_media.abstractions.IMediaStore` for tests and local dev."""
 
-from __future__ import annotations
+from ...data.storage.constants import MEMORY_URL_PREFIX
 
 from typing import BinaryIO, Optional
 
@@ -10,7 +11,7 @@ from .abstraction import IMediaStore, UploadResult
 class InMemoryMediaStore(IMediaStore):
     """Simple dict-backed store; URLs are synthetic ``memory://`` URIs."""
 
-    def __init__(self, base_url: str = "memory://") -> None:
+    def __init__(self, base_url: str = MEMORY_URL_PREFIX) -> None:
         """Execute __init__ operation.
 
         Args:

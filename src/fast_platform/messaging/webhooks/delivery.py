@@ -1,5 +1,6 @@
 """Outbound webhook delivery with retries and optional signing."""
 
+from ...core.constants import CONTENT_TYPE_APPLICATION_JSON, DEFAULT_TIMEOUT_SECONDS, HEADER_CONTENT_TYPE, HEADER_X_WEBHOOK_SIGNATURE
 import asyncio
 import random
 from dataclasses import dataclass, field
@@ -27,7 +28,7 @@ async def deliver_webhook(
     payload: bytes,
     *,
     secret: Optional[str] = None,
-    signature_header_name: str = "X-Webhook-Signature",
+    signature_header_name: str = HEADER_X_WEBHOOK_SIGNATURE,
     extra_headers: Optional[dict[str, str]] = None,
     retry_policy: Optional[RetryPolicy] = None,
     timeout: float = 30.0,
@@ -40,7 +41,7 @@ async def deliver_webhook(
     """
     policy = retry_policy or RetryPolicy()
     headers = dict(extra_headers or {})
-    headers["Content-Type"] = "application/json"
+    headers[HEADER_CONTENT_TYPE] = CONTENT_TYPE_APPLICATION_JSON
     if secret:
         headers[signature_header_name] = signature_header_value(payload, secret)
 
@@ -79,7 +80,7 @@ def deliver_webhook_sync(
     payload: bytes,
     *,
     secret: Optional[str] = None,
-    signature_header_name: str = "X-Webhook-Signature",
+    signature_header_name: str = HEADER_X_WEBHOOK_SIGNATURE,
     extra_headers: Optional[dict[str, str]] = None,
     retry_policy: Optional[RetryPolicy] = None,
     timeout: float = 30.0,

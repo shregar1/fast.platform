@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Queue / messaging abstraction layer.
 
 Provides a minimal interface over RabbitMQ, Amazon SQS, and NATS.
@@ -5,7 +6,7 @@ Concrete integrations use optional third-party libraries; if they are
 not installed, calls will log warnings instead of crashing.
 """
 
-from __future__ import annotations
+from .constants import RABBITMQ_BACKEND, KAFKA_BACKEND, SQS_BACKEND, NATS_BACKEND
 
 import asyncio
 from abc import ABC, abstractmethod
@@ -24,7 +25,7 @@ except Exception:  # pragma: no cover - optional
 
 boto3, _ = OptionalImports.optional_import("boto3")
 pika, _ = OptionalImports.optional_import("pika")
-nats, _ = OptionalImports.optional_import("nats")
+nats, _ = OptionalImports.optional_import(NATS_BACKEND)
 _sb_mod, ServiceBusClient = OptionalImports.optional_import("azure.servicebus", "ServiceBusClient")
 
 
@@ -68,7 +69,7 @@ class RabbitMQBackend(IQueueBackend):
             exchange: The exchange parameter.
             default_routing_key: The default_routing_key parameter.
         """
-        self.name = "rabbitmq"
+        self.name = RABBITMQ_BACKEND
         self._url = url
         self._exchange = exchange
         self._default_routing_key = default_routing_key
@@ -128,7 +129,7 @@ class SQSBackend(IQueueBackend):
             access_key_id: The access_key_id parameter.
             secret_access_key: The secret_access_key parameter.
         """
-        self.name = "sqs"
+        self.name = SQS_BACKEND
         self._region = region
         self._queue_url = queue_url
         self._access_key_id = access_key_id
@@ -163,7 +164,7 @@ class SQSBackend(IQueueBackend):
                     aws_access_key_id=self._access_key_id,
                     aws_secret_access_key=self._secret_access_key,
                 )
-            sqs = boto3.client("sqs", region_name=self._region, **session_kwargs)
+            sqs = boto3.client(SQS_BACKEND, region_name=self._region, **session_kwargs)
             sqs.send_message(
                 QueueUrl=self._queue_url,
                 MessageBody=message.body.decode("utf-8"),
@@ -186,7 +187,7 @@ class NATSBackend(IQueueBackend):
             servers: The servers parameter.
             subject: The subject parameter.
         """
-        self.name = "nats"
+        self.name = NATS_BACKEND
         self._servers = servers
         self._subject = subject
 
@@ -275,14 +276,14 @@ class QueueBroker:
         self._backends: Dict[str, IQueueBackend] = {}
 
         if cfg.rabbitmq.enabled and cfg.rabbitmq.url:
-            self._backends["rabbitmq"] = RabbitMQBackend(
+            self._backends[RABBITMQ_BACKEND] = RabbitMQBackend(
                 url=cfg.rabbitmq.url,
                 exchange=cfg.rabbitmq.exchange,
                 default_routing_key=cfg.rabbitmq.default_routing_key,
             )
 
         if cfg.sqs.enabled and cfg.sqs.queue_url:
-            self._backends["sqs"] = SQSBackend(
+            self._backends[SQS_BACKEND] = SQSBackend(
                 region=cfg.sqs.region,
                 queue_url=cfg.sqs.queue_url,
                 access_key_id=cfg.sqs.access_key_id,
@@ -290,7 +291,7 @@ class QueueBroker:
             )
 
         if cfg.nats.enabled and cfg.nats.servers:
-            self._backends["nats"] = NATSBackend(
+            self._backends[NATS_BACKEND] = NATSBackend(
                 servers=cfg.nats.servers,
                 subject=cfg.nats.subject,
             )

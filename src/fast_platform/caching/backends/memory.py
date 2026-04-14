@@ -4,6 +4,7 @@ Provides a thread-safe, high-performance local memory caching engine
 with built-in TTL support and tag-based invalidation logic.
 """
 
+from ..constants import MEMORY_BACKEND
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta

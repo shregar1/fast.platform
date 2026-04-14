@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Kafka producer integration using aiokafka."""
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS, DEFAULT_ENCODING
 
 from typing import Any, Optional, Union
 
@@ -58,7 +59,7 @@ class KafkaProducer:
         if not self._producer:
             logger.warning("Kafka producer is not running; message dropped.")
             return
-        await self._producer.send_and_wait(topic, str(value).encode("utf-8"))
+        await self._producer.send_and_wait(topic, str(value).encode(DEFAULT_ENCODING))
 
     async def send_bytes(
         self,

@@ -1,0 +1,8 @@
+from typing import Final
+
+AES_KEY_SIZE_BITS: Final[int] = 256
+AES_GCM_NONCE_LENGTH: Final[int] = 12
+AES_256_KEY_LENGTH_BYTES: Final[int] = 32
+AES_128_KEY_LENGTH_BYTES: Final[int] = 16
+FERNET_KEY_LENGTH_BYTES: Final[int] = 32
+DEFAULT_PBKDF2_ITERATIONS: Final[int] = 100_000

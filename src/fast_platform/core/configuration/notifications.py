@@ -3,6 +3,7 @@
 Reads from config/push/config.json (or FASTMVC_PUSH_CONFIG_PATH).
 """
 
+from ..constants import DEFAULT_TIMEOUT_SECONDS
 import json
 import os
 from typing import Optional

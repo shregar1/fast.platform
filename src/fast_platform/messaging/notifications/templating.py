@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_ENCODING
 from typing import Any
 
 

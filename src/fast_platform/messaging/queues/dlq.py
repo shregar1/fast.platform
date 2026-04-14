@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Dead-letter and quarantine queue naming, plus DLQ/quarantine message wrapping."""
 
-from __future__ import annotations
+from .constants import MAX_DLQ_ERROR_LENGTH, MAX_DLQ_ATTRIBUTE_ERROR_LENGTH
 
 import base64
 import json

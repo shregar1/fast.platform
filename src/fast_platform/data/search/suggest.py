@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Thin autocomplete API over :class:`~fast_search.base.ISearchBackend`."""
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_PAGE_SIZE
 
 from typing import TYPE_CHECKING, List
 
@@ -14,7 +15,7 @@ def suggest_autocomplete(
     prefix: str,
     *,
     field: str = "title",
-    limit: int = 10,
+    limit: int = DEFAULT_PAGE_SIZE,
 ) -> List[str]:
     """Return distinct string completions for ``prefix`` using the backend's :meth:`~ISearchBackend.suggest`.
 

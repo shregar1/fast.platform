@@ -4,6 +4,7 @@ Provides signature verification for incoming webhooks
 to ensure authenticity and prevent replay attacks.
 """
 
+from ..constants import DEFAULT_HASH_ALGORITHM
 import functools
 import hashlib
 import hmac
@@ -33,7 +34,7 @@ class WebhookConfig:
     signature_header: str = "X-Signature"
     timestamp_header: str = "X-Timestamp"
     tolerance_seconds: int = 300  # 5 minutes
-    algorithm: str = "sha256"
+    algorithm: str = DEFAULT_HASH_ALGORITHM
 
 
 class WebhookVerificationError(Exception):
@@ -67,7 +68,7 @@ class WebhookVerifier(ISecurity):
         signature_header: str = "X-Signature",
         timestamp_header: str = "X-Timestamp",
         tolerance_seconds: int = 300,
-        algorithm: str = "sha256",
+        algorithm: str = DEFAULT_HASH_ALGORITHM,
     ) -> None:
         """Initialize webhook verifier.
 
@@ -278,18 +279,18 @@ STRIPE_WEBHOOK_CONFIG = WebhookConfig(
     secret="",  # Set from environment
     signature_header="Stripe-Signature",
     timestamp_header="",  # Stripe includes timestamp in signature header
-    algorithm="sha256",
+    algorithm=DEFAULT_HASH_ALGORITHM,
 )
 
 GITHUB_WEBHOOK_CONFIG = WebhookConfig(
     secret="",
     signature_header="X-Hub-Signature-256",
-    algorithm="sha256",
+    algorithm=DEFAULT_HASH_ALGORITHM,
 )
 
 SLACK_WEBHOOK_CONFIG = WebhookConfig(
     secret="",
     signature_header="X-Slack-Signature",
     timestamp_header="X-Slack-Request-Timestamp",
-    algorithm="sha256",
+    algorithm=DEFAULT_HASH_ALGORITHM,
 )

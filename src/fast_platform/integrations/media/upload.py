@@ -1,5 +1,6 @@
 """Multipart file upload helpers for FastAPI."""
 
+from fast_platform.core.utils.media.constants import MIME_IMAGE_JPEG, MIME_IMAGE_PNG, MIME_IMAGE_WEBP, MIME_IMAGE_GIF
 from typing import Optional
 
 from fastapi import UploadFile
@@ -23,10 +24,10 @@ async def read_upload_as_bytes(upload: UploadFile, max_size: Optional[int] = Non
 def allowed_content_types(
     allow: Optional[list[str]] = None,
     default: list[str] = [
-        "image/jpeg",
-        "image/png",
-        "image/gif",
-        "image/webp",
+        MIME_IMAGE_JPEG,
+        MIME_IMAGE_PNG,
+        MIME_IMAGE_GIF,
+        MIME_IMAGE_WEBP,
         "application/pdf",
     ],
 ) -> list[str]:

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Video container sniffing from magic bytes (no codec decode).
 
 These helpers inspect only a short prefix of a file or buffer. They are useful
@@ -7,7 +8,7 @@ distinguish all Matroska variants—EBML-based containers are reported as
 ``webm`` for this heuristic (see :meth:`VideoUtility.detect_container`).
 """
 
-from __future__ import annotations
+from .constants import DEFAULT_ENCODING
 
 from typing import Optional
 

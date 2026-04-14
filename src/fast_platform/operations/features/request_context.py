@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Build feature-flag evaluation context from a Starlette/FastAPI request."""
 
-from __future__ import annotations
+from ...core.constants import TENANT_ID_FIELD, USER_ID_FIELD
 
 from typing import Any
 
@@ -8,8 +9,8 @@ from typing import Any
 def feature_flags_context_from_request(
     request: Any,
     *,
-    user_id_header: str = "x-user-id",
-    tenant_id_header: str = "x-tenant-id",
+    user_id_header: str = USER_ID_FIELD,
+    tenant_id_header: str = TENANT_ID_FIELD,
 ) -> dict[str, Any]:
     """Build ``{"key", "user_key", ...}`` from ``request.state``, headers, and query params.
 

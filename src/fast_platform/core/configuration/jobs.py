@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_REDIS_URL, SERVICE_NAME
 from typing import Optional, Type
 
 from ..dtos import JobsConfigurationDTO

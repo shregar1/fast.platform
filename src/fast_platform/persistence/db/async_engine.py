@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Async SQLAlchemy engine and session factory (SQLAlchemy 2.x asyncio).
 
 Install a driver for your database, e.g.::
@@ -12,7 +13,7 @@ Use :func:`create_and_set_async_session_factory` at startup, then
 :class:`fast_db.async_dependency.AsyncDBDependency` with FastAPI.
 """
 
-from __future__ import annotations
+from .constants import POSTGRESQL_DRIVER, DEFAULT_SQLITE_URL_PREFIX, INCOMPLETE_DB_CONFIG_ERROR
 
 from typing import Optional
 
@@ -35,10 +36,10 @@ _global_async_read_engine: Optional[AsyncEngine] = None
 def sync_url_to_async_url(sync_url: str) -> str:
     """Derive async driver URL from a sync SQLAlchemy URL (same rules as primary async)."""
     if "postgresql+psycopg2" in sync_url:
-        return sync_url.replace("postgresql+psycopg2", "postgresql+asyncpg", 1)
+        return sync_url.replace("postgresql+psycopg2", POSTGRESQL_DRIVER, 1)
     if sync_url.startswith("sqlite"):
         if sync_url.startswith("sqlite:///"):
-            return "sqlite+aiosqlite:///" + sync_url[len("sqlite:///") :]
+            return DEFAULT_SQLITE_URL_PREFIX + sync_url[len("sqlite:///") :]
         return sync_url.replace("sqlite://", "sqlite+aiosqlite://", 1)
     raise ValueError(
         "Could not derive async URL from sync URL. Set async_connection_string in config/db/config.json."

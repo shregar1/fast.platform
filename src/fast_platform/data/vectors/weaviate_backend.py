@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from .constants import WEAVIATE_BACKEND
+from ...core.constants import DEFAULT_HOST
 from typing import Any, List, Optional
 
 from .base import IVectorStore
@@ -10,7 +12,7 @@ from .base import IVectorStore
 class WeaviateVectorStore(IVectorStore):
     """Weaviate client wrapper."""
 
-    name = "weaviate"
+    name = WEAVIATE_BACKEND
 
     def __init__(self, url: str = "http://localhost:8080", api_key: Optional[str] = None) -> None:
         """Execute __init__ operation.
@@ -28,7 +30,7 @@ class WeaviateVectorStore(IVectorStore):
         from urllib.parse import urlparse
 
         parsed = urlparse(url)
-        host = parsed.hostname or "localhost"
+        host = parsed.hostname or DEFAULT_HOST
         port = parsed.port or (443 if parsed.scheme == "https" else 8080)
         if api_key:
             self._client = weaviate.connect_to_weaviate_cloud(

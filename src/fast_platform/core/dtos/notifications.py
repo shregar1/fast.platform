@@ -1,6 +1,7 @@
+from __future__ import annotations
 """DTOs for push notification configuration (iOS/Android) and multi-channel fan-out."""
 
-from __future__ import annotations
+from ..constants import DEFAULT_LIMIT
 
 from typing import TYPE_CHECKING, Any, List, Optional
 

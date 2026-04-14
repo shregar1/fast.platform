@@ -1,5 +1,6 @@
 """Push notification service for iOS and Android."""
 
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS
 from typing import Any, Dict, List, Optional
 
 from loguru import logger

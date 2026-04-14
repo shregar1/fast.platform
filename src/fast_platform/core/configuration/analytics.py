@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_TIMEOUT_SECONDS
 from typing import Optional, Type
 
 from ..dtos import AnalyticsConfigurationDTO

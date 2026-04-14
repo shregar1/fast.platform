@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import GCS_BACKEND
 from typing import BinaryIO, Optional
 
 from .base import IStorageBackend, StorageObjectHead
@@ -10,7 +11,7 @@ from .base import IStorageBackend, StorageObjectHead
 class GCSStorageBackend(IStorageBackend):
     """Google Cloud Storage backend."""
 
-    name = "gcs"
+    name = GCS_BACKEND
 
     def __init__(
         self,

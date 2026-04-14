@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Cryptographic hashing helpers (HMAC, streaming file digests).
 
 This module complements :mod:`utils.digests`, which centralizes SHA-256 hex for
@@ -6,7 +7,7 @@ additional algorithms, HMAC, BLAKE2b, or streaming digests over on-disk files
 without loading the whole file into memory.
 """
 
-from __future__ import annotations
+from ...constants import DEFAULT_HASH_ALGORITHM
 
 import hashlib
 import hmac
@@ -131,7 +132,7 @@ class HashingUtility(IHashingUtility):
     def hash_file(
         path: Union[str, Path],
         *,
-        algorithm: str = "sha256",
+        algorithm: str = DEFAULT_HASH_ALGORITHM,
         chunk_size: int = 1024 * 1024,
     ) -> str:
         """Stream-hash a file and return a lowercase hex digest.
@@ -145,7 +146,7 @@ class HashingUtility(IHashingUtility):
         path:
             Filesystem path to the file to hash.
         algorithm:
-            Name accepted by :func:`hashlib.new`, e.g. ``"sha256"``, ``"sha512"``, ``"blake2b"``.
+            Name accepted by :func:`hashlib.new`, e.g. ``DEFAULT_HASH_ALGORITHM``, ``"sha512"``, ``"blake2b"``.
         chunk_size:
             Number of bytes read per iteration; larger values reduce syscall overhead.
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import OPENAI_PROVIDER
 from dataclasses import dataclass
 from typing import Any, Callable, Union
 
@@ -24,7 +25,7 @@ class TokenUsage:
         resp: Any,
         *,
         model: str = "",
-        provider: str = "openai",
+        provider: str = OPENAI_PROVIDER,
     ) -> "TokenUsage":
         """Execute from_openai_completion operation.
 

@@ -1,9 +1,10 @@
+from __future__ import annotations
 """Idempotent consumption helpers: manual commits + pluggable dedupe by message key.
 
 Use with ``KafkaConsumer.loop_idempotent`` and ``enable_auto_commit=False`` in config.
 """
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_LIMIT
 
 from collections import OrderedDict
 from typing import Protocol, runtime_checkable
@@ -27,7 +28,7 @@ class InMemoryDedupeStore:
     evicted keys may be processed again after restart or eviction.
     """
 
-    def __init__(self, max_keys: int = 100_000) -> None:
+    def __init__(self, max_keys: int = DEFAULT_LIMIT) -> None:
         """Execute __init__ operation.
 
         Args:

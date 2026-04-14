@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Webhook idempotency: avoid double-processing the same provider event (e.g. Stripe ``event.id``)."""
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_LIMIT
 
 import asyncio
 from collections import OrderedDict
@@ -27,7 +28,7 @@ class InMemoryWebhookIdempotencyStore:
     evicted keys may be processed again.
     """
 
-    def __init__(self, max_keys: int = 100_000) -> None:
+    def __init__(self, max_keys: int = DEFAULT_LIMIT) -> None:
         """Execute __init__ operation.
 
         Args:

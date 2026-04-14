@@ -1,9 +1,10 @@
+from __future__ import annotations
 """Fernet (AES-128-CBC + HMAC) symmetric encryption.
 
 Uses :class:`cryptography.fernet.Fernet` — token format is URL-safe base64.
 """
 
-from __future__ import annotations
+from .constants import FERNET_KEY_LENGTH_BYTES
 
 import os
 from typing import Optional, Union
@@ -28,7 +29,7 @@ class FernetEncryption(IEncryptionUtility):
 
     @staticmethod
     def generate_key() -> bytes:
-        """Return a new 32-byte url-safe base64 key suitable for :class:`Fernet`."""
+        """Return a new FERNET_KEY_LENGTH_BYTES-byte url-safe base64 key suitable for :class:`Fernet`."""
         return Fernet.generate_key()
 
     def encrypt(self, plaintext: bytes, *, associated_data: Optional[bytes] = None) -> bytes:
@@ -90,7 +91,7 @@ class FernetEncryption(IEncryptionUtility):
         salt = salt or os.urandom(16)
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
-            length=32,
+            length=FERNET_KEY_LENGTH_BYTES,
             salt=salt,
             iterations=iterations,
             backend=default_backend(),
@@ -115,7 +116,7 @@ class FernetEncryption(IEncryptionUtility):
 
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
-            length=32,
+            length=FERNET_KEY_LENGTH_BYTES,
             salt=salt,
             iterations=iterations,
             backend=default_backend(),

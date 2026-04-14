@@ -5,6 +5,7 @@ Requires ``httpx`` — install ``fast_identity[oauth]``.
 
 from __future__ import annotations
 
+from ...core.constants import CONTENT_TYPE_APPLICATION_JSON, HEADER_ACCEPT
 import time
 from typing import Any, Dict
 
@@ -60,7 +61,7 @@ class JWKSCache:
             raise RuntimeError("httpx is required for JWKS. Install fast_identity[oauth].")
         async with httpx.AsyncClient() as client:
             resp = await client.get(
-                self._jwks_uri, headers={"Accept": "application/json"}, timeout=15.0
+                self._jwks_uri, headers={HEADER_ACCEPT: CONTENT_TYPE_APPLICATION_JSON}, timeout=15.0
             )
             resp.raise_for_status()
             data = resp.json()

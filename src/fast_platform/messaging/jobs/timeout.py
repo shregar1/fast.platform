@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS
 from typing import Dict, Optional
 
 from fast_platform import JobsConfiguration

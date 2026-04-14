@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Symmetric encryption and hashing helpers for application services."""
 
-from __future__ import annotations
+from ..constants import AES_256_KEY_LENGTH_BYTES, API_KEY_LENGTH_BYTES
 
 import base64
 import hashlib
@@ -31,7 +32,7 @@ class CryptoService:
             The result of the operation.
         """
         salt = b"fastmvc.services.crypto.v1"
-        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=390_000)
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=AES_256_KEY_LENGTH_BYTES, salt=salt, iterations=390_000)
         return base64.urlsafe_b64encode(kdf.derive(secret.encode("utf-8")))
 
     def __init__(
@@ -173,7 +174,7 @@ class KeyRotationService:
         Returns:
             The result of the operation.
         """
-        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=390_000)
+        kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=AES_256_KEY_LENGTH_BYTES, salt=salt, iterations=390_000)
         return base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
 
     def __init__(self, password: str) -> None:
@@ -217,7 +218,7 @@ class AesGcmCryptoService:
         Args:
             key: The key parameter.
         """
-        if len(key) not in (16, 24, 32):
+        if len(key) not in (16, API_KEY_LENGTH_BYTES, AES_256_KEY_LENGTH_BYTES):
             raise CryptoConfigurationError("AES key must be 128, 192, or 256 bits.")
         self._aes = AESGCM(key)
 

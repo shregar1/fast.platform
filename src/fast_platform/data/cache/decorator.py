@@ -3,6 +3,9 @@
 Lightweight caching with Redis support.
 
 Usage:
+from ...caching.constants import DEFAULT_REDIS_URL
+from ...core.constants import SERVICE_NAME
+from ...caching.constants import DEFAULT_REDIS_URL
     from fast_platform.core.cache_decorator import cached
 
     @cached(ttl=300)
@@ -52,7 +55,7 @@ def _get_redis() -> Optional[Any]:
     try:
         import os
 
-        redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+        redis_url = os.getenv("REDIS_URL", DEFAULT_REDIS_URL)
         return Redis.from_url(redis_url, decode_responses=False)
     except Exception:
         return None
@@ -81,7 +84,7 @@ def _build_key(func: Callable, key_template: Optional[str], args, kwargs) -> str
     # Add prefix
     import os
 
-    prefix = os.getenv("CACHE_PREFIX", "fastmvc")
+    prefix = os.getenv("CACHE_PREFIX", SERVICE_NAME)
     return f"{prefix}:{cache_key}"
 
 
@@ -268,7 +271,7 @@ def invalidate_pattern(pattern: str) -> int:
     # Redis - use SCAN and DELETE
     import os
 
-    prefix = os.getenv("CACHE_PREFIX", "fastmvc")
+    prefix = os.getenv("CACHE_PREFIX", SERVICE_NAME)
     full_pattern = f"{prefix}:{pattern}"
 
     deleted = 0
@@ -291,7 +294,7 @@ def clear_cache() -> None:
     if redis:
         import os
 
-        prefix = os.getenv("CACHE_PREFIX", "fastmvc")
+        prefix = os.getenv("CACHE_PREFIX", SERVICE_NAME)
         for key in redis.scan_iter(match=f"{prefix}:*"):
             redis.delete(key)
     else:

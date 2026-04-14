@@ -5,6 +5,7 @@ Not JWT — use alongside bearer tokens for machine clients.
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_API_KEY_EXPIRY_DAYS
 import hmac
 from typing import Dict, Optional
 

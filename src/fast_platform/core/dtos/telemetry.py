@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import SERVICE_NAME
 from pydantic import ConfigDict
 
 from .abstraction import IDTO
@@ -12,6 +13,6 @@ class TelemetryConfigurationDTO(IDTO):
 
     model_config = ConfigDict(extra="ignore")
     enabled: bool = False
-    service_name: str = "fastmvc"
+    service_name: str = SERVICE_NAME
     exporter: str = "otlp"
     otlp_endpoint: str = ""

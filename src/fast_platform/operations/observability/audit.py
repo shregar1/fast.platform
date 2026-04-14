@@ -4,6 +4,7 @@ Provides audit logging for tracking user actions and data changes
 for compliance and security purposes.
 """
 
+from ...core.constants import TENANT_ID_FIELD, USER_ID_FIELD
 import functools
 import json
 from dataclasses import dataclass, field
@@ -61,12 +62,12 @@ class AuditEntry:
             "action": self.action,
             "resource_type": self.resource_type,
             "resource_id": self.resource_id,
-            "user_id": self.user_id,
+            USER_ID_FIELD: self.user_id,
             "user_email": self.user_email,
             "ip_address": self.ip_address,
             "user_agent": self.user_agent,
             "request_id": self.request_id,
-            "tenant_id": self.tenant_id,
+            TENANT_ID_FIELD: self.tenant_id,
             "success": self.success,
             "error_message": self.error_message,
             "before_state": self.before_state,

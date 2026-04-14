@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Mint short-lived TURN credentials via Twilio's **Tokens** API (STUN + TURN ``ice_servers``).
 
 Uses only the standard library (``urllib``). Credentials are created server-side; never ship
@@ -6,7 +7,12 @@ Twilio auth tokens to browsers.
 Twilio docs: https://www.twilio.com/docs/stun-turn/api — ``POST .../Accounts/{AccountSid}/Tokens.json``.
 """
 
-from __future__ import annotations
+from ...core.constants import (
+    CONTENT_TYPE_FORM_URLENCODED,
+    DEFAULT_TIMEOUT_SECONDS,
+    HEADER_AUTHORIZATION,
+    HEADER_CONTENT_TYPE,
+)
 
 import base64
 import json
@@ -56,8 +62,8 @@ def fetch_twilio_turn_ice_servers(
         data=body,
         method="POST",
         headers={
-            "Authorization": f"Basic {basic}",
-            "Content-Type": "application/x-www-form-urlencoded",
+            HEADER_AUTHORIZATION: f"Basic {basic}",
+            HEADER_CONTENT_TYPE: CONTENT_TYPE_FORM_URLENCODED,
         },
     )
     try:

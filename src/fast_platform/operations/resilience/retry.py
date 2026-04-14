@@ -4,6 +4,7 @@ Provides automatic retry with configurable backoff strategies
 for handling transient failures.
 """
 
+from .constants import UNKNOWN_ERROR
 import asyncio
 import functools
 import random
@@ -156,7 +157,7 @@ async def retry_async(
 
     raise RetryExhausted(
         f"Function {func.__name__} failed",
-        last_exception or Exception("Unknown error"),
+        last_exception or Exception(UNKNOWN_ERROR),
         policy.max_attempts,
     )
 
@@ -203,7 +204,7 @@ def retry_sync(
 
     raise RetryExhausted(
         f"Function {func.__name__} failed",
-        last_exception or Exception("Unknown error"),
+        last_exception or Exception(UNKNOWN_ERROR),
         policy.max_attempts,
     )
 

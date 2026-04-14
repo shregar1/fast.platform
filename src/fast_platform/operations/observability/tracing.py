@@ -3,6 +3,7 @@
 Provides OpenTelemetry-compatible distributed tracing for FastAPI applications.
 """
 
+from ...core.constants import SERVICE_NAME
 import contextvars
 import functools
 import types
@@ -346,7 +347,7 @@ class TracingMiddleware(BaseHTTPMiddleware):
     def __init__(
         self,
         app: Any,
-        service_name: str = "fastmvc",
+        service_name: str = SERVICE_NAME,
         exporter: Optional[SpanExporter] = None,
         exclude_paths: set[str] | None = None,
     ) -> None:

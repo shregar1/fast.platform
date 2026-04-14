@@ -4,6 +4,7 @@ A multi-tasking, event-driven worker core designed for high-throughput
 background job processing with resilient error handling and status monitoring.
 """
 
+from ...messaging.jobs.constants import CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND
 import asyncio
 import logging
 import time

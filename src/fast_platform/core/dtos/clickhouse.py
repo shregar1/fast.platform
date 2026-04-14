@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_HOST
 from typing import Optional
 
 from .abstraction import IDTO
@@ -10,7 +11,7 @@ from .abstraction import IDTO
 class ClickHouseConfigurationDTO(IDTO):
     """Represents the ClickHouseConfigurationDTO class."""
 
-    host: str = "localhost"
+    host: str = DEFAULT_HOST
     port: int = 8123
     user_name: str = "default"
     password: str = ""

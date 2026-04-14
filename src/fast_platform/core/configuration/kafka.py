@@ -3,6 +3,7 @@
 Reads from config/kafka/config.json (or FASTMVC_KAFKA_CONFIG_PATH).
 """
 
+from ..constants import DEFAULT_HOST
 import json
 import os
 from typing import Optional

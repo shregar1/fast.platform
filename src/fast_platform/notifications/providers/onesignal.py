@@ -1,5 +1,6 @@
 """OneSignal push notification provider client."""
 
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS
 from enum import Enum
 from typing import Any
 

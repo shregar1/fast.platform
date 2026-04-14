@@ -1,5 +1,7 @@
 """Fast Platform — consolidated entry points for core platform services."""
 
+__version__ = "1.6.0"
+
 from .core.configuration import (
     AnalyticsConfiguration,
     CacheConfiguration,

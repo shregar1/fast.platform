@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_HOST, DEFAULT_AWS_REGION
 from typing import Literal, Optional
 
 from .abstraction import IDTO
@@ -10,7 +11,7 @@ from .abstraction import IDTO
 class SMTPConfigDTO(IDTO):
     """SMTP server configuration."""
 
-    host: str = "localhost"
+    host: str = DEFAULT_HOST
     port: int = 587
     user_name: str = ""
     password: str = ""
@@ -22,7 +23,7 @@ class SMTPConfigDTO(IDTO):
 class SESConfigDTO(IDTO):
     """AWS SES configuration."""
 
-    region: str = "us-east-1"
+    region: str = DEFAULT_AWS_REGION
     access_key_id: Optional[str] = None
     secret_access_key: Optional[str] = None
     configuration_set: Optional[str] = None

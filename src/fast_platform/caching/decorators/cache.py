@@ -4,6 +4,7 @@ Provides the primary interface for unified caching operations and the
 standard `@cache` decorator for transparent data residency management.
 """
 
+from ..constants import DEFAULT_REDIS_URL
 from functools import wraps
 from typing import Any, Callable, List, Optional, TypeVar, Union, cast
 import asyncio

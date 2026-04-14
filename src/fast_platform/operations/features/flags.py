@@ -7,6 +7,7 @@ Provides feature flag management with support for:
 - Environment-specific flags
 """
 
+from ...core.constants import DEFAULT_ENCODING
 import functools
 import hashlib
 import json

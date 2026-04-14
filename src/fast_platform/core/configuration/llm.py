@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import OPENAI_PROVIDER, OLLAMA_DEFAULT_BASE_URL
 from typing import Optional, Type
 
 from ..dtos import LLMConfigurationDTO

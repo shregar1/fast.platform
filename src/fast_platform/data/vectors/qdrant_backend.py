@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import QDRANT_BACKEND
 from typing import Any, List, Optional
 
 from .base import IVectorStore
@@ -10,7 +11,7 @@ from .base import IVectorStore
 class QdrantVectorStore(IVectorStore):
     """Qdrant client wrapper."""
 
-    name = "qdrant"
+    name = QDRANT_BACKEND
 
     def __init__(self, url: str = "http://localhost:6333", api_key: Optional[str] = None) -> None:
         """Execute __init__ operation.

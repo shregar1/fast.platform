@@ -3,6 +3,7 @@
 Provides Prometheus metrics collection and exposure for FastAPI applications.
 """
 
+from ...core.constants import SERVICE_NAME
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field

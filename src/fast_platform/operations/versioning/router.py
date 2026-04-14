@@ -3,6 +3,7 @@
 Provides versioned routing for FastAPI applications.
 """
 
+from ...core.constants import HEADER_X_API_KEY
 import contextvars
 import re
 from dataclasses import dataclass

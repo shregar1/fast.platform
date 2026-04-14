@@ -9,6 +9,7 @@ States:
 - HALF_OPEN: Testing if service has recovered
 """
 
+from .constants import UNKNOWN_ERROR
 import asyncio
 import functools
 import time

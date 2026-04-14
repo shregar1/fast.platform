@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_AWS_REGION
 from typing import Any, Optional
 
 from .base import ISecretsBackend
@@ -14,7 +15,7 @@ class AwsSecretsBackend(ISecretsBackend):
 
     def __init__(
         self,
-        region: str = "us-east-1",
+        region: str = DEFAULT_AWS_REGION,
         access_key_id: Optional[str] = None,
         secret_access_key: Optional[str] = None,
         prefix: str = "",

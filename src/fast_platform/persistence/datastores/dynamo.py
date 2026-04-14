@@ -4,6 +4,7 @@ Provides a very thin wrapper around `boto3.resource("dynamodb")` that
 implements the `IKeyValueStore` interface for single-table style access.
 """
 
+from ...core.constants import DEFAULT_AWS_REGION
 from time import time
 from typing import Any, Dict, Optional
 
@@ -28,7 +29,7 @@ class DynamoKeyValueStore(IKeyValueStore):
     def __init__(
         self,
         table_name: str,
-        region_name: str = "us-east-1",
+        region_name: str = DEFAULT_AWS_REGION,
         endpoint_url: Optional[str] = None,
     ) -> None:
         """Execute __init__ operation.

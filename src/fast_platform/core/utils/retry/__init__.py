@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Async retry/backoff utilities."""
 
-from __future__ import annotations
+from ...constants import DEFAULT_TIMEOUT_SECONDS
 
 import asyncio
 import random

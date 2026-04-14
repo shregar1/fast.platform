@@ -5,6 +5,7 @@ Pair with cron, APScheduler, or a Celery beat task (see package README).
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_LIMIT
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone

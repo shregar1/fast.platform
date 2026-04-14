@@ -5,6 +5,7 @@ The application should call create_and_set_session() at startup (or create_engin
 create_session + set_global_session), then use get_db_session() or DBDependency.
 """
 
+from .constants import POSTGRESQL_DRIVER, DEFAULT_SQLITE_URL_PREFIX, INCOMPLETE_DB_CONFIG_ERROR
 from typing import Optional
 
 from sqlalchemy import create_engine, text

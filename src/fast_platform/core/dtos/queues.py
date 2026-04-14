@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_HOST
 from pydantic import ConfigDict, Field
 
 from .abstraction import IDTO

@@ -1,22 +1,31 @@
-"""FastCaching Performance Ecosystem.
+"""Smart caching: cache-aside, stale-while-revalidate hooks, deduplication, invalidation."""
 
-A ultra-high-performance caching engine for FastMVC applications, supporting
-both in-memory and Redis backends with easy-to-use decorators and tag-based
-invalidation logic.
-"""
-
-from .core.base import ICacheBackend
-from .backends.memory import InMemoryBackend
-from .decorators.cache import CacheManager, cache, fast_cache
-
+from .abstraction import ICaching
+from .redis_backend import RedisCacheBackend
+from .smart_cache import (
+    CacheBackend,
+    CacheConfig,
+    CacheEntry,
+    CacheInvalidator,
+    CacheStrategy,
+    InMemoryCacheBackend,
+    InvalidationEvent,
+    SmartCacheManager,
+    cache_invalidator,
+    smart_cache,
+)
 
 __all__ = [
-    "ICacheBackend",
-    "InMemoryBackend",
-    "CacheManager",
-    "cache",
-    "fast_cache",
+    "ICaching",
+    "RedisCacheBackend",
+    "SmartCacheManager",
+    "smart_cache",
+    "CacheConfig",
+    "CacheStrategy",
+    "InvalidationEvent",
+    "CacheEntry",
+    "CacheBackend",
+    "InMemoryCacheBackend",
+    "CacheInvalidator",
+    "cache_invalidator",
 ]
-
-# Version management
-__version__ = "1.0.0"

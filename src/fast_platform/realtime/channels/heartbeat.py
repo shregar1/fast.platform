@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Server-initiated WebSocket ping and stale-connection sweep for :class:`~fast_channels.hub.ChannelsHub`."""
 
-from __future__ import annotations
+from ...core.constants import HALF_SECOND
 
 import asyncio
 from typing import TYPE_CHECKING, Optional

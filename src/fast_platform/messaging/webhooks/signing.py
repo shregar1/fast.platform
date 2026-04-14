@@ -1,5 +1,6 @@
 """Webhook payload signing (HMAC) for verification and outbound headers."""
 
+from ...core.constants import DEFAULT_HASH_ALGORITHM
 import hashlib
 import hmac
 from typing import Any, Callable
@@ -13,7 +14,7 @@ def _digest_constructor(algorithm: str) -> Callable[..., Any]:
     return ctor
 
 
-def compute_signature(payload: bytes, secret: str, algorithm: str = "sha256") -> str:
+def compute_signature(payload: bytes, secret: str, algorithm: str = DEFAULT_HASH_ALGORITHM) -> str:
     """Compute HMAC signature for payload (e.g. for X-Webhook-Signature header).
 
     Args:
@@ -36,7 +37,7 @@ def verify_signature(
     secret: str,
     *,
     prefix: str = "sha256=",
-    algorithm: str = "sha256",
+    algorithm: str = DEFAULT_HASH_ALGORITHM,
 ) -> bool:
     """Verify incoming webhook signature (e.g. Stripe-style "sha256=...").
 
@@ -58,7 +59,7 @@ def verify_signature(
     return hmac.compare_digest(expected, received)
 
 
-def signature_header_value(payload: bytes, secret: str, algorithm: str = "sha256") -> str:
+def signature_header_value(payload: bytes, secret: str, algorithm: str = DEFAULT_HASH_ALGORITHM) -> str:
     """Produce header value for outbound webhook (e.g. X-Webhook-Signature: sha256=...)."""
     sig = compute_signature(payload, secret, algorithm=algorithm)
     return f"{algorithm}=" + sig

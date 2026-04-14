@@ -1,6 +1,8 @@
+from __future__ import annotations
 """HTTP sink analytics backend (generic event forwarding)."""
 
-from __future__ import annotations
+from ...core.constants import HEADER_AUTHORIZATION
+from ...core.constants import CONTENT_TYPE_APPLICATION_JSON, DEFAULT_TIMEOUT_SECONDS, HEADER_CONTENT_TYPE
 
 from typing import Any, Optional
 
@@ -51,8 +53,8 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
                 self._endpoint,
                 data=data,
                 headers={
-                    "Content-Type": "application/json",
-                    **({"Authorization": f"Bearer {self._api_key}"} if self._api_key else {}),
+                    HEADER_CONTENT_TYPE: CONTENT_TYPE_APPLICATION_JSON,
+                    **({HEADER_AUTHORIZATION: f"Bearer {self._api_key}"} if self._api_key else {}),
                 },
                 method="POST",
             )
@@ -84,8 +86,8 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
                 self._endpoint + "/identify" if self._endpoint else self._endpoint,
                 data=data,
                 headers={
-                    "Content-Type": "application/json",
-                    **({"Authorization": f"Bearer {self._api_key}"} if self._api_key else {}),
+                    HEADER_CONTENT_TYPE: CONTENT_TYPE_APPLICATION_JSON,
+                    **({HEADER_AUTHORIZATION: f"Bearer {self._api_key}"} if self._api_key else {}),
                 },
                 method="POST",
             )
@@ -104,8 +106,8 @@ class HttpSinkAnalyticsBackend(IAnalyticsBackend):
                 f"{self._endpoint}/forget",
                 data=data,
                 headers={
-                    "Content-Type": "application/json",
-                    **({"Authorization": f"Bearer {self._api_key}"} if self._api_key else {}),
+                    HEADER_CONTENT_TYPE: CONTENT_TYPE_APPLICATION_JSON,
+                    **({HEADER_AUTHORIZATION: f"Bearer {self._api_key}"} if self._api_key else {}),
                 },
                 method="POST",
             )

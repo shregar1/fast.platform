@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Image variant pipeline: thumb + WebP (and custom specs) uploaded via :class:`~fast_media.abstractions.IMediaStore`."""
 
-from __future__ import annotations
+from fast_platform.core.utils.media.constants import MIME_APPLICATION_PDF, MIME_IMAGE_JPEG, MIME_IMAGE_PNG
 
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Callable, Optional
@@ -111,9 +112,9 @@ def _mime_for_format(fmt: str) -> str:
     if f == "webp":
         return "image/webp"
     if f in ("jpeg", "jpg"):
-        return "image/jpeg"
+        return MIME_IMAGE_JPEG
     if f == "png":
-        return "image/png"
+        return MIME_IMAGE_PNG
     return f"image/{f}"
 
 

@@ -3,6 +3,8 @@
 Requires FastAPI (``pip install fast_webhooks[fastapi]``).
 """
 
+from ...core.constants import DEFAULT_HASH_ALGORITHM
+from ...core.constants import DEFAULT_HASH_ALGORITHM, HTTP_UNAUTHORIZED, HEADER_X_WEBHOOK_SIGNATURE
 import asyncio
 from typing import Any, Awaitable, Callable, Union
 
@@ -31,9 +33,9 @@ async def _resolve_secret(secret: SecretSource) -> str:
 def require_webhook_signature(
     *,
     secret: SecretSource,
-    header_name: str = "X-Webhook-Signature",
+    header_name: str = HEADER_X_WEBHOOK_SIGNATURE,
     prefix: str = "sha256=",
-    algorithm: str = "sha256",
+    algorithm: str = DEFAULT_HASH_ALGORITHM,
     status_code: int = 401,
     detail_missing: str = "Missing webhook signature",
     detail_invalid: str = "Invalid webhook signature",

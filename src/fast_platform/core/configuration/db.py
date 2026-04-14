@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import DEFAULT_SQLITE_URL_PREFIX
 from typing import Optional, Type
 
 from ..dtos import DBConfigurationDTO

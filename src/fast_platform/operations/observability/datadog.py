@@ -8,6 +8,7 @@ Datadog to be active.
 
 from __future__ import annotations
 
+from ...core.constants import SERVICE_NAME
 import os
 
 from loguru import logger

@@ -1,10 +1,13 @@
+from __future__ import annotations
 """Identity provider abstractions and OAuth2/OIDC builder.
 
 Uses IdentityProvidersConfiguration from fast_platform. Optional: install
 fast_identity[oauth] for httpx-based token/userinfo requests.
 """
 
-from __future__ import annotations
+from ...core.constants import CONTENT_TYPE_APPLICATION_JSON, HEADER_ACCEPT, HEADER_AUTHORIZATION
+from ...core.constants import DEFAULT_HOST
+from ...core.constants import DEFAULT_HOST
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -158,7 +161,7 @@ class _OAuth2Provider(IIdentityProvider):
                     "client_id": self._client_id,
                     "client_secret": self._client_secret,
                 },
-                headers={"Accept": "application/json"},
+                headers={HEADER_ACCEPT: CONTENT_TYPE_APPLICATION_JSON},
                 timeout=10,
             )
             resp.raise_for_status()
@@ -179,7 +182,7 @@ class _OAuth2Provider(IIdentityProvider):
         async with httpx.AsyncClient() as client:
             resp = await client.get(
                 self._userinfo_url,
-                headers={"Authorization": f"Bearer {access_token}"},
+                headers={HEADER_AUTHORIZATION: f"Bearer {access_token}"},
                 timeout=10,
             )
             resp.raise_for_status()

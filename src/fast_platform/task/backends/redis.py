@@ -4,6 +4,7 @@ Provides a distributed, persistent task queuing engine using Redis
 Lists for reliable message delivery and Hashes for result persistence.
 """
 
+from ...core.constants import DEFAULT_HOST
 import json
 import pickle
 import uuid
@@ -27,7 +28,7 @@ class RedisTaskBackend(ITaskBackend):
 
     def __init__(
         self, 
-        host: str = "localhost", 
+        host: str = DEFAULT_HOST, 
         port: int = 6379, 
         db: int = 0, 
         password: Optional[str] = None,

@@ -1,10 +1,11 @@
+from __future__ import annotations
 """Validation Utility for FastPlatform.
 
 Concrete implementation of validation helpers (rules, decorators, and data validation)
 inheriting from IUtility.
 """
 
-from __future__ import annotations
+from ..constants import VALIDATION_EXTRACTION_ERROR, MAX_KEYS_VALIDATION_ERROR
 
 import re
 import json

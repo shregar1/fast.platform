@@ -3,12 +3,30 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fast-platform"
-version = "1.5.0"
+name = "fastx-platform"
+version = "1.6.0"
 description = "Umbrella package: fast_platform.configuration, fast_admin, fast_notifications, fast_resilience, fast_versioning, fast_features, fast_channels, fast_db, observability, analytics, queues, … — merged fast_* modules under one install."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
+authors = [
+    {name = "Shivansh Sengar", email = "sengarsinghshivansh@gmail.com"},
+    {name = "Shreyansh Sengar", email = "sengarsinghshreyansh@gmail.com"},
+]
+keywords = ["fastapi", "platform", "configuration", "microservices", "fastmvc"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Typing :: Typed",
+]
 dependencies = [
     "aiokafka>=0.8.0,<1.0.0",
     "fastapi>=0.100.0",
@@ -119,6 +137,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 fast_platform = ["py.typed"]
 "fast_platform.core.configuration" = ["**/*.json"]
+"fast_platform.caching" = ["README.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -176,6 +195,10 @@ ignore = [
     "TID252",
 ]
 "**/conftest.py" = ["ANN"]
+# Ported from fast_dashboards: decorator closures; annotate incrementally if desired.
+"src/fast_platform/caching/smart_cache.py" = [
+    "ANN002", "ANN003", "ANN202", "ANN204",
+]
 
 [tool.ruff.format]
 quote-style = "double"

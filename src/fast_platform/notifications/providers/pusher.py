@@ -1,5 +1,6 @@
 """Pusher real-time notification provider client."""
 
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS
 from typing import Any, Callable
 
 

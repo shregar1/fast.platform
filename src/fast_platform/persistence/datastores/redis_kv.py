@@ -4,6 +4,8 @@ Thin wrapper around `redis.Redis` implementing the generic `IKeyValueStore`
 interface so it can be swapped or mocked in tests.
 """
 
+from ...core.constants import DEFAULT_HOST
+from ...caching.constants import DEFAULT_REDIS_URL
 from typing import Any, Optional
 
 import redis
@@ -22,7 +24,7 @@ class RedisKeyValueStore(IKeyValueStore):
 
     def __init__(
         self,
-        host: str = "localhost",
+        host: str = DEFAULT_HOST,
         port: int = 6379,
         password: Optional[str] = None,
         db: int = 0,

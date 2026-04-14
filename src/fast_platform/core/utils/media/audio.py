@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Audio format sniffing from magic bytes (no decode).
 
 Inspects only a small prefix to classify common containers and sync patterns.
@@ -6,7 +7,7 @@ Use for routing, logging, and ``Content-Type`` hints; use a decoder for
 authoritative format validation.
 """
 
-from __future__ import annotations
+from .constants import DEFAULT_ENCODING
 
 from typing import Optional
 

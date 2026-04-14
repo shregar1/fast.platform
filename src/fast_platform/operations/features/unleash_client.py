@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Unleash feature flags client."""
 
-from __future__ import annotations
+from ...core.constants import HEADER_AUTHORIZATION, SERVICE_NAME
 
 from typing import Any, Optional
 
@@ -14,7 +15,7 @@ class UnleashFeatureFlagsClient(IFeatureFlagsClient):
     def __init__(
         self,
         url: str,
-        app_name: str = "fastmvc",
+        app_name: str = SERVICE_NAME,
         instance_id: str = "fastmvc-instance",
         api_key: Optional[str] = None,
     ) -> None:
@@ -36,7 +37,7 @@ class UnleashFeatureFlagsClient(IFeatureFlagsClient):
             url=url,
             app_name=app_name,
             instance_id=instance_id,
-            custom_headers={"Authorization": api_key} if api_key else None,
+            custom_headers={HEADER_AUTHORIZATION: api_key} if api_key else None,
         )
         self._client.initialize_client()
 

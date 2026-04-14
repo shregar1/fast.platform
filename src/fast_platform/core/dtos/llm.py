@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import OPENAI_PROVIDER
 from typing import Any
 
 from pydantic import Field, model_validator
@@ -38,7 +39,7 @@ class GeminiProviderBlock(IDTO):
 class LLMConfigurationDTO(IDTO):
     """Represents the LLMConfigurationDTO class."""
 
-    default_provider: str = "openai"
+    default_provider: str = OPENAI_PROVIDER
 
     openai: LLMProviderBlock = Field(default_factory=LLMProviderBlock)
     anthropic: LLMProviderBlock = Field(default_factory=LLMProviderBlock)
@@ -79,11 +80,11 @@ class LLMConfigurationDTO(IDTO):
             v = d.get(key)
             return dict(v) if isinstance(v, dict) else {}
 
-        oa = as_dict("openai")
+        oa = as_dict(OPENAI_PROVIDER)
         if d.get("openai_api_key"):
             oa.setdefault("api_key", d["openai_api_key"])
             oa.setdefault("enabled", True)
-        d["openai"] = oa
+        d[OPENAI_PROVIDER] = oa
 
         an = as_dict("anthropic")
         if d.get("anthropic_api_key"):

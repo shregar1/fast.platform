@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import OPENSEARCH_BACKEND
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
@@ -11,7 +12,7 @@ from ...core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
 class OpenSearchBackend(ISearchBackend):
     """OpenSearch client wrapper."""
 
-    name = "opensearch"
+    name = OPENSEARCH_BACKEND
 
     def __init__(
         self,

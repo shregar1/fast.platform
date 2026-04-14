@@ -4,6 +4,7 @@ Provides structured JSON logging with context propagation,
 request correlation, and log level management.
 """
 
+from ...core.constants import SERVICE_NAME
 import contextvars
 import json
 import sys

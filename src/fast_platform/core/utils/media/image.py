@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Image format sniffing and optional Pillow-based decoding.
 
 **Sniffing** inspects only leading magic bytes and is cheap and dependency-free.
@@ -6,7 +7,7 @@
 valid magic bytes; for strict validation, decode with Pillow or another library.
 """
 
-from __future__ import annotations
+from .constants import MIME_IMAGE_JPEG, MIME_IMAGE_PNG, MIME_IMAGE_WEBP
 
 from io import BytesIO
 from typing import Any, Optional, Tuple
@@ -90,10 +91,10 @@ class ImageUtility(IMedia):
         if fmt is None:
             return None
         return {
-            "png": "image/png",
-            "jpeg": "image/jpeg",
+            "png": MIME_IMAGE_PNG,
+            "jpeg": MIME_IMAGE_JPEG,
             "gif": "image/gif",
-            "webp": "image/webp",
+            "webp": MIME_IMAGE_WEBP,
             "bmp": "image/bmp",
             "tiff": "image/tiff",
         }.get(fmt)

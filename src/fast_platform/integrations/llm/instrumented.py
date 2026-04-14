@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import OPENAI_PROVIDER
 import inspect
 from typing import Any, Optional
 
@@ -35,7 +36,7 @@ class InstrumentedOpenAILLMService(OpenAILLMService):
         model: str,
         *,
         on_token_usage: Optional[TokenUsageCallback] = None,
-        usage_provider: str = "openai",
+        usage_provider: str = OPENAI_PROVIDER,
     ) -> None:
         """Execute __init__ operation.
 

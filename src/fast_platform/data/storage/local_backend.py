@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .constants import LOCAL_BACKEND
 import mimetypes
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,7 +14,7 @@ from .base import IStorageBackend, StorageObjectHead
 class LocalStorageBackend(IStorageBackend):
     """Store objects on local disk."""
 
-    name = "local"
+    name = LOCAL_BACKEND
 
     def __init__(self, base_dir: str = "storage", base_url: Optional[str] = None) -> None:
         """Execute __init__ operation.

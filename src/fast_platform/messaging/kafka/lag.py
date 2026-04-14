@@ -1,6 +1,7 @@
+from __future__ import annotations
 """Consumer group lag via Admin API + end offsets (``aiokafka``)."""
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_HOST
 
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional, Sequence

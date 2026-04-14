@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_AWS_REGION
 from typing import Any, BinaryIO, Optional
 
 from .base import IStorageBackend, StorageObjectHead
@@ -15,7 +16,7 @@ class S3StorageBackend(IStorageBackend):
     def __init__(
         self,
         bucket: str,
-        region: str = "us-east-1",
+        region: str = DEFAULT_AWS_REGION,
         endpoint_url: Optional[str] = None,
         access_key_id: Optional[str] = None,
         secret_access_key: Optional[str] = None,

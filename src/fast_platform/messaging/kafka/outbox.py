@@ -1,10 +1,11 @@
+from __future__ import annotations
 """Transactional outbox: portable DDL + publisher loop helpers (no ORM required).
 
 Pair with your DB transaction: insert into ``kafka_outbox`` in the same transaction
 as business writes, then run :func:`run_outbox_publisher_loop` in a worker process.
 """
 
-from __future__ import annotations
+from ...core.constants import DEFAULT_LIMIT
 
 import asyncio
 from dataclasses import dataclass
@@ -61,7 +62,7 @@ async def run_outbox_publisher_loop(
     load_pending: Callable[[int], Awaitable[list[OutboxMessage]]],
     mark_published: Callable[[int], Awaitable[None]],
     *,
-    limit: int = 100,
+    limit: int = DEFAULT_LIMIT,
     interval_seconds: float = 1.0,
     stop_event: Optional[asyncio.Event] = None,
 ) -> None:

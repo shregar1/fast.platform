@@ -1,10 +1,11 @@
+from __future__ import annotations
 """Generic presence / rooms service.
 
 Can use in-memory (per-process) or Redis for distributed presence tracking.
 Designed to work alongside the Channels hub and realtime providers.
 """
 
-from __future__ import annotations
+from ...core.constants import ONE_MINUTE_SECONDS
 
 import time
 from dataclasses import dataclass
@@ -29,7 +30,7 @@ class PresenceEntry:
 class InMemoryPresenceBackend:
     """In-memory presence backend for local/single-process use."""
 
-    def __init__(self, ttl_seconds: int = 60) -> None:
+    def __init__(self, ttl_seconds: int = ONE_MINUTE_SECONDS) -> None:
         """Execute __init__ operation.
 
         Args:
@@ -118,7 +119,7 @@ class InMemoryPresenceBackend:
 class RedisPresenceBackend:
     """Redis-backed presence backend using sets and key expiry."""
 
-    def __init__(self, client: "aioredis.Redis", ttl_seconds: int = 60) -> None:
+    def __init__(self, client: "aioredis.Redis", ttl_seconds: int = ONE_MINUTE_SECONDS) -> None:
         """Execute __init__ operation.
 
         Args:

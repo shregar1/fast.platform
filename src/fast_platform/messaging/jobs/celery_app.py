@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ...core.constants import SERVICE_NAME
 from typing import Any, Optional
 
 from fast_platform import JobsConfiguration
@@ -28,14 +29,14 @@ def make_celery_app(
     backend = result_backend or celery_cfg.result_backend
     ns = namespace or celery_cfg.namespace
 
-    app = Celery(ns or "fastmvc", broker=broker, backend=backend)
+    app = Celery(ns or SERVICE_NAME, broker=broker, backend=backend)
     app.conf.update(
         task_serializer="json",
         accept_content=["json"],
         result_serializer="json",
         timezone="UTC",
         enable_utc=True,
-        task_default_queue=ns or "fastmvc",
+        task_default_queue=ns or SERVICE_NAME,
     )
     return app
 

@@ -1,6 +1,7 @@
+from __future__ import annotations
 """In-memory WebSocket channels hub."""
 
-from __future__ import annotations
+from ...core.constants import HALF_SECOND
 
 import asyncio
 import time

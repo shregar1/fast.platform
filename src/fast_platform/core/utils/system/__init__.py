@@ -1,6 +1,7 @@
+from __future__ import annotations
 """System environment, platform, and resource utilities."""
 
-from __future__ import annotations
+from ...constants import BYTES_PER_KB
 
 import os
 import platform
@@ -63,8 +64,8 @@ class SystemUtility(ISystemUtility):
 
             res = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
             if SystemUtility.is_macos():
-                return float(res) / (1024 * 1024)  # macOS is bytes
-            return float(res) / 1024.0  # Linux is kb
+                return float(res) / (BYTES_PER_KB * BYTES_PER_KB)  # macOS is bytes
+            return float(res) / BYTES_PER_KB  # Linux is kb
         except (ImportError, AttributeError):
             return 0.0
 

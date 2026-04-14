@@ -1,5 +1,6 @@
 """Tenant resolution and FastAPI middleware."""
 
+from ...core.constants import HEADER_X_TENANT_ID
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Optional
 

@@ -1,5 +1,6 @@
 """Simple in-memory notifications service used for realtime HTTP examples."""
 
+from ...core.constants import DEFAULT_TIMEOUT_SECONDS
 import asyncio
 from collections import deque
 from dataclasses import dataclass
@@ -64,7 +65,7 @@ class NotificationsService:
         async with self._lock:
             return [n for n in self._items if n.id > last_id]
 
-    async def long_poll(self, last_id: int, timeout_seconds: int = 25) -> List[Notification]:
+    async def long_poll(self, last_id: int, timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS) -> List[Notification]:
         """Execute long_poll operation.
 
         Args:

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from ..constants import OPENAI_PROVIDER
 from typing import Optional
 
 from fast_platform.core.errors.llmdependencyerror import LLMDependencyError
@@ -22,7 +23,7 @@ class OpenAILLMService:
             from openai import AsyncOpenAI
         except ImportError as e:  # pragma: no cover
             raise LLMDependencyError(
-                provider="openai",
+                provider=OPENAI_PROVIDER,
                 pip_extra="fast_llm[openai]",
                 cause=e,
             ) from e

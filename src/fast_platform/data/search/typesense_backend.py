@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from ...core.constants import DEFAULT_HOST
+from .constants import TYPESENSE_BACKEND
 from typing import Any, List, Optional
 
 from .base import ISearchBackend
@@ -11,11 +13,11 @@ from ...core.dtos.search import FacetBucket, FacetedSearchResult, SearchHit
 class TypesenseBackend(ISearchBackend):
     """Typesense client wrapper."""
 
-    name = "typesense"
+    name = TYPESENSE_BACKEND
 
     def __init__(
         self,
-        host: str = "localhost",
+        host: str = DEFAULT_HOST,
         port: int = 8108,
         protocol: str = "http",
         api_key: Optional[str] = None,

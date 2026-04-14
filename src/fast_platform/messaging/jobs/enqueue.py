@@ -1,6 +1,8 @@
+from __future__ import annotations
 """Unified enqueue entry point for Celery, RQ, and Dramatiq."""
 
-from __future__ import annotations
+from ...core.constants import SERVICE_NAME
+from .constants import CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND, CELERY_INSTALL_ERROR
 
 import importlib
 from typing import Any, Dict, List, Literal, Optional, Tuple
@@ -11,7 +13,7 @@ from .result import JobEnqueueResult
 from .timeout import resolve_job_timeout_seconds
 
 
-def _enabled_backends(cfg: Any) -> List[Literal["celery", "rq", "dramatiq"]]:
+def _enabled_backends(cfg: Any) -> List[Literal[CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND]]:
     """Execute _enabled_backends operation.
 
     Args:
@@ -20,19 +22,19 @@ def _enabled_backends(cfg: Any) -> List[Literal["celery", "rq", "dramatiq"]]:
     Returns:
         The result of the operation.
     """
-    out: List[Literal["celery", "rq", "dramatiq"]] = []
+    out: List[Literal[CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND]] = []
     if getattr(cfg.celery, "enabled", False):
-        out.append("celery")
+        out.append(CELERY_BACKEND)
     if getattr(cfg.rq, "enabled", False):
-        out.append("rq")
+        out.append(RQ_BACKEND)
     if getattr(cfg.dramatiq, "enabled", False):
-        out.append("dramatiq")
+        out.append(DRAMATIQ_BACKEND)
     return out
 
 
 def _resolve_backend(
-    requested: Literal["auto", "celery", "rq", "dramatiq"],
-) -> Literal["celery", "rq", "dramatiq"]:
+    requested: Literal["auto", CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND],
+) -> Literal[CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND]:
     """Execute _resolve_backend operation.
 
     Args:
@@ -91,7 +93,7 @@ def enqueue(
     task_kwargs: Optional[Dict[str, Any]] = None,
     job_kwargs: Optional[Dict[str, Any]] = None,
     queue: Optional[str] = None,
-    backend: Literal["auto", "celery", "rq", "dramatiq"] = "auto",
+    backend: Literal["auto", CELERY_BACKEND, RQ_BACKEND, DRAMATIQ_BACKEND] = "auto",
     timeout: Optional[int] = None,
 ) -> JobEnqueueResult:
     """Enqueue a task.
@@ -115,9 +117,9 @@ def enqueue(
 
     b = _resolve_backend(backend)
 
-    if b == "celery":
+    if b == CELERY_BACKEND:
         return _enqueue_celery(task_or_name, args, kw, queue, timeout)
-    if b == "rq":
+    if b == RQ_BACKEND:
         return _enqueue_rq(task_or_name, args, kw, queue, timeout)
     return _enqueue_dramatiq(task_or_name, args, kw, queue, timeout)
 
@@ -147,7 +149,7 @@ def _enqueue_celery(
         raise RuntimeError("celery is not installed. pip install fast_jobs[celery]") from e
 
     cfg = JobsConfiguration().get_config()
-    qname = queue or cfg.celery.namespace or "fastmvc"
+    qname = queue or cfg.celery.namespace or SERVICE_NAME
     timeouts = _timeouts_from_cfg(cfg)
     secs = resolve_job_timeout_seconds(qname, explicit=timeout_override, queue_timeouts=timeouts)
     if secs is None:
@@ -163,7 +165,7 @@ def _enqueue_celery(
         )
         return JobEnqueueResult(
             job_id=async_result.id,
-            backend="celery",
+            backend=CELERY_BACKEND,
             queue=queue or qname,
             timeout_seconds=secs,
             raw=async_result,
@@ -180,7 +182,7 @@ def _enqueue_celery(
     )
     return JobEnqueueResult(
         job_id=async_result.id,
-        backend="celery",
+        backend=CELERY_BACKEND,
         queue=queue or qname,
         timeout_seconds=secs,
         raw=async_result,
@@ -237,7 +239,7 @@ def _enqueue_rq(
 
     return JobEnqueueResult(
         job_id=str(jid) if jid is not None else "",
-        backend="rq",
+        backend=RQ_BACKEND,
         queue=qname,
         timeout_seconds=secs,
         raw=job,
@@ -288,7 +290,7 @@ def _enqueue_dramatiq(
             aname = getattr(getattr(actor, "fn", None), "__name__", "") or ""
         return JobEnqueueResult(
             job_id=message.message_id,
-            backend="dramatiq",
+            backend=DRAMATIQ_BACKEND,
             queue=qname,
             timeout_seconds=secs,
             raw=message,

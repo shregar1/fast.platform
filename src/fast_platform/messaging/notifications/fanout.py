@@ -1,8 +1,9 @@
+from __future__ import annotations
 """Multi-provider fan-out: one :class:`~fast_notifications.dto.NotificationFanoutRequest`
 to email (pluggable) and push (APNS/FCM via :class:`~fast_notifications.push.PushNotificationService`).
 """
 
-from __future__ import annotations
+from ...core.constants import ONE_DAY_SECONDS
 
 from typing import TYPE_CHECKING, Optional, Protocol
 
@@ -64,7 +65,7 @@ class NotificationFanoutService:
         email_sender: Optional[EmailSender] = None,
         preference_store: Optional[INotificationPreferenceStore] = None,
         idempotency_store: Optional[NotificationIdempotencyStore] = None,
-        idempotency_ttl_seconds: int = 86_400,
+        idempotency_ttl_seconds: int = ONE_DAY_SECONDS,
     ) -> None:
         self._push = push or PushNotificationService()
         self._email = email_sender or LoggingEmailSender()
