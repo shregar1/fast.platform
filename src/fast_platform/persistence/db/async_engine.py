@@ -13,7 +13,14 @@ Use :func:`create_and_set_async_session_factory` at startup, then
 :class:`fast_db.async_dependency.AsyncDBDependency` with FastAPI.
 """
 
-from .constants import POSTGRESQL_DRIVER, DEFAULT_SQLITE_URL_PREFIX, INCOMPLETE_DB_CONFIG_ERROR
+from .constants import (
+    DEFAULT_SQLITE_AIOSQLITE_PREFIX,
+    DEFAULT_SQLITE_AIOSQLITE_SCHEME,
+    DEFAULT_SQLITE_URL_PREFIX,
+    INCOMPLETE_DB_CONFIG_ERROR,
+    POSTGRESQL_ASYNCPG_DRIVER,
+    POSTGRESQL_DRIVER,
+)
 
 from typing import Optional
 
@@ -36,11 +43,11 @@ _global_async_read_engine: Optional[AsyncEngine] = None
 def sync_url_to_async_url(sync_url: str) -> str:
     """Derive async driver URL from a sync SQLAlchemy URL (same rules as primary async)."""
     if "postgresql+psycopg2" in sync_url:
-        return sync_url.replace("postgresql+psycopg2", POSTGRESQL_DRIVER, 1)
+        return sync_url.replace("postgresql+psycopg2", POSTGRESQL_ASYNCPG_DRIVER, 1)
     if sync_url.startswith("sqlite"):
         if sync_url.startswith("sqlite:///"):
-            return DEFAULT_SQLITE_URL_PREFIX + sync_url[len("sqlite:///") :]
-        return sync_url.replace("sqlite://", "sqlite+aiosqlite://", 1)
+            return DEFAULT_SQLITE_AIOSQLITE_PREFIX + sync_url[len("sqlite:///") :]
+        return sync_url.replace("sqlite://", DEFAULT_SQLITE_AIOSQLITE_SCHEME, 1)
     raise ValueError(
         "Could not derive async URL from sync URL. Set async_connection_string in config/db/config.json."
     )

@@ -51,7 +51,9 @@ class RedisCacheBackend:
         raw = await self._redis.get(self._full_key(key))
         if raw is None:
             return None
-        return raw if isinstance(raw, (bytes, bytearray)) else bytes(raw)
+        if isinstance(raw, bytes):
+            return raw
+        return bytes(raw)
 
     async def set(
         self,
@@ -91,4 +93,4 @@ class RedisCacheBackend:
     async def aclose(self) -> None:
         """Close the client if this backend created it."""
         if self._owns_client:
-            await self._redis.aclose()
+            await self._redis.close()

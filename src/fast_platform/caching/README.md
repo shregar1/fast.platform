@@ -21,7 +21,7 @@ async def get_user(user_id: str) -> User:
 ## Features
 
 | Feature | Description |
-|---------|-------------|
+| --- | --- |
 | **Cache-Aside Pattern** | Application manages cache, transparent get/set |
 | **Stale-While-Revalidate** | Serve stale data while refreshing in background |
 | **Request Deduplication** | Thundering herd protection - concurrent requests for same cache miss are collapsed into one |
@@ -97,6 +97,7 @@ async def get_dashboard_data() -> DashboardData:
 ```
 
 **How it works:**
+
 1. First request: Computes and caches result
 2. Within 5 minutes: Returns cached result
 3. 5-6 minutes: Returns stale result, triggers background refresh

@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Dict, List, Optional, Protocol, cast
 
 import httpx
 from pydantic import BaseModel, HttpUrl, validator
@@ -271,7 +271,7 @@ class WebhookManager:
         """Register a new webhook subscription."""
         subscription = WebhookSubscription(
             id=f"wh_{secrets.token_hex(8)}",
-            url=url,
+            url=cast(HttpUrl, url),
             events=events,
             secret=secret or secrets.token_urlsafe(32),
             auth_type=auth_type,

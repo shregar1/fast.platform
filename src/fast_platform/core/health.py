@@ -6,13 +6,14 @@ for database, cache, external services, etc.
 """
 
 from .constants import CONTENT_TYPE_APPLICATION_JSON, HTTP_OK
-from .constants import CONTENT_TYPE_APPLICATION_JSON, HEADER_CONTENT_TYPE
+from .constants import HEADER_CONTENT_TYPE
 
 import asyncio
+import inspect
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Protocol
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Protocol, cast
 
 from fastapi import APIRouter, Response
 from pydantic import BaseModel
@@ -82,9 +83,10 @@ class HealthRegistry:
         self,
         name: str,
         check_func: HealthCheckFunction,
-        probe_types: List[ProbeType] = None,
+        probe_types: Optional[List[ProbeType]] = None,
     ) -> None:
         """Register a health check."""
+        _ = probe_types
         self.checks[name] = check_func
 
     async def run_check(self, name: str) -> HealthCheck:
@@ -194,7 +196,9 @@ async def check_redis() -> HealthCheck:
 
         # Try to ping Redis
         if hasattr(redis, "ping"):
-            await redis.ping()
+            ping_result = redis.ping()
+            if inspect.isawaitable(ping_result):
+                await cast(Awaitable[Any], ping_result)
 
         return HealthCheck(
             name="redis",

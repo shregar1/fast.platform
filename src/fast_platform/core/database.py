@@ -5,16 +5,22 @@ Connection pooling, retry logic, circuit breaker pattern, and
 automatic transaction handling.
 """
 
-from .constants import INCOMPLETE_DB_CONFIG_ERROR, POSTGRESQL_DRIVER, DEFAULT_SQLITE_URL_PREFIX
+from ..persistence.db.constants import (
+    DEFAULT_SQLITE_URL_PREFIX,
+    INCOMPLETE_DB_CONFIG_ERROR,
+    POSTGRESQL_DRIVER,
+)
 
 import functools
+import asyncio
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, AsyncGenerator, Callable, Optional, TypeVar
+from typing import Any, AsyncGenerator, Awaitable, Callable, Optional, TypeVar, cast
 
 from loguru import logger
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from fast_platform.core.metrics import metrics
@@ -116,7 +122,7 @@ class CircuitBreaker:
         elif self.failure_count >= self.failure_threshold:
             self.state = CircuitBreakerState.OPEN
 
-    async def execute(self, func: Callable[..., T], *args, **kwargs) -> T:
+    async def execute(self, func: Callable[..., Awaitable[T]], *args, **kwargs) -> T:
         """Execute a function with circuit breaker protection."""
         if not self.can_execute():
             raise Exception("Circuit breaker is OPEN")
@@ -138,10 +144,10 @@ db_circuit_breaker = CircuitBreaker()
 
 
 async def retry_with_backoff(
-    func: Callable[..., T], config: RetryConfig, *args, **kwargs
+    func: Callable[..., Awaitable[T]], config: RetryConfig, *args, **kwargs
 ) -> T:
     """Execute a function with retry and exponential backoff."""
-    last_exception = None
+    last_exception: Exception | None = None
 
     for attempt in range(config.max_retries + 1):
         try:
@@ -165,7 +171,9 @@ async def retry_with_backoff(
                 )
                 await asyncio.sleep(delay)
 
-    raise last_exception
+    if last_exception is not None:
+        raise last_exception
+    raise RuntimeError("retry_with_backoff failed without capturing an exception")
 
 
 @asynccontextmanager
@@ -186,6 +194,8 @@ async def transaction(
     if db_session is None:
         raise Exception("Database session not available")
 
+    session = cast(AsyncSession, db_session)
+
     # Check circuit breaker
     if not db_circuit_breaker.can_execute():
         raise Exception("Database circuit breaker is OPEN")
@@ -195,18 +205,18 @@ async def transaction(
     try:
         # Set isolation level if specified
         if isolation_level:
-            await db_session.execute(
-                f"SET TRANSACTION ISOLATION LEVEL {isolation_level.value}"
+            await session.execute(
+                text(f"SET TRANSACTION ISOLATION LEVEL {isolation_level.value}")
             )
 
         # Set readonly if specified
         if readonly:
-            await db_session.execute("SET TRANSACTION READ ONLY")
+            await session.execute(text("SET TRANSACTION READ ONLY"))
 
-        yield db_session
+        yield session
 
         if not readonly:
-            await db_session.commit()
+            await session.commit()
 
         db_circuit_breaker.record_success()
 
@@ -214,7 +224,7 @@ async def transaction(
         db_circuit_breaker.record_failure()
 
         if not readonly:
-            await db_session.rollback()
+            await session.rollback()
 
         raise
 
@@ -270,8 +280,10 @@ def transactional(
                 if "session" not in kwargs and not any(
                     isinstance(arg, AsyncSession) for arg in args
                 ):
-                    return await func(session, *args, **kwargs)
-                return await func(*args, **kwargs)
+                    return await cast(Callable[..., Awaitable[Any]], func)(
+                        session, *args, **kwargs
+                    )
+                return await cast(Callable[..., Awaitable[Any]], func)(*args, **kwargs)
 
         return wrapper
 
@@ -299,7 +311,12 @@ def with_retry(config: Optional[RetryConfig] = None):
             Returns:
                 The result of the operation.
             """
-            return await retry_with_backoff(func, retry_cfg, *args, **kwargs)
+            return await retry_with_backoff(
+                cast(Callable[..., Awaitable[Any]], func),
+                retry_cfg,
+                *args,
+                **kwargs,
+            )
 
         return wrapper
 
@@ -317,7 +334,7 @@ class DatabaseManager:
         """Check database connectivity."""
         try:
             async with transaction(readonly=True) as session:
-                await session.execute("SELECT 1")
+                await session.execute(text("SELECT 1"))
             return True
         except Exception:
             return False
@@ -338,9 +355,6 @@ class DatabaseManager:
 
 # Global database manager
 db_manager = DatabaseManager()
-
-
-import asyncio
 
 __all__ = [
     "transaction",
