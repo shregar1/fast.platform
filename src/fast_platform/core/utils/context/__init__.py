@@ -53,7 +53,7 @@ class ContextMixin(ABC):
         urn: str | None = None,
         user_urn: str | None = None,
         api_name: str | None = None,
-        user_id: str | None = None,
+        user_id: int | None = None,
         **kwargs: Any,
     ) -> None:
         """Initialize context fields and structured logger.
@@ -62,7 +62,7 @@ class ContextMixin(ABC):
             urn: Unique Request Number for tracing.
             user_urn: User's unique resource name.
             api_name: Name of the API endpoint.
-            user_id: Database ID of the user.
+            user_id: Database identifier of the user (string form).
             **kwargs: Additional arguments passed to parent classes.
 
         """
@@ -133,12 +133,12 @@ class ContextMixin(ABC):
         self._rebind_logger()
 
     @property
-    def user_id(self) -> str | None:
+    def user_id(self) -> int | None:
         """Database identifier of the user."""
         return self._user_id
 
     @user_id.setter
-    def user_id(self, value: str | None) -> None:
+    def user_id(self, value: int | None) -> None:
         """Execute user_id operation.
 
         Args:
